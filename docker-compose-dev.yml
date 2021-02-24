@@ -1,0 +1,71 @@
+version: "3.6"
+
+services:
+
+  app:
+    image: node:erbium-alpine3.11
+    container_name: unin-app
+    command: npm run server:debug
+    working_dir: /node/app
+    depends_on:
+      - mongo
+      - parity1
+    volumes:
+      - ./packages/app:/node/app
+      - ./packages/blockchain:/node/blockchain      
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/app
+      - SECRET_OR_KEY=raging-dog-cat
+      - PORT=5000
+    ports:
+      - 5000:5000
+      - 9229:9229
+    restart: unless-stopped
+
+  discovery:
+    hostname: discovery
+    image: redis
+    volumes:
+      - discovery:/data
+
+  parity1:
+    image: appliedblockchain/parity-solo
+    environment:
+      - PARITY_ID=1
+    depends_on:
+      - discovery
+    ports:
+      # - 8180:8180
+      - 8545:8545
+      # - 8546:8546
+      - 30303:30303
+    volumes:
+      - parity1_data:/parity/data
+      - ./packages/blockchain:/parity/blockchain
+    depends_on:
+      - discovery
+
+  ui:
+    image: node:erbium-alpine3.11
+    container_name: unin-client
+    command: npm run start
+    working_dir: /node/client
+    depends_on:
+      - app
+    volumes:
+      - ./packages/app/client:/node/client
+    environment:
+      - REACT_APP_PROXY_URL=http://app:5000
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:4.2.2-bionic
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+      
+volumes:
+  discovery:
+  parity1_data:

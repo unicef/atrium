@@ -1,0 +1,5 @@
+export { default as MainLearnBackground } from './main-learn.png'
+export { default as DbBlockchainImg } from './database-blockchain.jpg'
+export { default as DisruptedBitcoinImg } from './disrupted-bitcoin.jpg'
+export { default as DemoBlockhainImg } from './visual-demo-of-blockchain.jpg'
+export { default as BlockchainExplainedImg } from './blockchain-explained.jpg'

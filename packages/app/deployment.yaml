@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atrium-web-app
+  labels:
+    app: atrium-web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: atrium-web-app
+  template:
+    metadata:
+      labels:
+        app: atrium-web-app
+    spec:
+      containers:
+        - name: atrium-web-app
+          image: asherbuck/atrium-web-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+          env:
+            - name: TEST
+              value: 1234
