@@ -61,9 +61,6 @@ const styles = theme => ({
 })
 
 class CreatePoll extends React.Component {
-  onCancel = () => {
-    this.props.history.push('/engage')
-  }
 
   render() {
     const { classes } = this.props

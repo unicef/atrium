@@ -1,0 +1,21 @@
+FROM node:12.14-alpine
+
+RUN apk add --no-cache make gcc g++ python git
+
+USER node
+
+# Install db dependencies
+WORKDIR /home/node
+
+COPY ./app/package.json .
+RUN npm i web3 truffle dotenv mongoose bcryptjs ethers jsonwebtoken
+RUN npm i bunyan
+COPY ./app/truffle-config.js .
+COPY ./app/contracts ./contracts
+COPY ./app/migrations ./migrations
+COPY ./app/seeds ./seeds
+COPY ./app/config ./config
+COPY ./app/models ./models
+COPY ./app/lib ./lib
+
+CMD sh -c "(cat /contracts/.env.contracts && echo \"init already run to run again destroy volumes and restart\") || (echo \"begin init\" && npx truffle migrate --network docker_development && sh -ac 'source .env.contracts && node seeds/create-user && node seeds/learningResourcesSeed' && cp .env.contracts /contracts && cp -R ./contracts/build /contracts/build && echo \"Init done.\")"

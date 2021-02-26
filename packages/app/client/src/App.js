@@ -106,7 +106,6 @@ const App = () => {
                 component={ProjectDetails}
               />
 
-              <PrivateRoute exact path="/engage" component={DiscussionPage} />
               <PrivateRoute
                 exact
                 path="/discussion-details/:id"

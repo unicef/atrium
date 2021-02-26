@@ -8,19 +8,17 @@ require('dotenv').config()
   const md5Hash = require('../lib/hash')
   const { saltAndHashPassword } = require('../lib/users')
 
-  mongoose
-    .connect(process.env.MONGO_URI, { useNewUrlParser: true })
-    .then(() => console.log('MongoDB successfully connected'))
-    .catch(err => console.log(err))
+  await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true })
+  console.log('mongo connected')
 
-  const email = 'suchabad@app.com'
+  const email = 'test@unicef.com'
   const emailHash = md5Hash(email)
   const password = 'password'
   const hashedPassword = await saltAndHashPassword(password)
-
   const newWallet = ethers.createWallet()
   const encryptedWallet = await encryptDecrypt.encrypt(newWallet)
 
+  console.log('seeding user', { email, password })
   const user = new User({
     email,
     emailVerified: true,
@@ -34,5 +32,8 @@ require('dotenv').config()
     password: hashedPassword
   })
 
-  user.save()
-})()
+  return user.save()
+})().then(user => {
+  console.log(user)
+  process.exit(0)
+})

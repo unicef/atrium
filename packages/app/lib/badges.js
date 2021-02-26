@@ -33,6 +33,11 @@ const badgeContracts = {
   // 4: new ethers.Contract(keys.BADGE_4_ADDRESS, abi, provider)
 }
 
+console.log('Badge 1 accesses at', keys.BADGE_1_ADDRESS)
+console.log('Badge 2 accesses at', keys.BADGE_2_ADDRESS)
+console.log('Badge 3 accesses at', keys.BADGE_3_ADDRESS)
+console.log('Badge 4 accesses at', keys.BADGE_4_ADDRESS)
+
 const generateBadgeRef = () => {
   return Math.round(Math.random() * 1000000000000)
 }
@@ -50,6 +55,7 @@ exports.issueBadge = async (badgeId, address) => {
 }
 
 exports.hasBadge = async (badgeId, address) => {
+  log.info({ badgeId, address }, 'checking badges')
   const bal = await badgeContracts[badgeId].balanceOf(address)
   log.info(`Address ${address} has balance of ${bal} in badge ${badgeId}`)
   return bal > 0

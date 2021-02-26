@@ -1,8 +1,8 @@
-# Atrium 
+# Atrium
 
 ## Project Setup
 
-To run this application, you will require the following tools: 
+To run this application, you will require the following tools:
 1. JavaScript Package Manager: NPM / Yarn
 2. Node JS and React JS
 3. Truffle Suite (Truffle and Ganache CLI)
@@ -62,7 +62,7 @@ module.exports = {
   mocha: {
     // timeout: 100000
   },
-  
+
   compilers: {
     solc: {
       version: "0.5.13",    // Fetch exact version from solc-bin (default: truffle's version)
@@ -72,7 +72,7 @@ module.exports = {
 ```
 Once ready, from another terminal inside the `./packages/blockchain` folder, run the command: `truffle migrate --network development --reset`.  This will allow you to deploy smart contracts that are relevant to this project.
 
-The Truffle configuration file will leverage the `UN_ADMIN_PRIVATE_KEY` and upload the badge smart contracts to this local blockchain.  Once completed, the terminal with Ganache running should generate contract addresses for 4 badges.  Each one will look something like this: 
+The Truffle configuration file will leverage the `UN_ADMIN_PRIVATE_KEY` and upload the badge smart contracts to this local blockchain.  Once completed, the terminal with Ganache running should generate contract addresses for 4 badges.  Each one will look something like this:
 
 ```
   Transaction: 0x0e74fad335526cd08cd9116c8cc1605b26fa92d694925b7a455e4bd25679f972
@@ -81,7 +81,7 @@ The Truffle configuration file will leverage the `UN_ADMIN_PRIVATE_KEY` and uplo
   Block Number: 6
   Block Time: Wed Jun 12 2019 11:37:16 GMT-0400 (Eastern Daylight Time)
 ```
-The terminal that runs the truffle script: 
+The terminal that runs the truffle script:
 ```
    Replacing 'Badge'
    -----------------
@@ -160,16 +160,10 @@ To run locally inside docker containers:
     ATRIUM_WALLET_SECRET=[MY_SECRET]
   ```
 - Run `docker-compose -f docker-compose-dev.yml up --build` - this builds and runs all the containers
-- cd into `packages/blockchain` and run `truffle migrate --network development --reset`
-- You should see some messages in the console related to badge addresses. Copy those into your env file like such
-  ```
-    BADGE_1_ADDRESS=0xfFb383e52D4006690a5215a4a978220863147aD2
-    BADGE_2_ADDRESS=0x897576025ac9404583E5A99E9cfcE25d44c1762B
-    BADGE_3_ADDRESS=0x864a1c70F804e2c8856d638E81163E90f2EEd81B
-    BADGE_4_ADDRESS=0x5f74734f3F0d3115a691e1c35fb278113E5785A0
-  ```
-- Restart your docker containers
-- Enjoy
+- Contracts will be automatically deployed and seeds `create-user.js` and `learningResourcesSeed.js` will run
+- You can login with `test@unicef.com` and `password`
+
+
 
 ### Running tests
 Backend has some integration tests available.

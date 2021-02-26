@@ -1,0 +1,11 @@
+{
+    "url": "http://localhost",
+    "port": "4567",
+    "secret": "raging-dog-cat",
+    "database": "mongo",
+    "mongo": {
+        "host": "mongo",
+        "port": "27017",
+        "database": "forum"
+    }
+}

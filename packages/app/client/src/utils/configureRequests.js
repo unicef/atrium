@@ -14,6 +14,7 @@ export const getBaseURL = () => {
 }
 
 axios.defaults.headers.common = { 'X-Requested-With': 'XMLHttpRequest' }
+axios.defaults.withCredentials = true
 axios.defaults.baseURL = getBaseURL()
 
 axios.interceptors.response.use(

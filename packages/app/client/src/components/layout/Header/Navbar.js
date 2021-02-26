@@ -55,21 +55,41 @@ const styles = theme => ({
 const links = [
   { path: '/learn', name: 'Learn' },
   { path: '/view-projects', name: 'Projects' },
-  { path: '/engage', name: 'Forum' }
+  { path: process.env.REACT_APP_FORUM_URL, name: 'Forum' }
 ]
+
+const PathNavLink = ({ obj, classes }) => {
+  if(obj.path.startsWith('/')) {
+    return (
+      <NavLink
+        to={obj.path}
+        className={classes.navLink}
+        activeClassName={classes.activeNavLink}
+      >
+        {obj.name}
+      </NavLink>
+    )
+  } else {
+    return (
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        className={classes.navLink}
+        activeClassName={classes.activeNavLink}
+        href={obj.path}
+      >
+        {obj.name}
+      </a>
+    )
+  }
+}
 
 const NavBar = ({ classes }) => (
   <nav className={classes.nav}>
     <ul className={classes.navList}>
       {links.map((obj, k) => (
         <li key={k} className={classes.navItem}>
-          <NavLink
-            to={obj.path}
-            className={classes.navLink}
-            activeClassName={classes.activeNavLink}
-          >
-            {obj.name}
-          </NavLink>
+          <PathNavLink obj={obj} classes={classes}></PathNavLink>
         </li>
       ))}
     </ul>

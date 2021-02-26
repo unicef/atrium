@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const { BADGE_ENUM } = require('../config/unin-constants')
 const keys = require('../config/keys')
 const badges = require('./badges')
+const log = require('../config/log')
 
 /**
  * Retrieve badges for specific user
@@ -11,6 +12,7 @@ const badges = require('./badges')
  * @param {string} address
  */
 const getBadgesForUser = async address => {
+  log.info({ address }, 'getBadgesForUser')
   return await Promise.all([
     badges.hasBadge(BADGE_ENUM.MEMBER, address),
     badges.hasBadge(BADGE_ENUM.CONTRIBUTOR, address),
@@ -84,6 +86,7 @@ const verifyToken = (token) => {
  * @param {(error, token) => void} cb
  */
 const getTokenForUser = async (user, cb) => {
+  log.info(user, 'get badges for user')
   const userBadges = await getBadgesForUser(user.address)
 
   const payload = getTokenPayload(user, userBadges)
