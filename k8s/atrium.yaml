@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mongodb
+  name: mongodb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo
+        ports:
+        - containerPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: forum
+  name: forum-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: forum
+  template:
+    metadata:
+      labels:
+        app: forum
+    spec:
+      containers:
+        - args:
+            - sh
+            - -ac
+            - echo "{\"url\":\"$URL\",\"port\":\"$PORT\",\"secret\":\"$SESSION_SECRET\",\"database\":\"mongo\",\"mongo\":{\"host\":\"$DATABASE_HOST\",\"port\":\"$DATABASE_PORT\",\"database\":\"$DATABASE_NAME\"}}" > config.json && node app --setup "{\"admin:username\":\"$ADMIN_USERNAME\",\"admin:password\":\"$ADMIN_PASSWORD\",\"admin:password:confirm\":\"$ADMIN_PASSWORD\",\"admin:email\":\"$ADMIN_EMAIL\"}" --defaultPlugins "[\"nodebb-plugin-session-sharing\", \"nodebb-plugin-mentions\"]" && ./nodebb start
+          env:
+            - name: ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: atrium-secret
+                  key: forum-admin-email
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: atrium-secret
+                  key: forum-admin-password
+            - name: ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: atrium-secret
+                  key: forum-admin-username
+            - name: DATABASE_NAME
+              value: forum
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mongodb-configmap
+                  key: database_url
+            - name: DATABASE_PORT
+              value: "27017"
+            - name: PORT
+              value: "4567"
+            - name: SESSION_SECRET
+              value: raging-dog-cat
+            - name: URL
+              value: localhost
+          image: appliedblockchain/node-bb-atrium
+          name: forum
+          ports:
+            - containerPort: 4567
+      imagePullSecrets:
+        - name: appliedblockchain-reg
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: forum-service
+spec:
+  selector:
+    app: forum
+  ports:
+    - protocol: TCP
+      port: 4567
+      targetPort: 4567
+status:
+  loadBalancer: {}
