@@ -64,7 +64,7 @@ const Header = ({ logoutUser, auth, classes, location }) => {
     // exclude header from specific routes (has LimitedHeader)
     return null
   }
-
+  console.log('header')
   return (
     <AppBar
       className={classes.root}
@@ -75,12 +75,15 @@ const Header = ({ logoutUser, auth, classes, location }) => {
     >
       <Toolbar className={classes.toolBar}>
         <Link component={RouterLink} to="/" className={classes.title}>
-          The Atrium (beta)
+          The Atrium
         </Link>
 
         <Navbar />
         <ProfilePictureHeader user={auth.user} />
-        <DropdownHeaderMenu logoutUser={logoutUser}></DropdownHeaderMenu>
+        <DropdownHeaderMenu
+          // classes={classes} try to remove  red warning
+          logoutUser={logoutUser}
+        />
       </Toolbar>
     </AppBar>
   )

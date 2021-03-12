@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { setError } from '../../actions/errorActions'
-import { withStyles, Typography, Grid } from '@material-ui/core'
-import { ReactComponent as AttachmentIcon } from '../../icons/attachment.svg'
+import { withStyles, Grid } from '@material-ui/core'
+// import { ReactComponent as AttachmentIcon } from '../../icons/attachment.svg'
 import { Button, AttachmentControl } from '../'
 import { MAX_UPLOAD_SIZE } from '../../unin-constants'
 
 const styles = theme => ({
   attachmentButton: {
+    borderColor: 'rgb(1, 206, 75)', //'green',
     alignSelf: 'flex-start',
-    color: theme.colors['deep-green']
+    color: 'rgb(1, 206, 75)'//theme.colors['deep-green']
   },
   input: {
     width: 0.1,
@@ -39,7 +40,7 @@ const AttachmentUploader = ({
   const inputRef = React.useRef()
   const [filePreview, setFilePreview] = React.useState()
   const clickInput = e => {
-    e.preventDefault(); 
+    e.preventDefault();
     inputRef.current.click();
   }
 
@@ -63,7 +64,7 @@ const AttachmentUploader = ({
       }
     }
   })
-  
+
   return (
     <Grid container direction="column" className={classes.container}>
       <input
@@ -82,11 +83,12 @@ const AttachmentUploader = ({
           />
         ) : (
             <Button
-              startIcon={<AttachmentIcon />}
+              // startIcon={<AttachmentIcon />}
               size="small"
+              variant="outlined"
               className={classes.attachmentButton}
               id="attach-btn"
-              variant="text"
+              // variant="text"
               onClick={clickInput}
             >
               <label
@@ -95,15 +97,15 @@ const AttachmentUploader = ({
                 aria-label={'ATTACH FILE'}
                 title={'ATTACH FILE'}
               >
-                ATTACH FILE
+                Select
             </label>
             </Button>
           )}
       </div>
-      <Typography variant="subtitle1">
-        Upload an image, word document or presentation that can help explain
-        your project better. Maximum size—5 MB
-      </Typography>
+      {/*<Typography variant="subtitle1">*/}
+      {/*  Upload an image, word document or presentation that can help explain*/}
+      {/*  your project better. Maximum size—5 MB*/}
+      {/*</Typography>*/}
     </Grid>
   )
 }

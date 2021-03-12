@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/styles'
-import { withModals } from './modals'
 import { guideWrapper } from '../guide-wrapper'
 import {
   FabButton,
@@ -15,6 +14,7 @@ import {
 } from '../../ui'
 import { getAllProjects as getAllProjectsActions } from '../../actions/projectActions'
 import { PROJECT_FILTER_ENUM } from '../../unin-constants'
+import { useHistory } from 'react-router-dom'
 
 const styles = theme => ({
   '@global': {
@@ -34,14 +34,15 @@ const ProjectPage = ({ classes, getAllProjects, ...props }) => {
     search: '',
     sort: ''
   })
+  const history = useHistory()
+
+  const clickHandler = () => {
+    history.push('/create-projects')
+  }
 
   React.useEffect(() => {
     getAllProjects()
   }, [getAllProjects])
-
-  const handleOpenModal = () => {
-    props.modals.openPreCreate()
-  }
 
   return (
     <FilterableListTemplate
@@ -74,7 +75,7 @@ const ProjectPage = ({ classes, getAllProjects, ...props }) => {
           color="primary"
           size="small"
           id="add-project-btn"
-          onClick={handleOpenModal}
+          onClick={clickHandler}
         >
           Add a project
         </FabButton>
@@ -86,12 +87,11 @@ const ProjectPage = ({ classes, getAllProjects, ...props }) => {
 ProjectPage.propTypes = {
   getAllProjects: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  modals: PropTypes.object.isRequired
+  // modals: PropTypes.object.isRequired
 }
 
 export default compose(
   guideWrapper,
-  withModals,
   connect(null, { getAllProjects: getAllProjectsActions }),
   withStyles(styles)
 )(ProjectPage)

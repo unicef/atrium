@@ -15,7 +15,31 @@ const ProjectSchema = new Schema({
   linkToDeployedApp: { type: String }, // deployed version of the app (optional)
   comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }], // list of comment ids added to this project
   likes: [{ type: Schema.Types.ObjectId, ref: 'users' }], // list of users who liked this project
-  attachment: { type: String }
+  attachment: { type: String },
+
+  blockchainName: { type: String },
+  blockchainType: { type: String },
+  freeForAll: { type: Boolean },
+  stageOfProject: { type: String },
+  innovationCategory: { type: String },
+  thematicArea: { type: String },
+  contactPersonFullName: { type: String },
+  contactPersonEmail: { type: String },
+
+  country: { type: String },
+  organization: { type: String },
+  launchDateMonth: { type: String },
+  launchDateYear: { type: String },
+  numberOfNodes: { type: String },
+  license: { type: String },
+
+  story: { type: String },
+  challenges: { type: String },
+  benefits: { type: String },
+  needs: { type: String },
+  section: { type: String },
+
+  updates: [{ type: Object }]
 })
 
 ProjectSchema.set('toJSON', {

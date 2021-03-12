@@ -112,17 +112,13 @@ function ProjectCard(props) {
 
   return (
     <Card raised={false} className={classes.card}>
-      <EditProject
-        editting={editting}
-        setEditting={setEditting}
-        projectData={projectData}
-      />
       <ShadedPaper className={classes.cardContent}>
         {authId === ownerId ? (
           <div className={classes.edit}>
             <EditDeletePopover
               onEditClick={setEditting}
               deleteRedirectUrl={window.location.href}
+              projectId={props.projectId}
               type={'project'}
               onDeleteClick={() => {
                 props.deleteProject(props.projectId, () => {

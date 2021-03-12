@@ -11,7 +11,6 @@ import AboutProjects from './imgs/About_projects.png'
 import AboutForum from './imgs/About_forum.png'
 import AboutBadges from './imgs/About_badges.png'
 import AboutTree from './imgs/about-tree.jpg'
-import { Button } from '../../ui'
 import sectionBreak from './imgs/section-line.svg'
 
 const useBlockchainSectionStyles = makeStyles(theme => ({
@@ -201,7 +200,7 @@ export default function() {
   const classes = useStyles()
 
   const blockchainStyles = useBlockchainSectionStyles()
-  const resourcesStyles = useResourcesSectionStyles()
+  // const resourcesStyles = useResourcesSectionStyles()
 
   return (
     <Grid container className={classes.root}>
@@ -232,7 +231,7 @@ export default function() {
         </Typography>
         <Grid container>
           <Grid item xs={12} md={6}>
-            <img src={AboutLearn} className={classes.offerImage} />
+            <img alt="AboutLearn" src={AboutLearn} className={classes.offerImage} />
             <Typography
               component="h2"
               variant="h2"
@@ -252,7 +251,7 @@ export default function() {
             </Typography>
           </Grid>
           <Grid item xs={12} md={6} className={classes.offerRight}>
-            <img src={AboutProjects} className={classes.offerImage} />
+            <img alt="AboutProjects" src={AboutProjects} className={classes.offerImage} />
             <Typography
               component="h2"
               variant="h2"
@@ -275,7 +274,7 @@ export default function() {
         </Grid>
         <Grid container style={{ marginTop: 131 }}>
           <Grid item xs={12} md={6}>
-            <img src={AboutForum} className={classes.offerImage} />
+            <img alt="AboutForum" src={AboutForum} className={classes.offerImage} />
             <Typography
               component="h2"
               variant="h2"
@@ -295,7 +294,7 @@ export default function() {
             </Typography>
           </Grid>
           <Grid item xs={12} md={6} className={classes.offerRight}>
-            <img src={AboutBadges} className={classes.offerImage} />
+            <img alt="AboutBadges" src={AboutBadges} className={classes.offerImage} />
             <Typography
               component="h2"
               variant="h2"

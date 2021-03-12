@@ -59,7 +59,7 @@ const Panel = ({ title, content, img }) => {
         {content.map(copy => {
           return <Typography component="p" className={classes.typography}>{copy}</Typography>
         })}
-        {img ? <img src={img} style={{ maxWidth: '100%' }} /> : null}
+        {img ? <img alt="img" src={img} style={{ maxWidth: '100%' }} /> : null}
       </ExpansionPanelDetails>
     </ExpansionPanel>
   )

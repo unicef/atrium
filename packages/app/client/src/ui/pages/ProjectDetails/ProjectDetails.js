@@ -24,7 +24,7 @@ import { getRelativeTimeToNow } from '../../../utils/timeManipulation'
 import { StandardVerticalTemplate } from '../../templates'
 import { useFetchProjectWithCache } from './useFetchProjectWithCache'
 import EditDeletePopover from '../../../components/edit-delete-popover'
-import EditProject from '../../../components/projects/create/EditProject'
+// import EditProject from '../../../components/projects/create/EditProject'
 import { deleteProject } from '../../../actions/projectActions'
 
 const useStyles = makeStyles(theme => ({
@@ -117,21 +117,21 @@ const getAttachmentName = attachment => {
 const linkify = inputText => {
   var replacedText, replacePattern1, replacePattern2, replacePattern3
 
-  //URLs starting with http://, https://, or ftp://
+  // URLs starting with http://, https://, or ftp://
   replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim
   replacedText = inputText.replace(
     replacePattern1,
     '<a href="$1" target="_blank">$1</a>'
   )
 
-  //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+  // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
   replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim
   replacedText = replacedText.replace(
     replacePattern2,
     '$1<a href="http://$2" target="_blank">$2</a>'
   )
 
-  //Change email addresses to mailto:: links.
+  // Change email addresses to mailto:: links.
   replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim
   replacedText = replacedText.replace(
     replacePattern3,
@@ -153,7 +153,7 @@ const ProjectDetails = ({
   const classes = useStyles()
 
   const projectId = match.params.id
-  const [editting, setEditting] = React.useState(false)
+  // const [editting, setEditting] = React.useState(false)
   const { project, attachmentSource } = useFetchProjectWithCache({
     projectId,
     getProject,
@@ -170,27 +170,27 @@ const ProjectDetails = ({
   }
 
   // Why does it always have to be different everywhere.
-  const projectData = {
-    projectId,
-    projectName: project.name,
-    projectOwner: project.projectOwner,
-    projectOwnerEmail: project.projectOwnerEmail,
-    projectUrl: project.linkToRepository,
-    projectDescription: project.details,
-    email: project.email,
-    projectTags: project.tags,
-    websiteLink: project.websiteLink,
-    attachment: project.attachment,
-    owner: project.owner
-  }
+  // const projectData = {
+  //   projectId,
+  //   projectName: project.name,
+  //   projectOwner: project.projectOwner,
+  //   projectOwnerEmail: project.projectOwnerEmail,
+  //   projectUrl: project.linkToRepository,
+  //   projectDescription: project.details,
+  //   email: project.email,
+  //   projectTags: project.tags,
+  //   websiteLink: project.websiteLink,
+  //   attachment: project.attachment,
+  //   owner: project.owner
+  // }
 
   return (
     <StandardVerticalTemplate className={classes.pageTemplate}>
-      <EditProject
-        editting={editting}
-        setEditting={setEditting}
-        projectData={projectData}
-      />
+      {/* <EditProject*/}
+      {/*  editting={editting}*/}
+      {/*  setEditting={setEditting}*/}
+      {/*  projectData={projectData}*/}
+      {/* />*/}
       <BackArrow dest={'/view-projects'} />
       <Card raised={false} className={classes.card}>
         {userId === ownerId ? (
@@ -198,10 +198,12 @@ const ProjectDetails = ({
             <EditDeletePopover
               type={'project'}
               deleteRedirectUrl={'/view-projects'}
-              onEditClick={setEditting}
+              onEditClick={() => {
+                window.location.replace(`/project-overview/${projectId}`)
+              }}
               onDeleteClick={() => {
                 deleteProject(projectId, () => {
-                  window.location.replace('/view-projects');
+                  window.location.replace('/view-projects')
                 })
               }}
             />
@@ -255,10 +257,10 @@ const ProjectDetails = ({
               <Contact />
             </Typography>
           ) : (
-              <Typography variant="p" className={classes.extraDetailTextNoHover}>
-                {'N/A'}&nbsp;&nbsp;
+            <Typography variant="p" className={classes.extraDetailTextNoHover}>
+              {'N/A'}&nbsp;&nbsp;
             </Typography>
-            )}
+          )}
         </div>
         <div className={classes.extraDetailContainer}>
           <Typography variant="p" className={classes.extraDetailTitle}>

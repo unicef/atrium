@@ -26,6 +26,7 @@ import About from './components/about'
 // Poll pages
 import PrivateRoute from './components/private-route/PrivateRoute'
 // Project pages
+import ProjectOverviewPage from './components/projects/overview/ProjectOverviewPage'
 import CreateProject from './components/projects/create/CreateProject'
 import ProjectPage from './components/projects/ProjectPage'
 import Stats from './components/stats/Stats'
@@ -102,10 +103,16 @@ const App = () => {
               />
               <PrivateRoute
                 exact
+                path="/project-overview/:id"
+                component={ProjectOverviewPage}
+              />
+              <PrivateRoute
+                exact
                 path="/project-details/:id"
                 component={ProjectDetails}
               />
 
+              <PrivateRoute exact path="/engage" component={DiscussionPage} />
               <PrivateRoute
                 exact
                 path="/discussion-details/:id"
