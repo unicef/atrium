@@ -90,7 +90,8 @@ const useWelcomeSectionStyles = makeStyles(theme => ({
     textTransform: 'uppercase'
   },
   header: {
-    textAlign: 'left'
+    textAlign: 'left',
+    fontWeight: 'bold'
   },
   description: {
     textAlign: 'left',

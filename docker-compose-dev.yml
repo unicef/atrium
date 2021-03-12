@@ -1,6 +1,7 @@
 version: "3.6"
 
 services:
+<<<<<<< HEAD
   forum:
     image: appliedblockchain/node-bb-atrium
     build:
@@ -29,6 +30,22 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8080:80
+=======
+  init:
+    build:
+      context: ./packages
+      dockerfile: init/Dockerfile-dev
+    user: root
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/app
+      - ETHEREUM_PROVIDER_URL=http://parity1:8545
+      - ATRIUM_WALLET_SECRET=dev
+    depends_on:
+      - mongo
+      - parity1
+    volumes:
+      - contracts:/contracts
+>>>>>>> create-projects, mainPage need refactor
 
   app:
     image: asherbuck/atrium-web-app
