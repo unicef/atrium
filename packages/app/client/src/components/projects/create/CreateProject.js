@@ -1,16 +1,11 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/styles'
 import Container from '@material-ui/core/Container'
-import ButtonBase from '@material-ui/core/ButtonBase'
-import { ATRIUM_CONSTANTS } from '../../../unin-constants'
-import { withModals } from '../modals'
-import { CancelIcon } from '../../../ui'
-import { LimitedHeader } from '../../layout/Header'
+import { FirstProjectForm } from './components'
 import { createProject, editProject } from '../../../actions/projectActions'
-import { FirstProjectForm, SecondProjectForm } from './components'
 import { refreshToken } from '../../../actions/authActions'
 
 const styles = theme => ({
@@ -47,130 +42,102 @@ const styles = theme => ({
   }
 })
 
-class CreateProject extends Component {
-  state = {
-    step: 1,
-    formData: {
-      projectId: this.props.projectId,
-      projectName: this.props.projectName || '',
-      projectOwner: this.props.projectOwner || '',
-      projectOwnerEmail: this.props.projectOwnerEmail || '',
-      projectUrl: this.props.projectUrl || '',
-      projectDescription: this.props.projectDescription || '',
-      email: this.props.auth.user.email,
-      projectTags: this.props.projectTags
-        ? this.props.projectTags.join(', ')
-        : [],
-      websiteLink: this.props.websiteLink || '',
-      attachment: null
-    },
-    githubProfileName: ATRIUM_CONSTANTS.GITHUB_PROFILE_NAME // FIXME: load from user data
-  }
+function CreateProject(props) {
+  const [dynamicFormData, setDynamicFormData] = useState({
+    projectId: props._id,
+    projectName: props.name || '',
+    projectDescription: props.details || '',
+    websiteLink: props.websiteLink || '',
+    blockchainType: props.blockchainType || '',
+    blockchainName: props.blockchainName || '',
+    freeForAll: props.freeForAll || false,
+    stageOfProject: props.stageOfProject || '',
+    innovationCategory: props.innovationCategory || '',
+    thematicArea: props.thematicArea || '',
+    contactPersonFullName: props.contactPersonFullName || '',
+    contactPersonEmail: props.contactPersonEmail || '',
+    attachment: null
+  })
 
-  handleNextStep = (projectData, editting) => {
-    this.setState({
-      ...this.state,
-      formData: {
-        ...this.state.formData,
-        ...projectData
-      }
-    })
-    this.handleCreateProject(editting)
-  }
+  const { auth, classes } = props
 
-  handleCreateProject = async editting => {
+  const handleCreateProject = async (data, editting) => {
     const {
-      projectId,
       projectName,
-      projectUrl,
       projectDescription,
-      projectTags,
-      projectOwner,
-      projectOwnerEmail,
-      email,
       attachment,
-      websiteLink
-    } = this.state.formData
-
+      blockchainType,
+      blockchainName,
+      freeForAll,
+      stageOfProject,
+      innovationCategory,
+      thematicArea,
+      contactPersonFullName,
+      contactPersonEmail
+    } = data
+    const { projectId } = dynamicFormData
+    await setDynamicFormData(prev => ({ ...prev, ...data }))
     const formData = new FormData()
     if (attachment) {
       formData.append('attachment', attachment)
     }
     formData.append('name', projectName)
     formData.append('details', projectDescription)
-    formData.append('tags', projectTags)
-    formData.append('linkToRepository', projectUrl)
-    formData.append('websiteLink', websiteLink)
-    formData.append('email', email)
-    formData.append('projectOwner', projectOwner)
-    formData.append('projectOwnerEmail', projectOwnerEmail)
-
-    if (this.props.auth.user.badges['2']) {
+    formData.append('owner', auth.user.id)
+    formData.append('projectOwner', auth.user.name)
+    formData.append('projectOwnerEmail', auth.user.email)
+    formData.append('blockchainName', blockchainName)
+    formData.append('blockchainType', blockchainType)
+    formData.append('freeForAll', freeForAll)
+    formData.append('stageOfProject', stageOfProject)
+    formData.append('innovationCategory', innovationCategory)
+    formData.append('thematicArea', thematicArea)
+    if (contactPersonFullName) {
+      formData.append('contactPersonFullName', contactPersonFullName)
+    } else {
+      formData.append('contactPersonFullName', auth.user.name)
+    }
+    if (contactPersonEmail) {
+      formData.append('contactPersonEmail', contactPersonEmail)
+    } else {
+      formData.append('contactPersonEmail', auth.user.email)
+    }
+    if (props.auth.user.badges['2']) {
       formData.append('address', '')
     } else {
-      formData.append('address', this.props.auth.user.address)
+      formData.append('address', auth.user.address)
     }
-
     if (editting) {
-      await this.props.editProject(projectId, formData, () => {
+      await props.editProject(projectId, formData, () => {
         window.location.reload()
       })
     } else {
-      await this.props.createProject(
-        formData,
-        this.props.modals.openSuccUploaded
-      )
+      await props.createProject(formData, () => {
+        window.location.replace(`/view-projects`)
+      })
     }
-    this.props.refreshToken()
+    props.refreshToken()
   }
 
-  render() {
-    const { step, formData, githubProfileName } = this.state
-    const { auth, classes, modals } = this.props
-
-    return (
-      <Container className={classes.main} component="main">
-        <LimitedHeader
-          title={this.props.editting ? 'Update Project' : 'Add project'}
-          action={
-            <ButtonBase
-              aria-label="Cancel project creation"
-              className={classes.cancelButton}
-              onClick={e => {
-                this.props.editting
-                  ? this.props.setEditting(false)
-                  : modals.openCancelUploadProject(e)
-              }}
-            >
-              <CancelIcon className={classes.cancelIcon} />
-            </ButtonBase>
-          }
+  return (
+    <Container className={classes.main} component="main">
+      <div className={classes.container}>
+        <FirstProjectForm
+          formData={dynamicFormData}
+          handleCreateProject={handleCreateProject}
+          editting={props.editting}
         />
-        <div className={classes.container}>
-          {step === 1 ? (
-            <FirstProjectForm
-              formData={formData}
-              userName={auth.user.name}
-              handleNextStep={this.handleNextStep}
-              editting={this.props.editting}
-              handleEditProject={this.handleEditProject}
-            />
-          ) : (
-            <SecondProjectForm
-              githubProfileName={githubProfileName}
-              onCreateProject={this.handleCreateProject}
-            />
-          )}
-        </div>
-      </Container>
-    )
-  }
+      </div>
+    </Container>
+  )
 }
 
 CreateProject.propTypes = {
   auth: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  createProject: PropTypes.func.isRequired
+  createProject: PropTypes.func.isRequired,
+  editProject: PropTypes.func.isRequired,
+  refreshToken: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -178,7 +145,6 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-  withModals,
   connect(mapStateToProps, { refreshToken, createProject, editProject }),
   withStyles(styles)
 )(CreateProject)

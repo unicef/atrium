@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import AppBar from '@material-ui/core/AppBar'
-import Grid from '@material-ui/core/Grid'
+// import Grid from '@material-ui/core/Grid'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/styles'
@@ -11,7 +11,6 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     height: 50,
-    justifyContent: 'center',
     background: 'transparent',
     boxShadow: 'none',
     fontFamily: ['Red Hat Display', 'sans-serif'].join(','),
@@ -21,7 +20,6 @@ const styles = theme => ({
     position: 'relative',
     minHeight: 50,
     display: 'flex',
-    justifyContent: 'center'
   },
   headerTitle: {
     fontSize: '16px',

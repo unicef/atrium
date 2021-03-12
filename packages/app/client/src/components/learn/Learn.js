@@ -176,7 +176,7 @@ const Learn = ({ resources, getLearningResources }) => {
       <Box component="section" className={mainSectionStyles.section}>
         <Container component="div" className={mainSectionStyles.contentWrapper}>
           <Typography component="h1" variant="h1" color="secondary">
-            ChangesLearning Resources
+            Learning Resources
           </Typography>
           <Typography component="h5" className={mainSectionStyles.description}>
             Welcome to the Learn section of The Atrium. While any blockchain and

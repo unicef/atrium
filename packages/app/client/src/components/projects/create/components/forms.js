@@ -1,20 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Formik } from 'formik'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import Grid from '@material-ui/core/Grid'
-import Input from '@material-ui/core/Input'
-import Snackbar from '@material-ui/core/Snackbar'
+import Radio from '@material-ui/core/Radio'
+import Checkbox from '@material-ui/core/Checkbox'
+import RadioGroup from '@material-ui/core/RadioGroup'
 import Typography from '@material-ui/core/Typography'
-import ButtonBase from '@material-ui/core/ButtonBase'
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import { updateProject } from '../../../../api/projects'
-import Expansions from './Expansions'
-import { RefreshPage } from '../../assets'
-import { Button, TextField, CopyIcon, AttachmentUploader } from '../../../../ui'
+import Select from '@material-ui/core/Select'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import { Button, TextField, AttachmentUploader } from '../../../../ui'
+import MenuItem from '@material-ui/core/MenuItem'
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import { useHistory } from 'react-router-dom'
+import Link from '@material-ui/core/Link'
 
 const useStyles = makeStyles(theme => ({
   page: {
@@ -37,7 +37,16 @@ const useStyles = makeStyles(theme => ({
   },
   introToProject: {
     marginTop: theme.spacing(5),
-    fontSize: '21px'
+    fontSize: '21px',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'bold'
+  },
+  bottomIntro: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: '300',
+    fontSize: 18
   },
   inviteImg: {
     display: 'block',
@@ -90,6 +99,100 @@ const useStyles = makeStyles(theme => ({
   snackContentMessage: {
     display: 'flex',
     justifyContent: 'center'
+  },
+  bottomButtons: {
+    display: 'flex'
+  },
+  selects: {
+    borderRadius: '3px',
+    width: '100%',
+    fontSize: 12,
+    fontFamily: theme.typography.fontFamily,
+    fontWeight: theme.typography.fontWeightMedium
+  },
+  dropBoxBorder: {
+    padding: '3%',
+    width: '100%',
+    backgroundImage:
+      'repeating-linear-gradient(2deg, #b9b1b1, #b9b1b1 14px, transparent 14px, transparent 27px, #b9b1b1 27px),' +
+      ' repeating-linear-gradient(92deg, #b9b1b1, #b9b1b1 14px, transparent 14px, transparent 27px, #b9b1b1 27px), ' +
+      'repeating-linear-gradient(182deg, #b9b1b1, #b9b1b1 14px, transparent 14px, transparent 27px, #b9b1b1 27px), ' +
+      'repeating-linear-gradient(272deg, #b9b1b1, #b9b1b1 14px, transparent 14px, transparent 27px, #b9b1b1 27px)',
+    backgroundSize: '1px 100%, 100% 1px, 1px 100% , 100% 1px',
+    backgroundPosition: '0 0, 0 0, 100% 0, 0 100%',
+    backgroundRepeat: 'no-repeat',
+    textAlign: 'center'
+  },
+  firstDropBoxText: {
+    marginTop: '2%',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 350,
+    fontSize: 18
+  },
+  secondDropBoxText: {
+    marginTop: '2%',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 200,
+    fontSize: 13
+  },
+  top: {
+    display: 'flex'
+  },
+  formElement: {
+    borderRadius: '3px',
+    color: 'gray'
+  },
+  introButton: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 450,
+    fontSize: 13,
+    textTransform: 'none',
+    borderColor: 'rgb(1, 206, 75)',
+    marginLeft: '5%',
+    borderRadius: '3px',
+    color: 'rgb(1, 206, 75)'
+  },
+  cancelButton: {
+    borderColor: 'rgb(1, 206, 75)',
+    color: 'rgb(1, 206, 75)',
+    marginTop: 40,
+    borderRadius: '3px',
+    textTransform: 'none',
+    width: '100px'
+  },
+  saveButton: {
+    width: '180px',
+    color: 'white',
+    marginTop: 40,
+    borderRadius: '3px',
+    textTransform: 'none',
+    marginRight: 15
+  },
+  chooseSelect: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 300,
+    fontSize: 15,
+    color: 'grey'
+  },
+  inputLabel: {
+    color: 'black',
+    marginBottom: 6
+  },
+  typography: {
+    color: 'black',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 400
+  },
+  radioButton: {
+    color: 'grey'
+  },
+  checkBox: {
+    color: 'grey'
   }
 }))
 
@@ -99,26 +202,21 @@ const validateProjectForm = values => {
   if (!values.projectName) {
     errors.projectName = 'Required'
   }
-  if (values.projectUrl && !values.projectUrl.includes('https://github.com/')) {
-    errors.projectUrl =
-      'Please ensure that the format of the repo url is: https://github.com/{USER}/{REPO_NAME}'
-  }
-  if (
-    values.projectOwnerEmail &&
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.projectOwnerEmail)
-  ) {
-    errors.projectOwnerEmail = 'Invalid email address'
-  }
-  if (values.projectOwner && !values.projectOwnerEmail) {
-    errors.projectOwnerEmail = 'Please also fill out project owner email'
-  }
-  if (!values.projectOwner && values.projectOwnerEmail) {
-    errors.projectOwner = 'Please also fill out project owner name'
-  }
   if (!values.projectDescription) {
     errors.projectDescription = 'Required'
   }
-
+  if (
+    values.contactPersonEmail &&
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.contactPersonEmail)
+  ) {
+    errors.contactPersonEmail = 'Invalid email address'
+  }
+  if (values.contactPersonFullName && !values.contactPersonEmail) {
+    errors.contactPersonEmail = 'Please also fill out project owner email'
+  }
+  if (!values.contactPersonFullName && values.contactPersonEmail) {
+    errors.contactPersonFullName = 'Please also fill out project owner name'
+  }
   return errors
 }
 
@@ -129,20 +227,9 @@ const disableEnterSubmit = e => {
 export const FirstProjectForm = props => {
   const classes = useStyles()
 
-  const getName = () => {
-    const { userName } = props
-    return (userName && userName.split(' ')[0]) || ''
-  }
-
-  const onFormUpdate = async (values, { setSubmitting }) => {
-    const projectTags =
-      !values.projectTags || values.projectTags.length === 0
-        ? []
-        : values.projectTags.split(',').map(s => s.trim())
-    const data = { ...values, projectTags }
-
-    props.handleNextStep(data, true)
-    setSubmitting(false)
+  const history = useHistory()
+  const cancelHandler = () => {
+    history.push('/view-projects')
   }
 
   const onFormSubmit = (values, { setSubmitting }) => {
@@ -151,29 +238,46 @@ export const FirstProjectForm = props => {
         ? []
         : values.projectTags.split(',').map(s => s.trim())
     const data = { ...values, projectTags }
-    props.handleNextStep(data)
+    props.handleCreateProject(data, props.editting)
     setSubmitting(false)
   }
-
-  console.log('formdata')
-  console.log(props.formData)
+  const [characters, setCharacters] = useState(0)
+  const [contactPerson, setContactPerson] = useState(false)
 
   return (
     <div className={classes.page}>
       <Typography
         color="secondary"
-        className={classes.introToProject}
+        className={[classes.introToProject, classes.typography].join(' ')}
         component="h1"
         variant="h5"
       >
-        Hey {getName()}, please provide the following details to{' '}
-        {props.editting ? 'update the project' : 'complete project upload'}
+        {props.editting ? 'Edit Required information' : 'Create project'}
+      </Typography>
+
+      <Typography
+        color="secondary"
+        className={classes.bottomIntro}
+        component="h1"
+        variant="h5"
+      >
+        {props.editting
+          ? 'Your project can now be shared with the world. Add more information to reach more people. You can edit this data at any point'
+          : "Don't worry, you can change everything later"}
+
+        {props.editting ? (
+          <Link href="#"> need help?</Link>
+        ) : (
+          <Button className={classes.introButton} variant="outlined">
+            Need help?
+          </Button>
+        )}
       </Typography>
       <Formik
         initialValues={{ ...props.formData, editting: props.editting }}
         enableReinitialize={true}
         validate={validateProjectForm}
-        onSubmit={props.editting ? onFormUpdate : onFormSubmit}
+        onSubmit={onFormSubmit}
         render={({
           values,
           errors,
@@ -190,10 +294,35 @@ export const FirstProjectForm = props => {
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
+                <div className={classes.dropBoxBorder}>
+                  <div>
+                    <CloudUploadIcon fontSize="large" />
+                  </div>
+                  <div className={classes.firstDropBoxText}>
+                    Select project picture
+                  </div>
+                  <div className={classes.secondDropBoxText}>
+                    Suggested size 1000px x 300px, under 10mb
+                  </div>
+                  <AttachmentUploader
+                    attachment={values.attachment}
+                    setAttachment={val => setFieldValue('attachment', val)}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel
+                  className={classes.inputLabel}
+                  shrink
+                  htmlFor="projectName"
+                >
+                  Project name
+                </InputLabel>
                 <TextField
+                  className={classes.formElement}
                   id="projectName"
+                  variant="outlined"
                   name="projectName"
-                  label="Project Name"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   onKeyPress={disableEnterSubmit}
@@ -205,11 +334,21 @@ export const FirstProjectForm = props => {
                 />
               </Grid>
               <Grid item xs={12}>
+                <InputLabel
+                  className={classes.inputLabel}
+                  shrink
+                  htmlFor="projectDescription"
+                >
+                  Project description
+                </InputLabel>
                 <TextField
                   id="projectDescription"
                   name="projectDescription"
-                  label="Project Description"
-                  onChange={handleChange}
+                  variant="outlined"
+                  onChange={e => {
+                    handleChange(e)
+                    setCharacters(e.target.value.length)
+                  }}
                   onBlur={handleBlur}
                   error={
                     !!(touched.projectDescription && errors.projectDescription)
@@ -220,199 +359,265 @@ export const FirstProjectForm = props => {
                   required
                   value={values.projectDescription}
                 />
+                <div>{characters}/250</div>
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  id="projectOwner"
-                  name="projectOwner"
-                  label="Project Owner"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  onKeyPress={disableEnterSubmit}
-                  helperText={!!touched.projectOwner && errors.projectOwner}
-                  error={!!(touched.projectOwner && errors.projectOwner)}
-                  fullWidth
-                  value={values.projectOwner}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="projectOwnerEmail"
-                  type="email"
-                  name="projectOwnerEmail"
-                  label="Project Owner Email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  onKeyPress={disableEnterSubmit}
-                  helperText={!!values.projectOwner && errors.projectOwnerEmail}
-                  error={
-                    !!(touched.projectOwnerEmail && errors.projectOwnerEmail)
-                  }
-                  fullWidth
-                  value={values.projectOwnerEmail}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="projectUrl"
-                  name="projectUrl"
-                  label="Github URL for project"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  onKeyPress={disableEnterSubmit}
-                  error={!!(touched.projectUrl && errors.projectUrl)}
-                  placeholder="Paste the URL of your Github project repository"
-                  fullWidth
-                  value={values.projectUrl}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="projectTags"
-                  name="projectTags"
-                  label="Project tags"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  onKeyPress={disableEnterSubmit}
-                  error={!!(touched.projectTags && errors.projectTags)}
-                  fullWidth
-                  value={values.projectTags}
-                />
-                <Typography variant="subtitle1">
-                  Tags are used to sort similar projects. When listing multiple
-                  tags, please separate with a comma and a space: for example
-                  'credentials, incentivisation, finance, cryptocurrency'
+                <Typography
+                  color="secondary"
+                  className={[classes.introToProject, classes.typography].join(
+                    ' '
+                  )}
+                  component="h1"
+                  variant="h5"
+                >
+                  Project
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  id="websiteLink"
-                  name="websiteLink"
-                  label="Project website URL"
+                <InputLabel
+                  className={classes.inputLabel}
+                  shrink
+                  htmlFor="blockchainType"
+                >
+                  Blockchain type
+                </InputLabel>
+                <RadioGroup
+                  row={true}
+                  aria-label="type"
+                  name="blockchainType"
+                  id="blockchainType"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  onKeyPress={disableEnterSubmit}
-                  error={!!(touched.websiteLink && errors.websiteLink)}
-                  fullWidth
-                  value={values.websiteLink}
+                  value={values.blockchainType}
+                >
+                  <FormControlLabel
+                    value="public"
+                    control={<Radio className={classes.radioButton} />}
+                    label="Public"
+                  />
+                  <FormControlLabel
+                    value="permissioned"
+                    control={<Radio className={classes.radioButton} />}
+                    label="Permissioned"
+                  />
+                </RadioGroup>
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel
+                  className={classes.inputLabel}
+                  shrink
+                  htmlFor="blockchainName"
+                >
+                  Blockchain name
+                </InputLabel>
+                <Select
+                  className={classes.selects}
+                  id="blockchainName"
+                  name="blockchainName"
+                  displayEmpty
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  defaultValue={values.blockchainName}
+                  variant="outlined"
+                >
+                  <MenuItem value="">
+                    <em className={classes.chooseSelect}>Choose</em>
+                  </MenuItem>
+                  <MenuItem value="bitcoin">Bitcoin</MenuItem>
+                  <MenuItem value="ethereum">Ethereum</MenuItem>
+                  <MenuItem value="hyperledger">Hyperledger</MenuItem>
+                  <MenuItem value="corda">Corda</MenuItem>
+                  <MenuItem value="quorum">Quorum</MenuItem>
+                  <MenuItem value="iota">IOTA</MenuItem>
+                  <MenuItem value="stellar">Stellar</MenuItem>
+                  <MenuItem value="other">Other - please specify</MenuItem>
+                </Select>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      className={classes.checkBox}
+                      name="freeForAll"
+                      id="freeForAll"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      defaultChecked={values.freeForAll}
+                    />
+                  }
+                  label="This project doesn't contain any sensitive data and can be viewed by non-UN users"
                 />
               </Grid>
+              <Grid item xs={12}>
+                <InputLabel
+                  className={classes.inputLabel}
+                  shrink
+                  htmlFor="stageOfProject"
+                >
+                  Stage of project
+                </InputLabel>
+                <Select
+                  className={classes.selects}
+                  variant="outlined"
+                  displayEmpty
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  defaultValue={values.stageOfProject}
+                  id="stageOfProject"
+                  name="stageOfProject"
+                >
+                  <MenuItem value="">
+                    <em className={classes.chooseSelect}>Choose</em>
+                  </MenuItem>
+                  <MenuItem value="research">Research</MenuItem>
+                  <MenuItem value="ideation">Ideation</MenuItem>
+                  <MenuItem value="prototype">Prototype</MenuItem>
+                  <MenuItem value="implementation">Implementation</MenuItem>
+                </Select>
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel
+                  className={classes.inputLabel}
+                  shrink
+                  id="innovationCategory"
+                >
+                  Innovation category
+                </InputLabel>
+                <Select
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  defaultValue={values.innovationCategory}
+                  className={classes.selects}
+                  variant="outlined"
+                  displayEmpty
+                  id="innovationCategory"
+                  name="innovationCategory"
+                >
+                  <MenuItem value="">
+                    <em className={classes.chooseSelect}>Choose</em>
+                  </MenuItem>
+                  <MenuItem value="FirstCategory">FirstCategory</MenuItem>
+                  <MenuItem value="SecondCategory">SecondCategory</MenuItem>
+                  <MenuItem value="ThirdCategory">ThirdCategory</MenuItem>
+                </Select>
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel
+                  className={classes.inputLabel}
+                  shrink
+                  id="thematicArea"
+                >
+                  Thematic area
+                </InputLabel>
+                <TextField
+                  id="thematicArea"
+                  name="thematicArea"
+                  variant="outlined"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.thematicArea}
+                  onKeyPress={disableEnterSubmit}
+                  fullWidth
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  color="secondary"
+                  className={[classes.introToProject, classes.typography].join(
+                    ' '
+                  )}
+                  component="h1"
+                  variant="h5"
+                >
+                  Contact person
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      className={classes.checkBox}
+                      onChange={() => setContactPerson(!contactPerson)}
+                      name="checkedContactPerson"
+                      id="checkedContactPerson"
+                    />
+                  }
+                  label="I'm the contact person for this project"
+                />
+              </Grid>
+              { contactPerson ? null : (
+                <>
+                  <Grid item xs={12}>
+                    <InputLabel
+                      className={classes.inputLabel}
+                      shrink
+                      htmlFor="projectOwnerEmail"
+                    >
+                      Contact person's e-mail
+                    </InputLabel>
+                    <TextField
+                      id="contactPersonEmail"
+                      type="email"
+                      variant="outlined"
+                      name="contactPersonEmail"
+                      onChange={handleChange}
+                      placeholder="example@atrium.com"
+                      onBlur={handleBlur}
+                      onKeyPress={disableEnterSubmit}
+                      helperText={
+                        !!values.contactPersonFullName &&
+                        errors.contactPersonEmail
+                      }
+                      error={
+                        !!(
+                          touched.contactPersonEmail &&
+                          errors.contactPersonEmail
+                        )
+                      }
+                      fullWidth
+                      value={values.contactPersonEmail}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <InputLabel
+                      className={classes.inputLabel}
+                      shrink
+                      htmlFor="contactPersonFullName"
+                    >
+                      Contact person's full name
+                    </InputLabel>
+                    <TextField
+                      id="contactPersonFullName"
+                      name="contactPersonFullName"
+                      variant="outlined"
+                      placeholder="Ivan Ivanov"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onKeyPress={disableEnterSubmit}
+                      helperText={
+                        !!touched.contactPersonFullName &&
+                        errors.contactPersonFullName
+                      }
+                      error={
+                        !!(
+                          touched.contactPersonFullName &&
+                          errors.contactPersonFullName
+                        )
+                      }
+                      fullWidth
+                      value={values.contactPersonFullName}
+                    />
+                  </Grid>
+                </>
+              )}
             </Grid>
-            <Grid item xs={12}>
-              <AttachmentUploader
-                attachment={values.attachment}
-                setAttachment={val => setFieldValue('attachment', val)}
-              />
-            </Grid>
-            <Button
-              style={{ marginTop: 48 }}
-              fullWidth
-              type="submit"
-              color="primary"
-              disabled={!!(Object.keys(errors).length || props.isSubmitting)}
-            >
-              {values.editting ? 'Update' : 'Upload'} Project
-            </Button>
+            <div className={classes.bottomButtons}>
+              <Button color="primary" type="submit">Save</Button>
+              <Button color="secondary" variant="outlined" >Cancel</Button>
+            </div>
           </form>
         )}
-      />
-    </div>
-  )
-}
-
-export const SecondProjectForm = props => {
-  const classes = useStyles()
-  // const [isLoading, setLoading] = React.useState(false);
-  const [isShowSnack, toggleSnack] = React.useState(false)
-
-  const toogleSnackMessage = () => {
-    toggleSnack(prev => !prev)
-  }
-
-  const handleSubmit = async cb => {
-    // setLoading(true)
-    props.onCreateProject()
-    // props.onCreateProject(cb => {
-    //   setLoading(false)
-    // })
-  }
-
-  return (
-    <div className={classes.page}>
-      <Typography
-        color="secondary"
-        className={classes.introToProject}
-        component="h1"
-        variant="h5"
-      >
-        To complete the project upload, please invite the following profile to
-        your Github project:
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <FormControl className={classes.formControl} disabled>
-            <InputLabel htmlFor="githubProfileName">
-              Github profile name
-            </InputLabel>
-            <Input
-              id="githubProfileName"
-              defaultValue={props.githubProfileName}
-              endAdornment={
-                <InputAdornment position="end">
-                  <CopyToClipboard
-                    onCopy={toogleSnackMessage}
-                    text={props.githubProfileName}
-                  >
-                    <ButtonBase
-                      className={classes.copyButton}
-                      variant="contained"
-                      size="small"
-                    >
-                      <CopyIcon className={classes.copyButtonIcon} /> copy
-                    </ButtonBase>
-                  </CopyToClipboard>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-        </Grid>
-      </Grid>
-
-      <Grid container className={classes.inviteContainer}>
-        <Grid item>
-          <img
-            src={RefreshPage}
-            className={classes.inviteImg}
-            alt="Refresh page"
-          />
-        </Grid>
-        <Grid item>
-          <Typography component="p" variant="subtitle1">
-            Once you have invited <b>The Atrium</b> to your project on Github,
-            please refresh this page to complete project upload.
-          </Typography>
-        </Grid>
-      </Grid>
-
-      <Expansions />
-
-      <Button
-        fullWidth
-        type="button"
-        color="primary"
-        // disabled={isLoading}
-        onClick={handleSubmit}
-      >
-        Complete
-      </Button>
-
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        autoHideDuration={2000}
-        open={isShowSnack}
-        onClose={toogleSnackMessage}
-        ContentProps={{ className: classes.snackContentMessage }}
-        message={<span>Copied to clipboard</span>}
       />
     </div>
   )

@@ -157,6 +157,9 @@ const DiscussionDetails = ({
   return (
     <StandardVerticalTemplate className={classes.pageTemplate}>
       <Grid container spacing={1} className={classes.container}>
+        <Grid item xs={12}>
+          <BackArrow dest={'/engage'} />
+        </Grid>
         <Grid item xs={11}>
           <Typography variant="h2" className={classes.titleText}>
             {discussion.title}
@@ -166,6 +169,7 @@ const DiscussionDetails = ({
           {userId === ownerId ? (
             <EditDeletePopover
               type={'discussion'}
+              deleteRedirectUrl={'/engage'}
               onEditClick={() => {
                 setModalOpen(true)
               }}
