@@ -10,10 +10,9 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 const useStyles = makeStyles(theme => ({
   expansionsContainer: {
     marginTop: theme.spacing(10),
-
     '@global': {
       '.MuiExpansionPanel-root': {
-        marginBottom: theme.spacing(1),
+        marginBottom: theme.spacing(2),
         color: theme.colors['warm-gray'],
         boxShadow: 'none',
         borderBottom: `1px solid ${theme.colors['warm-gray']}`,
@@ -27,33 +26,40 @@ const useStyles = makeStyles(theme => ({
         color: theme.colors['warm-gray']
       },
       '.Mui-expanded': {
-        color: theme.colors['dark-forest-green']
+        color: theme.colors['shamrock-green']
       },
       '.Mui-expanded + .MuiExpansionPanelSummary-expandIcon': {
-        color: theme.colors['dark-forest-green']
+        color: theme.colors['shamrock-green']
       },
       '.MuiExpansionPanelSummary-root': {
         padding: 0
       },
       '.MuiExpansionPanelDetails-root': {
-        padding: '11px 0 24px 0'
+        padding: '0 0 24px 0'
       }
     }
   },
   typography: {
-    fontSize: 21
+    fontSize: 21,
+    padding: '2% 2% 2% 5%'
+  },
+  panel: {
+    border: 'solid 1.2px'
+  },
+  test2: {
+    borderTop: 'solid 1.2px'
   }
 }))
 
 const Panel = ({ title, content }) => {
   const classes = useStyles()
   return (
-    <ExpansionPanel>
+    <ExpansionPanel className={classes.panel}>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
         <Typography className={classes.typography}>{title}</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <Typography className={classes.typography}>{content}</Typography>
+        <Typography className={[classes.typography, classes.test2]}>{content}</Typography>
       </ExpansionPanelDetails>
     </ExpansionPanel>
   )

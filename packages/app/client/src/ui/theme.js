@@ -54,12 +54,16 @@ export const theme = createMuiTheme({
       }
     },
     h3: {
+      fontWeight: 'bold',
+      fontSize: 28,
+      lineHeight: 1.6,
       textTransform: 'none'
     },
     h2: {
-      textTransform: 'none',
-      fontSize: 32,
-      lineHeight: 1.16
+      fontWeight: 'bold',
+      fontSize: 43,
+      lineHeight: 1.4,
+      textTransform: 'none'
     },
     h1: {
       fontSize: 58,
@@ -81,8 +85,9 @@ export const theme = createMuiTheme({
     },
     subtitle1: {
       fontFamily: ['Roboto', 'sans-serif'].join(','),
-      fontSize: 14,
-      lineHeight: 1.43
+      fontSize: 15,
+      lineHeight: 1.4,
+      fontWeight: 600
     },
     subtitle2: {
       fontFamily: ['Red Hat Display', 'Roboto', 'sans-serif'].join(','),

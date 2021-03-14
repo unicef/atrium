@@ -7,7 +7,6 @@ import { TextField } from '../../../ui'
 import UNICEFLogo from './imgs/UNICEF_logo.png'
 import WFPLogo from './imgs/WFP_logo.png'
 import UNDPLogo from './imgs/UNDP_logo.png'
-import sectionBreak from '../assets/section-line.svg'
 import { Button } from '../../../ui'
 import { LimitedHeader } from '../Header'
 import { ExpansionList } from './components'
@@ -20,37 +19,64 @@ import {
   ReadingBoy,
   ReadingBackground
 } from '../assets'
+import { ATRIUM_CONSTANTS } from '../../../unin-constants'
 
 const theseAreBadVariableNamesThereIsNoReasonToSeparateThem = makeStyles(
   () => ({
-    buttons: {
-      display: 'flex',
-      textAlign: 'right'
-    },
-    loginButton: {
-      width: '105px',
-      height: '50px'
-    },
-    signupButton: {
-      width: '105px',
-      height: '50px',
-      marginRight: '10px',
-    },
     borderButton: {
       marginLeft: '10%',
       marginBottom: '-25px'
     },
+    main: {
+      height: '100%',
+      minHeight: '100vh',
+      width: '80%',
+      margin: 'auto'
+    },
     descriptionHeader: {
       textAlign: 'left',
-      fontWeight: 'bold',
-      fontSize: 36,
-      letterSpacing: 1.4
+      maxWidth: '408px'
     },
     header: {
       color: '#178FE2',
-      marginBottom: '5%',
-      fontWeight: 'bold',
-      fontSize: 15
+      marginBottom: '5%'
+    },
+    section: {
+      display: 'flex',
+      width: '100%',
+      paddingTop: 119,
+      '& > div': {
+        maxWidth: 635
+      },
+      textAlign: 'left',
+      paddingBottom: 100,
+      justifyContent: 'center'
+    },
+    imgInSection: {
+      width: '100%',
+      maxWidth: '750px',
+      margin: '0 10%'
+    },
+    line: {
+      borderBottom: 'solid 1.2px',
+      margin: '10% 0'
+    },
+    smallLine: {
+      width: '45%',
+      borderBottom: 'solid 1.2px rgba(255, 255, 255, 0.28)'
+    },
+    separator: {
+      display: 'flex',
+      alignItems: 'center'
+    },
+    separatorOr: {
+      color: 'white',
+      margin: '0 5%',
+      textAlign: 'center'
+    },
+    descriptionText: {
+      margin: '10% 10% 0 10%',
+      fontSize: 18
     }
   })
 )
@@ -63,61 +89,41 @@ const useWelcomeSectionStyles = makeStyles(theme => ({
     textTransform: 'uppercase'
   },
   header: {
-    textAlign: 'left',
-    fontWeight: 'bold'
-  },
-  main: {
-    height: '100%',
-    minHeight: '100vh',
-    width: '80%',
-    margin: 'auto'
-  },
-  section: {
-    display: 'flex',
-    width: '100%',
-    '& > div': {
-      paddingTop: 119,
-      maxWidth: 635
-    },
     textAlign: 'left'
-  },
-  imgInSection: {
-    width: '834px',
-    height: '481px',
-    margin: '0 auto'
   },
   description: {
     textAlign: 'left',
-    marginTop: '10%',
-    // marginBottom: '10%',
-    fontSize: 19
+    margin: '10% 10% 0 0',
+    fontSize: '18px',
+    lineHeight: '180%'
+  },
+  buttons: {
+    display: 'flex',
+    textAlign: 'right'
+  },
+  loginButton: {
+    width: '105px',
+    height: '50px'
+  },
+  signupButton: {
+    width: '105px',
+    height: '50px',
+    marginRight: '10px'
   }
 }))
 
 const useWhyJoinSectionStyles = makeStyles(theme => ({
-  section: {
-    paddingBottom: 100,
-    backgroundColor: 'DDFBF6'
-  },
   titleOfSection: {
-    marginTop: '10%',
     textAlign: 'center'
   },
   textTitle: {
-    fontWeight: 'bold'
+    fontSize: '32px'
   },
   description: {
-    marginTop: '10%',
     border: 'solid 1.2px',
     borderRadius: 5,
-    width: '80%',
     backgroundColor: 'white'
-  },
-  descriptionText: {
-    margin: '10%',
-    marginBottom: '15%',
-    fontSize: 18
-  },
+  }
 }))
 
 const useWhoBuildingSectionStyles = makeStyles(theme => ({
@@ -127,10 +133,7 @@ const useWhoBuildingSectionStyles = makeStyles(theme => ({
   descriptionText: {
     fontSize: 21,
     marginTop: '10%',
-    marginBottom: 30,
-    '@media (max-width:600px)': {
-      fontSize: 18
-    }
+    marginBottom: 30
   }
 }))
 
@@ -142,118 +145,49 @@ const useExploreSectionStyles = makeStyles(theme => ({
     '& > div:first-child': {
       maxWidth: 795
     }
+  },
+  imgInSection: {
+    width: '100%',
+    maxWidth: '628px',
+    margin: '10% 10% 0 0'
   }
 }))
 
 const useBlockchainSectionStyles = makeStyles(theme => ({
-  viewdocumentButton: {
+  viewDocumentButton: {
     width: '270px',
-    color: 'white',
     height: '50px',
-    margin: '10%',
-    borderRadius: '3px',
-    textTransform: 'none',
-    backgroundColor: 'rgb(1, 206, 75)'
+    margin: '0 10% 10%'
   },
   section: {
+    marginTop: '10%',
     backgroundColor: '#DDFBF6'
+  },
+  descriptionHeader: {
+    fontSize: '38px !important'
   },
   description: {
     border: 'solid 1.2px',
     borderRadius: 5,
     width: '80%',
-    marginTop: '10%',
-    marginLeft: '10%',
-    marginRight: '10%',
+    margin: '0 10% 0 10%',
     backgroundColor: 'white'
   },
-  descriptionText: {
-    fontSize: 18,
-    margin: '10%'
+  readingBoy: {
+    margin: '-273px 0 10% 0'
   },
-  titleOfSection: {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: 280,
-    fontSize: 21,
-    '&:after': {
-      position: 'absolute',
-      content: '""',
-      bottom: 0,
-      left: '50%',
-      width: 2,
-      height: 151,
-      marginBottom: -180,
-      transform: 'translateX(-50%)',
-      background: `url(${sectionBreak})`
-    }
+  readingBackground: {
+    margin: '-120px 0 0 -21%'
   },
-  explainedContainer: {
-    display: 'flex',
-    maxWidth: 1130,
-    margin: '0 auto'
-  },
-  buttonWrapper: {
-    marginTop: 40,
-    '@media (max-width: 959px)': {
-      marginTop: 30
-    }
-  },
-  explainedTitle: {
-    marginBottom: 18,
-    color: theme.colors['dark-forest-green']
-  },
-  imageWrapper: {
-    maxWidth: 610,
-    '@media (max-width: 959px)': {
-      maxWidth: 'initial'
-    }
-  },
-  imageOfSlide: {
-    display: 'block',
-    width: '100%',
-    objectFit: 'contain'
-  },
-  cardsRow: {
-    paddingTop: 68,
-    maxWidth: 1195
-  },
-  cardItem: {
-    maxWidth: 360,
-    '& > p': {
-      fontSize: 21
-    },
-    '& > button': {
-      marginTop: 20
-    },
-    '@media (max-width: 959px)': {
-      maxWidth: 'initial',
-      margin: '0 auto'
-    }
-  },
-  cardImageWrapper: {
-    marginBottom: 20,
-    '& > img': {
-      display: 'block',
-      width: '100%',
-      objectFit: 'contain'
-    },
-    '@media (max-width: 959px)': {
-      maxWidth: 400
-    }
-  },
-  articleTitle: {
-    minHeight: 62
+  wrapper: {
+    marginLeft: '30%'
   }
 }))
 
 const useMoreInfoStyles = makeStyles(theme => ({
   descriptionHeader: {
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 36,
-    letterSpacing: 1.4
+    fontSize: '32px'
   },
   descriptionText: {
     textAlign: 'center',
@@ -272,9 +206,6 @@ const useInviteStyles = makeStyles(theme => ({
   },
   sectionHeader: {
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 36,
-    letterSpacing: 1.4,
     color: 'white'
   },
   container: {
@@ -286,12 +217,9 @@ const useInviteStyles = makeStyles(theme => ({
     color: '#3592F1',
     width: '100%'
   },
-  submitButton: {
-    backgroundColor: '#3592F1',
-    color: 'white',
-    width: '20%'
-  },
   emailInput: {
+    display: 'flex',
+    alignItems: 'center',
     marginTop: '10%',
     border: 'solid 1.2px',
     borderColor: 'white',
@@ -299,8 +227,13 @@ const useInviteStyles = makeStyles(theme => ({
     marginBottom: '5%'
   },
   textField: {
-    width: '80%',
-    color: '#3592F1'
+    width: '79%',
+    color: 'white'
+  },
+  submitButton: {
+    backgroundColor: '#3592F1',
+    color: 'white',
+    width: '19%'
   },
   descriptionText: {
     marginTop: '10%',
@@ -327,12 +260,24 @@ const Landing = props => {
     props.history.push('/login')
   }
 
-  const handleRedirectToaddproject = () => {
+  const handleRedirectToAddProject = () => {
     props.history.push('/create-projects')
   }
 
   const handleRedirectToSignUp = () => {
     props.history.push('/login#register')
+  }
+
+  const handleRedirectToViewProjects = () => {
+    props.history.push('/view-projects')
+  }
+
+  const handleRedirectToLearn = () => {
+    props.history.push('/learn')
+  }
+
+  const handleRedirectToForum = () => {
+    props.history.push('/engage')
   }
 
   return (
@@ -345,13 +290,12 @@ const Landing = props => {
             variant: 'h6',
             className: welcomeStyles.titleOfHeader
           }}
-          // actionInlineStyle={{ marginRight: 0 }}
           action={
-            <div className={classes.buttons}>
+            <div className={welcomeStyles.buttons}>
               <Button
                 color="primary"
                 onClick={handleRedirectToSignUp}
-                className={classes.signupButton}
+                className={welcomeStyles.signupButton}
               >
                 Join us
               </Button>
@@ -359,7 +303,7 @@ const Landing = props => {
                 color="secondary"
                 variant="outlined"
                 onClick={handleRedirectToLogin}
-                className={classes.loginButton}
+                className={welcomeStyles.loginButton}
               >
                 Sign in
               </Button>
@@ -367,19 +311,14 @@ const Landing = props => {
           }
         />
       )}
-      <div className={welcomeStyles.main}>
+      <div className={classes.main}>
         <Grid container xs={12}>
-          <Grid item container xs={12} className={welcomeStyles.section}>
+          <Grid item container xs={12} className={classes.section}>
             <Grid item xs={12} sm={12} md={4}>
-              <Typography
-                className={welcomeStyles.header}
-                component="h2"
-                variant="h2"
-                color="secondary"
-              >
+              <Typography className={welcomeStyles.header} variant="h2">
                 Start your blockchain journey
               </Typography>
-              <Typography component="h5" className={welcomeStyles.description}>
+              <Typography variant="body1" className={welcomeStyles.description}>
                 Welcome to The Atrium, an interagency platform designed to
                 foster and support learning, collaboration, and discussion
                 across the UN community.
@@ -387,8 +326,8 @@ const Landing = props => {
               {props.isAuthenticated ? (
                 <Button
                   color="primary"
-                  onClick={handleRedirectToaddproject}
-                  className={classes.signupButton}
+                  onClick={handleRedirectToAddProject}
+                  className={welcomeStyles.signupButton}
                 >
                   Add project
                 </Button>
@@ -397,7 +336,7 @@ const Landing = props => {
                   <Button
                     color="primary"
                     onClick={handleRedirectToSignUp}
-                    className={classes.signupButton}
+                    className={welcomeStyles.signupButton}
                   >
                     Join us
                   </Button>
@@ -405,7 +344,7 @@ const Landing = props => {
                     color="secondary"
                     variant="outlined"
                     onClick={handleRedirectToLogin}
-                    className={classes.loginButton}
+                    className={welcomeStyles.loginButton}
                   >
                     Sign in
                   </Button>
@@ -413,70 +352,56 @@ const Landing = props => {
               )}
             </Grid>
             <Grid item xs={12} sm={12} md={8}>
-              <div className={welcomeStyles.imgInSection}>
-                <img
-                  alt="MainBackground"
-                  style={{ width: 750 }}
-                  src={MainBackground}
-                />
-              </div>
+              <img
+                className={classes.imgInSection}
+                alt="MainBackground"
+                src={MainBackground}
+              />
             </Grid>
           </Grid>
 
-          <div className={whyJoinStyles.titleOfSection}>
-            <Typography
-              component="h1"
-              variant="h2"
-              color="secondary"
-              className={whyJoinStyles.textTitle}
-            >
+          <Grid item xs={12} className={whyJoinStyles.titleOfSection}>
+            <Typography variant="h2" className={whyJoinStyles.textTitle}>
               Why should I join The Atrium?
             </Typography>
-          </div>
+          </Grid>
 
-          <Grid
-            item
-            container
-            xs={12}
-            className={[welcomeStyles.section, whyJoinStyles.section]}
-          >
+          <Grid item container xs={12} className={classes.section}>
             <Grid item xs={12} sm={12} md={4}>
-              <Typography
-                className={classes.header}
-                component="h5"
-                variant="h5"
-                color="secondary"
-              >
+              <Typography className={classes.header} variant="subtitle1">
                 LEARNING
               </Typography>
-              <Typography
-                className={classes.descriptionHeader}
-                component="h2"
-                variant="h2"
-                color="secondary"
-              >
+              <Typography className={classes.descriptionHeader} variant="h3">
                 The Atrium is a UN-wide platform, enabled by blockchain
               </Typography>
-              <div className={whyJoinStyles.description}>
-                <Typography
-                  component="h5"
-                  className={whyJoinStyles.descriptionText}
-                >
+              <div
+                className={[
+                  welcomeStyles.description,
+                  whyJoinStyles.description
+                ].join(' ')}
+              >
+                <Typography variant="body1" className={classes.descriptionText}>
                   By using The Atrium, you’ll earn blockchain-based badges!
                   Learn about the difference between blockchain and
                   cryptocurrency, explore the history of the technology and
                   browse use cases and focused on the use of blockchain for
                   social impact.
                 </Typography>
-                <Button color="primary" className={classes.borderButton}>
+                <Button
+                  color="primary"
+                  className={classes.borderButton}
+                  onClick={handleRedirectToLearn}
+                >
                   Start learning
                 </Button>
               </div>
             </Grid>
             <Grid item xs={12} sm={12} md={8}>
-              <div className={welcomeStyles.imgInSection}>
-                <img alt="AccelerateInnovation" src={AccelerateInnovation}/>
-              </div>
+              <img
+                className={classes.imgInSection}
+                alt="AccelerateInnovation"
+                src={AccelerateInnovation}
+              />
             </Grid>
           </Grid>
 
@@ -484,40 +409,30 @@ const Landing = props => {
             item
             container
             xs={12}
-            className={[
-              whyJoinStyles.section,
-              welcomeStyles.section,
-              exploreStyles.section
-            ]}
+            className={[classes.section, exploreStyles.section].join(' ')}
           >
             <Grid item xs={12} sm={12} md={8}>
-              <div className={welcomeStyles.rightsection}>
-                <img alt="ExplorePrototypes" src={ExplorePrototypes} />
-              </div>
+              <img
+                className={exploreStyles.imgInSection}
+                alt="ExplorePrototypes"
+                src={ExplorePrototypes}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <Typography
-                className={classes.header}
-                component="h5"
-                variant="h5"
-                color="secondary"
-              >
+              <Typography className={classes.header} variant="subtitle1">
                 EXPLORE
               </Typography>
-              <Typography
-                className={classes.descriptionHeader}
-                component="h2"
-                variant="h2"
-                color="secondary"
-              >
+              <Typography className={classes.descriptionHeader} variant="h3">
                 Explore prototypes and applications of blockchain across
                 entities
               </Typography>
-              <div className={whyJoinStyles.description}>
-                <Typography
-                  component="h5"
-                  className={whyJoinStyles.descriptionText}
-                >
+              <div
+                className={[
+                  welcomeStyles.description,
+                  whyJoinStyles.description
+                ].join(' ')}
+              >
+                <Typography variant="body1" className={classes.descriptionText}>
                   Are you curious to learn about different UN use cases? Have
                   you ever wondered how your entity could apply blockchain? In
                   The Atrium, learn what projects and prototypes are being
@@ -526,49 +441,52 @@ const Landing = props => {
                   The Atrium is the perfect destination to share your work and
                   collaborate with like-minded peers.
                 </Typography>
+                <Button
+                  color="primary"
+                  className={classes.borderButton}
+                  onClick={handleRedirectToViewProjects}
+                >
+                  See projects
+                </Button>
               </div>
             </Grid>
           </Grid>
 
-          <Grid
-            item
-            container
-            xs={12}
-            className={[whyJoinStyles.section, welcomeStyles.section]}
-          >
+          <Grid item container xs={12} className={classes.section}>
             <Grid item xs={12} sm={12} md={4}>
-              <Typography
-                className={classes.header}
-                component="h5"
-                variant="h5"
-                color="secondary"
-              >
+              <Typography className={classes.header} variant="subtitle1">
                 ENGAGE
               </Typography>
-              <Typography
-                className={classes.descriptionHeader}
-                component="h2"
-                variant="h2"
-                color="secondary"
-              >
+              <Typography className={classes.descriptionHeader} variant="h3">
                 The Atrium is built with collaboration and community in-mind.
               </Typography>
-              <div className={whyJoinStyles.description}>
-                <Typography
-                  component="h5"
-                  className={whyJoinStyles.descriptionText}
-                >
+              <div
+                className={[
+                  welcomeStyles.description,
+                  whyJoinStyles.description
+                ].join(' ')}
+              >
+                <Typography variant="body1" className={classes.descriptionText}>
                   To jumpstart this collaboration, members of The Atrium are
                   encouraged to engage with colleagues across the UN that are
                   also interested in blockchain as well as provide feedback on
                   the platform via the Forum section.
                 </Typography>
+                <Button
+                  color="primary"
+                  className={classes.borderButton}
+                  onClick={handleRedirectToForum}
+                >
+                  See forum
+                </Button>
               </div>
             </Grid>
             <Grid item xs={12} sm={12} md={8}>
-              <div className={welcomeStyles.rightsection}>
-                <img alt="DecisionMaking" src={DecisionMaking} />
-              </div>
+              <img
+                className={classes.imgInSection}
+                alt="DecisionMaking"
+                src={DecisionMaking}
+              />
             </Grid>
           </Grid>
 
@@ -576,62 +494,53 @@ const Landing = props => {
             item
             container
             xs={12}
-            className={[
-              whyJoinStyles.section,
-              welcomeStyles.section,
-              blockchainStyles.section
-            ]}
+            className={[classes.section, blockchainStyles.section]}
           >
             <Grid item xs={12} sm={12} md={6}>
-              <div>
-                <img alt="ReadingBoy" style={{ zIndex: 2 }} src={ReadingBoy} />{' '}
-                <img
-                  alt="ReadingBackground"
-                  style={{ zIndex: 5 }}
-                  src={ReadingBackground}
-                />
+              <div className={blockchainStyles.wrapper}>
+                <div>
+                  <img
+                    alt="ReadingBackground"
+                    className={blockchainStyles.readingBackground}
+                    src={ReadingBackground}
+                  />
+                  <img
+                    alt="ReadingBoy"
+                    className={blockchainStyles.readingBoy}
+                    src={ReadingBoy}
+                  />
+                </div>
+                <Typography className={classes.header} variant="subtitle1">
+                  BLOCKCHAIN ESSENTIALS
+                </Typography>
+                <Typography
+                  className={[
+                    blockchainStyles.descriptionHeader,
+                    classes.descriptionHeader
+                  ].join(' ')}
+                  variant="h3"
+                >
+                  A Practical Guide to Using Blockchain within the United
+                  Nations
+                </Typography>
               </div>
-              <Typography
-                className={classes.header}
-                component="h5"
-                variant="h5"
-                color="secondary"
-              >
-                BLOCKCHAIN ESSENTIALS
-              </Typography>
-              <Typography
-                className={classes.descriptionHeader}
-                component="h2"
-                variant="h2"
-                color="secondary"
-              >
-                A Practical Guide to Using Blockchain within the United Nations
-              </Typography>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={6}
-              style={{ paddingTop: 0 }}
-              className={blockchainStyles.description}
-            >
-              <Typography
-                component="h5"
-                className={blockchainStyles.descriptionText}
-              >
-                We have created an easy-to-use, practical guide for the UN and
-                public sector, complete with definitions, decision-making tools
-                and use cases, helping you to evaluate if blockchain is the
-                correct tool for your next solution.
-              </Typography>
-              <div>----line----</div>
-              <Button
-                type="button"
-                className={blockchainStyles.viewdocumentButton}
-              >
-                View Document (PDF, 456 KB)
-              </Button>
+            <Grid item xs={12} sm={12} md={6}>
+              <div className={blockchainStyles.description}>
+                <Typography variant="body1" className={classes.descriptionText}>
+                  We have created an easy-to-use, practical guide for the UN and
+                  public sector, complete with definitions, decision-making
+                  tools and use cases, helping you to evaluate if blockchain is
+                  the the correct tool for your next solution.
+                </Typography>
+                <div className={classes.line} />
+                <Button
+                  color="primary"
+                  className={blockchainStyles.viewDocumentButton}
+                >
+                  View Document (PDF, 456 KB)
+                </Button>
+              </div>
             </Grid>
           </Grid>
 
@@ -639,26 +548,17 @@ const Landing = props => {
             item
             container
             xs={12}
-            className={[
-              whoBuildingStyles.section,
-              whyJoinStyles.section,
-              welcomeStyles.section
-            ]}
+            className={[whoBuildingStyles.section, classes.section].join(' ')}
           >
             <Grid item xs={12} sm={12} md={4}>
-              <Typography
-                className={classes.descriptionHeader}
-                component="h2"
-                variant="h2"
-                color="secondary"
-              >
-                Build Together
+              <Typography className={classes.descriptionHeader} variant="h3">
+                {!props.isAuthenticated
+                  ? 'Built Together'
+                  : 'Build it Together'}
               </Typography>
               <Typography
-                component="p"
                 variant="body1"
                 className={whoBuildingStyles.descriptionText}
-                style={{ textAlign: 'left' }}
               >
                 The Atrium has been established as a decentralised collaboration
                 tool by the United Nations Development Programme (UNDP), UNICEF
@@ -674,7 +574,11 @@ const Landing = props => {
                   <img alt="UNDPLogo" src={UNDPLogo} style={{ width: 54 }} />
                 </Grid>
                 <Grid item xs={4}>
-                  <img alt="UNICEFLogo" src={UNICEFLogo} style={{ width: 170 }} />
+                  <img
+                    alt="UNICEFLogo"
+                    src={UNICEFLogo}
+                    style={{ width: 170 }}
+                  />
                 </Grid>
                 <Grid item xs={4}>
                   <img alt="WFPLogo" src={WFPLogo} style={{ width: 100 }} />
@@ -687,19 +591,10 @@ const Landing = props => {
             item
             container
             xs={12}
-            className={[
-              whyJoinStyles.section,
-              welcomeStyles.section,
-              inviteStyles.section
-            ]}
+            className={[classes.section, inviteStyles.section].join(' ')}
           >
             <Grid item xs={12} className={inviteStyles.container}>
-              <Typography
-                className={inviteStyles.sectionHeader}
-                component="h2"
-                variant="h2"
-                color="secondary"
-              >
+              <Typography className={inviteStyles.sectionHeader} variant="h2">
                 {props.isAuthenticated ? 'Invite to Atrium' : 'Join Atrium now'}
               </Typography>
               <div className={inviteStyles.emailInput}>
@@ -709,8 +604,19 @@ const Landing = props => {
                 />
                 <Button className={inviteStyles.submitButton}>Submit</Button>
               </div>
-              <div>----line OR line----</div>
-              <Button className={inviteStyles.contactButton}>Contact us</Button>
+              <div className={classes.separator}>
+                <div className={classes.smallLine} />
+                <div className={classes.separatorOr}>OR</div>
+                <div className={classes.smallLine} />
+              </div>
+              <Button
+                className={inviteStyles.contactButton}
+                onClick={() =>
+                  (document.location.href = `mailto:${ATRIUM_CONSTANTS.ATRIUM_EMAIL_CONTACT}`)
+                }
+              >
+                Contact us
+              </Button>
               <Typography className={inviteStyles.descriptionText}>
                 We are looking for other organizations that would be interested
                 in setting up their own node, therefore, participating by
@@ -724,34 +630,22 @@ const Landing = props => {
             item
             container
             xs={12}
-            className={[
-              whyJoinStyles.section,
-              welcomeStyles.section,
-              moreInfoStyles.section
-            ]}
+            className={[classes.section, moreInfoStyles.section]}
           >
-            <Grid
-              item
-              xs={12}
-              className={moreInfoStyles.container}>
+            <Grid item xs={12} className={moreInfoStyles.container}>
               <Typography
                 className={moreInfoStyles.descriptionHeader}
-                component="h2"
                 variant="h2"
-                color="secondary"
               >
                 Want more information?
               </Typography>
               <Typography
-                component="h3"
                 variant="h4"
-                color="secondary"
                 className={moreInfoStyles.descriptionText}
               >
                 Here are some of our Frequently Asked Questions
               </Typography>
               <ExpansionList
-                classname={moreInfoStyles.expansionList}
                 list={[
                   {
                     title: 'What kind of projects can I share on The Atrium?',
