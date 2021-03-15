@@ -8,7 +8,6 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
 function Story(props) {
-  console.log(props)
   const [dynamicFormData, setDynamicFormData] = useState({
     projectId: props._id,
     story: props.story || '',

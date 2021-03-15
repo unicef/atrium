@@ -294,7 +294,6 @@ router.put(
         ? `https://${req.headers.host}${req.baseUrl}/attachment/${req.file.key}`
         : null
     }
-
     Object.keys(projectData).forEach(
       key => projectData[key] == null && delete projectData[key]
     )

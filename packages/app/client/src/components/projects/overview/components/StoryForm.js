@@ -94,9 +94,6 @@ function StoryForm(props) {
             <div>
               {story ? (
                 <>
-                  {/* <Typography component="h5" className={classes.disabledButton}>*/}
-                  {/*  Talk about the project*/}
-                  {/* </Typography>*/}
                   <TextField
                     onChange={e => {
                       handleChange(e)
