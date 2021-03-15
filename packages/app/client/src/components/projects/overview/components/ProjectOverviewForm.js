@@ -8,11 +8,6 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 const useDefaultStyles = makeStyles(() => ({
   header: {
     textAlign: 'left',
-    fontSize: '18px'
-  },
-  image: {
-    width: '400px',
-    height: '220px',
     margin: '5% 0'
   },
   input: {
