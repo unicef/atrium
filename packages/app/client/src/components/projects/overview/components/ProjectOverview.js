@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
-import InputLabel from '@material-ui/core/InputLabel'
-import { AttachmentUploader, TextField } from '../../../../ui'
 import CircularProgress from '@material-ui/core/CircularProgress/'
 import Link from '@material-ui/core/Link'
-import { Button } from '../../../../ui'
-import { ProjectPicture } from '../assets'
+import PropTypes from 'prop-types'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
+import { refreshToken } from '../../../../actions/authActions'
+import { editProject } from '../../../../actions/projectActions'
+import ProjectOverviewForm from './ProjectOverviewForm'
 
 const useDefaultStyles = makeStyles(() => ({
   wrapper: {
@@ -81,34 +83,35 @@ function ProjectOverview(props) {
   const [additionalPercent, setAdditionalPercent] = useState(0)
   const [storyPercent, setStoryPercent] = useState(0)
   const [updateCounter, setUpdateCounter] = useState(0)
+  const [dynamicFormData, setDynamicFormData] = useState({
+    projectId: props._id,
+    websiteLink: props.websiteLink || '',
+    linkToRepository: props.linkToRepository || ''
+  })
 
   useEffect(() => {
-    if (props.projectData) {
+    if (props._id) {
       let required = 0
       let additional = 0
       let story = 0
-      for (const key of Object.keys(props.projectData)) {
+      for (const key of Object.keys(props)) {
         if (
           requiredFields.includes(key) &&
-          props.projectData[key] !== '' &&
-          props.projectData[key] !== []
+          props[key] !== '' &&
+          props[key] !== []
         ) {
           required++
           continue
         }
         if (
           additionalFields.includes(key) &&
-          props.projectData[key] !== '' &&
-          props.projectData[key] !== []
+          props[key] !== '' &&
+          props[key] !== []
         ) {
           additional++
           continue
         }
-        if (
-          storyFields.includes(key) &&
-          props.projectData[key] !== '' &&
-          props.projectData[key] !== []
-        )
+        if (storyFields.includes(key) && props[key] !== '' && props[key] !== [])
           story++
       }
       setRequiredPercent(Math.floor((required * 100) / requiredFields.length))
@@ -116,9 +119,23 @@ function ProjectOverview(props) {
         Math.floor((additional * 100) / additionalFields.length)
       )
       setStoryPercent(Math.floor((story * 100) / storyFields.length))
-      setUpdateCounter(props.projectData.updates.length)
+      setUpdateCounter(props.updates.length)
+      setDynamicFormData({
+        projectId: props._id,
+        websiteLink: props.websiteLink || '',
+        linkToRepository: props.linkToRepository || ''
+      })
     }
-  }, [props.projectData])
+  }, [props._id])
+
+  const handleCreateProject = async data => {
+    const { projectId } = dynamicFormData
+    await setDynamicFormData(prev => ({ ...prev, ...data }))
+    await props.editProject(projectId, data, () => {
+      window.location.reload()
+    })
+    props.refreshToken()
+  }
 
   return (
     <div className={classes.wrapper}>
@@ -178,75 +195,26 @@ function ProjectOverview(props) {
             {updateCounter} Update
           </div>
         </div>
-        <div>
-          <Button color="primary" type="submit">
-            Save
-          </Button>
-          <Button color="secondary" variant="outlined">
-            Cancel
-          </Button>
-        </div>
       </div>
       <div className={classes.rightBlock}>
-        <Typography
-          className={classes.header}
-          component="h2"
-          variant="h2"
-          color="secondary"
-        >
-          Project Photo
-        </Typography>
-        <div className={classes.image}>
-          <img src={ProjectPicture} alt="projectImage" />
-        </div>
-        <Typography
-          className={classes.header}
-          component="h2"
-          variant="h2"
-          color="secondary"
-        >
-          Documents
-        </Typography>
-        <AttachmentUploader
-        // attachment={values.attachment}
-        // setAttachment={val => setFieldValue('attachment', val)}
-        />
-        <Typography
-          className={classes.header}
-          component="h2"
-          variant="h2"
-          color="secondary"
-        >
-          Links
-        </Typography>
-
-        <InputLabel className={classes.input} id="repository-link-id" shrink>
-          Repository link
-        </InputLabel>
-        <TextField
-          id="repositoryLink"
-          type="text"
-          variant="outlined"
-          fullWidth
-          labelid="repository-link-id"
-          name="repositoryLink"
-          placeholder="Http://atrium.com/project1234567"
-        />
-        <InputLabel className={classes.input} id="website-link-id" shrink>
-          Project website link
-        </InputLabel>
-        <TextField
-          id="websiteLink"
-          type="text"
-          fullWidth
-          labelid="website-link-id"
-          variant="outlined"
-          name="websiteLink"
-          placeholder="Http:// ...."
+        <ProjectOverviewForm
+          formData={dynamicFormData}
+          handleCreateProject={handleCreateProject}
         />
       </div>
     </div>
   )
 }
 
-export default ProjectOverview
+ProjectOverview.propTypes = {
+  editProject: PropTypes.func.isRequired,
+  refreshToken: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+export default compose(connect(mapStateToProps, { refreshToken, editProject }))(
+  ProjectOverview
+)

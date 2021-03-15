@@ -72,7 +72,8 @@ const theseAreBadVariableNamesThereIsNoReasonToSeparateThem = makeStyles(
     separatorOr: {
       color: 'white',
       margin: '0 5%',
-      textAlign: 'center'
+      textAlign: 'center',
+      fontWeight: 500
     },
     descriptionText: {
       margin: '10% 10% 0 10%',
@@ -606,7 +607,7 @@ const Landing = props => {
               </div>
               <div className={classes.separator}>
                 <div className={classes.smallLine} />
-                <div className={classes.separatorOr}>OR</div>
+                <Typography variant="body1" className={classes.separatorOr}>OR</Typography>
                 <div className={classes.smallLine} />
               </div>
               <Button

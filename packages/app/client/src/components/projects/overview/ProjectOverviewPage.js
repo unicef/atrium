@@ -62,7 +62,7 @@ function ProjectOverviewPage(props) {
       </div>
 
       <Panel value={tabIndex} index={0}>
-        <ProjectOverview projectData={projectData} />
+        <ProjectOverview {...projectData} />
       </Panel>
       <Panel value={tabIndex} index={1}>
         <CreateProject {...projectData} editting={true} />

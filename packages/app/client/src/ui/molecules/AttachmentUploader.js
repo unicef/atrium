@@ -10,9 +10,10 @@ import { MAX_UPLOAD_SIZE } from '../../unin-constants'
 
 const styles = theme => ({
   attachmentButton: {
-    borderColor: 'rgb(1, 206, 75)', //'green',
+    borderColor: 'rgb(1, 206, 75)', // 'green',
     alignSelf: 'flex-start',
-    color: 'rgb(1, 206, 75)'//theme.colors['deep-green']
+    margin: 0,
+    color: 'rgb(1, 206, 75)' // theme.colors['deep-green']
   },
   input: {
     width: 0.1,
@@ -40,8 +41,8 @@ const AttachmentUploader = ({
   const inputRef = React.useRef()
   const [filePreview, setFilePreview] = React.useState()
   const clickInput = e => {
-    e.preventDefault();
-    inputRef.current.click();
+    e.preventDefault()
+    inputRef.current.click()
   }
 
   const handleChange = e => {
@@ -49,7 +50,7 @@ const AttachmentUploader = ({
     if (nextFile) {
       if (nextFile.size > MAX_UPLOAD_SIZE) {
         setError('File exceeds maximum size of 5MB, please use a smaller image')
-        e.target.value = null;
+        e.target.value = null
         return
       }
       setFilePreview(URL.createObjectURL(nextFile))
@@ -82,30 +83,26 @@ const AttachmentUploader = ({
             removeFile={() => setAttachment(null)}
           />
         ) : (
-            <Button
-              // startIcon={<AttachmentIcon />}
-              size="small"
-              variant="outlined"
-              className={classes.attachmentButton}
-              id="attach-btn"
-              // variant="text"
-              onClick={clickInput}
+          <Button
+            // startIcon={<AttachmentIcon />}
+            size="small"
+            variant="outlined"
+            className={classes.attachmentButton}
+            id="attach-btn"
+            // variant="text"
+            onClick={clickInput}
+          >
+            <label
+              htmlFor={'attachment-input'}
+              className={classes.inputLabel}
+              aria-label={'ATTACH FILE'}
+              title={'ATTACH FILE'}
             >
-              <label
-                htmlFor={'attachment-input'}
-                className={classes.inputLabel}
-                aria-label={'ATTACH FILE'}
-                title={'ATTACH FILE'}
-              >
-                Select
+              Select
             </label>
-            </Button>
-          )}
+          </Button>
+        )}
       </div>
-      {/*<Typography variant="subtitle1">*/}
-      {/*  Upload an image, word document or presentation that can help explain*/}
-      {/*  your project better. Maximum size—5 MB*/}
-      {/*</Typography>*/}
     </Grid>
   )
 }
@@ -118,7 +115,7 @@ AttachmentUploader.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setError: (err) => dispatch(setError(err))
+  setError: err => dispatch(setError(err))
 })
 
 export default compose(
