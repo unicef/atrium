@@ -19,7 +19,6 @@ const useDefaultStyles = makeStyles(() => ({
   },
   header: {
     textAlign: 'left',
-    fontWeight: 'bold'
   },
   leftBlock: {
     width: '50%',
@@ -29,7 +28,7 @@ const useDefaultStyles = makeStyles(() => ({
     paddingLeft: '5%'
   },
   descriptionText: {
-    margin: '10% 0',
+    margin: '5% 0 10% 0',
     fontSize: 18
   },
   card: {
@@ -142,8 +141,7 @@ function ProjectOverview(props) {
       <div className={classes.leftBlock}>
         <Typography
           className={classes.header}
-          component="h1"
-          variant="h2"
+          variant="h3"
           color="secondary"
         >
           Project Overview

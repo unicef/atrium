@@ -62,8 +62,7 @@ function UpdatesForm(props) {
             <div>
               <Typography
                 className={classes.header}
-                component="h1"
-                variant="h2"
+                variant="h3"
                 color="secondary"
               >
                 Add Update

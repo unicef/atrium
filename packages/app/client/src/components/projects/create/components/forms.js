@@ -37,16 +37,9 @@ const useStyles = makeStyles(theme => ({
   },
   introToProject: {
     marginTop: theme.spacing(5),
-    fontSize: '21px',
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: 'bold'
   },
   bottomIntro: {
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: '300',
-    fontSize: 18
+    margin: '5% 0'
   },
   inviteImg: {
     display: 'block',
@@ -182,12 +175,6 @@ const useStyles = makeStyles(theme => ({
     color: 'black',
     marginBottom: 6
   },
-  typography: {
-    color: 'black',
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: 400
-  },
   radioButton: {
     color: 'grey'
   },
@@ -248,9 +235,8 @@ export const FirstProjectForm = props => {
     <div className={classes.page}>
       <Typography
         color="secondary"
-        className={[classes.introToProject, classes.typography].join(' ')}
-        component="h1"
-        variant="h5"
+        className={classes.introToProject}
+        variant="h3"
       >
         {props.editting ? 'Edit Required information' : 'Create project'}
       </Typography>
@@ -258,8 +244,7 @@ export const FirstProjectForm = props => {
       <Typography
         color="secondary"
         className={classes.bottomIntro}
-        component="h1"
-        variant="h5"
+        variant="body1"
       >
         {props.editting
           ? 'Your project can now be shared with the world. Add more information to reach more people. You can edit this data at any point'

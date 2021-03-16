@@ -12,8 +12,7 @@ const useDefaultStyles = makeStyles(theme => ({
     paddingTop: '5%'
   },
   header: {
-    textAlign: 'left',
-    fontWeight: 'bold'
+    textAlign: 'left'
   },
   descriptionText: {
     margin: '5% 0',
@@ -79,8 +78,7 @@ function StoryForm(props) {
             <div>
               <Typography
                 className={classes.header}
-                component="h1"
-                variant="h2"
+                variant="h3"
                 color="secondary"
               >
                 Edit story

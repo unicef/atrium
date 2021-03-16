@@ -8,7 +8,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 const useDefaultStyles = makeStyles(() => ({
   header: {
     textAlign: 'left',
-    fontWeight: 'bold'
+    fontSize: '18px'
   },
   image: {
     margin: '5% 0'
@@ -53,21 +53,16 @@ function ProjectOverviewForm(props) {
             <form noValidate onSubmit={props.handleSubmit}>
               <Typography
                 className={classes.header}
-                component="h2"
-                variant="h2"
-                color="secondary"
+                variant="subtitle1"
               >
                 Project Photo
               </Typography>
               <div className={classes.image}>
-                {/* <img src={ProjectPicture} alt="Add Project Image" />*/}
-                <img src={values.attachment} alt="projectImage" />
+                <img src={values.attachment} alt="LoadProjectImage" />
               </div>
               <Typography
                 className={classes.header}
-                component="h2"
-                variant="h2"
-                color="secondary"
+                variant="subtitle1"
               >
                 Documents
               </Typography>
@@ -77,9 +72,7 @@ function ProjectOverviewForm(props) {
               />
               <Typography
                 className={classes.header}
-                component="h2"
-                variant="h2"
-                color="secondary"
+                variant="subtitle1"
               >
                 Links
               </Typography>
