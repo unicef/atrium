@@ -75,7 +75,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: mongodb-configmap
-                  key: database_url
+                  key: database_host
             - name: DATABASE_PORT
               value: "27017"
             - name: PORT
@@ -103,5 +103,101 @@ spec:
     - protocol: TCP
       port: 4567
       targetPort: 4567
-status:
-  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: parity
+  name: parity-deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: parity
+  template:
+    metadata:
+      labels:
+        app: parity
+    spec:
+      containers:
+        - env:
+            - name: PARITY_ID
+              value: "1"
+          image: appliedblockchain/parity-solo
+          name: parity
+          ports:
+            - containerPort: 8545
+            - containerPort: 8546
+            - containerPort: 30303
+      imagePullSecrets:
+        - name: appliedblockchain-reg
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: parity-service
+spec:
+  selector:
+    app: parity
+  ports:
+    - protocol: TCP
+      port: 8545
+      targetPort: 8545
+      name: http-rpc
+    - protocol: TCP
+      port: 8546
+      targetPort: 8546
+      name: ws-rpc
+    - protocol: TCP
+      port: 30303
+      targetPort: 30303
+      name: gossip
+---
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: init
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: init
+    spec:
+      containers:
+        - env:
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mongodb-configmap
+                  key: database_host
+            - name: ATRIUM_WALLET_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: atrium-secret
+                  key: atrium-wallet-secret
+            - name: ETHEREUM_PROVIDER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: parity-configmap
+                  key: parity_host
+            - name: ETHEREUM_PROVIDER_URL
+              value: http://$(ETHEREUM_PROVIDER_HOST):8545
+            - name: MONGO_URI
+              value: "mongodb://$(DATABASE_HOST):27017/app"
+          image: init
+          name: init
+          resources: {}
+          volumeMounts:
+            - mountPath: /contracts
+              name: contracts
+      restartPolicy: Always
+      volumes:
+        - name: contracts
+          persistentVolumeClaim:
+            claimName: contracts
