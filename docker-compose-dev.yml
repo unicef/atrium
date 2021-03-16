@@ -1,21 +1,6 @@
 version: "3.6"
 
 services:
-  init:
-    build:
-      context: ./packages
-      dockerfile: init/Dockerfile-dev
-    user: root
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/app
-      - ETHEREUM_PROVIDER_URL=http://parity1:8545
-      - ATRIUM_WALLET_SECRET=dev
-    depends_on:
-      - mongo
-      - parity1
-    volumes:
-      - contracts:/contracts
-
   forum:
     image: appliedblockchain/node-bb-atrium
     build:
@@ -23,6 +8,17 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mongo
+    environment:
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=password123
+      - ADMIN_EMAIL=test@unicef.com
+      - URL=localhost
+      - PORT=4567
+      - SESSION_SECRET=raging-dog-cat
+      - DATABASE_HOST=mongo
+      - DATABASE_PORT=27017
+      - DATABASE_NAME=forum
+    command: sh -ac 'echo "{\"url\":\"$$URL\",\"port\":\"$$PORT\",\"secret\":\"$$SESSION_SECRET\",\"database\":\"mongo\",\"mongo\":{\"host\":\"$$DATABASE_HOST\",\"port\":\"$$DATABASE_PORT\",\"database\":\"$$DATABASE_NAME\"}}" > config.json && node app --setup "{\"admin:username\":\"$$ADMIN_USERNAME\",\"admin:password\":\"$$ADMIN_PASSWORD\",\"admin:password:confirm\":\"$$ADMIN_PASSWORD\",\"admin:email\":\"$$ADMIN_EMAIL\"}" --defaultPlugins "[\"nodebb-plugin-session-sharing\", \"nodebb-plugin-mentions\"]" && ./nodebb start'
     ports:
       - 4567:4567
 
@@ -37,12 +33,16 @@ services:
       - 8080:80
 
   app:
-    image: node:erbium-alpine3.11
+    image: asherbuck/atrium-web-app
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: unin-app
-    command: sh -ac 'source /contracts/.env.contracts && cp -R /contracts/build ./contracts/build && npm run server:debug'
+    command: ./bin/entrypoint.sh
     working_dir: /node/app
     depends_on:
-      - init
+      - discovery
+      - parity1
     volumes:
       - ./packages/app:/node/app
       - ./packages/blockchain:/node/blockchain
@@ -51,7 +51,8 @@ services:
       - MONGO_URI=mongodb://mongo:27017/app
       - SECRET_OR_KEY=raging-dog-cat
       - PORT=5000
-      - ETHEREUM_PROVIDER_URL=http://parity1:8545
+      - ETHEREUM_NODE=parity1
+      - ETHEREUM_PROVIDER_URL=http://$ETHEREUM_NODE:8545
       - ATRIUM_WALLET_SECRET=dev
     ports:
       - 5000:5000

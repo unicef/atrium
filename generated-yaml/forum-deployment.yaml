@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-dev.yml
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: forum
+  name: forum
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: forum
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-dev.yml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: forum
+    spec:
+      containers:
+        - args:
+            - sh
+            - -ac
+            - echo "{\"url\":\"$URL\",\"port\":\"$PORT\",\"secret\":\"$SESSION_SECRET\",\"database\":\"mongo\",\"mongo\":{\"host\":\"$DATABASE_HOST\",\"port\":\"$DATABASE_PORT\",\"database\":\"$DATABASE_NAME\"}}" > config.json && node app --setup "{\"admin:username\":\"$ADMIN_USERNAME\",\"admin:password\":\"$ADMIN_PASSWORD\",\"admin:password:confirm\":\"$ADMIN_PASSWORD\",\"admin:email\":\"$ADMIN_EMAIL\"}" --defaultPlugins "[\"nodebb-plugin-session-sharing\", \"nodebb-plugin-mentions\"]" && ./nodebb start
+          env:
+            - name: ADMIN_EMAIL
+              value: test@unicef.com
+            - name: ADMIN_PASSWORD
+              value: password123
+            - name: ADMIN_USERNAME
+              value: admin
+            - name: DATABASE_HOST
+              value: mongo
+            - name: DATABASE_NAME
+              value: forum
+            - name: DATABASE_PORT
+              value: "27017"
+            - name: PORT
+              value: "4567"
+            - name: SESSION_SECRET
+              value: raging-dog-cat
+            - name: URL
+              value: localhost
+          image: appliedblockchain/node-bb-atrium
+          name: forum
+          ports:
+            - containerPort: 4567
+          resources: {}
+      restartPolicy: Always
+status: {}

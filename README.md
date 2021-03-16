@@ -164,7 +164,6 @@ To run locally inside docker containers:
 - You can login with `test@unicef.com` and `password`
 
 
-
 ### Running tests
 Backend has some integration tests available.
 To run them the environment variables need to be setup and ganache/parity need to be running with contracts deployed.
@@ -173,6 +172,23 @@ To run them just cd into a desired package such as `cd packages/app` and run `np
 
 *Issues running tests with node 10.12 were reported but a solution hasn't been found yet*
 
+## Running with minikube
+```
+cd k8s
+# Create your secret
+kubectl create secret docker-registry appliedblockchain-reg \
+  --docker-server=docker.io \
+  --docker-username=<YOUR_DOCKER_HUB_USERNAME> \
+  --docker-password=<YOUR_DOCKER_HUB_PASSWORD> \
+  --docker-email=<YOUR_DOCKER_HUB_EMAIL>
+
+# Apply dev secrets
+kubectl apply -f dev-secrets.yaml
+# Apply config map
+kubectl apply -f atrium-configmaps.yaml
+# Apply deployments and services
+kubectl apply -f atrium.yaml
+````
 ## Contact
 
 If you have questions or comments about the project, please reach out to blockchain@uninnovation.network.
