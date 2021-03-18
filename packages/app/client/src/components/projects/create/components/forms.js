@@ -248,7 +248,6 @@ export const FirstProjectForm = props => {
     <div className={classes.page}>
       <Typography
         color="secondary"
-        className={classes.introToProject}
         variant="h3"
       >
         {props.editting ? 'Edit Required information' : 'Create project'}

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
-import CircularProgress from '@material-ui/core/CircularProgress/'
 import Link from '@material-ui/core/Link'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
@@ -155,7 +154,7 @@ function ProjectOverview(props) {
         <Typography className={classes.header} variant="h3" color="secondary">
           Project Overview
         </Typography>
-        <Typography component="h5" className={classes.descriptionText}>
+        <Typography variant="h5" className={classes.descriptionText}>
           Your project can now be shared with the world. Add more information to
           reach more people. You can edit this data at any point
           <Link href="#"> need help?</Link>
