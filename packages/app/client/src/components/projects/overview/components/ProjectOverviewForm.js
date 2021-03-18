@@ -56,6 +56,10 @@ function ProjectOverviewForm(props) {
               </Typography>
               <div className={classes.image}>
                 <img src={values.attachment} alt="LoadProjectImage" />
+                {/*<AttachmentUploader*/}
+                {/*  attachment={values.attachment}*/}
+                {/*  setAttachment={val => setFieldValue('attachment', val)}*/}
+                {/*/>*/}
               </div>
               <Typography
                 className={classes.header}
