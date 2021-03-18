@@ -229,10 +229,6 @@ const useInviteStyles = makeStyles(theme => ({
   },
   textField: {
     width: '79%',
-    // color: 'white',
-    '::placeholder': {
-      color: 'white'
-    }
   },
   submitButton: {
     backgroundColor: '#3592F1',
@@ -262,7 +258,6 @@ const Landing = props => {
   const classes = theseAreBadVariableNamesThereIsNoReasonToSeparateThem()
 
   const [email, setEmail] = useState('')
-
   const handleRedirectToLogin = () => {
     props.history.push('/login')
   }

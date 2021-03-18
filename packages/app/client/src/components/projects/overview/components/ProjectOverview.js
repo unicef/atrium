@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
+import CircularProgress from '@material-ui/core/CircularProgress/'
 import Link from '@material-ui/core/Link'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
@@ -18,7 +19,7 @@ const useDefaultStyles = makeStyles(() => ({
     paddingTop: '5%'
   },
   header: {
-    textAlign: 'left',
+    textAlign: 'left'
   },
   leftBlock: {
     width: '50%',
@@ -151,14 +152,10 @@ function ProjectOverview(props) {
   return (
     <div className={classes.wrapper}>
       <div className={classes.leftBlock}>
-        <Typography
-          className={classes.header}
-          variant="h3"
-          color="secondary"
-        >
+        <Typography className={classes.header} variant="h3" color="secondary">
           Project Overview
         </Typography>
-        <Typography variant="h5" className={classes.descriptionText}>
+        <Typography component="h5" className={classes.descriptionText}>
           Your project can now be shared with the world. Add more information to
           reach more people. You can edit this data at any point
           <Link href="#"> need help?</Link>
@@ -166,26 +163,42 @@ function ProjectOverview(props) {
         <div>
           <div className={classes.card}>
             <CirclePercents value={requiredPercent} text={requiredPercent} />
-<div className={classes.firstCard}>
-            <Typography className={classes.cardHeader} variant="subtitle1">mandatory</Typography>
-            <Typography className={classes.cardText} variant="subtitle1"> Required information</Typography>
-</div>
+            <div className={classes.firstCard}>
+              <Typography className={classes.cardHeader} variant="subtitle1">
+                mandatory
+              </Typography>
+              <Typography className={classes.cardText} variant="subtitle1">
+                {' '}
+                Required information
+              </Typography>
+            </div>
           </div>
           <div className={classes.card}>
-            <CirclePercents value={additionalPercent} text={additionalPercent} />
-            <Typography className={classes.cardText} variant="subtitle1">Additional information</Typography>
+            <CirclePercents
+              value={additionalPercent}
+              text={additionalPercent}
+            />
+            <Typography className={classes.cardText} variant="subtitle1">
+              Additional information
+            </Typography>
           </div>
           <div className={classes.card}>
             <CirclePercents value={storyPercent} text={storyPercent} />
-            <Typography className={classes.cardText} variant="subtitle1">Story</Typography>
+            <Typography className={classes.cardText} variant="subtitle1">
+              Story
+            </Typography>
           </div>
           <div className={classes.card}>
             <CirclePercents value={0} text={0} />
-            <Typography className={classes.cardText} variant="subtitle1">Team</Typography>
+            <Typography className={classes.cardText} variant="subtitle1">
+              Team
+            </Typography>
           </div>
           <div className={classes.card}>
             <CirclePercents value={updateCounter} text={updateCounter} />
-            <Typography className={classes.cardText} variant="subtitle1">Update</Typography>
+            <Typography className={classes.cardText} variant="subtitle1">
+              Update
+            </Typography>
           </div>
         </div>
       </div>

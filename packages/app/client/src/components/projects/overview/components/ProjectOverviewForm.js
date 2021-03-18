@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik } from 'formik'
 import Typography from '@material-ui/core/Typography'
-import { AttachmentUploader, Button, TextField } from '../../../../ui'
+import { Button, TextField } from '../../../../ui'
 import InputLabel from '@material-ui/core/InputLabel'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
@@ -61,10 +61,6 @@ function ProjectOverviewForm(props) {
               </Typography>
               <div className={classes.image}>
                 <img src={values.attachment} alt="LoadProjectImage" />
-                {/*<AttachmentUploader*/}
-                {/*  attachment={values.attachment}*/}
-                {/*  setAttachment={val => setFieldValue('attachment', val)}*/}
-                {/*/>*/}
               </div>
               <Typography
                 className={classes.header}

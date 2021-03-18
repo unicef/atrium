@@ -6,7 +6,7 @@ import { TextField } from '../../../../ui'
 import { Button } from '../../../../ui'
 import { Formik } from 'formik'
 import InputLabel from '@material-ui/core/InputLabel'
-import {useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom"
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -42,6 +42,7 @@ function UpdatesForm(props) {
     props.handleCreateProject(values)
     setSubmitting(false)
   }
+
   const history = useHistory()
 
   const cancelHandler = () => {

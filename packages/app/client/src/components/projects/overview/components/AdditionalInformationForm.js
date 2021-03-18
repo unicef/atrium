@@ -8,7 +8,7 @@ import Select from '@material-ui/core/Select'
 import { Button } from '../../../../ui'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
-import {useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom"
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
