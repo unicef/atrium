@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { setError } from '../../actions/errorActions'
 import { withStyles, Grid } from '@material-ui/core'
-// import { ReactComponent as AttachmentIcon } from '../../icons/attachment.svg'
 import { Button, AttachmentControl } from '../'
 import { MAX_UPLOAD_SIZE } from '../../unin-constants'
 

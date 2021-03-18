@@ -26,6 +26,7 @@ const encryptDecrypt = new EncryptDecrypt(process.env.ATRIUM_WALLET_SECRET)
 const lru = require('lru-cache')
 const invitationCache = new lru(inviteCacheOptions)
 const resetPasswordCache = new lru(resetPasswordCacheOptions)
+const cookieParser = require('cookie-parser')
 
 const app = express()
 
@@ -51,6 +52,7 @@ app.use(
   })
 )
 app.use(bodyParser.json())
+app.use(cookieParser())
 
 // Passport middleware
 app.use(passport.initialize())

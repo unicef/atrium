@@ -4,12 +4,21 @@ import Link from '@material-ui/core/Link'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { TextField, Button } from '../../../../ui'
 import { Formik } from 'formik'
+import {useHistory} from "react-router-dom";
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
     width: '50%',
     height: '100%',
     paddingTop: '5%'
+  },
+  counter: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginTop: '-40px',
+    paddingRight: '10px',
+    color: '#636767',
+    fontSize: 13
   },
   header: {
     textAlign: 'left'
@@ -21,7 +30,7 @@ const useDefaultStyles = makeStyles(theme => ({
   },
   button: {
     marginTop: '2%',
-    width: '100%',
+    width: '100%'
   },
   disabledButton: {
     marginBottom: '2%',
@@ -52,6 +61,11 @@ function StoryForm(props) {
   const [benefits, setBenefits] = useState(false)
   const [needs, setNeeds] = useState(false)
   const [section, setSection] = useState(false)
+  const history = useHistory()
+
+  const cancelHandler = () => {
+    history.push('/view-projects')
+  }
 
   const onFormSubmit = (values, { setSubmitting }) => {
     props.handleCreateProject(values)
@@ -108,7 +122,9 @@ function StoryForm(props) {
                     rows="10"
                     fullWidth
                   />
-                  <div>{characters}/250</div>
+                  <Typography variant="body1" className={classes.counter}>
+                    {characters}/250
+                  </Typography>
                 </>
               ) : (
                 <Button
@@ -117,7 +133,7 @@ function StoryForm(props) {
                   color="secondary"
                   variant="outlined"
                 >
-                  Talk about the project
+                  + Talk about the project
                 </Button>
               )}
             </div>
@@ -140,7 +156,9 @@ function StoryForm(props) {
                     rows="10"
                     fullWidth
                   />
-                  <div>{challengeCharacters}/250</div>
+                  <Typography variant="body1" className={classes.counter}>
+                    {challengeCharacters}/250
+                  </Typography>
                 </>
               ) : (
                 <Button
@@ -238,8 +256,12 @@ function StoryForm(props) {
               )}
             </div>
             <div>
-              <Button color="primary" type="submit">Save</Button>
-              <Button color="secondary" variant="outlined">Cancel</Button>
+              <Button color="primary" type="submit">
+                Save
+              </Button>
+              <Button onClick={cancelHandler} color="secondary" variant="outlined">
+                Cancel
+              </Button>
             </div>
           </form>
         )}

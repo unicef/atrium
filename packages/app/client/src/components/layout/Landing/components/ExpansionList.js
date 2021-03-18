@@ -46,8 +46,9 @@ const useStyles = makeStyles(theme => ({
   panel: {
     border: 'solid 1.2px'
   },
-  test2: {
-    borderTop: 'solid 1.2px'
+  details: {
+    borderTop: 'solid 1.2px',
+    color: 'black'
   }
 }))
 
@@ -59,7 +60,9 @@ const Panel = ({ title, content }) => {
         <Typography className={classes.typography}>{title}</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <Typography className={[classes.typography, classes.test2]}>{content}</Typography>
+        <Typography className={[classes.typography, classes.details].join(' ')}>
+          {content}
+        </Typography>
       </ExpansionPanelDetails>
     </ExpansionPanel>
   )

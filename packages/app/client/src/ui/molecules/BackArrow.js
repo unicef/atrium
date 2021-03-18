@@ -26,7 +26,7 @@ const BackArrow = ({ dest, history }) => {
     <div onClick={() => history.push(dest)} className={classes.backArrow}>
       <ArrowBackIcon />
       <Typography variant="body1" className={classes.contentText}>
-        {' back'}
+        {' back to projects'}
       </Typography>
     </div>
   )

@@ -415,6 +415,13 @@ router.post(
           'Token created successfully'
         )
         res.set({ [authorizationHeader]: token })
+        const tokenOnly = token.split(' ')[1]
+        console.log(tokenOnly)
+        res.cookie('token', tokenOnly, {
+          domain: 'localhost',
+          httpOnly: true
+        })
+        console.log(res.cookies)
         res.json({
           success: true
         })

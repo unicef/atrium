@@ -11,6 +11,8 @@ const useDefaultStyles = makeStyles(() => ({
     fontSize: '18px'
   },
   image: {
+    width: '400px',
+    height: '220px',
     margin: '5% 0'
   },
   input: {
@@ -59,6 +61,10 @@ function ProjectOverviewForm(props) {
               </Typography>
               <div className={classes.image}>
                 <img src={values.attachment} alt="LoadProjectImage" />
+                {/*<AttachmentUploader*/}
+                {/*  attachment={values.attachment}*/}
+                {/*  setAttachment={val => setFieldValue('attachment', val)}*/}
+                {/*/>*/}
               </div>
               <Typography
                 className={classes.header}
@@ -66,10 +72,7 @@ function ProjectOverviewForm(props) {
               >
                 Documents
               </Typography>
-              <AttachmentUploader
-                attachment={values.attachment}
-                setAttachment={val => setFieldValue('attachment', val)}
-              />
+              <Button color="primary">+ Add document file</Button>
               <Typography
                 className={classes.header}
                 variant="subtitle1"
