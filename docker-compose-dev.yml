@@ -47,6 +47,26 @@ services:
       - contracts:/contracts
 >>>>>>> create-projects, mainPage need refactor
 
+    forum:
+      image: appliedblockchain/node-bb-atrium
+      build:
+        context: packages/node-bb
+        dockerfile: Dockerfile
+      depends_on:
+        - mongo
+      ports:
+        - 4567:4567
+
+    remix:
+      image: appliedblockchain/remix-atrium
+      build:
+        context: packages/remix
+        dockerfile: Dockerfile
+      depends_on:
+        - parity1
+      ports:
+        - 8080:80
+
   app:
     image: asherbuck/atrium-web-app
     build:
