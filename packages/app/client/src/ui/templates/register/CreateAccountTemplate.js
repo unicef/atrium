@@ -30,7 +30,7 @@ const CreateAccountTemplate = ({ onSubmit, step, formProps }) => {
     <Grid item xs={12}>
       <SimpleFormWithHeader
         onSubmit={onSubmit}
-        {...formProps[step]}
+        {...formProps}
         subtitle={subtitle}
       />
 
