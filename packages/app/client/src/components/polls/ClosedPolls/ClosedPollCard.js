@@ -110,9 +110,6 @@ const ClosedPollCard = ({ topic, choices }) => {
       </Typography>
       <div>{choisesListView}</div>
       <Divider />
-      {/* <div className={classes.details}>
-        <Typography component="p" className={classes.detailsText}>View poll details</Typography>
-      </div> */}
     </Grid>
   )
 }

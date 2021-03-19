@@ -19,9 +19,6 @@ const PollsNav = ({ classes }) => (
     className={classes.navigation}
   >
     <Typography variant="h4">Closed polls</Typography>
-    {/* <SortDropdownMenu
-      label="Sort list"
-    /> */}
   </Grid>
 )
 

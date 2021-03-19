@@ -182,7 +182,6 @@ const DiscussionDetails = ({
 
         <Grid item xs={12}>
           <Typography variant="body1" className={classes.contentText}>
-            {/* {discussion.content} */}
             <div
               dangerouslySetInnerHTML={{ __html: linkify(discussion.content) }}
             />

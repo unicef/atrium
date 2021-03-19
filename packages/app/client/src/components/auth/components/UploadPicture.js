@@ -152,11 +152,10 @@ const UploadPicture = ({ classes, setError, ...props }) => {
     e.preventDefault()
 
     if (inputRef.current) {
-      // clear input value
       inputRef.current.firstChild.value = ''
     }
-    setImage('') // clear image preview
-    props.setFieldValue('avatar', '') // clear props value
+    setImage('')
+    props.setFieldValue('avatar', '')
   }
 
   const imagePreview = props.value ? (

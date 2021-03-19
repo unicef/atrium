@@ -83,12 +83,10 @@ const AttachmentUploader = ({
           />
         ) : (
           <Button
-            // startIcon={<AttachmentIcon />}
             size="small"
             variant="outlined"
             className={classes.attachmentButton}
             id="attach-btn"
-            // variant="text"
             onClick={clickInput}
           >
             <label

@@ -39,7 +39,6 @@ const styles = theme => ({
  * @param {*} { userName, list }
  * @returns {object[]}
  */
-// const filterPollList = ({ userName, list }) => {
 const filterPollList = ({ userId, list }) => {
   if (!list || list.length <= 0) {
     return list
@@ -107,7 +106,6 @@ const ActivePolls = ({
   }
 
   if (!actualPoll) {
-    // return null
     return (
       <Typography className={classes.noPolls}>
         There are currently no active polls on The Atrium

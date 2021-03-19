@@ -204,7 +204,6 @@ const ProjectDetails = ({
           className={classes.details}
           style={{ marginBottom: project.tags.length ? '0' : '2rem' }}
         >
-          {/* {project.details} */}
           <div dangerouslySetInnerHTML={{ __html: linkify(project.details) }} />
         </Typography>
         <div

@@ -200,7 +200,6 @@ export default function() {
   const classes = useStyles()
 
   const blockchainStyles = useBlockchainSectionStyles()
-  // const resourcesStyles = useResourcesSectionStyles()
 
   return (
     <Grid container className={classes.root}>

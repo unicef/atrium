@@ -111,7 +111,6 @@ function UpdatesForm(props) {
                 fullWidth
                 onChange={handleChange}
                 onBlur={handleBlur}
-                // defaultValue={values.updateText}
                 className={classes.formElement}
                 id="updateText"
               />

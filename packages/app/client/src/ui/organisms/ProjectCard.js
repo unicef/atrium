@@ -6,7 +6,6 @@ import Card from '@material-ui/core/Card'
 import Typography from '@material-ui/core/Typography'
 import makeStyles from '@material-ui/styles/makeStyles'
 import EditDeletePopover from '../../components/edit-delete-popover'
-import EditProject from '../../components/projects/create/EditProject'
 import { deleteProject } from '../../actions/projectActions'
 import { ShadedPaper, ProjectCardActions, UserLink, TagsList } from '../'
 import { getRelativeTimeToNow } from '../../utils/timeManipulation'
@@ -142,7 +141,6 @@ function ProjectCard(props) {
           {getRelativeTimeToNow(props.createdAt)} ago
         </Typography>
         <Typography component="p" className={classes.details}>
-          {/* {trimmedDetails} */}
           <div dangerouslySetInnerHTML={{ __html: linkify(trimmedDetails) }} />
         </Typography>
         <TagsList tags={props.tags} onClickTag={handleTagClick} />

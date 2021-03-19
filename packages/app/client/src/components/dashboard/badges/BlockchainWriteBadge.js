@@ -153,7 +153,6 @@ class BlockchainWrite extends Component {
   }
 }
 
-// export default BlockchainWrite;
 BlockchainWrite.propTypes = {
   addPollToCreateBlockchainParticipant: PropTypes.func.isRequired,
   addPollToCreateBlockchainGovernor: PropTypes.func.isRequired,
