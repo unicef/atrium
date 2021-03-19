@@ -4,27 +4,31 @@ module.exports = {
     id:'email',
     label:'Your email',
     initialValue: '',
-    htmlFor: 'emailInput'
+    htmlFor: 'emailInput',
+    type: 'text'
   },
   name: {
     name: 'name',
     id:'name',
     label:'Name',
     initialValue: '',
-    htmlFor: 'nameInput'
+    htmlFor: 'nameInput',
+    type: 'text'
   },
   surname: {
     name: 'surname',
     id:'surname',
     label:'Surname',
     initialValue: '',
-    htmlFor: 'surnameInput'
+    htmlFor: 'surnameInput',
+    type: 'text'
   },
   password: {
     name: 'password',
     id:'password',
     label:'Password',
     initialValue: '',
-    htmlFor: 'passwordInput'
+    htmlFor: 'passwordInput',
+    type: 'password'
   },
 }
