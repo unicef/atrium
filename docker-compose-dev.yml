@@ -16,25 +16,25 @@ services:
     volumes:
       - contracts:/contracts
 
-    forum:
-      image: appliedblockchain/node-bb-atrium
-      build:
-        context: packages/node-bb
-        dockerfile: Dockerfile
-      depends_on:
-        - mongo
-      ports:
-        - 4567:4567
+  forum:
+    image: appliedblockchain/node-bb-atrium
+    build:
+      context: packages/node-bb
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - 4567:4567
 
-    remix:
-      image: appliedblockchain/remix-atrium
-      build:
-        context: packages/remix
-        dockerfile: Dockerfile
-      depends_on:
-        - parity1
-      ports:
-        - 8080:80
+  remix:
+    image: appliedblockchain/remix-atrium
+    build:
+      context: packages/remix
+      dockerfile: Dockerfile
+    depends_on:
+      - parity1
+    ports:
+      - 8080:80
 
   app:
     image: node:erbium-alpine3.11
