@@ -43,6 +43,9 @@ import {
 } from './ui'
 import setAuthToken from './utils/setAuthToken'
 
+// pages
+import { Register } from './ui/pages'
+
 require('./utils/configureRequests')
 
 // Check for token to keep user logged in
@@ -75,7 +78,7 @@ const App = () => {
             <Header />
             <Switch>
               <Route exact path="/" component={Landing} />
-              <Route exact path="/register" component={Registration} />
+              <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/forgot-password" component={ForgotPassword} />
               <Route exact path="/reset-password" component={ResetPassword} />
@@ -91,7 +94,7 @@ const App = () => {
               <PrivateRoute exact path="/invite" component={ManualInvite} />
 
               <PrivateRoute exact path="/about" component={About} />
-              <PrivateRoute
+              <Route
                 exact
                 path="/create-projects"
                 component={CreateProject}
