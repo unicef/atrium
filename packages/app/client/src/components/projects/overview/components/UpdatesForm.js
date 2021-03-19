@@ -48,12 +48,6 @@ function UpdatesForm(props) {
     history.push('/view-projects')
   }
 
-  const history = useHistory()
-
-  const cancelHandler = () => {
-    history.push('/view-projects')
-  }
-
   return (
     <div className={classes.wrapper}>
       <Formik
