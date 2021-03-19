@@ -45,13 +45,13 @@ const CreateAccountTemplate = ({ onSubmit, step, formProps }) => {
             <TextWithLinks
               links={[
                 {
-                  to: '/forgot-password',
-                  str: 'Forgot password',
+                  to: '/login',
+                  str: 'Log in',
                   variant: 'body2'
                 }
               ]}
             >
-              You already have an account? Forgot password
+              You already have an account? Log in
             </TextWithLinks>
           </Grid>
 
