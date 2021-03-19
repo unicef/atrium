@@ -1,9 +1,10 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
 import InputLabel from '@material-ui/core/InputLabel'
+//import debounce from '../../utils/debounce'
 
-const useStyles = makeStyles(
+const useStyles = makeStyles(theme => (
   {
     inputLabel: {
       color: 'black',
@@ -14,14 +15,17 @@ const useStyles = makeStyles(
       fontSize: '12px',
       lineHeight: '15px',
     },
-    input: {
-      padding: '17px 23px 19px 18px',
-      fontFamily: 'Montserrat',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      fontSize: '15px',
-      lineHeight: '180%',
-    },
+    input: props => (
+      {
+        color: props.error ? '#E63232' : '#202625',
+        padding: '17px 23px 19px 18px',
+        fontFamily: 'Montserrat',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        fontSize: '15px',
+        lineHeight: '180%',
+      }
+    ),
     inputRoot: {
       overflow: 'hidden',
       '&$focused $notchedOutline': {
@@ -47,18 +51,17 @@ const useStyles = makeStyles(
       }
     } 
   }
-)
+))
 
 function UiTextField({
-  errorMessage,
   htmlFor,
   helperText,
   error,
   label,
   ...props
 }) {
-  const classes = useStyles()
-  console.log('value')
+  const classes = useStyles({ error })
+
   return (
     <>
       <InputLabel
@@ -68,33 +71,26 @@ function UiTextField({
       >
         {label}
       </InputLabel>
-      <TextField
+      <OutlinedInput
         variant="outlined"
         error={error}
-        InputProps={{ 
-          classes: {
-            root: classes.inputRoot,
-            notchedOutline: classes.notchedOutline,
-            focused: classes.focused,
-            input: classes.input
-          },
-          disableUnderline: true
-        }}
-        FormHelperTextProps={{
-          classes: {
-            root: classes.helperText
-          }
-        }}
         classes={{
-          root: classes.root,
-        
+          root: classes.inputRoot,
+          notchedOutline: classes.notchedOutline,
+          focused: classes.focused,
+          input: classes.input
         }}
-        helperText={error ? errorMessage : helperText}
+        helperText={error || helperText}
+        labelWidth={0}
         {...props}
       />
     </>
   )
 
+}
+
+UiTextField.defaultProps = {
+  fullWidth: true
 }
 
 export default React.memo(UiTextField)
