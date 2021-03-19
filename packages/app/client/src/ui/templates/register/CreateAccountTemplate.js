@@ -6,42 +6,21 @@ import { Divider } from '../../atoms'
 import { ReactComponent as ButterflySVG } from '../../assets/butterfly.svg'
 import { ReactComponent as Chat } from '../../assets/chat.svg'
 import { SimpleFormWithHeader } from '../../organisms'
-import { email, name, surname, password } from '../../../utils/formFields'
 import { useTheme } from '@material-ui/core/styles'
 import proptypes from 'prop-types'
 import { Typography } from '@material-ui/core'
 import Link from '@material-ui/core/Link'
 import { Link as RouterLink } from 'react-router-dom'
 
-const formProps = [
-  {
-    title: "Create Account",
-    subtitle: "Please provide your UN mail id to get started with creating an account on The Atrium",
-    titleAlignMobile: "left",
-    validate: () => {},
-    submitLabel: 'Continue',
-    fields: [email],
-    buttonLayout: { xs: 6, sm: 12 }
-  },
-  {
-    title: "Create Account",
-    subtitle: "",
-    titleAlignMobile: "left",
-    validate: () => {},
-    submitLabel: 'Create account',
-    fields: [name, surname, password]
-  }
-]
-
-const CreateAccountTemplate = ({ onSubmit, step }) => {
+const CreateAccountTemplate = ({ onSubmit, step, formProps }) => {
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('xs'))
   
-  if (!formProps[step]) {
+  if (!formProps) {
     return null
   }
 
-  let subtitle = formProps[step] && formProps[step].subtitle
+  let subtitle = formProps.subtitle
 
   if (matches) {
     subtitle = ""
