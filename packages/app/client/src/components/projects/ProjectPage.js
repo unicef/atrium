@@ -86,8 +86,7 @@ const ProjectPage = ({ classes, getAllProjects, ...props }) => {
 
 ProjectPage.propTypes = {
   getAllProjects: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
-  // modals: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 }
 
 export default compose(

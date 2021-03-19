@@ -198,7 +198,6 @@ export const guideWrapper = WrappedComponent => {
       const { actualStep, isGuideCompleted, circleProps } = this.state
 
       if (prevState.actualStep !== actualStep && actualStep.elementId) {
-        // if step was changed and has elementId
         this.drawCircle()
       } else if (
         circleProps &&
@@ -215,7 +214,6 @@ export const guideWrapper = WrappedComponent => {
     }
 
     componentWillUnmount() {
-      // remove "overflow: hidden;" from <body />
       pageScrolling.allow()
 
       window.removeEventListener('resize', this.updateCirclePosition)

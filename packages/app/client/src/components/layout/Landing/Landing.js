@@ -1,12 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import makeStyles from '@material-ui/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
 import { TextField } from '../../../ui'
-import UNICEFLogo from './imgs/UNICEF_logo.png'
-import WFPLogo from './imgs/WFP_logo.png'
-import UNDPLogo from './imgs/UNDP_logo.png'
 import { Button } from '../../../ui'
 import { LimitedHeader } from '../Header'
 import { ExpansionList } from './components'
@@ -17,7 +14,10 @@ import {
   ExplorePrototypes,
   BuildBackground,
   ReadingBoy,
-  ReadingBackground
+  ReadingBackground,
+  ButterflyLeft,
+  ButterflyRight,
+  ButterflyLogos
 } from '../assets'
 import { ATRIUM_CONSTANTS } from '../../../unin-constants'
 
@@ -229,12 +229,12 @@ const useInviteStyles = makeStyles(theme => ({
   },
   textField: {
     width: '79%',
-    color: 'white'
   },
   submitButton: {
     backgroundColor: '#3592F1',
     color: 'white',
-    width: '19%'
+    width: '19%',
+    margin: 0,
   },
   descriptionText: {
     marginTop: '10%',
@@ -257,6 +257,7 @@ const Landing = props => {
   const inviteStyles = useInviteStyles()
   const classes = theseAreBadVariableNamesThereIsNoReasonToSeparateThem()
 
+  const [email, setEmail] = useState('')
   const handleRedirectToLogin = () => {
     props.history.push('/login')
   }
@@ -570,21 +571,12 @@ const Landing = props => {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12} md={8}>
-              <div>
-                <Grid item xs={4}>
-                  <img alt="UNDPLogo" src={UNDPLogo} style={{ width: 54 }} />
-                </Grid>
-                <Grid item xs={4}>
-                  <img
-                    alt="UNICEFLogo"
-                    src={UNICEFLogo}
-                    style={{ width: 170 }}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <img alt="WFPLogo" src={WFPLogo} style={{ width: 100 }} />
-                </Grid>
-              </div>
+              <img
+                  className={classes.imgInSection}
+                  style={{    marginBottom: '-105px'}}
+                  alt="ButterflyLogos"
+                  src={ButterflyLogos}
+              />
             </Grid>
           </Grid>
 
@@ -594,20 +586,32 @@ const Landing = props => {
             xs={12}
             className={[classes.section, inviteStyles.section].join(' ')}
           >
-            <Grid item xs={12} className={inviteStyles.container}>
+            <Grid item xs={12} md={4}>
+              <img src={ButterflyLeft} />
+            </Grid>
+
+            <Grid item xs={12} md={4} className={inviteStyles.container}>
               <Typography className={inviteStyles.sectionHeader} variant="h2">
                 {props.isAuthenticated ? 'Invite to Atrium' : 'Join Atrium now'}
               </Typography>
               <div className={inviteStyles.emailInput}>
                 <TextField
+                  InputProps={{
+                    disableUnderline: true
+                  }}
                   className={inviteStyles.textField}
+                  onChange={(e)=>setEmail(e.target.value)}
                   placeholder="For example—janedoe@wfp.org"
                 />
-                <Button className={inviteStyles.submitButton}>Submit</Button>
+                <Button className={inviteStyles.submitButton}
+                  onClick={() => (document.location.href = `mailto:${email}`)}
+                >Submit</Button>
               </div>
               <div className={classes.separator}>
                 <div className={classes.smallLine} />
-                <Typography variant="body1" className={classes.separatorOr}>OR</Typography>
+                <Typography variant="body1" className={classes.separatorOr}>
+                  OR
+                </Typography>
                 <div className={classes.smallLine} />
               </div>
               <Button
@@ -624,6 +628,10 @@ const Landing = props => {
                 increasing the resilience of the system. If interested, please
                 contact blockchain@uninnovation.network.
               </Typography>
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <img style={{width: '350px', marginLeft: '27%'}} src={ButterflyRight} />
             </Grid>
           </Grid>
 

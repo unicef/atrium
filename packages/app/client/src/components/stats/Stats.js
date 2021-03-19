@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 class Stats extends Component {
   render() {
     return (
-      // <div style={{ height: "75vh" }} className="container valign-wrapper">
       <div className="container mt-5">
         <div className="col-md-6 m-auto">
           <div className="card card-body">

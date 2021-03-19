@@ -63,7 +63,6 @@ export const useFetchProjectWithCache = ({
           )
           setAttachmentSource(URL.createObjectURL(f))
         } catch (err) {
-          //console.log(err)
 
         }
       }

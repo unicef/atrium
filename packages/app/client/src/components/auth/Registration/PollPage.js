@@ -56,12 +56,6 @@ const interestList = [
 ]
 
 const RegisterPage = ({ classes, auth, navigate, ...props }) => {
-  // const disableSubmitByProps = (errors, values) => {
-  //   const findVals = object => Object.keys(object).filter(Boolean).length
-  //   const hasError = !!findVals(errors)
-  //   return hasError
-  // }
-
   return (
     <Formik
       initialValues={{

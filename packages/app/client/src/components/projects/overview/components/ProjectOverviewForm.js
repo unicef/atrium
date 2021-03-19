@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik } from 'formik'
 import Typography from '@material-ui/core/Typography'
-import { AttachmentUploader, Button, TextField } from '../../../../ui'
+import { Button, TextField } from '../../../../ui'
 import InputLabel from '@material-ui/core/InputLabel'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
@@ -11,6 +11,8 @@ const useDefaultStyles = makeStyles(() => ({
     fontSize: '18px'
   },
   image: {
+    width: '400px',
+    height: '220px',
     margin: '5% 0'
   },
   input: {
@@ -66,10 +68,7 @@ function ProjectOverviewForm(props) {
               >
                 Documents
               </Typography>
-              <AttachmentUploader
-                attachment={values.attachment}
-                setAttachment={val => setFieldValue('attachment', val)}
-              />
+              <Button color="primary">+ Add document file</Button>
               <Typography
                 className={classes.header}
                 variant="subtitle1"

@@ -108,7 +108,6 @@ class GithubWrite extends Component {
                 >
                   Cancel
                 </button>
-                {/* <button type='submit' onClick={this.handleCloseModal} className='btn btn-success btn-block'>Request Access</button> */}
                 <button
                   type="submit"
                   onClick={this.handleFormSubmit}
@@ -125,16 +124,13 @@ class GithubWrite extends Component {
   }
 }
 
-// export default GithubWrite;
 GithubWrite.propTypes = {
   addUserToGitHubOrg: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
-  // errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth
-  // errors: state.errors
 })
 
 export default connect(mapStateToProps, { addUserToGitHubOrg })(GithubWrite)

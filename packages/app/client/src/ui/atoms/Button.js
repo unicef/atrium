@@ -57,7 +57,6 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 3,
     textTransform: 'none',
     margin: '7% 2% 0 0'
-    // padding: '10px 15px'
   },
   sizeMini: {
     padding: '7px 14px',
@@ -72,17 +71,11 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 0
   },
   primary: {
-    // '&:hover': {
-    //   backgroundColor: '#33d76f'
-    // },
     '&:active': {
       backgroundColor: '#00a43c'
     }
   },
   secondary: {
-    // '&:hover': {
-    //   backgroundColor: theme.colors['light-green']
-    // }
   }
 }))
 

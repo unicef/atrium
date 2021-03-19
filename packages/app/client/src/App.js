@@ -87,12 +87,10 @@ const App = () => {
               <PrivateRoute exact path="/github" component={GitHubPage} />
               <PrivateRoute exact path="/twitter" component={TwitterPage} />
               <PrivateRoute exact path="/profile" component={ProfilePage} />
-              {/* <PrivateRoute exact path="/decisions" component={PollsPage} /> */}
               <PrivateRoute exact path="/settings" component={Technical} />
               <PrivateRoute exact path="/statistics" component={Stats} />
               <PrivateRoute exact path="/reports" component={Reports} />
               <PrivateRoute exact path="/invite" component={ManualInvite} />
-
               <PrivateRoute exact path="/about" component={About} />
               <Route
                 exact

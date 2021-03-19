@@ -6,6 +6,7 @@ import { TextField } from '../../../../ui'
 import { Button } from '../../../../ui'
 import { Formik } from 'formik'
 import InputLabel from '@material-ui/core/InputLabel'
+import {useHistory} from "react-router-dom"
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -40,6 +41,12 @@ function UpdatesForm(props) {
   const onFormSubmit = (values, { setSubmitting }) => {
     props.handleCreateProject(values)
     setSubmitting(false)
+  }
+
+  const history = useHistory()
+
+  const cancelHandler = () => {
+    history.push('/view-projects')
   }
 
   return (
@@ -104,7 +111,6 @@ function UpdatesForm(props) {
                 fullWidth
                 onChange={handleChange}
                 onBlur={handleBlur}
-                // defaultValue={values.updateText}
                 className={classes.formElement}
                 id="updateText"
               />
@@ -113,7 +119,11 @@ function UpdatesForm(props) {
               <Button color="primary" type="submit">
                 Save
               </Button>
-              <Button color="secondary" variant="outlined">
+              <Button
+                onClick={cancelHandler}
+                color="secondary"
+                variant="outlined"
+              >
                 Cancel
               </Button>
             </div>

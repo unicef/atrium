@@ -64,7 +64,6 @@ const Header = ({ logoutUser, auth, classes, location }) => {
     // exclude header from specific routes (has LimitedHeader)
     return null
   }
-  console.log('header')
   return (
     <AppBar
       className={classes.root}

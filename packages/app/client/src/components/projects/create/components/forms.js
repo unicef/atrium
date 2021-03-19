@@ -20,9 +20,21 @@ const useStyles = makeStyles(theme => ({
   page: {
     marginBottom: theme.spacing(5)
   },
+  counter: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginTop: '-20px',
+    paddingRight: '10px',
+    color: '#636767',
+    fontSize: 13
+  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: 18
+  },
+  line: {
+    borderBottom: 'solid 1.2px #E7E7E7',
+    margin: '5% 0'
   },
   submitBtn: {
     marginTop: theme.spacing(6)
@@ -35,8 +47,9 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 20
     }
   },
-  introToProject: {
+  subtitle: {
     marginTop: theme.spacing(5),
+    fontSize: '22px'
   },
   bottomIntro: {
     margin: '5% 0'
@@ -279,21 +292,23 @@ export const FirstProjectForm = props => {
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <div className={classes.dropBoxBorder}>
-                  <div>
-                    <CloudUploadIcon fontSize="large" />
+                {props.editting ? (
+                  <div className={classes.dropBoxBorder}>
+                    <div>
+                      <CloudUploadIcon fontSize="large" />
+                    </div>
+                    <div className={classes.firstDropBoxText}>
+                      Select project picture
+                    </div>
+                    <div className={classes.secondDropBoxText}>
+                      Suggested size 1000px x 300px, under 10mb
+                    </div>
+                    <AttachmentUploader
+                      attachment={values.attachment}
+                      setAttachment={val => setFieldValue('attachment', val)}
+                    />
                   </div>
-                  <div className={classes.firstDropBoxText}>
-                    Select project picture
-                  </div>
-                  <div className={classes.secondDropBoxText}>
-                    Suggested size 1000px x 300px, under 10mb
-                  </div>
-                  <AttachmentUploader
-                    attachment={values.attachment}
-                    setAttachment={val => setFieldValue('attachment', val)}
-                  />
-                </div>
+                ) : null}
               </Grid>
               <Grid item xs={12}>
                 <InputLabel
@@ -344,16 +359,16 @@ export const FirstProjectForm = props => {
                   required
                   value={values.projectDescription}
                 />
-                <div>{characters}/250</div>
+                <Typography variant="body1" className={classes.counter}>
+                  {characters}/250
+                </Typography>
               </Grid>
               <Grid item xs={12}>
+                <div className={classes.line} />
                 <Typography
                   color="secondary"
-                  className={[classes.introToProject, classes.typography].join(
-                    ' '
-                  )}
-                  component="h1"
-                  variant="h5"
+                  className={classes.subtitle}
+                  variant="subtitle1"
                 >
                   Project
                 </Typography>
@@ -507,13 +522,11 @@ export const FirstProjectForm = props => {
                 />
               </Grid>
               <Grid item xs={12}>
+                <div className={classes.line} />
                 <Typography
                   color="secondary"
-                  className={[classes.introToProject, classes.typography].join(
-                    ' '
-                  )}
-                  component="h1"
-                  variant="h5"
+                  className={classes.subtitle}
+                  variant="subtitle1"
                 >
                   Contact person
                 </Typography>
@@ -531,7 +544,7 @@ export const FirstProjectForm = props => {
                   label="I'm the contact person for this project"
                 />
               </Grid>
-              { contactPerson ? null : (
+              {contactPerson ? null : (
                 <>
                   <Grid item xs={12}>
                     <InputLabel
@@ -598,8 +611,12 @@ export const FirstProjectForm = props => {
               )}
             </Grid>
             <div className={classes.bottomButtons}>
-              <Button color="primary" type="submit">Save</Button>
-              <Button color="secondary" variant="outlined" >Cancel</Button>
+              <Button color="primary" type="submit">
+                Save
+              </Button>
+              <Button onClick={cancelHandler} color="secondary" variant="outlined">
+                Cancel
+              </Button>
             </div>
           </form>
         )}

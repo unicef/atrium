@@ -8,6 +8,7 @@ import Select from '@material-ui/core/Select'
 import { Button } from '../../../../ui'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
+import {useHistory} from "react-router-dom"
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -73,6 +74,11 @@ function AdditionalInformationForm(props) {
   const onFormSubmit = (values, { setSubmitting }) => {
     props.handleCreateProject(values)
     setSubmitting(false)
+  }
+  const history = useHistory()
+
+  const cancelHandler = () => {
+    history.push('/view-projects')
   }
 
   return (
@@ -258,7 +264,7 @@ function AdditionalInformationForm(props) {
             </div>
             <div>
               <Button color="primary" type="submit">Save</Button>
-              <Button color="secondary" variant="outlined" >Cancel</Button>
+              <Button onClick={cancelHandler} color="secondary" variant="outlined" >Cancel</Button>
             </div>
           </form>
         )}

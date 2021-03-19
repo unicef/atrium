@@ -10,9 +10,6 @@ class PollResult extends Component {
           )}
           <div
             className={
-              // this.props.result.slice(0, this.props.result.indexOf(":")) === 'Yes' ?
-              //   ('card-body card border-dark')
-              //   :
               'card-body card border-dark'
             }
           >
@@ -23,20 +20,12 @@ class PollResult extends Component {
               )}
               ?
             </h5>
-            {/* <p></p> */}
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary">
                 {this.props.result.slice(0, this.props.result.indexOf(':')) +
                   ' '}
-                {
-                  // this.props.result.slice(0, this.props.result.indexOf(":")) === 'Yes' ?
-                  <i className="fas fa-check-circle"></i>
-                  // <i className="fas fa-times-circle"></i>
-                }
+                {<i className="fas fa-check-circle"></i>}
               </button>
-              {/* <div>
-                  <a href={this.props.twitterLink} className='btn btn-link btn-primary'>Twitter <i className="fab fa-twitter"></i></a>
-              </div> */}
             </div>
           </div>
         </div>

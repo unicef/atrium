@@ -126,16 +126,6 @@ const InfoPage = ({ classes, auth, submitStage, ...props }) => {
               <br />
               Let’s get started by creating your profile.
             </Typography>
-            <Grid container>
-              {/*
-                <UploadPicture
-                  id="avatar"
-                  label="Upload picture"
-                  value={values.avatar}
-                  setFieldValue={setFieldValue}
-                />
-                */}
-            </Grid>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Select
