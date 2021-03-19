@@ -188,17 +188,27 @@ router.post(
         owner: req.user.id,
         projectOwner: req.body.projectOwner,
         projectOwnerEmail: req.body.projectOwnerEmail,
+        attachment: req.file // Bandaid until I can un-eff the entire attachment thing
+          ? `${req.connection.encrypted ? 'https' : 'http'}://${
+              req.headers.host
+            }${req.baseUrl}/attachment/${req.file.key}`
+          : null,
+
+        blockchainName: req.body.blockchainName,
+        blockchainType: req.body.blockchainType,
+        freeForAll: req.body.freeForAll,
+        stageOfProject: req.body.stageOfProject,
+        innovationCategory: req.body.innovationCategory,
+        thematicArea: req.body.thematicArea,
+        contactPersonFullName: req.body.contactPersonFullName,
+        contactPersonEmail: req.body.contactPersonEmail,
+
         websiteLink: req.body.websiteLink,
         tags: req.body.tags ? req.body.tags.split(',') : [],
         linkToDeployedApp: req.body.linkToDeployedApp,
         createdAt: Date.now(),
         linkToRepository: linkToRepository,
-        email: req.body.email,
-        attachment: req.file // Bandaid until I can un-eff the entire attachment thing
-          ? `${req.connection.encrypted ? 'https' : 'http'}://${
-          req.headers.host
-          }${req.baseUrl}/attachment/${req.file.key}`
-          : null
+        email: req.body.email
       })
       return newProject
         .save()
@@ -277,7 +287,6 @@ router.put(
     }
 
     // Updates can be name, details, owner, tags, deployed app link
-
     const projectData = {
       ...req.body,
       tags: req.body.tags ? req.body.tags.split(',') : [],
@@ -285,7 +294,6 @@ router.put(
         ? `https://${req.headers.host}${req.baseUrl}/attachment/${req.file.key}`
         : null
     }
-
     Object.keys(projectData).forEach(
       key => projectData[key] == null && delete projectData[key]
     )
@@ -392,7 +400,7 @@ router.delete(
           },
           'Deleting project from github'
         )
-        //await GithubLibrary.deleteRepoFromGitHub(owner, repo)
+        // await GithubLibrary.deleteRepoFromGitHub(owner, repo)
 
         log.info(
           {
@@ -456,12 +464,12 @@ router.patch(
       let isLiked = false
       let likes = project.likes
         ? project.likes.filter(l => {
-          const isCurrentUser = l.equals(userId)
-          if (isCurrentUser) {
-            isLiked = true
-          }
-          return !isCurrentUser
-        })
+            const isCurrentUser = l.equals(userId)
+            if (isCurrentUser) {
+              isLiked = true
+            }
+            return !isCurrentUser
+          })
         : []
 
       if (!isLiked) {
@@ -525,22 +533,18 @@ router.patch(
 )
 
 router.get('/download/:s3key', (req, res) => {
-  res.setHeader('Content-Disposition', 'download');
+  res.setHeader('Content-Disposition', 'download')
   s3Download(req.params.s3key).pipe(res)
 })
 
-
-router.get(
-  '/attachment/:s3key',
-  async (req, res) => {
-    log.info(getAuthenticatedRequestLogDetails(req), 'Getting attachment')
-    try {
-      s3Download(req.params.s3key).pipe(res)
-    } catch (err) {
-      log.error({ err, requestId: req.id }, 'Failed to get project attachment')
-    }
+router.get('/attachment/:s3key', async (req, res) => {
+  log.info(getAuthenticatedRequestLogDetails(req), 'Getting attachment')
+  try {
+    s3Download(req.params.s3key).pipe(res)
+  } catch (err) {
+    log.error({ err, requestId: req.id }, 'Failed to get project attachment')
   }
-)
+})
 
 router.put(
   '/:_id/comment/',

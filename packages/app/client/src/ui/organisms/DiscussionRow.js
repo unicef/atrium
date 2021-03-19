@@ -16,7 +16,6 @@ import {
   editDiscussion
 } from '../../../src/reducers/discussionReducer'
 import TitledModal from '../templates/TitledModal'
-import { Formik } from 'formik'
 import { TextField, Select, MenuItem } from '@material-ui/core'
 import { DISCUSSION_FILTER_ENUM } from '../../unin-constants'
 

@@ -111,8 +111,6 @@ export const setClosedOrVotedOnPolls = closedOrVotedOnPolls => {
   }
 }
 export const voteOnSpecificPoll = (data, history) => dispatch => {
-  // should be poll id and user id
-  console.log(data)
   axios
     .post(`polls/${data.pollId}/vote`, data)
     .then(res => {
@@ -128,8 +126,6 @@ export const voteOnSpecificPoll = (data, history) => dispatch => {
 }
 
 export const endSpecificPoll = (pollId, userName, history) => dispatch => {
-  // should be poll id and user id
-  console.log(pollId, userName)
   axios
     .post(`polls/completed/${pollId}`, {
       userName

@@ -7,13 +7,13 @@ const styles = theme => ({
     display: 'flex',
     flexGrow: 1,
     marginRight: '5rem',
-    justifyContent: 'center'
+    justifyContent: 'left'
   },
   navList: {
     padding: 0,
     margin: 0,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'left'
   },
   navItem: {
     listStyle: 'none',
@@ -55,41 +55,22 @@ const styles = theme => ({
 const links = [
   { path: '/learn', name: 'Learn' },
   { path: '/view-projects', name: 'Projects' },
-  { path: process.env.REACT_APP_FORUM_URL, name: 'Forum' }
+  { path: '/engage', name: 'Forum' },
+  { path: '/whatsnew', name: "What's new" } // which route
 ]
-
-const PathNavLink = ({ obj, classes }) => {
-  if(obj.path.startsWith('/')) {
-    return (
-      <NavLink
-        to={obj.path}
-        className={classes.navLink}
-        activeClassName={classes.activeNavLink}
-      >
-        {obj.name}
-      </NavLink>
-    )
-  } else {
-    return (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        className={classes.navLink}
-        activeClassName={classes.activeNavLink}
-        href={obj.path}
-      >
-        {obj.name}
-      </a>
-    )
-  }
-}
 
 const NavBar = ({ classes }) => (
   <nav className={classes.nav}>
     <ul className={classes.navList}>
       {links.map((obj, k) => (
         <li key={k} className={classes.navItem}>
-          <PathNavLink obj={obj} classes={classes}></PathNavLink>
+          <NavLink
+            to={obj.path}
+            className={classes.navLink}
+            activeClassName={classes.activeNavLink}
+          >
+            {obj.name}
+          </NavLink>
         </li>
       ))}
     </ul>

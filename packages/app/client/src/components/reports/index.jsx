@@ -16,7 +16,6 @@ export default class Reports extends React.Component {
   }
 
   render() {
-    const { authSuccess } = this.state
     return (
       <Container maxWidth="lg" style={{ height: '100vh' }}>
         <Grid container style={{ marginTop: '5em' }}>

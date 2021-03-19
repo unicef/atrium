@@ -19,7 +19,7 @@ const defaultTheme = createMuiTheme({
     },
     secondary: {
       main: colors['white'],
-      contrastText: colors['black']
+      contrastText: colors['shamrock-green']
     }
   }
 })
@@ -41,6 +41,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: 13,
     fontWeight: 500,
     padding: 15,
+    margin: '7% 2% 0 0',
+    textTransform: 'none',
     lineHeight: 1.3,
     '&:disabled': {
       color: theme.colors['white'],
@@ -49,11 +51,12 @@ const useStyles = makeStyles(theme => ({
   },
   outlined: {
     letterSpacing: 1,
-    color: theme.colors['dark-forest-green'],
-    borderWidth: 1.5,
-    borderColor: theme.colors['dark-forest-green'],
-    borderRadius: 5,
-    padding: '10px 15px'
+    color: theme.colors['shamrock-green'],
+    borderWidth: 1.2,
+    borderColor: theme.colors['shamrock-green'],
+    borderRadius: 3,
+    textTransform: 'none',
+    margin: '7% 2% 0 0'
   },
   sizeMini: {
     padding: '7px 14px',
@@ -68,17 +71,11 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 0
   },
   primary: {
-    '&:hover': {
-      backgroundColor: '#33d76f'
-    },
     '&:active': {
       backgroundColor: '#00a43c'
     }
   },
   secondary: {
-    '&:hover': {
-      backgroundColor: theme.colors['light-green']
-    }
   }
 }))
 

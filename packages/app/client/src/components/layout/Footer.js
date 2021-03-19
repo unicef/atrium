@@ -57,7 +57,6 @@ const styles = theme => ({
       transition: '0.2s ease'
     },
     '&:hover:after': {
-      // backgroundColor: theme.colors['white'],
     }
   },
   social: {

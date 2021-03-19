@@ -15,7 +15,6 @@ import { AGENCIES_LIST } from '../../../unin-constants'
 import { registerUser } from '../../../actions/authActions'
 import { Button, TextField } from '../../../ui'
 import { LimitedHeader } from '../../layout/Header'
-import UploadPicture from '../components/UploadPicture'
 import { getEmailHash } from './libs/get-email-hash'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -127,16 +126,6 @@ const InfoPage = ({ classes, auth, submitStage, ...props }) => {
               <br />
               Let’s get started by creating your profile.
             </Typography>
-            <Grid container>
-              {/*
-                <UploadPicture
-                  id="avatar"
-                  label="Upload picture"
-                  value={values.avatar}
-                  setFieldValue={setFieldValue}
-                />
-                */}
-            </Grid>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Select
