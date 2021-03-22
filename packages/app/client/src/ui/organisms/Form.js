@@ -12,6 +12,7 @@ const Form =  ({ fields, ...props }) => {
         initialValues={initialValues}
         validate={props.validate}
         onSubmit={props.submit}
+        initialErrors={props.initialErrors}
       >
         {(formProps) => (
           <FormikForm>

@@ -8,6 +8,9 @@ import { CreateAccountForm, CreateAccountFooter} from './components'
 import { useContainerStyle } from '../../hooks'
 import validateCreationForm from './validateCreationForm'
 
+const createAccountFields = [name, surname, password, termsCheckbox]
+const createAccountFieldsLabel = createAccountFields.reduce((namesObj, field) => ({ ...namesObj, [field.name]: field.label }), {})
+
 const formProps = [
   {
     title: "Create Account",
@@ -22,9 +25,10 @@ const formProps = [
     title: "Create Account",
     subtitle: "",
     titleAlignMobile: "left",
-    validate: validateCreationForm,
+    validate: (values) => validateCreationForm({ values, labels: createAccountFieldsLabel }),
     submitLabel: 'Create account',
-    fields: [name, surname, password, termsCheckbox]
+    fields: createAccountFields,
+    initialErrors: { termsCheckbox: 'You must accept the Terms and the Privacy Policy' }
   }
 ]
 
