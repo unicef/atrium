@@ -1,31 +1,38 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
-import { TextInput, PasswordField } from '../atoms'
-import { textInputsProps } from '../../utils/formUtils'
+import { TextInput, PasswordField, Checkbox } from '../atoms'
+import { baseInputsProps, checkboxWithLinks } from '../../utils/formUtils'
+import CheckboxWithLinks from './CheckboxWithLinks'
 
-const getInput = (type) => {
+const getInput = ({ type, links }) => {
   switch(type) {
     case 'password':
       return {
         InputComponent: PasswordField,
-        getProps: textInputsProps
+        getProps: baseInputsProps
       }
     case 'text':
     case 'email':
       return {
         InputComponent: TextInput,
-        getProps: textInputsProps
+        getProps: baseInputsProps
+      }
+    case 'checkbox':
+      const hasLinks = Array.isArray(links)
+      return {
+        InputComponent: hasLinks ? CheckboxWithLinks : Checkbox,
+        getProps: hasLinks ? checkboxWithLinks : baseInputsProps
       }
     default:
-      return null
+      return {}
   }
 }
 
 const InputList = ({ fields, formProps }) => (
   fields.map(({ gridProps = { xs: 12 }, ...fieldsProps }) => {
                 
-    const { InputComponent, getProps } = getInput(fieldsProps.type)
-    
+    const { InputComponent, getProps } = getInput(fieldsProps)
+
     return (
       InputComponent && 
       <Grid key={fieldsProps.id} item {...gridProps}>

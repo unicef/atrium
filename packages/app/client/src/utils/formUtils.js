@@ -1,4 +1,4 @@
-export const textInputsProps = ({ name, id, label, formProps, htmlFor, fullWidth }) => (
+export const baseInputsProps = ({ name, id, label, formProps, htmlFor, fullWidth }) => (
   {
     name,
     id,
@@ -12,3 +12,5 @@ export const textInputsProps = ({ name, id, label, formProps, htmlFor, fullWidth
     value: formProps.values[name]
   }
 )
+
+export const checkboxWithLinks = ({links, ...props}) => ({...baseInputsProps(props), links})
