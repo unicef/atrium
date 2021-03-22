@@ -38,7 +38,7 @@ const TextWithLinks = ({ children, links }) => {
       if (Array.isArray(links)) {
         const flaggedStr = flagStr({ links, text: children })
         
-        return flaggedStr.split(FLAG).map((str) => {
+        return flaggedStr.split(FLAG).map((str, index) => {
           const linkFoundIndex = links.findIndex(link => link.str === str)
 
           if (linkFoundIndex >= 0) {
@@ -49,6 +49,7 @@ const TextWithLinks = ({ children, links }) => {
                 variant={link.variant}
                 to={link.to}
                 className={[classes.common, classes.link].join(' ')}
+                key={`${link.str}_${index}`}
               >
                 {link.str}
               </Link>
