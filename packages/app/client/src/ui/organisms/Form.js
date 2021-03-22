@@ -1,27 +1,8 @@
 import React from 'react'
 import { Formik, Form as FormikForm } from 'formik'
 import Grid from '@material-ui/core/Grid'
-import { Button, TextField, PasswordField } from '../atoms'
-import { textInputsProps } from '../../utils/formUtils'
-
-const getInput = (type) => {
-  switch(type) {
-    case 'password':
-      return {
-        InputComponent: PasswordField,
-        getProps: textInputsProps
-      }
-    case 'text':
-      return {
-        InputComponent: TextField,
-        getProps: textInputsProps
-      }
-    default:
-      return {
-        InputComponent: null,
-      }
-  }
-}
+import { Button } from '../atoms'
+import { InputList } from '../molecules'
 
 const Form =  ({ fields, ...props }) => {
   const initialValues = fields.reduce((values, field) => ({ ...values, [field.name]: field.initialValue }), {})
@@ -35,20 +16,8 @@ const Form =  ({ fields, ...props }) => {
         {(formProps) => (
           <FormikForm>
             <Grid container spacing={2}>
-              {fields.map(({ gridProps = { xs: 12 }, ...fieldsProps }) => {
-                
-                const { InputComponent, getProps } = getInput(fieldsProps.type)
-                
-                return (
-                  InputComponent && 
-                  <Grid key={fieldsProps.id} item {...gridProps}>
-                    <InputComponent
-                      {...getProps({ formProps, ...fieldsProps })}
-                    />
-                  </Grid>
-                )
-              })}
-              
+              <InputList fields={fields} formProps={formProps}/>
+
               <Grid item {...props.buttonLayout}>
                 <Button
                   type="submit"

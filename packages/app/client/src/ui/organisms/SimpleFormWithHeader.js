@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form } from '../molecules'
+import Form from './Form'
 import { TitleAndSubtitle } from '../molecules'
 import Grid from '@material-ui/core/Grid'
 
