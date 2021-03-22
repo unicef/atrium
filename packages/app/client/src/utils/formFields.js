@@ -1,7 +1,7 @@
 module.exports = {
   email: {
     name: 'email',
-    id:'email',
+    id:'emailInput',
     label:'Your email',
     initialValue: '',
     htmlFor: 'emailInput',
@@ -9,7 +9,7 @@ module.exports = {
   },
   name: {
     name: 'name',
-    id:'name',
+    id:'nameInput',
     label:'Name',
     initialValue: '',
     htmlFor: 'nameInput',
@@ -17,7 +17,7 @@ module.exports = {
   },
   surname: {
     name: 'surname',
-    id:'surname',
+    id:'surnameInput',
     label:'Surname',
     initialValue: '',
     htmlFor: 'surnameInput',
@@ -25,10 +25,29 @@ module.exports = {
   },
   password: {
     name: 'password',
-    id:'password',
+    id:'passwordInput',
     label:'Password',
     initialValue: '',
     htmlFor: 'passwordInput',
     type: 'password'
   },
+  termsCheckbox: {
+    name: 'termsCheckbox',
+    id:'termsCheckbox',
+    label: 'I agree to The Atrium Terms of service and Privacy Policy',
+    links: [
+      {
+        to: '/',
+        str: 'Terms of service',
+        variant: 'body2'
+      },
+      {
+        to: '/',
+        str: 'Privacy Policy',
+        variant: 'body2'
+      }
+    ],
+    htmlFor: 'termsCheckbox',
+    type: 'checkbox'
+  }
 }
