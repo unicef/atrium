@@ -3,7 +3,7 @@ import Container from '@material-ui/core/Container'
 import { sendEmailToSignUp } from '../../../api/users'
 import { ERRORS } from '../../../actions/authActions'
 import { makeStyles } from '@material-ui/styles'
-import { email, name, surname, password } from '../../../utils/formFields'
+import { email, name, surname, password, termsCheckbox } from '../../../utils/formFields'
 import { validateEmail } from '../../../utils/validators'
 import { CreateAccountForm, CreateAccountFooter} from './components'
 import { useContainerStyle } from '../../hooks'
@@ -24,7 +24,7 @@ const formProps = [
     titleAlignMobile: "left",
     validate: () => {},
     submitLabel: 'Create account',
-    fields: [name, surname, password, ]
+    fields: [name, surname, password, termsCheckbox]
   }
 ]
 
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function CreateAccount () {
-  const [step, changeStep] = useState(0)
+  const [step, changeStep] = useState(1)
   const [verifiedEmail, saveEmail] = useState(undefined)
   const containerStyle = useContainerStyle({ size: 'small' })
 
@@ -53,7 +53,7 @@ function CreateAccount () {
   }
 
   const createAccount = async (values, formActions) => {
-  
+    console.log(values)
   }
 
   return (
@@ -63,7 +63,7 @@ function CreateAccount () {
         onSubmit={step === 0 ? verifyEmail : createAccount}
         formProps={formProps[step]}
       />
-      <CreateAccountFooter />
+      {step === 0 && <CreateAccountFooter />}
     </Container>
   )
 }
