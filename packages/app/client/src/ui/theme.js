@@ -14,12 +14,16 @@ export const colors = {
   'warm-gray': 'rgb(151, 151, 151)', // #979797
   'light-gray': 'rgb(229,229,229)', // #E5E5E5
   watermelon: 'rgb(253, 69, 91)', // #fd455b
-  'white-smoke': 'rgb(248,248,248)' // #F5F5F5
+  'white-smoke': 'rgb(248,248,248)', // #F5F5F5
+  'error': 'rgb(230, 50, 50)'//'#E63232'
 }
 
 export const theme = createMuiTheme({
   colors,
   palette: {
+    error: {
+      main: colors.error
+    },
     default: {
       main: `${colors['white']} !important`
     },
