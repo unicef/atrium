@@ -1,0 +1,1 @@
+export { default as useOutlinedInput } from './useOutlinedInput'
