@@ -5,7 +5,6 @@ const styles = makeStyles(theme => (
     inputLabel: {
       color: 'black',
       marginBottom: 6,
-      fontFamily: 'Montserrat',
       fontStyle: 'normal',
       fontWeight: 500,
       fontSize: '12px',
@@ -13,9 +12,9 @@ const styles = makeStyles(theme => (
     },
     input: props => (
       {
-        color: props.hasError ? theme.palette.error.main : '#202625',
+        color: props.hasError ? theme.palette.error.main : theme.colors['light-gray'],
         padding: '17px 23px 19px 18px',
-        fontFamily: 'Montserrat',
+
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontSize: '15px',
@@ -30,14 +29,13 @@ const styles = makeStyles(theme => (
       border: 'none',
     },
     focused: props => ({
-      border: `1.6px solid ${props.hasError ? theme.palette.error.main : '#636767'}`
+      border: `1.6px solid ${props.hasError ? theme.palette.error.main : theme.colors['black-two']}`
     }),
     error: {
       border: `1.2px solid ${theme.palette.error.main}`
     },
     errorMessage: {
       marginLeft: 0,
-      fontFamily: 'Montserrat',
       fontStyle: 'normal',
       fontWeight: 600,
       fontSize: '13px',
