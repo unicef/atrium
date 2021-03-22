@@ -2,11 +2,11 @@ import React from 'react'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import InputLabel from '@material-ui/core/InputLabel'
-import { useOutlinedInput } from '../hooks'
+import { useOutlinedInputStyle } from '../hooks'
 
 
 function TextInput({ error, hasError, helperText, htmlFor, label, initialValue, ...props }) {
-  const classes = useOutlinedInput({ hasError })
+  const classes = useOutlinedInputStyle({ hasError })
   
   return (
     <>

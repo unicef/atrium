@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles'
 import { email, name, surname, password } from '../../../utils/formFields'
 import { validateEmail } from '../../../utils/validators'
 import { CreateAccountForm, CreateAccountFooter} from './components'
+import { useContainerStyle } from '../../hooks'
 
 const formProps = [
   {
@@ -37,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 function CreateAccount () {
   const [step, changeStep] = useState(0)
   const [verifiedEmail, saveEmail] = useState(undefined)
-  const classes = useStyles()
+  const containerStyle = useContainerStyle({ size: 'small' })
 
   const verifyEmail = async (values, formActions) => {
     try {
@@ -56,7 +57,7 @@ function CreateAccount () {
   }
 
   return (
-    <Container component="main" className={classes.main}>
+    <Container component="main" className={containerStyle}>
       <CreateAccountForm
         createAccount={createAccount}
         onSubmit={step === 0 ? verifyEmail : createAccount}
