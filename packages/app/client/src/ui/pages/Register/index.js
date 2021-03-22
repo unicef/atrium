@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
-import { CreateAccountTemplate } from '../templates'
-import { sendEmailToSignUp } from '../../api/users'
-import { ERRORS } from '../../actions/authActions'
+import { sendEmailToSignUp } from '../../../api/users'
+import { ERRORS } from '../../../actions/authActions'
 import { makeStyles } from '@material-ui/styles'
-import { email, name, surname, password } from '../../utils/formFields'
-import { validateEmail } from '../../utils/validators'
+import { email, name, surname, password } from '../../../utils/formFields'
+import { validateEmail } from '../../../utils/validators'
+import { CreateAccountForm, CreateAccountFooter} from './components'
 
 const formProps = [
   {
@@ -23,7 +23,7 @@ const formProps = [
     titleAlignMobile: "left",
     validate: () => {},
     submitLabel: 'Create account',
-    fields: [name, surname, password]
+    fields: [name, surname, password, ]
   }
 ]
 
@@ -57,12 +57,12 @@ function CreateAccount () {
 
   return (
     <Container component="main" className={classes.main}>
-      <CreateAccountTemplate
+      <CreateAccountForm
         createAccount={createAccount}
-        step={step}
         onSubmit={step === 0 ? verifyEmail : createAccount}
         formProps={formProps[step]}
       />
+      <CreateAccountFooter />
     </Container>
   )
 }
