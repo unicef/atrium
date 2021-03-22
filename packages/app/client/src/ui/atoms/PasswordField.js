@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TextField } from '../atoms'
+import TextInput from './TextInput'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -13,7 +13,7 @@ const PasswordField = (props) => {
   }
 
   return (
-    <TextField
+    <TextInput
       {...props}
       type={showPassword ? 'text' : 'password'}
       onChange={props.onChange}
