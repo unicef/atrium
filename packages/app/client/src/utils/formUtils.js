@@ -13,4 +13,4 @@ export const baseInputsProps = ({ name, id, label, formProps, htmlFor, fullWidth
   }
 )
 
-export const checkboxWithLinks = ({links, ...props}) => ({...baseInputsProps(props), links})
+export const checkboxWithLinks = ({links, contentPlacemet, ...props}) => ({ ...baseInputsProps(props), links, contentPlacemet })
