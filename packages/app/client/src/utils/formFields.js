@@ -34,6 +34,8 @@ module.exports = {
   termsCheckbox: {
     name: 'termsCheckbox',
     id:'termsCheckbox',
+    initialValue: false,
+    contentPlacemet: 'flex-start',
     label: 'I agree to The Atrium Terms of service and Privacy Policy',
     links: [
       {
