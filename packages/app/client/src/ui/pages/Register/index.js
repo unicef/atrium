@@ -2,18 +2,18 @@ import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
 import { sendEmailToSignUp } from '../../../api/users'
 import { ERRORS } from '../../../actions/authActions'
-import { makeStyles } from '@material-ui/styles'
 import { email, name, surname, password, termsCheckbox } from '../../../utils/formFields'
 import { validateEmail } from '../../../utils/validators'
 import { CreateAccountForm, CreateAccountFooter} from './components'
 import { useContainerStyle } from '../../hooks'
+import validateCreationForm from './validateCreationForm'
 
 const formProps = [
   {
     title: "Create Account",
     subtitle: "Please provide your UN mail id to get started with creating an account on The Atrium",
     titleAlignMobile: "left",
-    validate: validateEmail,
+    validate: ({ email }) => validateEmail(email),
     submitLabel: 'Continue',
     fields: [email],
     buttonLayout: { xs: 6, sm: 12 }
@@ -22,18 +22,11 @@ const formProps = [
     title: "Create Account",
     subtitle: "",
     titleAlignMobile: "left",
-    validate: () => {},
+    validate: validateCreationForm,
     submitLabel: 'Create account',
     fields: [name, surname, password, termsCheckbox]
   }
 ]
-
-const useStyles = makeStyles(theme => ({
-  main: {
-    maxWidth: 475,
-    marginTop: 50
-  }
-}))
 
 function CreateAccount () {
   const [step, changeStep] = useState(1)
