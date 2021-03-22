@@ -5,9 +5,10 @@ export const textInputsProps = ({ name, id, label, formProps, htmlFor, fullWidth
     label,
     onChange: formProps.handleChange,
     onBlur: formProps.handleBlur,
-    onFocus: () => formProps.errors[name] && formProps.setErrors({ [name]: undefined }),
-    error: formProps.touched[name] && formProps.errors[name],
+    hasError: Boolean(formProps.touched[name] && formProps.errors[name]),
+    error: formProps.errors[name],
     fullWidth,
-    htmlFor
+    htmlFor,
+    value: formProps.values[name]
   }
 )
