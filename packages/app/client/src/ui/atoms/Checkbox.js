@@ -1,14 +1,36 @@
 import React from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
+import { makeStyles } from '@material-ui/styles'
 
-const CustomCheckbox = ({ value, label, ...props }) => {
+const useStyles = makeStyles(theme => ({
+  root: {
+    color: theme.colors['light-gray'],
+    '&$checked': {
+      color: theme.palette.primary.main,
+    },
+  },
+  checked: {},
+}))
+
+const CustomCheckbox = ({ formLabelProps, hasError, value, label, classes, ...props }) => {
+  const styles = useStyles()
+
+  const mergeClassesObj = Object.keys(styles).reduce((acc, key) => {
+    if (acc[key]) {
+      return { ...acc, [key]: `${acc[key]} ${classes[key]}`}
+    }
+    return acc
+  }, styles)
+  
   return (
     <FormControlLabel
+      {...formLabelProps}
       control={
         <Checkbox
-          defaultChecked={value}
+          checked={value}
           {...props}
+          classes={mergeClassesObj}
         />
       }
       label={label}
