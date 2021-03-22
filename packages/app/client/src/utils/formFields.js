@@ -5,7 +5,7 @@ module.exports = {
     label:'Your email',
     initialValue: '',
     htmlFor: 'emailInput',
-    type: 'text'
+    type: 'email'
   },
   name: {
     name: 'name',
