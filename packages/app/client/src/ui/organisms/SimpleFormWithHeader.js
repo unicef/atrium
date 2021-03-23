@@ -9,10 +9,8 @@ const SimpleFormWithHeader = (props) => {
       <TitleAndSubtitle
         subtitle={props.subtitle}
         title={props.title}
-        subtitleAlign={props.subtitleAlign}
-        subtitleAlignMobile={props.subtitleAlignMobile}
-        titleAlign={props.titleAlign}
-        titleAlignMobile={props.titleAlignMobile}
+        subtitleProps={props.subtitleProps}
+        titleProps={props.titleProps}
       />
 
       <Form

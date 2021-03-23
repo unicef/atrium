@@ -1,21 +1,19 @@
 import React from 'react'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { Title, Subtitle } from '../atoms'
 
 const TitleAndSubtitle = ({
   subtitle,
   title,
-  subtitleAlign,
-  subtitleAlignMobile,
-  titleAlign,
-  titleAlignMobile
+  subtitleProps,
+  titleProps
 }) => (
   <>
-    <Title {...{ titleAlign, titleAlignMobile }}>
+    <Title {...titleProps}>
       {title}
     </Title>
    {subtitle && 
-      <Subtitle {...{ subtitleAlign, subtitleAlignMobile }}>
+      <Subtitle {...subtitleProps}>
         {subtitle}
       </Subtitle>
     }
@@ -23,21 +21,21 @@ const TitleAndSubtitle = ({
 )
 
 TitleAndSubtitle.propTypes = {
-  subtitle: propTypes.oneOfType([propTypes.string, propTypes.node]),
-  title: propTypes.oneOfType([propTypes.string, propTypes.node]),
-  subtitleAlign: propTypes.string,
-  subtitleAlignMobile: propTypes.string,
-  titleAlign: propTypes.string,
-  titleAlignMobile: propTypes.string
+  subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 }
 
 TitleAndSubtitle.defaultProps = {
   subtitle: 'Subtitle',
   title: 'Title',
-  subtitleAlign: 'center',
-  subtitleAlignMobile: 'center',
-  titleAlign: 'center',
-  titleAlignMobile: 'center'
+  subtitleProps: {
+    align: 'center',
+    alignMobile: 'center',
+  },
+  titleProps: {
+    align: 'center',
+    alignMobile: 'center'
+  }
 }
 
 export default TitleAndSubtitle

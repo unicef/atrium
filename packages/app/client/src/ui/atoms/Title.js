@@ -1,16 +1,16 @@
 import React from 'react'
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => 
   ({
     title: props => ({
-      marginBottom: '17px',
-      textAlign: props.titleAlign,
-      fontWeight: 'bold',
+      marginBottom: props.mb,
+      textAlign: props.align,
+      fontWeight:'bold',
       [theme.breakpoints.down('xs')]: {
-        textAlign: props.titleAlignMobile || props.titleAlign,
+        textAlign: props.alignMobile || props.align,
         fontSize: 20
       }
     })
@@ -28,13 +28,15 @@ const Title = ({ children, ...props }) => {
 }
 
 Title.propTypes = {
-  titleAlign: propTypes.string,
-  titleAlignMobile: propTypes.string
+  align: PropTypes.string,
+  alignMobile: PropTypes.string,
+  mb: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 Title.defaultProps = {
-  titleAlign: 'center',
-  titleAlignMobile: 'center'
+  align: 'center',
+  alignMobile: 'center',
+  mb: 17
 }
 
 export default Title

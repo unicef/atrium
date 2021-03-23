@@ -1,20 +1,15 @@
 import React from 'react'
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => 
   ({
     subtitle: props => ({
-      marginBottom: '35px',
-      fontFamily: 'Montserrat',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      fontSize: '15px',
-      lineHeight: '180%',
-      textAlign: props.subtitleAlign,
+      marginBottom: props.mb,
+      textAlign: props.align,
       [theme.breakpoints.down('xs')]: {
-        textAlign: props.subtitleAlignMobile || props.subtitleAlign,
+        textAlign: props.alignMobile || props.align,
       }
     })
   })
@@ -24,20 +19,22 @@ const Subtitle = ({ children, ...props }) => {
   const classes = useStyles(props)
 
   return (
-    <Typography className={classes.subtitle} variant="subtitle1">
+    <Typography className={classes.subtitle} variant="body1">
       {children}
     </Typography>
   )
 }
 
 Subtitle.propTypes = {
-  subtitleAlign: propTypes.string,
-  subtitleAlignMobile: propTypes.string
+  align: PropTypes.string,
+  alignMobile: PropTypes.string,
+  mb: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 Subtitle.defaultProps = {
-  subtitleAlign: 'center',
-  subtitleAlignMobile: 'center',
+  align: 'center',
+  alignMobile: 'center',
+  mb: 35
 }
 
 export default Subtitle
