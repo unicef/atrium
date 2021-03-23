@@ -11,6 +11,7 @@ export const colors = {
   white: 'rgb(255, 255, 255)', // #fff
   black: 'rgb(0, 0, 0)', // #000
   'black-two': 'rgb(53, 53, 53)', // #353535
+  'black-three': 'rgb(32,38,37)', // #202625
   'warm-gray': 'rgb(151, 151, 151)', // #979797
   'light-gray': 'rgb(229,229,229)', // #E5E5E5
   watermelon: 'rgb(253, 69, 91)', // #fd455b
@@ -38,6 +39,7 @@ export const theme = createMuiTheme({
       main: colors['dark-forest-green']
     },
     text: {
+      primary: colors['black-three'],
       secondary: colors['deep-green']
     }
   },
