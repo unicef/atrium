@@ -35,3 +35,15 @@ export const sendForgotPasswordEmail = userData => {
 export const resetPassword = userData => {
   return axios.post('users/reset-password', userData)
 }
+/**
+ * Function to register a user after the email verification
+ * @param {Object} userData 
+ * @property {String} userData.email
+ * @property {String} userData.name
+ * @property {String} userData.surname
+ * @property {String} userData.password
+ * @returns 
+ */
+export const registerUser = userData => {
+  return axios.post('users/register', userData)
+}
