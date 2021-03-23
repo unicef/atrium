@@ -4,9 +4,11 @@ import { sendEmailToSignUp, registerUser } from '../../../api/users'
 import { ERRORS } from '../../../actions/authActions'
 import { email, name, surname, password, termsCheckbox } from '../../../utils/formFields'
 import { validateEmail } from '../../../utils/validators'
-import { CreateAccountForm, CreateAccountFooter, EmailSent } from './components'
+import { CreateAccountFooter, EmailSent } from './components'
 import { useContainerStyle } from '../../hooks'
 import validateCreationForm from './validateCreationForm'
+import { useIsMobileViewPort } from '../../hooks'
+import { SimpleFormWithHeader } from '../../organisms'
 
 const formProps = [
   {
@@ -38,6 +40,7 @@ function Register () {
   const [step, changeStep] = useState(0)
   const [verifiedEmail, saveEmail] = useState(undefined)
   const containerStyle = useContainerStyle({ size: 'small' })
+  const isMobileViewPort = useIsMobileViewPort()
 
   const verifyEmail = async (values, formActions) => {
     try {
@@ -63,10 +66,10 @@ function Register () {
     <Container component="main" className={containerStyle}>
       {showCreateAccount ? 
         <>
-          <CreateAccountForm
-            createAccount={createAccount}
+          <SimpleFormWithHeader
             onSubmit={step === 0 ? verifyEmail : createAccount}
-            formProps={formProps[step]}
+            {...formProps[step]}
+            subtitle={isMobileViewPort ? "" : formProps[step].subtitle}
           />
           {step === 0 && <CreateAccountFooter />}
         </> :
