@@ -1,19 +1,19 @@
 import { validatePassword } from '../../../utils/validators'
 
-const validateCreationForm = ({ values, labels }) => {
-  const entries = Object.entries(values)
+const validateCreationForm = ({ password, name, surname, termsCheckbox }) => {
+  const errorsObj = { ...validatePassword(password) }
 
-  const errorsObj = entries.reduce((errors, [key, value]) => {
-    if (!value) {
-      return {...errors, [key]: `${labels[key]} is required` }
-    }
-    
-    if (key === 'password') {
-      return validatePassword(value)
-    }
+  if (!name) {
+    errorsObj.name = 'Name is required'
+  }
+  
+  if (!surname) {
+    errorsObj.surname = 'Surname is required'
+  }
 
-    return errors
-  }, {})
+  if (!termsCheckbox) {
+    errorsObj.termsCheckbox = 'You must accept the Terms and the Privacy Policy'
+  }
   
   return errorsObj
 }
