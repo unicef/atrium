@@ -1,10 +1,8 @@
-
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import { TextWithLinks } from '../../../molecules'
 import { Divider } from '../../../atoms'
-import { ReactComponent as ButterflySVG } from '../../../assets/butterfly.svg'
-import { ReactComponent as Chat } from '../../../assets/chat.svg'
+import { ButterflySVG, TalkBubble } from '../../../assets/'
 import { Typography } from '@material-ui/core'
 import Link from '@material-ui/core/Link'
 import { Link as RouterLink } from 'react-router-dom'
@@ -23,7 +21,7 @@ const ColumnWithLink = ({ to, text, Icon }) => (
       <Icon />
     </Grid>
     <Grid item xs={9}>
-      <Typography align="center">
+      <Typography variant="body2" align="center">
         {text}
       </Typography>
     </Grid>
@@ -83,7 +81,7 @@ const CreateAccountFooter = () => {
         <ColumnWithLink
           text=" Find out more about Atrium"
           to="/learn"
-          Icon={Chat}
+          Icon={TalkBubble}
         />
 
         <Divider orientation="vertical" flexItem />
