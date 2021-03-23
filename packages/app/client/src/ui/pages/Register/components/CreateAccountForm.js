@@ -10,17 +10,11 @@ const CreateAccountForm = ({ onSubmit, formProps }) => {
     return null
   }
 
-  let subtitle = formProps.subtitle
-
-  if (isMobileViewPort) {
-    subtitle = ""
-  }
-
   return (
     <SimpleFormWithHeader
       onSubmit={onSubmit}
       {...formProps}
-      subtitle={subtitle}
+      subtitle={isMobileViewPort ? "" : formProps.subtitle}
     />
   )
 }
