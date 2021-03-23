@@ -12,7 +12,7 @@ const styles = makeStyles(theme => (
     },
     input: props => (
       {
-        color: props.hasError ? theme.palette.error.main : theme.colors['light-gray'],
+        color: props.hasError ? theme.palette.error.main : theme.palette.text.primary,
         padding: '17px 23px 19px 18px',
 
         fontStyle: 'normal',
