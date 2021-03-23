@@ -79,11 +79,13 @@ const TextWithLinks = ({ children, links, mt, mb }) => {
 TextWithLinks.propTypes = {
   mb: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   mt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  links: PropTypes.shape({
-    to: PropTypes.string,
-    str: PropTypes.string,
-    variant: PropTypes.string
-  }).isRequired,
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      to: PropTypes.string,
+      str: PropTypes.string,
+      variant: PropTypes.string
+    })
+  ).isRequired,
   children: PropTypes.string.isRequired
 }
 
