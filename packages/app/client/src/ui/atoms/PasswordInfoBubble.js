@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     position: 'absolute',
-    right: -300,
+    right: -290,
     top: 20,
     '@media (max-width: 1024px)': {
       display: 'flex',
