@@ -1,15 +1,18 @@
 import React from 'react'
 import Grow from '@material-ui/core/Grow'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import CheckIcon from '@material-ui/icons/Check'
 import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles(theme => ({
   talkbubble: {
     width: 273,
-    height: 113,
+    height: 125,
+    padding: '15px 25px 15px 25px',
     background: theme.colors['blue-info'],
     position: 'relative',
     borderRadius: '5px',
-    left: 100,
     '@media (max-width: 1024px)': {
       right: 0,
       left: 0
@@ -36,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     position: 'absolute',
-    right: -200,
+    right: -300,
     top: 20,
     '@media (max-width: 1024px)': {
       display: 'flex',
@@ -48,15 +51,51 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const PasswordInfoBubble = () => {
+const useRowStyle = makeStyles(theme => ({
+  container: {
+    margin: '0 auto'
+  },
+  content: {
+    color: theme.palette.primary.contrastText
+  }
+}))
+
+const RuleRow = ({ label }) => {
+  const classes = useRowStyle()
+
+  return (
+    <Grid alignItems="center" className={classes.container} item container xs={12} spacing={1}>
+      <Grid item>
+        <CheckIcon fontSize="small" className={classes.content} />
+      </Grid>
+      <Grid item>
+        <Typography className={classes.content} variant="subtitle2">{label}</Typography>
+      </Grid>
+    </Grid>
+  )
+}
+
+const rules = [
+  'Use at least eight characters',
+  'Use at least one uppercase',
+  'Use at least one number digit'
+]
+
+const PasswordInfoBubble = ({ isFocused }) => {
   const classes = useStyles()
 
   return (
-    <Grow in={true} timeout={{ enter: 500 }}>
+    <Grow in={isFocused} timeout={{ enter: 500 }}>
       <div className={classes.container}>
         <div className={classes.talkbubble}>
           <div className={classes.triangle} />
-          
+          {rules.map((rule, index) => (
+            <RuleRow
+              key={`password_rule_${index}`}
+              className={classes.ruleRow}
+              label={rule}
+            />
+          ))}
         </div>
       </div>
     </Grow>

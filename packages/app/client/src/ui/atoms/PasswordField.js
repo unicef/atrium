@@ -11,14 +11,15 @@ const useStyles = makeStyles({
   wrapper: {
     position: 'relative',
     '@media (max-width: 1024px)': {
-      marginBottom: 140
+      marginBottom: (props) => props.isFocused ? 140 : 0
     }
   }
 })
 
 const PasswordField = (props) => {
   const [showPassword, setPasswordVisibility] = useState(false)
-  const classes = useStyles()
+  const [isFocused, setFocus] = useState(false)
+  const classes = useStyles({ isFocused })
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -29,7 +30,11 @@ const PasswordField = (props) => {
       <TextInput
         {...props}
         type={showPassword ? 'text' : 'password'}
-        onChange={props.onChange}
+        onFocus={() => setFocus(true)}
+        onBlur={(e) => {
+          props.onBlur(e)
+          setFocus(false)
+        }}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
@@ -43,7 +48,7 @@ const PasswordField = (props) => {
           </InputAdornment>
         }
       />
-      <PasswordInfoBubble />
+      <PasswordInfoBubble isFocused={isFocused}/>
     </div>
   )
 }
