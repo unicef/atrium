@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     const paddingByPlacement = {}
 
     if (props.contentPlacemet === 'flex-start') {
-      paddingByPlacement.paddingTop = 4
+      paddingByPlacement.paddingTop = 3
     }
 
     return {
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 const CheckboxWithLinks = ({ links, label, contentPlacemet, ...props}) => {
   const classes = useStyles({ contentPlacemet })
-  
+
   return (
     <Checkbox
       formLabelProps={{

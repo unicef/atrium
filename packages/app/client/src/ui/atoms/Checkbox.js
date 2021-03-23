@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   checked: {},
 }))
 
-const CustomCheckbox = ({ formLabelProps, hasError, value, label, classes, ...props }) => {
+const CustomCheckbox = ({ fullWidth, formLabelProps, hasError, value, label, classes, ...props }) => {
   const styles = useStyles()
 
   const mergeClassesObj = Object.keys(styles).reduce((acc, key) => {
