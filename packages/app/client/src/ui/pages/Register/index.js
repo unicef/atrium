@@ -55,6 +55,7 @@ function Register () {
   const createAccount = async ({ name, surname }) => {
     try {
       await registerUser({ name, surname, email: verifiedEmail })
+      changeStep(2)
     } catch(e) {
       console.log(e)
     }
