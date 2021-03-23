@@ -267,7 +267,7 @@ const Landing = props => {
   }
 
   const handleRedirectToSignUp = () => {
-    props.history.push('/login#register')
+    props.history.push('/register')
   }
 
   const handleRedirectToViewProjects = () => {
