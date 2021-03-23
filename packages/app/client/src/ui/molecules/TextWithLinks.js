@@ -11,7 +11,6 @@ const useStyles = makeStyles({
     marginRight: '5px'
   },
   common: props => ({
-    fontFamily: 'Montserrat',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '15px',
