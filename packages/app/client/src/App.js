@@ -92,7 +92,7 @@ const App = () => {
               <PrivateRoute exact path="/reports" component={Reports} />
               <PrivateRoute exact path="/invite" component={ManualInvite} />
               <PrivateRoute exact path="/about" component={About} />
-              <Route
+              <PrivateRoute
                 exact
                 path="/create-projects"
                 component={CreateProject}
