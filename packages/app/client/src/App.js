@@ -9,7 +9,6 @@ import { logoutUser, setCurrentUser } from './actions/authActions'
 import Login from './components/auth/Login'
 import ForgotPassword from './components/auth/ForgotPassword'
 import ResetPassword from './components/auth/ResetPassword'
-import Registration from './components/auth/Registration'
 import Dashboard from './components/dashboard/Dashboard'
 import ErrorPage from './components/ErrorPage/ErrorPage'
 import Reports from './components/reports'
@@ -43,6 +42,9 @@ import {
 } from './ui'
 import setAuthToken from './utils/setAuthToken'
 
+// pages
+import { Register } from './ui/pages'
+
 require('./utils/configureRequests')
 
 // Check for token to keep user logged in
@@ -75,7 +77,7 @@ const App = () => {
             <Header />
             <Switch>
               <Route exact path="/" component={Landing} />
-              <Route exact path="/register" component={Registration} />
+              <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/forgot-password" component={ForgotPassword} />
               <Route exact path="/reset-password" component={ResetPassword} />

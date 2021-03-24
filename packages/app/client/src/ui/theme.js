@@ -11,15 +11,21 @@ export const colors = {
   white: 'rgb(255, 255, 255)', // #fff
   black: 'rgb(0, 0, 0)', // #000
   'black-two': 'rgb(53, 53, 53)', // #353535
+  'black-three': 'rgb(32,38,37)', // #202625
   'warm-gray': 'rgb(151, 151, 151)', // #979797
   'light-gray': 'rgb(229,229,229)', // #E5E5E5
   watermelon: 'rgb(253, 69, 91)', // #fd455b
-  'white-smoke': 'rgb(248,248,248)' // #F5F5F5
+  'white-smoke': 'rgb(248,248,248)', // #F5F5F5
+  'error': 'rgb(230, 50, 50)',//'#E63232'
+  'blue-info': 'rgb(23, 143, 226)' //#178FE2
 }
 
 export const theme = createMuiTheme({
   colors,
   palette: {
+    error: {
+      main: colors.error
+    },
     default: {
       main: `${colors['white']} !important`
     },
@@ -33,6 +39,7 @@ export const theme = createMuiTheme({
       main: colors['dark-forest-green']
     },
     text: {
+      primary: colors['black-three'],
       secondary: colors['deep-green']
     }
   },

@@ -563,7 +563,7 @@ export const FirstProjectForm = props => {
                       placeholder="example@atrium.com"
                       onBlur={handleBlur}
                       onKeyPress={disableEnterSubmit}
-                      helperText={
+                      errorMessage={
                         !!values.contactPersonFullName &&
                         errors.contactPersonEmail
                       }
@@ -593,7 +593,7 @@ export const FirstProjectForm = props => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       onKeyPress={disableEnterSubmit}
-                      helperText={
+                      errorMessage={
                         !!touched.contactPersonFullName &&
                         errors.contactPersonFullName
                       }
