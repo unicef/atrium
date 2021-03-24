@@ -1,16 +1,15 @@
-export const baseInputsProps = ({ name, id, label, formProps, htmlFor, fullWidth }) => (
+export const baseInputsProps = ({ name, id, label, formProps, htmlFor, fullWidth, ...props }) => (
   {
     name,
     id,
     label,
     onChange: formProps.handleChange,
     onBlur: formProps.handleBlur,
-    hasError: Boolean(formProps.touched[name] && formProps.errors[name]),
-    error: formProps.errors[name],
+    error: Boolean(formProps.touched[name] && formProps.errors[name]),
+    errorMessage: formProps.errors[name],
     fullWidth,
     htmlFor,
-    value: formProps.values[name]
+    value: formProps.values[name],
+    ...props
   }
 )
-
-export const checkboxWithLinks = ({links, contentPlacemet, ...props}) => ({ ...baseInputsProps(props), links, contentPlacemet })

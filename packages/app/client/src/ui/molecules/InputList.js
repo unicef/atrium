@@ -1,7 +1,7 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
-import { TextInput, PasswordField, Checkbox } from '../atoms'
-import { baseInputsProps, checkboxWithLinks } from '../../utils/formUtils'
+import { TextField, PasswordField, CheckboxField } from '../atoms'
+import { baseInputsProps } from '../../utils/formUtils'
 import CheckboxWithLinks from './CheckboxWithLinks'
 
 const getInput = ({ type, links }) => {
@@ -14,14 +14,14 @@ const getInput = ({ type, links }) => {
     case 'text':
     case 'email':
       return {
-        InputComponent: TextInput,
+        InputComponent: TextField,
         getProps: baseInputsProps
       }
     case 'checkbox':
       const hasLinks = Array.isArray(links)
       return {
-        InputComponent: hasLinks ? CheckboxWithLinks : Checkbox,
-        getProps: hasLinks ? checkboxWithLinks : baseInputsProps
+        InputComponent: hasLinks ? CheckboxWithLinks : CheckboxField,
+        getProps: baseInputsProps
       }
     default:
       return {}

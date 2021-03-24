@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox } from '../atoms'
+import { CheckboxField } from '../atoms'
 import TextWithLinks from './TextWithLinks'
 import { makeStyles } from '@material-ui/styles'
 import PropTypes from 'prop-types'
@@ -25,7 +25,7 @@ const CheckboxWithLinks = ({ links, label, contentPlacemet, ...props}) => {
   const classes = useStyles({ contentPlacemet })
 
   return (
-    <Checkbox
+    <CheckboxField
       formLabelProps={{
         className: classes.formLabelRoot
       }}

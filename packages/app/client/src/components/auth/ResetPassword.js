@@ -85,7 +85,8 @@ const ResetPassword = props => {
                   id="password"
                   label="New password"
                   value={values.password}
-                  helperText={!!(touched.password && errors.password) && 'Mininum of 6 characters'}
+                  helperText={'Mininum of 6 characters'}
+                  errorMessage={errors.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={!!(touched.password && errors.password)}
@@ -101,7 +102,8 @@ const ResetPassword = props => {
                   value={values.confirmPassword}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  helperText={!!(touched.confirmPassword && errors.confirmPassword && values.confirmPassword.length) && 'The specified passwords do not match'}
+                  helperText={'The specified passwords do not match'}
+                  errorMessage={errors.confirmPassword}
                   error={!!(touched.confirmPassword && errors.confirmPassword)}
                   fullWidth
                 />
