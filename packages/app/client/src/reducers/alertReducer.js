@@ -8,8 +8,9 @@ const initialState = {
   message: undefined
 }
 
-export default function(state = initialState, { message, severity}  = {}) {
-  switch (action.type) {
+export default function(state = initialState, { type, payload = {} }) {
+  const { severity, message } = payload
+  switch (type) {
     case SHOW_ALERT:
       return {
         severity,
