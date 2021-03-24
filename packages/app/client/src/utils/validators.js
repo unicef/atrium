@@ -12,7 +12,7 @@ export const validateEmail = (email) => {
 
 export const validatePassword = (password) => {
   if (password) {
-    const hasEightChars = /^([0-9a-zA-Z!@#$%^&*\._+\-=?]){8,}/g.test(password)
+    const hasEightChars = password.length >= 8
     const hasUpperCaseChar = /([A-Z])/g.test(password)
     const hasNumberDigit = /\d/g.test(password)
 
