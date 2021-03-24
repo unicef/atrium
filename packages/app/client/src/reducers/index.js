@@ -9,6 +9,7 @@ import errorReducer from './errorReducer'
 import projectReducer from './projectReducer'
 import learningReducer from './learningReducer'
 import discussionReducer from './discussionReducer'
+import alert from './alertReducer'
 
 export default combineReducers({
   auth: authReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
   projects: projectReducer,
   errors: errorReducer,
   learning: learningReducer,
-  discussions: discussionReducer
+  discussions: discussionReducer,
+  alert
 })
