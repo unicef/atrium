@@ -17,7 +17,7 @@ const CustomCheckbox = ({ fullWidth, formLabelProps, hasError, value, label, cla
   const styles = useStyles()
 
   const mergeClassesObj = Object.keys(styles).reduce((acc, key) => {
-    if (acc[key]) {
+    if (acc[key] && classes) {
       return { ...acc, [key]: `${acc[key]} ${classes[key]}`}
     }
     return acc
