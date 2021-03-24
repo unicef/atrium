@@ -151,7 +151,7 @@ const InfoPage = ({ classes, auth, submitStage, ...props }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={!!(errors.name && touched.name)}
-                  helperText={errors.name}
+                  errorMessage={errors.name}
                   fullWidth
                   required
                 />
@@ -165,7 +165,7 @@ const InfoPage = ({ classes, auth, submitStage, ...props }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={!!(errors.role && touched.role)}
-                  helperText={errors.role}
+                  errorMessage={errors.role}
                   fullWidth
                   required
                 />
@@ -180,7 +180,7 @@ const InfoPage = ({ classes, auth, submitStage, ...props }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={!!(errors.password && touched.password)}
-                  helperText={errors.password}
+                  errorMessage={errors.password}
                   fullWidth
                   required
                 />
@@ -195,7 +195,7 @@ const InfoPage = ({ classes, auth, submitStage, ...props }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={!!(errors.password2 && touched.password2)}
-                  helperText={errors.password2}
+                  errorMessage={errors.password2}
                   fullWidth
                   required
                 />
