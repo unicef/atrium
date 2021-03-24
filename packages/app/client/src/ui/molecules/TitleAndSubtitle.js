@@ -26,8 +26,8 @@ TitleAndSubtitle.propTypes = {
 }
 
 TitleAndSubtitle.defaultProps = {
-  subtitle: 'Subtitle',
-  title: 'Title',
+  subtitle: '',
+  title: '',
   subtitleProps: {
     align: 'center',
     alignMobile: 'center',
