@@ -19,7 +19,7 @@ const formProps = [
     },
     validate: ({ email }) => validateEmail(email),
     submitLabel: 'Continue',
-    fields: [email],
+    fields: [{...email, label: 'Your Email'}],
     buttonLayout: { xs: 6, sm: 12 }
   },
   {
