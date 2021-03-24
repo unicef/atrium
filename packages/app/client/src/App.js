@@ -6,7 +6,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { logoutUser, setCurrentUser } from './actions/authActions'
-import Login from './components/auth/Login'
+//import Login from './components/auth/Login'
 import ForgotPassword from './components/auth/ForgotPassword'
 import ResetPassword from './components/auth/ResetPassword'
 import Dashboard from './components/dashboard/Dashboard'
@@ -43,7 +43,8 @@ import {
 import setAuthToken from './utils/setAuthToken'
 
 // pages
-import { Register } from './ui/pages'
+import { Register, Login } from './ui/pages'
+
 
 require('./utils/configureRequests')
 
