@@ -19,5 +19,5 @@ export const SET_USER_ACTIVITY = 'SET_USER_ACTIVITY'
 
 export const SET_LEARNING_RESOURCES = 'SET_LEARNING_RESOURCES'
 
-export const SHOW_ALERT = 'alert/SHOW_ALERT'
-export const CLEAR_ALERT = 'alert/CLEAR_ALERT'
+export const SHOW_TOAST = 'toast/SHOW_TOAST'
+export const DISMISS_TOAST = 'toast/DISMISS_TOAST'
