@@ -1,22 +1,24 @@
 import {
-  SHOW_ALERT,
-  CLEAR_ALERT
+  SHOW_TOAST,
+  DISMISS_TOAST
 } from '../actions/types'
 
 const initialState = {
   severity: undefined,
-  message: undefined
+  message: undefined,
+  open: false
 }
 
 export default function(state = initialState, { type, payload = {} }) {
   const { severity, message } = payload
   switch (type) {
-    case SHOW_ALERT:
+    case SHOW_TOAST:
       return {
         severity,
-        message
+        message,
+        open: true
       }
-    case CLEAR_ALERT:
+    case DISMISS_TOAST:
       return initialState
     default:
       return state
