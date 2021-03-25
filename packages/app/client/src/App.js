@@ -38,7 +38,8 @@ import {
   DiscussionPage,
   DiscussionDetails,
   ProjectDetails,
-  ProfilePage
+  ProfilePage,
+  Toast
 } from './ui'
 import setAuthToken from './utils/setAuthToken'
 
@@ -75,6 +76,7 @@ const App = () => {
           <>
             <ModalMessage />
             <Header />
+            <Toast />
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Register} />
