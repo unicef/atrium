@@ -43,7 +43,7 @@ import {
 import setAuthToken from './utils/setAuthToken'
 
 // pages
-import { Register } from './ui/pages'
+import { Learn, Register } from './ui/pages'
 
 require('./utils/configureRequests')
 
@@ -79,6 +79,7 @@ const App = () => {
               <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/learn" component={Learn} />
               <Route exact path="/forgot-password" component={ForgotPassword} />
               <Route exact path="/reset-password" component={ResetPassword} />
               <PrivateRoute exact path="/learn" component={LearnPage} />
