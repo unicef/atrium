@@ -14,6 +14,10 @@ const useStyles = makeStyles({
     paddingRight: 0,
     marginTop: 50,
     paddingBottom: 0
+  },
+  regular: {
+    maxWidth: 1024,
+    marginTop: 50
   }
 })
 
