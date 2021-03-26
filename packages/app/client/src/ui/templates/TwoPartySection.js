@@ -6,16 +6,29 @@ const useStyles = makeStyles(theme =>
   ({
     container: props => ({
       margin: 0,
-      backgroundColor: theme.colors[props.bgColor]
-    })
+      backgroundColor: theme.colors[props.bgColor],
+      padding: 80,
+      [theme.breakpoints.down("xs")]: {
+        padding: 20
+      },
+    }),
+    parties: {
+      [theme.breakpoints.up("md")]: {
+        justifyContent: 'center'
+      }
+    }
   })
 )
+
+const mergedClassNames = (primaryClasses, secondaryClasses) => [secondaryClasses, primaryClasses].join(' ')
 
 const TwoPartySection = ({ bgColor, containerProps, partiesContainerProps, ...props }) => {
   const classes = useStyles({ bgColor })
   const firstPartyProps = partiesContainerProps[0] || {}
   const secondPartyProps = partiesContainerProps[1] || {}
-  const mergedClassNames = [classes.container, containerProps.className || ''].join(' ')
+  const containerClasses = mergedClassNames(classes.container, containerProps.className || '')
+  const firstPartyClasses = mergedClassNames(classes.parties, firstPartyProps.className || '')
+  const secondPartyClasses = mergedClassNames(classes.parties, secondPartyProps.className || '')
 
   let children = React.Children.toArray(props.children)
 
@@ -24,12 +37,14 @@ const TwoPartySection = ({ bgColor, containerProps, partiesContainerProps, ...pr
   }
 
   return (
-    <Grid container item xs={12} {...{ ...containerProps, className: mergedClassNames }}>
-      <Grid item container xs={12} sm={6} md={6} {...firstPartyProps}>
-        {children[0]}
-      </Grid>
-      <Grid item container xs={12} sm={6} md={6} {...secondPartyProps}>
-        {children[1]}
+    <Grid container item xs={12} justify="center" { ...containerProps} className={containerClasses}>
+      <Grid container item justify="space-evenly" xs={12} md={10}>
+        <Grid item container xs={12} sm={12} md={6} justify="flex-end" {...firstPartyProps} className={firstPartyClasses}>
+          {children[0]}
+        </Grid>
+        <Grid item container xs={12} sm={12} md={6} {...secondPartyProps} className={secondPartyClasses}>
+          {children[1]}
+        </Grid>
       </Grid>
     </Grid>
   )
