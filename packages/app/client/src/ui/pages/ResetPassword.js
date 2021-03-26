@@ -27,7 +27,7 @@ const ForgotPassword = ({ history }) => {
 
   const saveNewPassword = async ({ password }) => {
     try {
-      await changeUserPassword({ password })
+      await changeUserPassword({ password, email: 'test@unicef.com' })
       setSuccess(true)
     } catch(e) {
       showToast({ message: e, severity: 'danger' })
