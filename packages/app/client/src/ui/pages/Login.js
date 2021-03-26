@@ -8,6 +8,8 @@ import { CheckboxField } from '../atoms'
 import { password, email } from '../../utils/formFields'
 import { LoginIllustrationSVG } from '../assets'
 import { loginUser } from '../../api/users'
+import { useToast } from '../hooks'
+import { ERRORS } from '../../actions/authActions'
 
 const keepMLoggedCheckbox = {
   name: 'keepMLoggedCheckbox',
@@ -32,12 +34,13 @@ const formProps = {
 }
 
 const Login = () => {
+  const { showToast } = useToast()
+
   const sendLoginRequest = async ({ email, password }) => {
     try {
-      await loginUser({ email, password })
-    } catch(e) {
-      // TODO: add handler
-      console.log(e)
+      const response = await loginUser({ email, password })
+    } catch(error) {
+      showToast({ message: error.response?.data.err || ERRORS.GENERIC, severity: 'danger' }) 
     }
   }
 
