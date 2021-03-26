@@ -20,14 +20,20 @@ const formProps = {
   buttonLayout: { xs: 8, sm: 8 }
 }
 
-const ForgotPassword = ({ history }) => {
+const ForgotPassword = ({ history, match }) => {
+  const { params: { token } } = match
+
+  if(!token){
+    history.push('/')
+  }
+
   const [showSuccess, setSuccess] = useState(false)
   const containerStyle = useContainerStyle({ size: 'small' })
   const { showToast } = useToast()
-
+  
   const saveNewPassword = async ({ password }) => {
     try {
-      await changeUserPassword({ password, email: 'test@unicef.com' })
+      await changeUserPassword({ password, token })
       setSuccess(true)
     } catch(e) {
       showToast({ message: e, severity: 'danger' })

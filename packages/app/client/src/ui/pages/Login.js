@@ -9,13 +9,11 @@ import { password, email } from '../../utils/formFields'
 import { LoginIllustrationSVG } from '../assets'
 import { loginUser } from '../../api/users'
 import { useToast } from '../hooks'
-import { ERRORS } from '../../actions/authActions'
 
 const keepMLoggedCheckbox = {
   name: 'keepMLoggedCheckbox',
   id:'keepMLoggedCheckbox',
-  initialValue: false,
-  contentPlacemet: 'flex-start',
+  value: false,
   label: 'Keep me logged in',
   htmlFor: 'keepMLoggedCheckbox',
   type: 'checkbox'
@@ -40,7 +38,7 @@ const Login = () => {
     try {
       const response = await loginUser({ email, password })
     } catch(error) {
-      showToast({ message: error.response?.data.err || ERRORS.GENERIC, severity: 'danger' }) 
+      showToast({ message: error, severity: 'danger' }) 
     }
   }
 
