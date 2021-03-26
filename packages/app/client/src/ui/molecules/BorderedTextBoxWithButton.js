@@ -5,11 +5,11 @@ import { Button } from '../atoms'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-  container: {
+  container: props => ({
     textAlign: 'left',
     fontSize: '18px',
     lineHeight: '180%',
-    border: 'solid 1.2px',
+    border: props.hideBorder ? 'none' : 'solid 1.2px',
     borderRadius: 5,
     backgroundColor: 'white',
     position: 'relative',
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
       border: 'none',
       marginBottom: 30
     }
-  },
+  }),
   text: {
     fontSize: 15,
     [theme.breakpoints.down('sm')]: {
@@ -26,29 +26,29 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 30
     },
   },
-  buttonWrapper: {
+  buttonWrapper: props => ({
     position: 'absolute',
-    bottom: -20,
-    left: 34,
+    bottom: props.hideBorder ? -30 : -20,
+    left: props.hideBorder ? 0 : 34,
     [theme.breakpoints.down('sm')]: {
       left: 0,
     }
-  },
+  }),
   button: {
     margin: 0,
     maxHeight: 54
   },
-  textWrapper: {
-    padding: '30px 36px 37px 34px',
+  textWrapper: props => ({
+    padding: props.hideBorder ? '0 0 37px 0' : '30px 36px 37px 34px',
 
     [theme.breakpoints.down('sm')]: {
       padding: '20px 26px 30px 0px',
     }
-  }
+  })
 }))
 
-const BorderedTextBoxWithButton = ({ children, buttonLabel, onClick, gridProps, title }) => {
-  const classes = useStyles()
+const BorderedTextBoxWithButton = ({ children, buttonLabel, onClick, gridProps, hideBorder }) => {
+  const classes = useStyles({ hideBorder })
 
   return (
     <Grid

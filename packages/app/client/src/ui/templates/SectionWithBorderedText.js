@@ -14,16 +14,10 @@ const useStyles = makeStyles(theme => ({
       marginLeft: 0,
       marginBottom: 5,
     }
-  },
-  container: {
-    padding: 80,
-    [theme.breakpoints.down("xs")]: {
-      padding: 20
-    },
   }
 }))
 
-const SectionWithBorderedText = ({ reverse, boxTitle, boxDescription, actionLabel, bgColor, otherComponent, onClick }) => {
+const SectionWithBorderedText = ({ reverse, boxTitle, boxDescription, actionLabel, bgColor, otherComponent, onClick, hideBorder }) => {
   const classes = useStyles()
   const isMobileView = useIsMobileViewPort()
 
@@ -31,26 +25,16 @@ const SectionWithBorderedText = ({ reverse, boxTitle, boxDescription, actionLabe
     <TwoPartySection
       bgColor={bgColor}
       reverse={reverse && !isMobileView}
-      partiesContainerProps={[
-        {
-          sm: 12,
-          justify: 'flex-end'
-        },
-        {
-          sm: 12
-        }
-      ]}
-      containerProps={{ className: classes.container }}
     >
-      <Grid item container justify="center" xs={12} sm={12} md={10} lg={8}>
+      <Grid item container justify="center" xs={12} lg={8}>
         {otherComponent}
       </Grid>
-      <Grid direction="column" justify="center" container item xs={12} sm={12} md={10} lg={6}>
+      <Grid direction="column" justify="center" container item xs={12} lg={8}>
         <Typography className={classes.title} variant="h3">
           {boxTitle}
         </Typography>
 
-        <BorderedTextBoxWithButton gridProps={{ xs: 'auto' }}  onClick={onClick} buttonLabel={actionLabel}>
+        <BorderedTextBoxWithButton gridProps={{ xs: 'auto' }} hideBorder={hideBorder} onClick={onClick} buttonLabel={actionLabel}>
           {boxDescription}
         </BorderedTextBoxWithButton>
       </Grid>
