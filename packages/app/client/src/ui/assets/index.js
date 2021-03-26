@@ -9,6 +9,7 @@ import { ReactComponent as TalkBubble } from './talk_bubble.svg'
 import { ReactComponent as UploadIcon } from './upload.svg'
 import { ReactComponent as WebLink } from './weblink.svg'
 import { ReactComponent as Contact } from './contact.svg'
+import { ReactComponent as LoginIllustrationSVG } from './login_illustration.svg'
 export { default as ProjectsIntroImg } from './projects_intro.png'
 export { default as ForumIntroImg } from './forum_intro.png'
 
@@ -23,5 +24,6 @@ export {
   Contact,
   EmailSentSVG,
   ButterflySVG,
-  TalkBubble
+  TalkBubble,
+  LoginIllustrationSVG
 }
