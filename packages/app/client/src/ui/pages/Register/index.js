@@ -5,7 +5,7 @@ import { ERRORS } from '../../../actions/authActions'
 import { email, name, surname, password, termsCheckbox } from '../../../utils/formFields'
 import { validateEmail } from '../../../utils/validators'
 import { CreateAccountFooter, EmailSent } from './components'
-import { useContainerStyle } from '../../hooks'
+import { useContainerStyle, useToast } from '../../hooks'
 import validateCreationForm from './validateCreationForm'
 import { useIsMobileViewPort } from '../../hooks'
 import { SimpleFormWithHeader } from '../../organisms'
@@ -37,18 +37,20 @@ const formProps = [
 ]
 
 function Register () {
-  const [step, changeStep] = useState(1)
+  const [step, changeStep] = useState(0)
   const [verifiedEmail, saveEmail] = useState(undefined)
   const containerStyle = useContainerStyle({ size: 'small' })
   const isMobileViewPort = useIsMobileViewPort()
+  const { showToast } = useToast()
 
-  const verifyEmail = async (values, formActions) => {
+  const verifyEmail = async (values) => {
     try {
       await sendEmailToSignUp(values)
       saveEmail(values.email)
       changeStep(1)
     } catch (error) {
-      formActions.setErrors({ email: error.response?.data.err || ERRORS.GENERIC })
+      // TODO: Improve messages to be shorter
+      showToast({ message: error.response?.data.err || ERRORS.GENERIC, severity: 'danger' }) 
     }
   }
 
