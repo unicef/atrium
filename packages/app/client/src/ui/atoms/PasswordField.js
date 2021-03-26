@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   }
 })
 
-const PasswordField = (props) => {
+const PasswordField = ({ showCriteria, ...props }) => {
   const [showPassword, setPasswordVisibility] = useState(false)
   const [isFocused, setFocus] = useState(false)
   const classes = useStyles({ isFocused })
@@ -30,10 +30,10 @@ const PasswordField = (props) => {
       <TextField
         {...props}
         type={showPassword ? 'text' : 'password'}
-        onFocus={() => setFocus(true)}
+        onFocus={() => showCriteria && setFocus(true)}
         onBlur={(e) => {
           props.onBlur(e)
-          setFocus(false)
+          if (showCriteria) setFocus(false)
         }}
         endAdornment={
           <InputAdornment position="end">
@@ -48,7 +48,7 @@ const PasswordField = (props) => {
           </InputAdornment>
         }
       />
-      <PasswordInfoBubble isFocused={isFocused}/>
+      {showCriteria && <PasswordInfoBubble isFocused={isFocused}/>}
     </div>
   )
 }

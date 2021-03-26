@@ -29,7 +29,8 @@ module.exports = {
     label:'Password',
     initialValue: '',
     htmlFor: 'passwordInput',
-    type: 'password'
+    type: 'password',
+    showCriteria: true
   },
   termsCheckbox: {
     name: 'termsCheckbox',
