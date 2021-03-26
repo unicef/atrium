@@ -15,8 +15,32 @@ export const updateUserDetails = userDetails => {
   return axios.patch('users', userDetails)
 }
 
-export const changeUserPassword = passwordDetails => {
-  return axios.post('users/change-password', passwordDetails)
+export const changeUserPassword = async (passwordDetails) => {
+  try {
+    await axios.post('users/change-password', passwordDetails)
+
+  } catch(err) {
+    let errorMessage = ERRORS.GENERIC
+    if (err.response && err.response.status) {
+      switch (err.response.status) {
+        case 403:
+          errorMessage = ERRORS.AWAITING_VERIFICATION
+          break
+        case 400:
+          errorMessage = ERRORS.INVALID_CREDENTIALS
+          break
+        case 404:
+          errorMessage = ERRORS.EMAIL_NOT_FOUND
+          break
+        default:
+          break
+      }
+
+      throw errorMessage
+    }
+
+    throw errorMessage
+  }
 }
 
 export const uploadAvatar = avatar => {
