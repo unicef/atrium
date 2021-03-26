@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { logoutUser, setCurrentUser } from './actions/authActions'
 //import Login from './components/auth/Login'
 //import ForgotPassword from './components/auth/ForgotPassword'
-import ResetPassword from './components/auth/ResetPassword'
+//import ResetPassword from './components/auth/ResetPassword'
 import Dashboard from './components/dashboard/Dashboard'
 import ErrorPage from './components/ErrorPage/ErrorPage'
 import Reports from './components/reports'
@@ -44,7 +44,7 @@ import {
 import setAuthToken from './utils/setAuthToken'
 
 // pages
-import { Register, Login, ForgotPassword } from './ui/pages'
+import { Register, Login, ForgotPassword, ResetPassword } from './ui/pages'
 
 
 require('./utils/configureRequests')

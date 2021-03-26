@@ -5,9 +5,8 @@ import { ERRORS } from '../../../actions/authActions'
 import { email, name, surname, password, termsCheckbox } from '../../../utils/formFields'
 import { validateEmail } from '../../../utils/validators'
 import { CreateAccountFooter, EmailSent } from './components'
-import { useContainerStyle, useToast } from '../../hooks'
+import { useContainerStyle, useToast, useIsMobileViewPort } from '../../hooks'
 import validateCreationForm from './validateCreationForm'
-import { useIsMobileViewPort } from '../../hooks'
 import { SimpleFormWithHeader } from '../../organisms'
 
 const formProps = [
@@ -58,8 +57,8 @@ function Register () {
     try {
       await registerUser({ name, surname, email: verifiedEmail })
       changeStep(2)
-    } catch(e) {
-      console.log(e)
+    } catch(error) {
+      showToast({ message: error.response?.data.err || ERRORS.GENERIC, severity: 'danger' }) 
     }
   }
 
