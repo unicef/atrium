@@ -3,7 +3,7 @@ import Container from '@material-ui/core/Container'
 import { useContainerStyle } from '../../hooks'
 import { LearnGuideSVG, LearnRemixSVG } from '../../assets'
 import { SectionWithBorderedText } from '../../templates'
-import { Introduction } from './sections'
+import { Introduction, Quiz } from './sections'
 
 const Learn = () => {
   const containerStyle = useContainerStyle({ size: "full" })
@@ -19,7 +19,7 @@ const Learn = () => {
         actionLabel="View document (PDF, 456 KB)"
         otherComponent={<LearnGuideSVG />}
       />
-      <Introduction />
+      <Quiz />
       <SectionWithBorderedText
         bgColor="section-bg"
         boxDescription={`Are you a developer interested in writing digital rules for blockchain? 
