@@ -62,3 +62,7 @@ export function getAttachment(attachment) {
 export function getProject(projectId) {
   return axios.get(`projects/${projectId}`)
 }
+
+export function addUpdate(projectId, update) {
+  return axios.post(`projects/${projectId}/update`, update)
+}

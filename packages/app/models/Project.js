@@ -25,6 +25,7 @@ const ProjectSchema = new Schema({
   thematicArea: { type: String },
   contactPersonFullName: { type: String },
   contactPersonEmail: { type: String },
+  contactPerson: { type: Schema.Types.ObjectId, ref: 'users' },
 
   country: { type: String },
   organization: { type: String },
@@ -39,7 +40,8 @@ const ProjectSchema = new Schema({
   needs: { type: String },
   section: { type: String },
 
-  updates: [{ type: Object }]
+  team: [{ type: Schema.Types.ObjectId, ref: 'users' }],
+  updates: [{ type: Schema.Types.ObjectId, ref: 'updates' }]
 })
 
 ProjectSchema.set('toJSON', {

@@ -44,6 +44,26 @@ const authorizationHeader = 'Authorization'
 // @desc Register user
 // @access Public
 
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        inputs: req.body
+      },
+      'Getting filtered projects'
+    )
+    const users = await User.find()
+      console.log('users', users)
+    return res.status(200).json({ users })
+    //   const result = users.filter(el => el.name.includes(req.body.prefix) || el.email.includes(req.body.prefix))
+    // return res.status(200).json({ result })
+  }
+)
+
 router.get('/avatar/:s3key', async (req, res) => {
   log.info(
     {

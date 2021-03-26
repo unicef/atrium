@@ -17,7 +17,10 @@ import { useHistory } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 
 const useStyles = makeStyles(theme => ({
-  page: {
+  wrapper: {
+    width: '50%',
+    height: '100%',
+    paddingTop: '5%',
     marginBottom: theme.spacing(5)
   },
   counter: {
@@ -151,15 +154,7 @@ const useStyles = makeStyles(theme => ({
     color: 'gray'
   },
   introButton: {
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: 450,
-    fontSize: 13,
-    textTransform: 'none',
-    borderColor: 'rgb(1, 206, 75)',
-    marginLeft: '5%',
-    borderRadius: '3px',
-    color: 'rgb(1, 206, 75)'
+    margin: '0 0 0 5%'
   },
   cancelButton: {
     borderColor: 'rgb(1, 206, 75)',
@@ -243,9 +238,8 @@ export const FirstProjectForm = props => {
   }
   const [characters, setCharacters] = useState(0)
   const [contactPerson, setContactPerson] = useState(false)
-
   return (
-    <div className={classes.page}>
+    <div className={classes.wrapper}>
       <Typography
         color="secondary"
         variant="h3"
@@ -291,7 +285,7 @@ export const FirstProjectForm = props => {
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                {props.editting ? (
+                {values.editting ? null : (
                   <div className={classes.dropBoxBorder}>
                     <div>
                       <CloudUploadIcon fontSize="large" />
@@ -307,7 +301,7 @@ export const FirstProjectForm = props => {
                       setAttachment={val => setFieldValue('attachment', val)}
                     />
                   </div>
-                ) : null}
+                )}
               </Grid>
               <Grid item xs={12}>
                 <InputLabel
@@ -613,7 +607,11 @@ export const FirstProjectForm = props => {
               <Button color="primary" type="submit">
                 Save
               </Button>
-              <Button onClick={cancelHandler} color="secondary" variant="outlined">
+              <Button
+                onClick={cancelHandler}
+                color="secondary"
+                variant="outlined"
+              >
                 Cancel
               </Button>
             </div>
