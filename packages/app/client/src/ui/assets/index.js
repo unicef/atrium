@@ -12,6 +12,7 @@ import { ReactComponent as Contact } from './contact.svg'
 import { ReactComponent as LearnGuideSVG } from './learn_guide.svg'
 import { ReactComponent as LearnRemixSVG } from './learn_remix.svg'
 import { ReactComponent as LearnIntroductionSVG } from './learn_introduction.svg'
+import { ReactComponent as LearnQuizSVG } from './learn_quiz.svg'
 export { default as ProjectsIntroImg } from './projects_intro.png'
 export { default as ForumIntroImg } from './forum_intro.png'
 
@@ -29,5 +30,6 @@ export {
   TalkBubble,
   LearnGuideSVG,
   LearnIntroductionSVG,
-  LearnRemixSVG
+  LearnRemixSVG,
+  LearnQuizSVG
 }
