@@ -101,3 +101,16 @@ export const addCommentToProject = (
     dispatch(setError(errorMessage))
   }
 }
+
+export const addUpdateToProject = (projectId, formData) => async dispatch => {
+  try {
+    const { data } = await ProjectApi.addUpdate(projectId, {
+      text: formData.text,
+      title: formData.title
+    })
+    dispatch(updateProjectList(data.project))
+  } catch (err) {
+    const errorMessage = get(err, 'response.data.err', GENERIC_ERROR)
+    dispatch(setError(errorMessage))
+  }
+}

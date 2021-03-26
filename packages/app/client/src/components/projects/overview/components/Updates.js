@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Container from '@material-ui/core/Container'
-import { editProject } from '../../../../actions/projectActions'
+import { addUpdateToProject } from '../../../../actions/projectActions'
 import { refreshToken } from '../../../../actions/authActions'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
@@ -8,34 +8,22 @@ import { connect } from 'react-redux'
 import UpdatesForm from './UpdatesForm'
 
 function Updates(props) {
-  const [dynamicFormData, setDynamicFormData] = useState({
-    projectId: props._id,
-    updates: props.updates || []
-  })
-
-  const handleCreateProject = async data => {
-    const { projectId } = dynamicFormData
-    await setDynamicFormData(prev => ({ ...prev, ...data }))
-    await props.editProject(projectId, data, () => {
-      window.location.reload()
-    })
+  const handleCreateProject = async formData => {
+    const projectId = props._id
+    await props.addUpdateToProject(projectId, formData)
     props.refreshToken()
+    window.location.reload()
   }
 
   return (
     <Container>
-      <div>
-        <UpdatesForm
-          formData={dynamicFormData}
-          handleCreateProject={handleCreateProject}
-        />
-      </div>
+      <UpdatesForm handleCreateProject={handleCreateProject} />
     </Container>
   )
 }
 
 Updates.propTypes = {
-  editProject: PropTypes.func.isRequired,
+  addUpdateToProject: PropTypes.func.isRequired,
   refreshToken: PropTypes.func.isRequired
 }
 
@@ -44,5 +32,5 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-  connect(mapStateToProps, { refreshToken, editProject }),
+  connect(mapStateToProps, { refreshToken, addUpdateToProject }),
 )(Updates)

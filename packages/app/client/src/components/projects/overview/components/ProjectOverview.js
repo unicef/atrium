@@ -134,7 +134,8 @@ function ProjectOverview(props) {
       setDynamicFormData({
         projectId: props._id,
         websiteLink: props.websiteLink || '',
-        linkToRepository: props.linkToRepository || ''
+        linkToRepository: props.linkToRepository || '',
+        attachment: props.attachment || ''
       })
     }
   }, [props._id])
@@ -194,7 +195,11 @@ function ProjectOverview(props) {
             </Typography>
           </div>
           <div className={classes.card}>
-            <CirclePercents value={updateCounter} text={updateCounter} />
+            <CirclePercents
+              update={true}
+              value={updateCounter === 0 ? 0 : 100}
+              text={updateCounter}
+            />
             <Typography className={classes.cardText} variant="subtitle1">
               Update
             </Typography>

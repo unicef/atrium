@@ -27,7 +27,7 @@ function CirclePercents(props) {
         className={classes.circle}
       />
       <Typography variant="body1" className={classes.text}>
-        {props.text}%
+        {props.update ? `${props.text}` : `${props.text}%`}
       </Typography>
     </>
   )

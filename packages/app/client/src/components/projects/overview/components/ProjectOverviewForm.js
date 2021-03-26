@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import { Button, TextField } from '../../../../ui'
 import InputLabel from '@material-ui/core/InputLabel'
 import makeStyles from '@material-ui/core/styles/makeStyles'
+import { MyPost, ProjectPicture } from '../assets'
 
 const useDefaultStyles = makeStyles(() => ({
   header: {
@@ -13,6 +14,14 @@ const useDefaultStyles = makeStyles(() => ({
   input: {
     color: 'black',
     marginTop: '5%'
+  },
+  myPostButton: {
+    width: '46px',
+    height: '46px',
+    padding: 0,
+    margin: '-60% 0 0 -50%',
+    minWidth: 0,
+    borderRadius: '50%'
   }
 }))
 
@@ -48,30 +57,30 @@ function ProjectOverviewForm(props) {
             ...props
           }) => (
             <form noValidate onSubmit={props.handleSubmit}>
-              <Typography
-                className={classes.header}
-                variant="subtitle1"
-              >
+              <Typography className={classes.header} variant="subtitle1">
                 Project Photo
               </Typography>
-              <div className={classes.image}>
-                <img src={values.attachment} alt="LoadProjectImage" />
-                {/*<AttachmentUploader*/}
-                {/*  attachment={values.attachment}*/}
-                {/*  setAttachment={val => setFieldValue('attachment', val)}*/}
-                {/*/>*/}
-              </div>
-              <Typography
-                className={classes.header}
-                variant="subtitle1"
-              >
+              {values.attachment ? (
+                <img
+                  className={classes.image}
+                  src={values.attachment}
+                  alt="LoadProjectImage"
+                />
+              ) : (
+                <img
+                  className={classes.image}
+                  src={ProjectPicture}
+                  alt="LoadProjectImage"
+                />
+              )}
+              <Button color="primary" className={classes.myPostButton}>
+                <img src={MyPost} />
+              </Button>
+              <Typography className={classes.header} variant="subtitle1">
                 Documents
               </Typography>
               <Button color="primary">+ Add document file</Button>
-              <Typography
-                className={classes.header}
-                variant="subtitle1"
-              >
+              <Typography className={classes.header} variant="subtitle1">
                 Links
               </Typography>
               <InputLabel

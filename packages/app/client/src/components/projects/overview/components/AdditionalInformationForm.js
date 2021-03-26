@@ -9,6 +9,9 @@ import { Button } from '../../../../ui'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import {useHistory} from "react-router-dom"
+import { AGENCIES_LIST } from '../../../../unin-constants'
+
+
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -160,11 +163,7 @@ function AdditionalInformationForm(props) {
                 <MenuItem value="">
                   <em className={classes.chooseSelect}>Choose</em>
                 </MenuItem>
-                <MenuItem value="FirstOrganization">FirstOrganization</MenuItem>
-                <MenuItem value="SecondOrganization">
-                  SecondOrganization
-                </MenuItem>
-                <MenuItem value="ThirdOrganization">ThirdOrganization</MenuItem>
+                {AGENCIES_LIST.map(company => <MenuItem value={company.name}>{company.name}</MenuItem>)}
               </Select>
             </div>
             <div className={classes.selectDiv}>
