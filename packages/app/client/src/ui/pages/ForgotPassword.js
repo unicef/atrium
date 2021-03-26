@@ -7,17 +7,11 @@ import { validateEmail } from '../../utils/validators'
 import { sendForgotPasswordEmail } from '../../api/users'
 import { EmailSent } from './Register/components'
 
-const formProps = [
-  {
-    title: "Forgot password",
-    titleProps: {
-      alignMobile: "left",
-      align: "center"
-    },
-    validate: ({ email }) => validateEmail(email),
-    submitLabel: 'Reset password',
-    fields: [email],
-    buttonLayout: { xs: 8, sm: 8 }
+const formProps = {
+  title: "Forgot password",
+  titleProps: {
+    alignMobile: "left",
+    align: "center"
   },
   validate: ({ email }) => validateEmail(email),
   submitLabel: 'Reset password',
@@ -44,21 +38,10 @@ const ForgotPassword = () => {
   const verifyEmail = async ({ email }) => {
     try {
       await sendForgotPasswordEmail({ email })
-      changeStep(1)
+      saveEmail(email)
+      showEmailWasSent(true)
     } catch(e) {
-      // TODO: add handler
-      console.log(e)
-    }
-  }
-  const showSuccess = step === 2
-
-  const saveNewPassword = async ({ password }) => {
-    try {
-      await changeUserPassword({ password })
-      changeStep(2)
-    } catch(e) {
-      // TODO: add handler
-      console.log(e)
+      showToast({ message: e, severity: 'danger' }) 
     }
   }
 
