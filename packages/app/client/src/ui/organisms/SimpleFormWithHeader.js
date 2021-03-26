@@ -20,7 +20,9 @@ const SimpleFormWithHeader = (props) => {
         submitLabel={props.submitLabel}
         buttonLayout={props.buttonLayout}
         initialErrors={props.initialErrors}
-      />
+      >
+        {props.renderBellowForm}
+      </Form>
     </Grid>
   )
 }
