@@ -17,7 +17,8 @@ export const colors = {
   watermelon: 'rgb(253, 69, 91)', // #fd455b
   'white-smoke': 'rgb(248,248,248)', // #F5F5F5
   'error': 'rgb(230, 50, 50)',//'#E63232'
-  'blue-info': 'rgb(23, 143, 226)' //#178FE2
+  'blue-info': 'rgb(23, 143, 226)', //#178FE2,
+  'section-bg': 'rgb(221,251,246)' //#DDFBF6
 }
 
 export const theme = createMuiTheme({
