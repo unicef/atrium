@@ -1,84 +1,128 @@
 import axios from 'axios'
 import errorHandling from '../utils/errorHandling'
 
+const ROUTE = 'users'
+
+// ENDPOINTS
+const changeUserPasswordEndpoint = 'change-password'
+const uploadAvatarEndpoint = 'avatar'
+const sendEmailToSignUpEndpoint = 'email-to-sign-up'
+const sendForgotPasswordEmailEndpoint = 'email-forgot-password'
+const resetPasswordEndpoint = 'reset-password'
+const registerUserEndpoint = 'register'
+const loginUserEndpoint = 'login'
+const getSearchUserEndpoint = (params) => {
+  const queryParams = Object.keys(params).map(key => `${key}=${params[key]}`)
+  return `search?${queryParams}`
+}
+
+// ERRORS
 export const ERRORS = {
-  USER_ACTIVITY: 'Unable to get user activity, refresh the page to try again',
-  LOGIN_EXPIRED: 'Session expired, login again',
-  GENERIC:
-    'Oops, something went wrong... Please try again and if the issue persists email blockchain@uninnovation.network',
-  403:
-    'Your account is waiting verification. Please check your email',
-  400: 'Your email or password are incorrect',
-  404: `Your email wasn't found in our system. Please make sure you've entered it correctly, or, if you haven't signed up, please click the Register button`
+  503: 'Unable to get user activity, refresh the page to try again',
+  403: 'Session expired, login again',
+  404: "Your email wasn't found in our system. Please make sure you've entered it correctly, or, if you haven't signed up, please click the Register button"
 }
 
-const handleError = errorHandling(ERRORS)
+const getStandardizedError = errorHandling(ERRORS)
 
-export const updateUserDetails = userDetails => {
-  return axios.patch('users', userDetails)
-}
-
-export const changeUserPassword = async (passwordDetails) => {
+//BASE REQUEST
+const usersRequest = async ({ method, endpoint, body, overwritingErrors }) => {
   try {
-    await axios.post('users/change-password', passwordDetails)
+    const composedEndpoint = endpoint ? `/${endpoint}` : ''
 
-  } catch(err) {
-    throw handleError(err, { 401: 'Invalid token' })
+    return await axios[method](`${ROUTE}${composedEndpoint}`, body)
+  } catch(error) {
+    throw getStandardizedError(error, overwritingErrors)
   }
 }
 
-export const uploadAvatar = avatar => {
-  return axios.post('users/avatar', avatar)
-}
+// REQUESTS
+export const updateUserDetails = (userDetails) => usersRequest({
+  method: 'patch',
+  body: userDetails
+})
+
+export const changeUserPassword = (password) => usersRequest({
+  method: 'post',
+  endpoint: changeUserPasswordEndpoint,
+  body: { password },
+  overwritingErrors: { 401: 'Invalid token' }
+})
+
+export const uploadAvatar = (avatar) => usersRequest({
+  method: 'post',
+  endpoint: uploadAvatarEndpoint,
+  body: avatar
+})
+
 /**
  * Search for a user with a given set of params
  * @param {SearchParams} params
  */
-export const searchUser = params => {
-  const queryParams = Object.keys(params).map(key => `${key}=${params[key]}`)
-  return axios.get(`users/search?${queryParams}`)
-}
+export const searchUser = (params) => usersRequest({
+  method: 'get',
+  endpoint: getSearchUserEndpoint(params)
+})
 
-export const getUserInformation = userId => {
-  return axios.get(`users/${userId}`)
-}
+export const getUserInformation = (userId) => usersRequest({
+  method: 'get',
+  endpoint: userId
+})
 
-export const sendEmailToSignUp = (email) => {
-  return axios.post('users/email-to-sign-up', { emailHash: email })
-}
+export const sendEmailToSignUp = (email) => usersRequest({
+  method: 'post',
+  endpoint: sendEmailToSignUpEndpoint,
+  body: { email },
+  overwritingErrors: { 500: 'Your account is waiting verification. Please check your email' }
+})
 
-export const sendForgotPasswordEmail = async (userData) => {
-  try {
-    await axios.post('users/email-forgot-password', userData)
-  } catch (err) {
-    throw handleError(err)
-  }
-}
+export const sendForgotPasswordEmail = (email) => usersRequest({
+  method: 'post',
+  endpoint: sendForgotPasswordEmailEndpoint,
+  body: { email }
+})
 
-export const resetPassword = userData => {
-  return axios.post('users/reset-password', userData)
-}
+/**
+ * Reset password
+ * @param {Object} data 
+ * @property {String} data.token
+ * @property {String} data.password
+ * @returns {Promise}
+ */
+export const resetPassword = (data) => usersRequest({
+  method: 'post',
+  endpoint: resetPasswordEndpoint,
+  body: data
+})
+
 /**
  * Function to register a user after the email verification
  * @param {Object} userData 
- * @property {String} userData.email
+ * @property {String} userData.emailHash
+ * @property {String} userData.invitationCode
+ * @property {String} userData.company
+ * @property {String} userData.role
  * @property {String} userData.name
  * @property {String} userData.surname
  * @property {String} userData.password
- * @returns 
+ * @returns {Promise}
  */
-export const registerUser = async (userData) => {
-  try {
-    await axios.post('users/register', userData)
-  } catch(e) {
-    throw handleError(e)
-  }
-}
+export const registerUser = (userData) => usersRequest({
+  method: 'post',
+  endpoint: registerUserEndpoint,
+  body: userData
+})
 
-export const loginUser = async (userData) => {
-  try {
-    return await axios.post('users/login', userData)
-  } catch(err) {
-    throw handleError(err)
-  }
-}
+/**
+ * Function to authenticate the user credentials
+ * @param {Object} userData 
+ * @property {String} userData.email
+ * @property {String} userData.password
+ * @returns {Promise}
+ */
+export const loginUser = (userData) => usersRequest({
+  method: 'post',
+  endpoint: loginUserEndpoint,
+  body: userData,
+  overwritingErrors: { 400: 'Your email or password are incorrect' }
+})
