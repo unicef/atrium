@@ -42,14 +42,13 @@ function Register () {
   const isMobileViewPort = useIsMobileViewPort()
   const { showToast } = useToast()
 
-  const verifyEmail = async (values) => {
+  const verifyEmail = async ({ email }) => {
     try {
-      await sendEmailToSignUp(values)
-      saveEmail(values.email)
+      await sendEmailToSignUp(email)
+      saveEmail(email)
       changeStep(1)
     } catch (error) {
-      // TODO: Improve messages to be shorter
-      showToast({ message: error.response?.data.err || ERRORS.GENERIC, severity: 'danger' }) 
+      showToast({ message: error, severity: 'danger' }) 
     }
   }
 

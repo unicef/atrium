@@ -6,7 +6,7 @@ import { Button, Title } from '../atoms'
 import { password } from '../../utils/formFields'
 import { useContainerStyle, useToast } from '../hooks'
 import { validatePassword } from '../../utils/validators'
-import { changeUserPassword } from '../../api/users'
+import { resetPassword } from '../../api/users'
 
 const formProps = {
   title: "Reset password",
@@ -33,7 +33,7 @@ const ForgotPassword = ({ history, match }) => {
   
   const saveNewPassword = async ({ password }) => {
     try {
-      await changeUserPassword({ password, token })
+      await resetPassword({ password, token })
       setSuccess(true)
     } catch(e) {
       showToast({ message: e, severity: 'danger' })
