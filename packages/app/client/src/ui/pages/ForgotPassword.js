@@ -27,7 +27,7 @@ const ForgotPassword = () => {
 
   const verifyEmail = async ({ email }) => {
     try {
-      await sendForgotPasswordEmail({ email })
+      await sendForgotPasswordEmail(email)
       saveEmail(email)
       showEmailWasSent(true)
     } catch(e) {
