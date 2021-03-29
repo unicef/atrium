@@ -15,7 +15,7 @@ const Quiz = () => {
         reverse
         hideBorder
       />
-      {/* <QuizQuestions /> */}
+      <QuizQuestions />
     </>
   )
 }

@@ -1,11 +1,14 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import { Title, Subtitle } from '../../../atoms'
+import { TwoPartySection } from '../../../templates'
 
 const QuizQuestions = () => {
+  const headerPartiesPositioning = { justify: 'flex-end' }
   return (
-    <Grid item container xs={12}>
-      <Grid item container justify="space-between" xs={12}>
+    <TwoPartySection
+      partiesContainerProps={[headerPartiesPositioning, headerPartiesPositioning]}
+    >
         <Title>
           Questions
         </Title>
@@ -13,8 +16,7 @@ const QuizQuestions = () => {
         <Subtitle>
           Yes
         </Subtitle>
-      </Grid>
-    </Grid>
+    </TwoPartySection>
   )
 }
 
