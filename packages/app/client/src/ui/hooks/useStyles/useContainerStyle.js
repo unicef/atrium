@@ -4,6 +4,10 @@ const useStyles = makeStyles({
   small: {
     maxWidth: 475,
     marginTop: 50
+  },
+  regular: {
+    maxWidth: 1024,
+    marginTop: 50
   }
 })
 

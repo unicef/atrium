@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import { Button } from '../atoms'
 import { InputList } from '../molecules'
 
-const Form =  ({ fields, ...props }) => {
+const Form =  ({ fields, children, ...props }) => {
   const initialValues = fields.reduce((values, field) => ({ ...values, [field.name]: field.initialValue }), {})
 
   return (
@@ -18,6 +18,8 @@ const Form =  ({ fields, ...props }) => {
           <FormikForm>
             <Grid container spacing={2}>
               <InputList fields={fields} formProps={formProps}/>
+
+              {children}
 
               <Grid item {...props.buttonLayout}>
                 <Button
