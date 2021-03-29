@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme =>
     }),
     parties: {
       [theme.breakpoints.up("md")]: {
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
       }
     }
   })
@@ -37,9 +38,9 @@ const TwoPartySection = ({ bgColor, containerProps, partiesContainerProps, ...pr
   }
 
   return (
-    <Grid container item xs={12} justify="center" { ...containerProps} className={containerClasses}>
-      <Grid container item justify="space-evenly" xs={12} md={10}>
-        <Grid item container xs={12} sm={12} md={6} justify="flex-end" {...firstPartyProps} className={firstPartyClasses}>
+    <Grid container item justify="center" xs={12} {...containerProps} className={containerClasses}>
+      <Grid container item  xs={12} md={10}>
+        <Grid item container xs={12} sm={12} md={6} {...firstPartyProps} className={firstPartyClasses}>
           {children[0]}
         </Grid>
         <Grid item container xs={12} sm={12} md={6} {...secondPartyProps} className={secondPartyClasses}>

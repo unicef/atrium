@@ -8,7 +8,6 @@ import { TitleAndSubtitle } from '../../../molecules'
 const Introduction = () => {
   return (
     <TwoPartySection
-      partiesContainerProps={[{ alignItems: 'center' }]}
     >
       <Grid item xs={12} lg={8}>
         <TitleAndSubtitle
