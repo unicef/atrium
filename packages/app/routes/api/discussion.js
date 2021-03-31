@@ -77,7 +77,7 @@ router.post(
       if (
         !(await badgesLibrary.hasBadge(BADGE_ENUM.INFLUENCER, req.user.address))
       ) {
-        // await badgesLibrary.issueBadge(BADGE_ENUM.INFLUENCER, req.user.address)
+        await badgesLibrary.issueBadge(BADGE_ENUM.INFLUENCER, req.user.address)
         await logIssueBadge(req.user.id, BADGE_ENUM.INFLUENCER)
       }
       await logCreateDiscussion(req.user.id, savedDiscussion.id)
@@ -270,7 +270,7 @@ router.post(
       if (
         !(await badgesLibrary.hasBadge(BADGE_ENUM.INFLUENCER, req.user.address))
       ) {
-        // await badgesLibrary.issueBadge(BADGE_ENUM.INFLUENCER, req.user.address)
+        await badgesLibrary.issueBadge(BADGE_ENUM.INFLUENCER, req.user.address)
         await logIssueBadge(req.user.id, BADGE_ENUM.INFLUENCER)
       }
       await logParticipateInDiscussion(req.user.id, updatedDiscussion.id)

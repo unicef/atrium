@@ -182,7 +182,7 @@ router.post(
             },
             'Issuing Influencer badge'
           )
-          // await badgesLibrary.issueBadge(BADGE_ENUM.INFLUENCER, address)
+          await badgesLibrary.issueBadge(BADGE_ENUM.INFLUENCER, address)
           await logIssueBadge(req.user.id, BADGE_ENUM.INFLUENCER)
         }
 

@@ -65,7 +65,7 @@ export const registerUser = (userData, submitStage) => dispatch => {
       let errorMessage = ERRORS.GENERIC
       if (err.response && err.response.status) {
         switch (err.response.status) {
-          case 412: // 412 is for unverified email
+          case 412: //412 is for unverified email
             errorMessage = ERRORS.AWAITING_VERIFICATION
             break
           default:

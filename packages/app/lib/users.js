@@ -13,13 +13,12 @@ const log = require('../config/log')
  */
 const getBadgesForUser = async address => {
   log.info({ address }, 'getBadgesForUser')
-  // return await Promise.all([
-  //   badges.hasBadge(BADGE_ENUM.MEMBER, address),
-  //   badges.hasBadge(BADGE_ENUM.CONTRIBUTOR, address),
-  //   badges.hasBadge(BADGE_ENUM.INFLUENCER, address)
-  //   // badges.hasBadge(4, address)
-  // ])
-  return [false, false, false]
+  return await Promise.all([
+    badges.hasBadge(BADGE_ENUM.MEMBER, address),
+    badges.hasBadge(BADGE_ENUM.CONTRIBUTOR, address),
+    badges.hasBadge(BADGE_ENUM.INFLUENCER, address)
+    // badges.hasBadge(4, address)
+  ])
 }
 
 /**

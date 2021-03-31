@@ -235,7 +235,7 @@ router.post(
               address
             )
             if (!hasBadge) {
-              // await BadgesLibrary.issueBadge(BADGE_ENUM.CONTRIBUTOR, address)
+              await BadgesLibrary.issueBadge(BADGE_ENUM.CONTRIBUTOR, address)
               await logIssueBadge(req.user.id, BADGE_ENUM.CONTRIBUTOR)
             }
           }
