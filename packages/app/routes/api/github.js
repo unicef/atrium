@@ -102,7 +102,7 @@ router.post(
               { requestId: req.id, user: req.user.id },
               'Issuing badge to user'
             )
-            // await badges.issueBadge(2, updatedUser.address)
+            await badges.issueBadge(2, updatedUser.address)
             res.send(updatedUser)
           })
           .catch(err => {

@@ -177,7 +177,7 @@ router.put(
           retrievedUser.address
         )
         if (!hasBadge) {
-          // await badges.issueBadge(BADGE_ENUM.MEMBER, retrievedUser.address)
+          await badges.issueBadge(BADGE_ENUM.MEMBER, retrievedUser.address)
           await logIssueBadge(retrievedUser.id, BADGE_ENUM.MEMBER).catch(
             logError => {
               log.error(
