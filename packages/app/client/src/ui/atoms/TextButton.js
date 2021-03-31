@@ -1,15 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
-import { withStyles, Button } from '@material-ui/core'
+import { withStyles } from '@material-ui/core'
+import { Button } from './Button'
 
 const styles = theme => ({
-  anchor: {
-    color: theme.colors['black'],
+  anchor: props => ({
+    color: theme.colors[props.labelColor],
     textDecoration: 'none',
     textTransform: 'none',
     padding: 0
-  }
+  })
 })
 
 export const TextButton = withStyles(styles)(
