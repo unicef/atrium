@@ -10,8 +10,9 @@ import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
 import { Button } from '../../../../ui'
 import { useHistory } from 'react-router-dom'
-import TeamMembersModal from "../modals/TeamMembersModal";
-import {DeleteButton} from "../assets";
+import TeamMembersModal from '../modals/TeamMembersModal'
+import { DeleteButton } from '../assets'
+import PersonInformation from './PersonInformation'
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -34,26 +35,6 @@ const useDefaultStyles = makeStyles(theme => ({
   subtitle: {
     margin: '5% 0 3% 0',
     fontSize: '22px'
-  },
-  personInfo: {
-    border: '1.6px solid #E7E7E7',
-    borderRadius: '5px',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '3%',
-    height: '100px',
-    display: 'flex',
-    padding: '4%'
-  },
-  personFullName: {
-    fontSize: '17px',
-    marginBottom: '2%'
-  },
-  avatar: {
-    width: '53px',
-    height: '53px',
-    borderRadius: '50%',
-    marginRight: '2%'
   },
   top: {
     margin: '5% 0 3% 0',
@@ -119,27 +100,7 @@ function Team(props) {
             Contact person
           </Typography>
           {props.contactPerson ? (
-            <div className={classes.personInfo}>
-              <div style={{display: 'flex'}}>
-                <img
-                  className={classes.avatar}
-                  alt="Avatar"
-                  src={props.contactPerson.avatar}
-                />
-                <div>
-                  <Typography
-                    color="secondary"
-                    className={classes.personFullName}
-                    variant="subtitle1"
-                  >
-                    {props.contactPerson.name /* then + surname*/}
-                  </Typography>
-                  <Typography color="secondary" variant="body1">
-                    {props.contactPerson.email}
-                  </Typography>
-                </div>
-              </div>
-            </div>
+            <PersonInformation mode="page" user={props.contactPerson} />
           ) : null}
         </div>
 
@@ -168,28 +129,15 @@ function Team(props) {
             />
           </div>
           {props.team.map(member => (
-            <div key={Math.random()} className={classes.personInfo}>
-              <div style={{display: 'flex'}}>
-                <img
-                  className={classes.avatar}
-                  alt="Avatar"
-                  src={member.avatar}
-                />
-                <div>
-                  <Typography
-                    color="secondary"
-                    className={classes.personFullName}
-                    variant="subtitle1"
-                  >
-                    {member.name /* then + surname*/}
-                  </Typography>
-                  <Typography color="secondary" variant="body1">
-                    {member.email}
-                  </Typography>
-                </div>
-              </div>
-              <Button onClick={() => deleteHandler(member._id)} color="secondary" className={classes.deleteButton}><img alt="delete icon" src={DeleteButton}/></Button>
-            </div>
+            <PersonInformation mode="page" key={Math.random()} user={member}>
+              <Button
+                onClick={() => deleteHandler(member._id)}
+                color="secondary"
+                className={classes.deleteButton}
+              >
+                <img alt="delete icon" src={DeleteButton} />
+              </Button>
+            </PersonInformation>
           ))}
         </div>
         <div>
@@ -214,4 +162,6 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default compose(connect(mapStateToProps, { refreshToken, deleteMemberFromProject }))(Team)
+export default compose(
+  connect(mapStateToProps, { refreshToken, deleteMemberFromProject })
+)(Team)

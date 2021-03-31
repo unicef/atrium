@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import { getFilteredUsers as getFilteredUsersActions } from '../../../../actions/authActions'
 import { Email } from '../assets'
 import { OutlinedInput } from '@material-ui/core'
+import PersonInformation from '../components/PersonInformation'
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -27,29 +28,9 @@ const useDefaultStyles = makeStyles(theme => ({
     textAlign: 'center'
   },
   usersList: {
-    borderBottom: '1.6px solid #E7E7E7',
     width: '90%',
-    maxHeight: '207px'
-  },
-  personInfo: {
-    borderBottom: '1.6px solid #E7E7E7',
-    height: '69px',
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginLeft: '5%'
-  },
-  personFullName: {
-    fontSize: '17px',
-    marginBottom: '2%',
-    textAlign: 'left'
-  },
-  avatar: {
-    width: '53px',
-    height: '53px',
-    borderRadius: '50%',
-    marginRight: '2%'
+    maxHeight: '207px',
+    height: '207px'
   },
   conditionButton: {
     width: '76px',
@@ -59,9 +40,12 @@ const useDefaultStyles = makeStyles(theme => ({
     border: '1px solid #E63232'
   },
   inviteSection: {
+    borderTop: '1.6px solid #E7E7E7',
+    paddingTop: '15px',
+    width: '90%',
+    margin: '0 5%',
     display: 'flex',
-    alignItems: 'center',
-    marginTop: '5%'
+    alignItems: 'center'
   },
   inviteButton: {
     width: '39px',
@@ -88,9 +72,6 @@ const useDefaultStyles = makeStyles(theme => ({
     margin: '0 0 0 5%',
     borderRadius: '15px',
     border: '1px solid #202625'
-  },
-  noBorder: {
-    border: 'none'
   },
   errorText: {
     color: '#E63232',
@@ -148,7 +129,14 @@ function TeamMembersModal(props) {
   }
 
   return (
-    <CommonModal open={open} onClose={() => { onClose(); setOpenEmail(false); setUsers([])}}>
+    <CommonModal
+      open={open}
+      onClose={() => {
+        onClose()
+        setOpenEmail(false)
+        setUsers([])
+      }}
+    >
       <div className={classes.wrapper}>
         <Typography className={classes.header} variant="h3" color="secondary">
           Add team member
@@ -162,33 +150,11 @@ function TeamMembersModal(props) {
         <div className={classes.usersList}>
           {!userError ? (
             users.map((member, i) => (
-              <div
+              <PersonInformation
+                mode={i === users.length - 1 ? 'lastInModal' : 'modal'}
                 key={Math.random()}
-                className={
-                  i === users.length - 1
-                    ? [classes.personInfo, classes.noBorder].join(' ')
-                    : classes.personInfo
-                }
+                user={member}
               >
-                <div style={{display: 'flex'}}>
-                  <img
-                    className={classes.avatar}
-                    alt="Avatar"
-                    src={member.avatar}
-                  />
-                  <div>
-                    <Typography
-                      color="secondary"
-                      className={classes.personFullName}
-                      variant="subtitle1"
-                    >
-                      {member.name /* then + surname*/}
-                    </Typography>
-                    <Typography color="secondary" variant="body1">
-                      {member.email}
-                    </Typography>
-                  </div>
-                </div>
                 <div>
                   {addState[member._id] ? (
                     <Button
@@ -208,7 +174,7 @@ function TeamMembersModal(props) {
                     </Button>
                   )}
                 </div>
-              </div>
+              </PersonInformation>
             ))
           ) : (
             <Typography variant="body2" className={classes.errorText}>
@@ -229,7 +195,7 @@ function TeamMembersModal(props) {
           </Button>
           {openEmail ? (
             <div className={classes.rightPart}>
-              <div style={{ width: '100%'}}>
+              <div style={{ width: '100%' }}>
                 <OutlinedInput
                   placeholder="@atrium.com"
                   fullWidth
@@ -255,7 +221,12 @@ function TeamMembersModal(props) {
                   }
                 />
                 {error ? (
-                  <Typography variant="body2" className={[classes.errorText, classes.errorPlace].join(' ')}>
+                  <Typography
+                    variant="body2"
+                    className={[classes.errorText, classes.errorPlace].join(
+                      ' '
+                    )}
+                  >
                     Wrong email
                   </Typography>
                 ) : null}
@@ -284,7 +255,9 @@ function TeamMembersModal(props) {
           )}
         </div>
         {count === 0 ? null : (
-          <Button color="primary" onClick={submitHandler}>Add {count} members</Button>
+          <Button color="primary" onClick={submitHandler}>
+            Add {count} members
+          </Button>
         )}
       </div>
     </CommonModal>
@@ -292,5 +265,9 @@ function TeamMembersModal(props) {
 }
 
 export default compose(
-  connect(null, { getFilteredUsers: getFilteredUsersActions, refreshToken, addMembersToProject })
+  connect(null, {
+    getFilteredUsers: getFilteredUsersActions,
+    refreshToken,
+    addMembersToProject
+  })
 )(TeamMembersModal)

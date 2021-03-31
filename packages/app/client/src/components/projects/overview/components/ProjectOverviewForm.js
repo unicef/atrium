@@ -63,19 +63,11 @@ function ProjectOverviewForm(props) {
               <Typography className={classes.header} variant="subtitle1">
                 Project Photo
               </Typography>
-              {values.attachment ? (
-                <img
-                  className={classes.image}
-                  src={values.attachment}
-                  alt="LoadProjectImage"
-                />
-              ) : (
-                <img
-                  className={classes.image}
-                  src={ProjectPicture}
-                  alt="LoadProjectImage"
-                />
-              )}
+              <img
+                className={classes.image}
+                src={values.attachment || ProjectPicture}
+                alt="LoadProjectImage"
+              />
               <Button color="primary" className={classes.myPostButton}>
                 <img src={MyPost} />
               </Button>
