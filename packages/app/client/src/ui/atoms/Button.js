@@ -76,7 +76,12 @@ const useStyles = makeStyles(theme => ({
     }
   },
   secondary: {
-  }
+  },
+  full: props => ({
+    maxHeight: 51,
+    margin: 0,
+    color: theme.colors[props.labelColor],
+  })
 }))
 
 export const Button = ({
@@ -87,11 +92,12 @@ export const Button = ({
   className,
   ...props
 }) => {
-  const classes = useStyles()
+  const classes = useStyles(props)
 
   const buttonClassName = classnames(className || '', {
     [classes.sizeMini]: size === 'mini',
     [classes.isSmall]: size === 'small',
+    [classes.full]: size === 'full',
     [classes.outlined]: props.variant === 'outlined',
     [classes.primary]: props.color === 'primary',
     [classes.secondary]: props.color === 'secondary'
