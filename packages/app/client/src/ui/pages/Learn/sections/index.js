@@ -1,2 +1,5 @@
 export { default as Introduction } from './Introduction'
 export { default as Quiz } from './Quiz'
+export { default as AtriumBlockchain } from './AtriumBlockchain'
+export { default as ExternalResources } from './ExternalResources'
+export { default as SectionTabs } from './SectionTabs'
