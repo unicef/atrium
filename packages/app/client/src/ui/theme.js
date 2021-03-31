@@ -16,6 +16,7 @@ export const colors = {
   'light-gray': 'rgb(229,229,229)', // #E5E5E5
   'dark-gray': 'rgb(99,103,103)', // #636767
   'light-gray-two': 'rgb(188,190,190)', // #BCBEBE
+  'light-gray-three': 'rgb(248,248,248)', //#F8F8F8
   watermelon: 'rgb(253, 69, 91)', // #fd455b
   'white-smoke': 'rgb(248,248,248)', // #F5F5F5
   'error': 'rgb(230, 50, 50)',//'#E63232'
