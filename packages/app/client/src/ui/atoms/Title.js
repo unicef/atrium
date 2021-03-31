@@ -9,6 +9,7 @@ const useStyles = makeStyles(theme =>
       marginBottom: props.mb,
       textAlign: props.align,
       fontWeight:'bold',
+      color: props.contrast ? theme.palette.primary.contrastText : theme.palette.text.primary,
       [theme.breakpoints.down('xs')]: {
         textAlign: props.alignMobile || props.align,
         fontSize: 20
@@ -37,7 +38,8 @@ Title.defaultProps = {
   align: 'center',
   alignMobile: 'center',
   mb: 17,
-  variant: 'h4'
+  variant: 'h4',
+  contrast: false
 }
 
 export default Title
