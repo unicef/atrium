@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     maxHeight: 54
   },
   textWrapper: props => ({
-    padding: props.hideBorder ? '0 0 37px 0' : '30px 36px 37px 34px',
+    padding: props.hideBorder ? '0 0 37px 0' : '30px 36px 64px 37px',
 
     [theme.breakpoints.down('sm')]: {
       padding: '20px 26px 30px 0px',
@@ -55,6 +55,7 @@ const BorderedTextBoxWithButton = ({ children, buttonLabel, onClick, gridProps, 
       container
       item
       className={classes.container}
+      xs={12}
       {...gridProps}
     >
       <Grid item xs={12} className={classes.textWrapper}>
@@ -63,13 +64,15 @@ const BorderedTextBoxWithButton = ({ children, buttonLabel, onClick, gridProps, 
         </Typography>
       </Grid>
       <div className={classes.buttonWrapper}>
-        <Button
-          color="primary"
-          className={classes.button}
-          onClick={onClick}
-        >
-          {buttonLabel}
-        </Button>
+        {buttonLabel && 
+          <Button
+            color="primary"
+            className={classes.button}
+            onClick={onClick}
+          >
+            {buttonLabel}
+          </Button>
+        }
       </div>
     </Grid>
   )
