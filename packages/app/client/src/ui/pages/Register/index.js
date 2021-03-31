@@ -5,9 +5,8 @@ import { ERRORS } from '../../../actions/authActions'
 import { email, name, surname, password, termsCheckbox } from '../../../utils/formFields'
 import { validateEmail } from '../../../utils/validators'
 import { CreateAccountFooter, EmailSent } from './components'
-import { useContainerStyle } from '../../hooks'
+import { useContainerStyle, useToast, useIsMobileViewPort } from '../../hooks'
 import validateCreationForm from './validateCreationForm'
-import { useIsMobileViewPort } from '../../hooks'
 import { SimpleFormWithHeader } from '../../organisms'
 
 const formProps = [
@@ -19,7 +18,7 @@ const formProps = [
     },
     validate: ({ email }) => validateEmail(email),
     submitLabel: 'Continue',
-    fields: [email],
+    fields: [{...email, label: 'Your Email'}],
     buttonLayout: { xs: 6, sm: 12 }
   },
   {
@@ -41,14 +40,15 @@ function Register () {
   const [verifiedEmail, saveEmail] = useState(undefined)
   const containerStyle = useContainerStyle({ size: 'small' })
   const isMobileViewPort = useIsMobileViewPort()
+  const { showToast } = useToast()
 
-  const verifyEmail = async (values, formActions) => {
+  const verifyEmail = async ({ email }) => {
     try {
-      await sendEmailToSignUp(values)
-      saveEmail(values.email)
+      await sendEmailToSignUp(email)
+      saveEmail(email)
       changeStep(1)
     } catch (error) {
-      formActions.setErrors({ email: error.response?.data.err || ERRORS.GENERIC })
+      showToast({ message: error, severity: 'danger' }) 
     }
   }
 
@@ -56,8 +56,8 @@ function Register () {
     try {
       await registerUser({ name, surname, email: verifiedEmail })
       changeStep(2)
-    } catch(e) {
-      console.log(e)
+    } catch(error) {
+      showToast({ message: error.response?.data.err || ERRORS.GENERIC, severity: 'danger' }) 
     }
   }
 

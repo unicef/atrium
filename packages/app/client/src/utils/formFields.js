@@ -2,7 +2,7 @@ module.exports = {
   email: {
     name: 'email',
     id:'emailInput',
-    label:'Your email',
+    label:'Email',
     initialValue: '',
     htmlFor: 'emailInput',
     type: 'email'
@@ -29,7 +29,8 @@ module.exports = {
     label:'Password',
     initialValue: '',
     htmlFor: 'passwordInput',
-    type: 'password'
+    type: 'password',
+    showCriteria: true
   },
   termsCheckbox: {
     name: 'termsCheckbox',

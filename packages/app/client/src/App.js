@@ -6,9 +6,6 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { logoutUser, setCurrentUser } from './actions/authActions'
-import Login from './components/auth/Login'
-import ForgotPassword from './components/auth/ForgotPassword'
-import ResetPassword from './components/auth/ResetPassword'
 import Dashboard from './components/dashboard/Dashboard'
 import ErrorPage from './components/ErrorPage/ErrorPage'
 import Reports from './components/reports'
@@ -38,12 +35,14 @@ import {
   DiscussionPage,
   DiscussionDetails,
   ProjectDetails,
-  ProfilePage
+  ProfilePage,
+  Toast
 } from './ui'
 import setAuthToken from './utils/setAuthToken'
 
 // pages
-import { Learn, Register } from './ui/pages'
+import { Register, Login, ForgotPassword, ResetPassword, Learn } from './ui/pages'
+
 
 require('./utils/configureRequests')
 
@@ -75,13 +74,14 @@ const App = () => {
           <>
             <ModalMessage />
             <Header />
+            <Toast />
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/learn" component={Learn} />
               <Route exact path="/forgot-password" component={ForgotPassword} />
-              <Route exact path="/reset-password" component={ResetPassword} />
+              <Route exact path="/reset-password/:token" component={ResetPassword} />
               <PrivateRoute exact path="/learn" component={LearnPage} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/github" component={GitHubPage} />
