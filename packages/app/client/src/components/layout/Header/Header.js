@@ -60,10 +60,10 @@ const Header = ({ logoutUser, auth, classes, location }) => {
   //   return null
   // }
 
-  // if (exclusivePaths.includes(location.pathname)) {
-  //   // exclude header from specific routes (has LimitedHeader)
-  //   return null
-  // }
+  if (exclusivePaths.includes(location.pathname)) {
+    // exclude header from specific routes (has LimitedHeader)
+    return null
+  }
   return (
     <AppBar
       className={classes.root}
@@ -78,11 +78,13 @@ const Header = ({ logoutUser, auth, classes, location }) => {
         </Link>
 
         <Navbar />
-        <ProfilePictureHeader user={auth.user} />
-        <DropdownHeaderMenu
-          // classes={classes} try to remove  red warning
-          logoutUser={logoutUser}
-        />
+        {auth.isAuthenticated && <ProfilePictureHeader user={auth.user} />}
+        {auth.isAuthenticated &&
+          <DropdownHeaderMenu
+            // classes={classes} try to remove  red warning
+            logoutUser={logoutUser}
+          />
+        }
       </Toolbar>
     </AppBar>
   )
