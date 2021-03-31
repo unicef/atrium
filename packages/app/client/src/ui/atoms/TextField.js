@@ -4,8 +4,8 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import InputLabel from '@material-ui/core/InputLabel'
 import { useOutlinedInputStyle } from '../hooks'
 
-function TextField({ error, errorMessage, helperText, htmlFor, label, initialValue, ...props }) {
-  const classes = useOutlinedInputStyle({ hasError: error })
+function TextField({ error, errorMessage, helperText, htmlFor, label, initialValue, borderColor, borderColorFocus, ...props }) {
+  const classes = useOutlinedInputStyle({ hasError: error, borderColor, borderColorFocus })
   const errorClassName = error ? classes.errorMessage : ""
 
   return (
@@ -38,7 +38,9 @@ function TextField({ error, errorMessage, helperText, htmlFor, label, initialVal
 
 TextField.defaultProps = {
   fullWidth: true,
-  helperText: ''
+  helperText: '',
+  borderColor: 'light-gray-two',
+  borderColorFocus: 'black-two'
 }
 
 export default React.memo(TextField)
