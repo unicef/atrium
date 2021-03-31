@@ -39,7 +39,7 @@ const CollapsableQuestion = ({ title, answer }) => {
       >
         {showAnswer ? <ExpandMoreIcon /> : <ExpandLessIcon />}
       </IconButton>
-      <Grid item xs={10} sm={11}>
+      <Grid item xs={10}>
         <Typography className={classes.question}>{title}</Typography>
       </Grid>
       <Collapse in={showAnswer} className={classes.answerWrapper}>

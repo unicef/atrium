@@ -14,6 +14,8 @@ import { ReactComponent as LearnRemixSVG } from './learn_remix.svg'
 import { ReactComponent as LearnIntroductionSVG } from './learn_introduction.svg'
 import { ReactComponent as LearnQuizSVG } from './learn_quiz.svg'
 import { ReactComponent as LoginIllustrationSVG } from './login_illustration.svg'
+import { ReactComponent as ButterflyLeft } from './butterfly-left.svg'
+import { ReactComponent as ButterflyRight } from './butterfly-right.svg'
 export { default as ProjectsIntroImg } from './projects_intro.png'
 export { default as ForumIntroImg } from './forum_intro.png'
 
@@ -33,5 +35,7 @@ export {
   LearnIntroductionSVG,
   LearnRemixSVG,
   LearnQuizSVG,
-  LoginIllustrationSVG
+  LoginIllustrationSVG,
+  ButterflyRight,
+  ButterflyLeft
 }

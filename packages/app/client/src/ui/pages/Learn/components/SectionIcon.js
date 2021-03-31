@@ -1,5 +1,12 @@
 import React from 'react'
-import { LearnQuizSVG, LearnGuideSVG, LearnRemixSVG, LearnIntroductionSVG } from '../../../assets'
+import {
+  LearnQuizSVG,
+  LearnGuideSVG,
+  LearnRemixSVG,
+  LearnIntroductionSVG,
+  ButterflyLeft,
+  ButterflyRight
+} from '../../../assets'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -45,6 +52,12 @@ const SectionIcon = ({ iconName }) => {
       break
     case 'introduction':
       Icon = LearnIntroductionSVG
+      break
+    case 'butterflyLeft':
+      Icon = ButterflyLeft
+      break
+    case 'butterflyRight':
+      Icon = ButterflyRight
       break
     default:
       break

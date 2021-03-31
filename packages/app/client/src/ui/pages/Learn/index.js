@@ -1,13 +1,14 @@
 import React from 'react'
 import Container from '@material-ui/core/Container'
-import { useContainerStyle } from '../../hooks'
-import { SectionWithBorderedText } from '../../templates'
+import { useContainerStyle, useIsAuthenticated } from '../../hooks'
+import { SectionWithBorderedText, JoinAtrium } from '../../templates'
 import { Introduction, Quiz, AtriumBlockchain, ExternalResources, SectionTabs } from './sections'
 import { SectionIcon } from './components'
 
 const Learn = () => {
   const containerStyle = useContainerStyle({ size: "full" })
-  
+  const isAuthenticated = useIsAuthenticated()
+
   return (
     <Container component="main" className={containerStyle}>
       <Introduction />
@@ -35,6 +36,7 @@ const Learn = () => {
       />
       <AtriumBlockchain />
       <ExternalResources />
+      <JoinAtrium LeftImageComponent={<SectionIcon iconName="butterflyLeft" />} RightImageComponent={<SectionIcon iconName="butterflyRight" />} />
     </Container>
   )
 }
