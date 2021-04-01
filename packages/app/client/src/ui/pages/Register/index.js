@@ -36,7 +36,7 @@ const formProps = [
 ]
 
 function Register () {
-  const [step, changeStep] = useState(1)
+  const [step, changeStep] = useState(0)
   const [verifiedEmail, saveEmail] = useState(undefined)
   const containerStyle = useContainerStyle({ size: 'small' })
   const isMobileViewPort = useIsMobileViewPort()
