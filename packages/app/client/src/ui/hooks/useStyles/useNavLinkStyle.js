@@ -4,12 +4,14 @@ const useStyles = makeStyles(theme => (
   {
     navLink: (props) => {
       const textTransform = props.lowerCase ? {} : { textTransform: 'uppercase' }
-      
       return {
         fontFamily: 'Red Hat Display Medium, sans-serif',
         position: 'relative',
         padding: '17px 0',
-        fontSize: 12,
+        fontSize: props.fontSize || 12,
+        [theme.breakpoints.down("xs")]: {
+          fontSize: props.fontSizeMobile || 12,
+        },
         letterSpacing: '0.8px',
         color: 'black',
         ...textTransform,
