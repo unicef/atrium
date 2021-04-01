@@ -35,8 +35,13 @@ const styles = theme => ({
     marginLeft: '1em',
     width: '100%',
     maxWidth: 220,
-    flexGrow: 1,
     fontSize: '16px',
+    [theme.breakpoints.down("xs")]: {
+      maxWidth: 80,
+      fontSize: '14px',
+    },
+    flexGrow: 1,
+    
     fontWeight: 500,
     letterSpacing: '1.8px',
     color: theme.colors['black-two'],

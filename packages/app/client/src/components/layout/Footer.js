@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { ATRIUM_CONSTANTS } from '../../unin-constants'
 import { useNavLinkStyle } from '../../ui/hooks'
+import { Nav } from '../../ui'
 
 const styles = theme => ({
     root: {
@@ -15,33 +16,6 @@ const styles = theme => ({
       height: 'max-content',
       flexDirection: 'column',
       padding: 10
-    }
-  },
-  nav: {
-    display: 'flex',
-    flexGrow: 1,
-    marginRight: '5rem',
-    height: '100%',
-    overflow: 'hidden',
-    maxHeight: 233,
-    [theme.breakpoints.down("sm")]: {
-      maxHeight: 180,
-    }
-  },
-  navList: {
-    padding: 0,
-    margin: 0,
-    display: 'flex',
-    alignItems: 'left',
-    flexDirection: 'column',
-    flexWrap: 'wrap'
-  },
-  navItem: {
-    listStyle: 'none',
-    height: 40,
-    width: '100%',
-    '&:not(:last-child)': {
-      marginRight: 61
     }
   }
 })
@@ -77,26 +51,29 @@ const StyledInfoText = withStyles((theme) => (
 ))(InfoText)
 
 const Footer = ({ classes }) => {
-  const navLinkStyle = useNavLinkStyle({ lowerCase: true })
+  const navLinkStyle = useNavLinkStyle({ lowerCase: true, fontSize: 14 })
 
   return (
     <footer className={classes.root}>
       <Grid container xs={12}>
         <Grid item container xs={12} sm={12} md={6}>
-          <nav className={classes.nav}>
-            <ul className={classes.navList}>
-              {links.map((obj) => (
-                <li key={`footerNav${obj.id}`} className={classes.navItem}>
-                  <a
-                    href={obj.path}
-                    className={navLinkStyle}
-                  >
-                    {obj.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <Nav
+            variant="footer"
+            links={links}
+            maxHeightMobile={180}
+            maxHeight={213}
+            renderLink={
+              (obj) => (
+                <a
+                  href={obj.path}
+                  className={navLinkStyle}
+                >
+                  {obj.name}
+                </a>
+              )
+            }
+          
+          />
         </Grid>
         <Grid spacing={4} item container justify="space-evenly" xs={12} sm={12} md={6}>
           <StyledInfoText>
