@@ -4,15 +4,25 @@ function disco() {
   redis-cli -h discovery --raw $*
 }
 
-function run() {
-  echo hello
-
+function getAddressEnvs() {
   BADGE_1_ADDRESS=$(echo $CONTRACT_ADDRESSES | jq -r '.Badge1')
   BADGE_2_ADDRESS=$(echo $CONTRACT_ADDRESSES | jq -r '.Badge2')
   BADGE_3_ADDRESS=$(echo $CONTRACT_ADDRESSES | jq -r '.Badge3')
   BADGE_4_ADDRESS=$(echo $CONTRACT_ADDRESSES | jq -r '.Badge4')
+}
+
+function run() {
   cd /node/app
+  getAddressEnvs
+  echo $ETHEREUM_PROVIDER_URL
   BADGE_1_ADDRESS=$BADGE_1_ADDRESS BADGE_2_ADDRESS=$BADGE_2_ADDRESS BADGE_3_ADDRESS=$BADGE_3_ADDRESS BADGE_4_ADDRESS=$BADGE_4_ADDRESS node server.js
+}
+
+function seed() {
+  cd /node/app
+  getAddressEnvs
+  BADGE_1_ADDRESS=$BADGE_1_ADDRESS BADGE_2_ADDRESS=$BADGE_2_ADDRESS BADGE_3_ADDRESS=$BADGE_3_ADDRESS BADGE_4_ADDRESS=$BADGE_4_ADDRESS node seeds/create-user && node seeds/learningResourcesSeed
+  cd -
 }
 
 TIME=2
@@ -52,6 +62,7 @@ if [ -z "$CONTRACT_ADDRESSES" ]; then
       CONTRACT_ADDRESSES=$(cat $CTR_ADDR_PATH)
 
       sleep $TIME
+      seed
       disco set "contract-addresses" "$CONTRACT_ADDRESSES"
     else
       while [ -z "$ADDR_EXISTS" ]; do
