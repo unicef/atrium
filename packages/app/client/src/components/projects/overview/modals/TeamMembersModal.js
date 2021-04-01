@@ -113,7 +113,6 @@ function TeamMembersModal(props) {
     const filteredUsers = result.data.users.filter(user => !filtering(user))
     setUsers(filteredUsers)
     setUserError(filteredUsers.length < 1)
-    console.log(users)
   }
 
   const clickHandler = async userId => {
