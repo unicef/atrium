@@ -42,7 +42,8 @@ services:
     working_dir: /node/app
     depends_on:
       - discovery
-      - parity1
+      - ganache
+      - mongo
     volumes:
       - ./packages/app:/node/app
       - ./packages/blockchain:/node/blockchain
@@ -51,9 +52,10 @@ services:
       - MONGO_URI=mongodb://mongo:27017/app
       - SECRET_OR_KEY=raging-dog-cat
       - PORT=5000
-      - ETHEREUM_NODE=parity1
+      - ETHEREUM_NODE=ganache
       - ETHEREUM_PROVIDER_URL=http://$ETHEREUM_NODE:8545
       - ATRIUM_WALLET_SECRET=dev
+      - TRUFFLE_NETWORK=docker_development
     ports:
       - 5000:5000
       - 9229:9229
@@ -64,6 +66,13 @@ services:
     image: redis
     volumes:
       - discovery:/data
+
+
+  ganache:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - "8545:8545"
+    command: --debug --gasLimit 9900000000 --gasPrice 0
 
   parity1:
     image: appliedblockchain/parity-solo

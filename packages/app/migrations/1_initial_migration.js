@@ -8,25 +8,27 @@ const badgesAddresses = {}
 
 module.exports = async function(deployer) {
   await deployer.deploy(Migrations)
+  badgesAddresses['Migrations'] = Migrations.address
   console.log('Migrations', Migrations.address)
   await deployer.deploy(Badge, address)
+  badgesAddresses['Badge1'] = Badge.address
   console.log('Badge1', Badge.address)
-  badgesAddresses['BADGE_1_ADDRESS'] = Badge.address
   await deployer.deploy(Badge, address)
+  badgesAddresses['Badge2'] = Badge.address
   console.log('Badge2', Badge.address)
-  badgesAddresses['BADGE_2_ADDRESS'] = Badge.address
   await deployer.deploy(Badge, address)
+  badgesAddresses['Badge3'] = Badge.address
   console.log('Badge3', Badge.address)
-  badgesAddresses['BADGE_3_ADDRESS'] = Badge.address
   await deployer.deploy(Badge, address)
+  badgesAddresses['Badge4'] = Badge.address
   console.log('Badge4', Badge.address)
-  badgesAddresses['BADGE_4_ADDRESS'] = Badge.address
 
-  let badgeEnvStr = ''
-  Object.entries(badgesAddresses).forEach(([key, value]) => {
-    badgeEnvStr += key.toUpperCase() + '=' + value + '\n'
-  })
-  fs.writeFile('.env.contracts', badgeEnvStr, err => {
-    if (err) return console.log(err)
-  })
+  console.log(`writing contracts to ${process.env.CTR_ADDR_PATH}`)
+  fs.writeFile(
+    process.env.CTR_ADDR_PATH,
+    JSON.stringify(badgesAddresses),
+    err => {
+      if (err) return console.log(err)
+    }
+  )
 }
