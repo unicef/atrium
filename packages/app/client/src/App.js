@@ -43,7 +43,6 @@ import setAuthToken from './utils/setAuthToken'
 // pages
 import { Register, Login, ForgotPassword, ResetPassword, Learn, ProjectsMain } from './ui/pages'
 
-
 require('./utils/configureRequests')
 
 // Check for token to keep user logged in
