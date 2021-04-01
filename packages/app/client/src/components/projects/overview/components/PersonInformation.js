@@ -9,8 +9,7 @@ const useDefaultStyles = makeStyles(theme => ({
     display: 'flex',
     width: '100%',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginLeft: '5%'
+    alignItems: 'center'
   },
   personFullName: {
     fontSize: '17px',
