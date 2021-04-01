@@ -2,4 +2,6 @@ FROM node
 WORKDIR /app
 COPY package.json .
 RUN npm install
-CMD node server.js
+RUN apt-get update
+RUN apt-get install -y git python openssl curl bash redis-tools jq
+RUN npm install -g web3 truffle
