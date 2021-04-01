@@ -30,7 +30,9 @@ const useDefaultStyles = makeStyles(theme => ({
   usersList: {
     width: '90%',
     maxHeight: '207px',
-    height: '207px'
+    height: '207px',
+    margin: 'auto',
+    overflowY: 'scroll'
   },
   conditionButton: {
     width: '76px',
@@ -111,6 +113,7 @@ function TeamMembersModal(props) {
     const filteredUsers = result.data.users.filter(user => !filtering(user))
     setUsers(filteredUsers)
     setUserError(filteredUsers.length < 1)
+    console.log(users)
   }
 
   const clickHandler = async userId => {

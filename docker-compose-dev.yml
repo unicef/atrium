@@ -27,8 +27,6 @@ services:
     build:
       context: packages/remix
       dockerfile: Dockerfile
-    depends_on:
-      - parity1
     ports:
       - 8080:80
 
