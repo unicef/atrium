@@ -1,16 +1,24 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 function disco() {
   redis-cli -h discovery --raw $*
 }
 
 function run() {
-  cd /usr/src/app
-  node server.js
+  echo hello
+
+  BADGE_1_ADDRESS=$(echo $CONTRACT_ADDRESSES | jq -r '.Badge1')
+  BADGE_2_ADDRESS=$(echo $CONTRACT_ADDRESSES | jq -r '.Badge2')
+  BADGE_3_ADDRESS=$(echo $CONTRACT_ADDRESSES | jq -r '.Badge3')
+  BADGE_4_ADDRESS=$(echo $CONTRACT_ADDRESSES | jq -r '.Badge4')
+  cd /node/app
+  BADGE_1_ADDRESS=$BADGE_1_ADDRESS BADGE_2_ADDRESS=$BADGE_2_ADDRESS BADGE_3_ADDRESS=$BADGE_3_ADDRESS BADGE_4_ADDRESS=$BADGE_4_ADDRESS node server.js
 }
 
 TIME=2
-CTR_ADDR_PATH=/contracts/build/contractAddresses.json
+CTR_OUTPUT_DIR=/contracts/build
+mkdir -p $CTR_OUTPUT_DIR
+CTR_ADDR_PATH=$CTR_OUTPUT_DIR/contractAddresses.json
 
 while [ "$(disco ping)" != "PONG" ]
 do
@@ -19,17 +27,9 @@ done
 
 set -ex
 
-PARITY_INSTANCES=$ETHEREUM_NODE
+PARITY_INSTANCES="$ETHEREUM_NODE"
 
 sleep 5
-
-for PARITY in $PARITY_INSTANCES; do
-  ENODE_REQ=$(curl --data '{"method":"parity_enode","params":[],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST "$PARITY:8545")
-  ENODE=$(echo "$ENODE_REQ" | grep -o "enode.*30303" | sed -e "s/\@.*/\@$PARITY:30303\"/" | sed -e "s/\"//g")
-  disco set "enodes:$PARITY" "$ENODE"
-done
-
-sleep $TIME
 
 # All nodes will attempt to acquire a lock. The last node to acquire
 # the lock is elected as leader
@@ -47,9 +47,8 @@ if [ -z "$CONTRACT_ADDRESSES" ]; then
   if [ -z "$CONTRACT_ADDRESSES" ]; then
 
     if [ "$HOSTNAME" = $LEADER ]; then
-      echo "PROVIDER: $PROVIDER"
-      mkdir -p /contracts/build/contracts
-      npx truffle migrate --network docker_development
+      echo "network PROVIDER: $TRUFFLE_NETWORK"
+      CTR_ADDR_PATH=$CTR_ADDR_PATH npx truffle migrate --network $TRUFFLE_NETWORK
       CONTRACT_ADDRESSES=$(cat $CTR_ADDR_PATH)
 
       sleep $TIME
