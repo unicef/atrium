@@ -1,137 +1,119 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/styles'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 import { ATRIUM_CONSTANTS } from '../../unin-constants'
+import { useNavLinkStyle } from '../../ui/hooks'
 
 const styles = theme => ({
-  root: {
+    root: {
     position: 'relative',
     display: 'flex',
-    height: 233,
-    padding: 40,
+    padding: '40px 100px 40px 100px',
     backgroundColor: theme.colors['light-gray-three'],
-    '@media (max-width: 450px)': {
+    [theme.breakpoints.down("sm")]: {
       height: 'max-content',
       flexDirection: 'column',
       padding: 10
     }
   },
   nav: {
-    height: '100%',
     display: 'flex',
-    flexGrow: 1
+    flexGrow: 1,
+    marginRight: '5rem',
+    height: '100%',
+    overflow: 'hidden',
+    maxHeight: 233,
+    [theme.breakpoints.down("sm")]: {
+      maxHeight: 180,
+    }
   },
   navList: {
     padding: 0,
     margin: 0,
     display: 'flex',
+    alignItems: 'left',
+    flexDirection: 'column',
     flexWrap: 'wrap'
   },
   navItem: {
     listStyle: 'none',
+    height: 40,
+    width: '100%',
     '&:not(:last-child)': {
-      marginRight: 29
+      marginRight: 61
     }
-  },
-  navLink: {
-    position: 'relative',
-    fontSize: 12,
-    fontFamily: theme.typography.fontFamily,
-    fontWeight: theme.typography.fontWeightMedium,
-    color: theme.palette.text.primary,
-    textTransform: 'uppercase',
-    textDecoration: 'none',
-    letterSpacing: 0.8,
-    outlineColor: 'white',
-    marginBottom: 16,
-    '&:after': {
-      position: 'absolute',
-      content: "''",
-      display: 'block',
-      bottom: 0,
-      height: 1,
-      width: '100%',
-      backgroundColor: 'transparent',
-      transition: '0.2s ease'
-    },
-    '&:hover:after': {
-    }
-  },
-  social: {
-    position: 'absolute',
-    right: 16,
-    height: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    '@media (max-width: 450px)': {
-      marginTop: 10,
-      position: 'static',
-      flexDirection: 'column'
-    }
-  },
-  socialLink: {
-    outlineColor: 'white'
-  },
-  socialIcon: {
-    display: 'block',
-    maxWidth: 31,
-    objectFit: 'contain'
-  },
-  aboutText: {
-    color: theme.colors['dark-gray'],
-    fontSize: 14
   }
 })
 
-const Footer = ({ classes }) => {
-  const links = [
-    { path: '/about', name: 'About', id: 'About' },
-    {
-      path: `mailto:${ATRIUM_CONSTANTS.ATRIUM_EMAIL_CONTACT}`,
-      name: 'Contact Us',
-      id: 'ContactUs'
-    },
-    { path: '/learn', name: 'Learn', id: 'Learn' },
-    { path: '/view-projects', name: 'Projects', id: 'Projects' },
-    { path: '/engage', name: 'Forum', id: 'Forum' },
-    { path: '/whatsnew', name: "What's new", id: 'WhatsNew' }
-  ]
+const links = [
+  { path: '/about', name: 'About', id: 'About' },
+  { path: '/view-projects', name: 'Projects', id: 'Projects' },
+  {
+    path: `mailto:${ATRIUM_CONSTANTS.ATRIUM_EMAIL_CONTACT}`,
+    name: 'Contact Us',
+    id: 'ContactUs'
+  },
+  { path: '/learn', name: 'Learn', id: 'Learn' },
+  { path: '/engage', name: 'Forum', id: 'Forum' },
+  { path: '/whatsnew', name: "What's new", id: 'WhatsNew' },
+]
 
-  const viewNav = links.map((obj) => (
-    <li key={`footerNav${obj.id}`} className={classes.navItem}>
-      <Button href={obj.path} className={classes.navLink}>
-        {obj.name}
-      </Button>
-    </li>
-  ))
+const InfoText = ({ children, classes }) => (
+  <Grid item container xs={12} sm={6}>
+    <Typography className={classes.text}>
+     {children} 
+    </Typography>
+  </Grid>
+)
+
+const StyledInfoText = withStyles((theme) => (
+  {
+    text: {
+      color: theme.colors['dark-gray'],
+      fontSize: 14
+    }
+  }
+))(InfoText)
+
+const Footer = ({ classes }) => {
+  const navLinkStyle = useNavLinkStyle({ lowerCase: true })
 
   return (
     <footer className={classes.root}>
-      <Grid item container justify="center" xs={12} sm={6}>
-        <Grid item container xs={10}>
+      <Grid container xs={12}>
+        <Grid item container xs={12} sm={12} md={6}>
           <nav className={classes.nav}>
-            <ul className={classes.navList}>{viewNav}</ul>
+            <ul className={classes.navList}>
+              {links.map((obj) => (
+                <li key={`footerNav${obj.id}`} className={classes.navItem}>
+                  <a
+                    href={obj.path}
+                    className={navLinkStyle}
+                  >
+                    {obj.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </nav>
         </Grid>
-      </Grid>
-      <Grid item container justify="space-evenly" xs={12} sm={6}>
-        <Grid item container xs={4}>
-          <Typography className={classes.aboutText}>
+        <Grid spacing={4} item container justify="space-evenly" xs={12} sm={12} md={6}>
+          <StyledInfoText>
             The Atrium has been established as a decentralized collaboration tool by the 
             United Nations Development Programme (UNDP), UNICEF, the World Food Programme (WFP) and the UN Innovation Network (UNIN). 
-          </Typography>
-        </Grid>
-        <Grid item container xs={4}>
-          <Typography className={classes.aboutText}>
+          </StyledInfoText>
+          <StyledInfoText>
             We are looking for other organizations that would be interested in setting up their own node, 
             therefore, participating by increasing the resilience of the system. If interested, please contact blockchain@uninnovation.network. 
-          </Typography>
+          </StyledInfoText>
         </Grid>
+        <StyledInfoText>
+          The Atrium, 2020
+        </StyledInfoText>
       </Grid>
     </footer>
-  )
+  ) 
 }
 
 export default withStyles(styles)(Footer)
