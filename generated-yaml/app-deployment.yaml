@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-dev.yml
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: app
+  name: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-dev.yml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: app
+    spec:
+      containers:
+        - args:
+            - sh
+            - -ac
+            - source /contracts/.env.contracts && cp -R /contracts/build ./contracts/build && npm run server:debug
+          env:
+            - name: ATRIUM_WALLET_SECRET
+              value: dev
+            - name: ETHEREUM_PROVIDER_URL
+              value: http://parity1:8545
+            - name: MONGO_URI
+              value: mongodb://mongo:27017/app
+            - name: PORT
+              value: "5000"
+            - name: SECRET_OR_KEY
+              value: raging-dog-cat
+          image: node:erbium-alpine3.11
+          name: unin-app
+          ports:
+            - containerPort: 5000
+            - containerPort: 9229
+          resources: {}
+          volumeMounts:
+            - mountPath: /node/app
+              name: app-claim0
+            - mountPath: /node/blockchain
+              name: app-claim1
+            - mountPath: /contracts
+              name: contracts
+          workingDir: /node/app
+      restartPolicy: Always
+      volumes:
+        - name: app-claim0
+          persistentVolumeClaim:
+            claimName: app-claim0
+        - name: app-claim1
+          persistentVolumeClaim:
+            claimName: app-claim1
+        - name: contracts
+          persistentVolumeClaim:
+            claimName: contracts
+status: {}
