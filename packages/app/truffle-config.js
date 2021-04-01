@@ -53,11 +53,13 @@ module.exports = {
       // gas: 9900000
     },
     docker_development: {
-      host: 'parity1', // Localhost (default: none)
-      port: 8546, // Standard Ethereum port (default: none)
+      host: 'quorum', // Localhost (default: none)
+      port: 8545, // Standard Ethereum port (default: none)
       network_id: '*', // Any network (default: none)
       gas: 9900000,
-      websockets: true
+      websockets: false,
+      gasPrice: 0,
+      from: '0x19f00C68EF198C5E71B861bEdce0B2B36441DF1a'
     },
     prod: {
       host: '3.133.79.37', // Localhost (default: none)

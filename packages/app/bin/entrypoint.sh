@@ -1,11 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 function disco() {
   redis-cli -h discovery --raw $*
 }
 
 function run() {
-  cd /usr/src/app
+  cd /app
   node server.js
 }
 
@@ -19,17 +19,9 @@ done
 
 set -ex
 
-PARITY_INSTANCES=$ETHEREUM_NODE
+PARITY_INSTANCES="$ETHEREUM_NODE"
 
 sleep 5
-
-for PARITY in $PARITY_INSTANCES; do
-  ENODE_REQ=$(curl --data '{"method":"parity_enode","params":[],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST "$PARITY:8545")
-  ENODE=$(echo "$ENODE_REQ" | grep -o "enode.*30303" | sed -e "s/\@.*/\@$PARITY:30303\"/" | sed -e "s/\"//g")
-  disco set "enodes:$PARITY" "$ENODE"
-done
-
-sleep $TIME
 
 # All nodes will attempt to acquire a lock. The last node to acquire
 # the lock is elected as leader
@@ -47,9 +39,8 @@ if [ -z "$CONTRACT_ADDRESSES" ]; then
   if [ -z "$CONTRACT_ADDRESSES" ]; then
 
     if [ "$HOSTNAME" = $LEADER ]; then
-      echo "PROVIDER: $PROVIDER"
-      mkdir -p /contracts/build/contracts
-      npx truffle migrate --network docker_development
+      echo "network PROVIDER: $TRUFFLE_NETWORK"
+      CTR_ADDR_PATH=$CTR_ADDR_PATH npx truffle migrate --network $TRUFFLE_NETWORK
       CONTRACT_ADDRESSES=$(cat $CTR_ADDR_PATH)
 
       sleep $TIME
