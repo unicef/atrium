@@ -5,6 +5,16 @@ import Link from '@material-ui/core/Link'
 import { SectionContainer } from '../../../templates'
 import { CollapsableQuestion, SectionDescription } from '../components'
 import { BorderedTextBoxWithButton } from '../../../molecules'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles(theme => ({
+  link: {
+    marginTop: 10,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 20
+    }
+  }
+}))
 
 const questions = [
   {
@@ -22,6 +32,8 @@ const questions = [
 ]
 
 const AtriumBlockchain = () => {
+  const classes = useStyles()
+
   return (
     <SectionContainer id="atriumBlockchain" spacing={4} md={8} lg={6}>
       <SectionDescription
@@ -29,13 +41,14 @@ const AtriumBlockchain = () => {
         text="The Atrium is hosted on a private Quorum (Ethereum) network. That means that when you're earning points, claiming a badge, or writing a smart contract on Remix, you're interacting with private The Atrium blockchain.
         Currently, UNDP, UNICEF and WFP host nodes, but The Atrium is always looking for new organisations to join. By participating, you'll increase the resiliency of The Atrium, and gain experience on what is needed to run a node in a blockchain. If interested, please contact:"
       >
-        {/* <Link
+        <Link
             component="a"
             variant="h3"
             href="mailto:blockchain@uninnovation.network"
+            className={classes.link}
           >
             blockchain@uninnovation.network
-        </Link> */}
+        </Link>
       </SectionDescription>
 
       <Grid item container xs={12}>
