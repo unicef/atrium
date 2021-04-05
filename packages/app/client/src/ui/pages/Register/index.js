@@ -52,9 +52,14 @@ function Register () {
     }
   }
 
-  const createAccount = async ({ name, surname }) => {
+  const createAccount = async ({ name, surname, password }) => {
     try {
-      await registerUser({ name, surname, email: verifiedEmail })
+      await registerUser({
+        name,
+        surname,
+        email: verifiedEmail,
+        password
+      })
       changeStep(2)
     } catch(error) {
       showToast({ message: error.response?.data.err || ERRORS.GENERIC, severity: 'danger' }) 

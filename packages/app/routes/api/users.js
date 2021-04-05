@@ -125,19 +125,20 @@ router.put(
       'Registering user'
     )
 
-    const invitationCache = req.app.get('invitationCache')
-    const { invitationCode } = req.body
-    invitationCache.del(invitationCode)
+    // const invitationCache = req.app.get('invitationCache')
+    // const { invitationCode } = req.body
+    // invitationCache.del(invitationCode)
 
-    const retrievedUser = await User.findOne({ emailHash: req.body.emailHash })
+    const retrievedUser = await User.findOne({ email: req.body.email })
     if (retrievedUser.emailVerified) {
       const newWallet = ethers.createWallet()
       const encryptedWallet = await encryptDecrypt.encrypt(newWallet)
       retrievedUser.name = req.body.name
+      retrievedUser.surname = req.body.surname
       retrievedUser.wallet = encryptedWallet.encrypted
       retrievedUser.address = newWallet.address
-      retrievedUser.role = req.body.role
-      retrievedUser.company = req.body.company
+      //retrievedUser.role = req.body.role
+      //retrievedUser.company = req.body.company
       retrievedUser.acceptsEmail = true
 
       if (req.file && req.file.key) {
