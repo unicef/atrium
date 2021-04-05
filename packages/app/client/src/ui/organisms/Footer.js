@@ -3,8 +3,8 @@ import { withStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { ATRIUM_CONSTANTS } from '../../unin-constants'
-import { useNavLinkStyle } from '../../ui/hooks'
-import { Nav } from '../../ui'
+import { useNavLinkStyle } from '../hooks'
+import { Nav } from '../molecules'
 
 const styles = theme => ({
     root: {
@@ -60,8 +60,8 @@ const Footer = ({ classes }) => {
           <Nav
             variant="footer"
             links={links}
-            maxHeightMobile={180}
-            maxHeight={213}
+            maxHeightMobile={110}
+            maxHeight={110}
             renderLink={
               (obj) => (
                 <a
