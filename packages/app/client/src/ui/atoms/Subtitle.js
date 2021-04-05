@@ -8,6 +8,7 @@ const useStyles = makeStyles(theme =>
     subtitle: props => ({
       marginBottom: props.mb,
       textAlign: props.align,
+      
       [theme.breakpoints.down('xs')]: {
         textAlign: props.alignMobile || props.align,
       }
