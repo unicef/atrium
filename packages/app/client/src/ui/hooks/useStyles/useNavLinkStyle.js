@@ -7,7 +7,6 @@ const useStyles = makeStyles(theme => (
       return {
         fontFamily: 'Red Hat Display Medium, sans-serif',
         position: 'relative',
-        padding: '17px 0',
         fontSize: props.fontSize || 12,
         [theme.breakpoints.down("xs")]: {
           fontSize: props.fontSizeMobile || 12,

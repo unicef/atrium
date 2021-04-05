@@ -12,7 +12,7 @@ const VARIANTS = {
       flexWrap: 'wrap'
     },
     navItem: {
-      height: 40,
+      height: '30%',
       width: '100%',
       '&:not(:last-child)': {
         marginRight: 61
@@ -37,7 +37,7 @@ const VARIANTS = {
 const useStyles = makeStyles((theme) => ({
   nav: props => ({
     display: 'flex',
-    flexGrow: 1,
+    width: '100%',
     height: '100%',
     maxHeight: props.maxHeight,
     [theme.breakpoints.down("sm")]: {
