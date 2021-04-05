@@ -3,15 +3,16 @@ const Joi = require('@hapi/joi')
 const schemas = {
   register: Joi.object({
     name: Joi.string().required(),
+    surname: Joi.string().required(),
     password: Joi.string()
       .min(6)
       .max(30)
       .required(),
-    password2: Joi.ref('password'),
-    role: Joi.string().optional(),
-    company: Joi.string().required(),
-    emailHash: Joi.string().required(),
-    invitationCode: Joi.string().required()
+    // password2: Joi.ref('password'),
+    // role: Joi.string().optional(),
+    // company: Joi.string().required(),
+    email: Joi.string().required(),
+    // invitationCode: Joi.string().required()
   }),
   login: Joi.object({
     email: Joi.string()

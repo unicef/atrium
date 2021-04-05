@@ -108,7 +108,7 @@ export const resetPassword = (data) => usersRequest({
  * @returns {Promise}
  */
 export const registerUser = (userData) => usersRequest({
-  method: 'post',
+  method: 'put',
   endpoint: registerUserEndpoint,
   body: userData
 })
