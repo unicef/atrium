@@ -2,23 +2,29 @@ import React from 'react'
 import { SectionContainer } from '../../../templates'
 import { SectionDescription, ResourceList } from '../components'
 
-const resource = {
-  title: "Background on bitcoin and blockchain",
-  href: "https://techcrunch.com/"
-}
+const resources = [
+  {
+    title: "Background on bitcoin and blockchain",
+    href: "https://techcrunch.com/"
+  },
+  {
+    title: "Lorem Ipsum is simply dummy text of the printing and ",
+    href: "https://techcrunch.com/"
+  }
+]
 
 const sections = [
   {
     title: "Blockchain",
-    resources: [resource]
+    resources: resources
   },
   {
     title: "Cryptocurrency",
-    resources: [resource]
+    resources: [...resources, ...resources, ...resources]
   },
   {
     title: "Bitcoin",
-    resources: [resource]
+    resources: resources
   }
 ]
 

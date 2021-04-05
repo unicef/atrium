@@ -12,6 +12,10 @@ const useStyles = makeStyles({
     fontWeight: 500,
     fontSize: '15px',
     lineHeight: '180%',
+  },
+  rowContainer: {
+    marginBottom: 17,
+    marginTop: 17
   }
 })
 
@@ -19,7 +23,7 @@ const ResourceRow = ({ title, href }) => {
   const classes = useStyles()
 
   return (
-    <Grid item xs={12}>
+    <Grid className={classes.rowContainer} item xs={12}>
       <Grid item container xs={12} justify="space-between" alignItems="center">
         <div>
           <Typography variant="body1">{title}</Typography>
