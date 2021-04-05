@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { ATRIUM_CONSTANTS } from '../../unin-constants'
-import { useNavLinkStyle } from '../hooks'
+import { useIsAuthenticated, useNavLinkStyle } from '../hooks'
 import { Nav } from '../molecules'
 
 const styles = theme => ({
@@ -21,16 +21,16 @@ const styles = theme => ({
 })
 
 const links = [
-  { path: '/about', name: 'About', id: 'About' },
-  { path: '/view-projects', name: 'Projects', id: 'Projects' },
+  { path: '/about', name: 'About', id: 'About', public: true },
+  { path: '/view-projects', name: 'Projects', id: 'Projects', public: false },
   {
     path: `mailto:${ATRIUM_CONSTANTS.ATRIUM_EMAIL_CONTACT}`,
     name: 'Contact Us',
     id: 'ContactUs'
   },
-  { path: '/learn', name: 'Learn', id: 'Learn' },
-  { path: '/engage', name: 'Forum', id: 'Forum' },
-  { path: '/whatsnew', name: "What's new", id: 'WhatsNew' },
+  { path: '/learn', name: 'Learn', id: 'Learn', public: true  },
+  { path: '/engage', name: 'Forum', id: 'Forum', public: false  },
+  { path: '/whatsnew', name: "What's new", id: 'WhatsNew', public: true  },
 ]
 
 const InfoText = ({ children, classes }) => (
@@ -52,6 +52,11 @@ const StyledInfoText = withStyles((theme) => (
 
 const Footer = ({ classes }) => {
   const navLinkStyle = useNavLinkStyle({ lowerCase: true, fontSize: 14 })
+  const userIsAuthenticated = useIsAuthenticated()
+  const filteredRoutes = links.filter(link => {
+    if (!link.public) return userIsAuthenticated
+    return link.public
+  })
 
   return (
     <footer className={classes.root}>
@@ -59,7 +64,7 @@ const Footer = ({ classes }) => {
         <Grid item container xs={12} sm={12} md={6}>
           <Nav
             variant="footer"
-            links={links}
+            links={filteredRoutes}
             maxHeightMobile={110}
             maxHeight={110}
             renderLink={

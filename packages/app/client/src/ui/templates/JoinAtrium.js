@@ -25,6 +25,14 @@ const useStyles = makeStyles(theme =>
     marginVertical: {
       marginTop: 30,
       marginBottom: 30
+    },
+    description: {
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: '14px',
+      lineHeight: '180%',
+      marginTop: 30,
+      marginBottom: 30
     }
   })
 )
@@ -80,7 +88,7 @@ const JoinAtrium = ({ LeftImageComponent, RightImageComponent, onSubmit }) => {
             Contact us
           </Button>
 
-          <Typography align="center" variant="body1" className={classes.marginVertical}>
+          <Typography align="center" variant="body1" className={classes.description}>
             We are looking for other organizations that would be interested in setting up their own node, therefore, participating by increasing the resilience of the system. 
             If interested, please contact blockchain@uninnovation.network.
           </Typography>
