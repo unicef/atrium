@@ -12,7 +12,6 @@ import Reports from './components/reports'
 import ManualInvite from './components/manual-invite'
 // New pages
 import GitHubPage from './components/github/GitHubPage'
-import Footer from './components/layout/Footer'
 import { Header } from './components/layout/Header'
 import Landing from './components/layout/Landing'
 import LearnPage from './components/learn/Learn'
@@ -36,7 +35,8 @@ import {
   DiscussionDetails,
   ProjectDetails,
   ProfilePage,
-  Toast
+  Toast,
+  Footer
 } from './ui'
 import setAuthToken from './utils/setAuthToken'
 
