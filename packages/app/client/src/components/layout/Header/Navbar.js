@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { withStyles } from '@material-ui/styles'
-import { useNavLinkStyle } from '../../../ui/hooks'
+import { useIsAuthenticated, useNavLinkStyle } from '../../../ui/hooks'
 import { Nav } from '../../../ui'
 
 const styles = theme => ({
@@ -12,18 +12,24 @@ const styles = theme => ({
 })
 
 const links = [
-  { path: '/learn', name: 'Learn' },
-  { path: '/view-projects', name: 'Projects' },
-  { path: '/engage', name: 'Forum' },
-  { path: '/whatsnew', name: "What's new" } // which route
+  { path: '/learn', name: 'Learn', public: true },
+  { path: '/view-projects', name: 'Projects', public: false },
+  { path: '/engage', name: 'Forum', public: false },
+  { path: '/whatsnew', name: "What's new", public: true } // which route
 ]
 
 const NavBar = ({ classes }) => {
   const navLinkStyle = useNavLinkStyle({ fontSizeMobile: 10 })
+  const userIsAuthenticated = useIsAuthenticated()
+  
+  const filteredRoutes = links.filter(link => {
+    if (!link.public) return userIsAuthenticated
+    return link.public
+  })
 
   return (
     <Nav
-      links={links}
+      links={filteredRoutes}
       renderLink={
         (obj) => (
           <NavLink
