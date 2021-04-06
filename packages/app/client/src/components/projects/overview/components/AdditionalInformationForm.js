@@ -8,10 +8,9 @@ import Select from '@material-ui/core/Select'
 import { Button } from '../../../../ui'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
-import {useHistory} from "react-router-dom"
+import { useHistory } from 'react-router-dom'
 import { AGENCIES_LIST } from '../../../../unin-constants'
-
-
+import { getNames } from 'country-list'
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -84,6 +83,15 @@ function AdditionalInformationForm(props) {
     history.push('/view-projects')
   }
 
+  const years = []
+  for (
+    let i = new Date().getFullYear();
+    i < new Date().getFullYear() + 10;
+    i++
+  ) {
+    years.push(i)
+  }
+
   return (
     <div className={classes.wrapper}>
       <Formik
@@ -137,9 +145,11 @@ function AdditionalInformationForm(props) {
                 <MenuItem value="">
                   <em className={classes.chooseSelect}>Choose</em>
                 </MenuItem>
-                <MenuItem value="FirstCountry">FirstCountry</MenuItem>
-                <MenuItem value="SecondCountry">SecondCountry</MenuItem>
-                <MenuItem value="ThirdCountry">ThirdCountry</MenuItem>
+                {getNames().map(country => (
+                  <MenuItem key={Math.random()} value={country}>
+                    {country}
+                  </MenuItem>
+                ))}
               </Select>
             </div>
             <div>
@@ -163,7 +173,9 @@ function AdditionalInformationForm(props) {
                 <MenuItem value="">
                   <em className={classes.chooseSelect}>Choose</em>
                 </MenuItem>
-                {AGENCIES_LIST.map(company => <MenuItem value={company.name}>{company.name}</MenuItem>)}
+                {AGENCIES_LIST.map(company => (
+                  <MenuItem value={company.name}>{company.name}</MenuItem>
+                ))}
               </Select>
             </div>
             <div className={classes.selectDiv}>
@@ -190,6 +202,15 @@ function AdditionalInformationForm(props) {
                 <MenuItem value="January">January</MenuItem>
                 <MenuItem value="February">February</MenuItem>
                 <MenuItem value="March">March</MenuItem>
+                <MenuItem value="April">April</MenuItem>
+                <MenuItem value="May">May</MenuItem>
+                <MenuItem value="June">June</MenuItem>
+                <MenuItem value="July">July</MenuItem>
+                <MenuItem value="August">August</MenuItem>
+                <MenuItem value="September">September</MenuItem>
+                <MenuItem value="October">October</MenuItem>
+                <MenuItem value="November">November</MenuItem>
+                <MenuItem value="December">December</MenuItem>
               </Select>
               <Select
                 className={classes.yearSelect}
@@ -204,9 +225,11 @@ function AdditionalInformationForm(props) {
                 <MenuItem value="">
                   <em className={classes.chooseSelect}>2021</em>
                 </MenuItem>
-                <MenuItem value="2022">2022</MenuItem>
-                <MenuItem value="2023">2023</MenuItem>
-                <MenuItem value="2024">2024</MenuItem>
+                {years.map(year => (
+                  <MenuItem key={Math.random()} value={year}>
+                    {year}
+                  </MenuItem>
+                ))}
               </Select>
             </div>
             <div>
@@ -262,8 +285,16 @@ function AdditionalInformationForm(props) {
               </Select>
             </div>
             <div>
-              <Button color="primary" type="submit">Save</Button>
-              <Button onClick={cancelHandler} color="secondary" variant="outlined" >Cancel</Button>
+              <Button color="primary" type="submit">
+                Save
+              </Button>
+              <Button
+                onClick={cancelHandler}
+                color="secondary"
+                variant="outlined"
+              >
+                Cancel
+              </Button>
             </div>
           </form>
         )}

@@ -14,8 +14,8 @@ const checkBadge = async address => {
 
 const issueBadge = async address => {
   try {
-    const issueResult = await badges.issueBadge(1, address)
-    console.log(issueResult)
+    // const issueResult = await badges.issueBadge(1, address)
+    // console.log(issueResult)
   } catch (err) {
     console.log('Error on issue')
     console.log(err)
@@ -25,7 +25,7 @@ const issueBadge = async address => {
 const seedBadge = async () => {
   const newWallet = ethers.createWallet()
   console.log('NEW WALLET ADDRESS', newWallet.address)
-  await issueBadge(newWallet.address)
+  // await issueBadge(newWallet.address)
 
   // wait for transaction to be mined- Parity-solo has 1 second block
   setTimeout(() => checkBadge(newWallet.address), 3000)

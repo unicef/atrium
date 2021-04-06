@@ -56,11 +56,13 @@ router.post(
       },
       'Getting filtered projects'
     )
-    const users = await User.find()
-      console.log('users', users)
+    const allUsers = await User.find()
+    const users = allUsers.filter(
+      el =>
+        el.name.toLowerCase().includes(req.body.prefix.toLowerCase()) ||
+        el.email.includes(req.body.prefix)
+    )
     return res.status(200).json({ users })
-    //   const result = users.filter(el => el.name.includes(req.body.prefix) || el.email.includes(req.body.prefix))
-    // return res.status(200).json({ result })
   }
 )
 
@@ -175,7 +177,7 @@ router.put(
           retrievedUser.address
         )
         if (!hasBadge) {
-          await badges.issueBadge(BADGE_ENUM.MEMBER, retrievedUser.address)
+          // await badges.issueBadge(BADGE_ENUM.MEMBER, retrievedUser.address)
           await logIssueBadge(retrievedUser.id, BADGE_ENUM.MEMBER).catch(
             logError => {
               log.error(

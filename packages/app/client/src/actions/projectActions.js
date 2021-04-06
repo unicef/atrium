@@ -114,3 +114,26 @@ export const addUpdateToProject = (projectId, formData) => async dispatch => {
     dispatch(setError(errorMessage))
   }
 }
+
+export const addMembersToProject = (projectId, members) => async dispatch => {
+  try {
+    const { data } = await ProjectApi.addMembers(projectId, members)
+    dispatch(updateProjectList(data.project))
+  } catch (err) {
+    const errorMessage = get(err, 'response.data.err', GENERIC_ERROR)
+    dispatch(setError(errorMessage))
+  }
+}
+
+export const deleteMemberFromProject = (
+  projectId,
+  memberId
+) => async dispatch => {
+  try {
+    const { data } = await ProjectApi.deleteMember(projectId, memberId)
+    dispatch(updateProjectList(data.project))
+  } catch (err) {
+    const errorMessage = get(err, 'response.data.err', GENERIC_ERROR)
+    dispatch(setError(errorMessage))
+  }
+}

@@ -55,8 +55,9 @@ exports.issueBadge = async (badgeId, address) => {
 }
 
 exports.hasBadge = async (badgeId, address) => {
-  log.info({ badgeId, address }, 'checking badges')
-  const bal = await badgeContracts[badgeId].balanceOf(address)
-  log.info(`Address ${address} has balance of ${bal} in badge ${badgeId}`)
-  return bal > 0
+  // log.info({ badgeId, address }, 'checking badges')
+  // const bal = await badgeContracts[badgeId].balanceOf(address)
+  // log.info(`Address ${address} has balance of ${bal} in badge ${badgeId}`)
+  // return bal > 0
+  return false
 }
