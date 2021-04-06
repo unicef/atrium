@@ -192,7 +192,9 @@ router.post(
         )
       }
 
-      const contactPerson = await User.findOne({ email: req.body.contactPersonEmail })
+      const contactPerson = await User.findOne({
+        email: req.body.contactPersonEmail
+      })
       const linkToRepository = req.body.linkToRepository
       const newProject = new Project({
         name: req.body.name,
@@ -233,7 +235,7 @@ router.post(
               address
             )
             if (!hasBadge) {
-              await BadgesLibrary.issueBadge(BADGE_ENUM.CONTRIBUTOR, address)
+              // await BadgesLibrary.issueBadge(BADGE_ENUM.CONTRIBUTOR, address)
               await logIssueBadge(req.user.id, BADGE_ENUM.CONTRIBUTOR)
             }
           }
@@ -864,6 +866,152 @@ router.post(
         )
         return sendError(res, 503, 'Error adding update to project')
       }
+    })
+  }
+)
+
+router.post(
+  '/:id/addMembers',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        project: req.params.id
+      },
+      'User is adding members to project'
+    )
+
+    Project.findOne({ _id: req.params.id }).exec((err, project) => {
+      if (err) {
+        log.info(
+          {
+            err,
+            requestId: req.id,
+            project: req.params.id
+          },
+          'Error finding project'
+        )
+        return sendError(res, 503, 'Error adding members project')
+      }
+
+      project.team = [...project.team, ...req.body.members]
+      project
+        .save()
+        .then(() => {
+          log.info(
+            {
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Project members added successfully'
+          )
+          project.populate(populateParams, async (err, project) => {
+            if (err) {
+              log.err(
+                {
+                  err,
+                  requestId: req.id,
+                  project: req.params.id
+                },
+                'Error populating fields'
+              )
+              return sendError(res, 503, 'Error adding members to project')
+            }
+            log.info(
+              {
+                requestId: req.id,
+                project: project
+              },
+              'Fields populated successfully'
+            )
+            return res.status(200).json({ project })
+          })
+        })
+        .catch(err => {
+          log.error(
+            {
+              err,
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Error saving project'
+          )
+          return sendError(res, 503, 'Error adding members to project')
+        })
+    })
+  }
+)
+
+router.post(
+  '/:id/deleteMember',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        project: req.params.id
+      },
+      'User is deleting member from project'
+    )
+
+    Project.findOne({ _id: req.params.id }).exec((err, project) => {
+      if (err) {
+        log.info(
+          {
+            err,
+            requestId: req.id,
+            project: req.params.id
+          },
+          'Error finding project'
+        )
+        return sendError(res, 503, 'Error deleting member from project')
+      }
+
+      project.team = project.team.filter(member => member != req.body.memberId)
+      project
+        .save()
+        .then(() => {
+          log.info(
+            {
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Project member deleted successfully'
+          )
+          project.populate(populateParams, async (err, project) => {
+            if (err) {
+              log.err(
+                {
+                  err,
+                  requestId: req.id,
+                  project: req.params.id
+                },
+                'Error populating fields'
+              )
+              return sendError(res, 503, 'Error deleting member from project')
+            }
+            log.info(
+              {
+                requestId: req.id,
+                project: project
+              },
+              'Fields populated successfully'
+            )
+            return res.status(200).json({ project })
+          })
+        })
+        .catch(err => {
+          log.error(
+            {
+              err,
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Error saving project'
+          )
+          return sendError(res, 503, 'Error deleting member from project')
+        })
     })
   }
 )

@@ -103,3 +103,11 @@ export function getProject(projectId) {
 export function addUpdate(projectId, update) {
   return axios.post(`projects/${projectId}/update`, update)
 }
+
+export function addMembers(projectId, members) {
+  return axios.post(`projects/${projectId}/addMembers`, { members })
+}
+
+export function deleteMember(projectId, memberId) {
+  return axios.post(`projects/${projectId}/deleteMember`, { memberId })
+}

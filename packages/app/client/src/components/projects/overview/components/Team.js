@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Container from '@material-ui/core/Container'
 import { refreshToken } from '../../../../actions/authActions'
+import { deleteMemberFromProject } from '../../../../actions/projectActions'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
@@ -10,6 +11,7 @@ import Link from '@material-ui/core/Link'
 import { Button } from '../../../../ui'
 import { useHistory } from 'react-router-dom'
 import TeamMembersModal from "../modals/TeamMembersModal";
+import {DeleteButton} from "../assets";
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -36,6 +38,9 @@ const useDefaultStyles = makeStyles(theme => ({
   personInfo: {
     border: '1.6px solid #E7E7E7',
     borderRadius: '5px',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '3%',
     height: '100px',
     display: 'flex',
     padding: '4%'
@@ -57,6 +62,12 @@ const useDefaultStyles = makeStyles(theme => ({
   },
   memberButton: {
     margin: '0 0 0 52%'
+  },
+  deleteButton: {
+    width: '22px',
+    height: '22px',
+    minWidth: 0,
+    margin: 0
   }
 }))
 
@@ -69,6 +80,11 @@ function Team(props) {
   }
   const clickHandler = () => {
     window.location.reload()
+  }
+
+  const deleteHandler = async memberId => {
+    await props.deleteMemberFromProject(props._id, memberId)
+    props.refreshToken()
   }
 
   const [open, setOpen] = React.useState(false)
@@ -104,22 +120,24 @@ function Team(props) {
           </Typography>
           {props.contactPerson ? (
             <div className={classes.personInfo}>
-              <img
-                className={classes.avatar}
-                alt="Avatar"
-                src={props.contactPerson.avatar}
-              />
-              <div>
-                <Typography
-                  color="secondary"
-                  className={classes.personFullName}
-                  variant="subtitle1"
-                >
-                  {props.contactPerson.name /* then + surname*/}
-                </Typography>
-                <Typography color="secondary" variant="body1">
-                  {props.contactPerson.email}
-                </Typography>
+              <div style={{display: 'flex'}}>
+                <img
+                  className={classes.avatar}
+                  alt="Avatar"
+                  src={props.contactPerson.avatar}
+                />
+                <div>
+                  <Typography
+                    color="secondary"
+                    className={classes.personFullName}
+                    variant="subtitle1"
+                  >
+                    {props.contactPerson.name /* then + surname*/}
+                  </Typography>
+                  <Typography color="secondary" variant="body1">
+                    {props.contactPerson.email}
+                  </Typography>
+                </div>
               </div>
             </div>
           ) : null}
@@ -141,27 +159,36 @@ function Team(props) {
             >
               + Add members
             </Button>
-            <TeamMembersModal open={open} onClose={handleClose} />
+            <TeamMembersModal
+              projectId={props._id}
+              team={props.team}
+              open={open}
+              setOpen={setOpen}
+              onClose={handleClose}
+            />
           </div>
           {props.team.map(member => (
-            <div className={classes.personInfo}>
-              <img
-                className={classes.avatar}
-                alt="Avatar"
-                src={member.avatar}
-              />
-              <div>
-                <Typography
-                  color="secondary"
-                  className={classes.personFullName}
-                  variant="subtitle1"
-                >
-                  {member.name /* then + surname*/}
-                </Typography>
-                <Typography color="secondary" variant="body1">
-                  {member.email}
-                </Typography>
+            <div key={Math.random()} className={classes.personInfo}>
+              <div style={{display: 'flex'}}>
+                <img
+                  className={classes.avatar}
+                  alt="Avatar"
+                  src={member.avatar}
+                />
+                <div>
+                  <Typography
+                    color="secondary"
+                    className={classes.personFullName}
+                    variant="subtitle1"
+                  >
+                    {member.name /* then + surname*/}
+                  </Typography>
+                  <Typography color="secondary" variant="body1">
+                    {member.email}
+                  </Typography>
+                </div>
               </div>
+              <Button onClick={() => deleteHandler(member._id)} color="secondary" className={classes.deleteButton}><img alt="delete icon" src={DeleteButton}/></Button>
             </div>
           ))}
         </div>
@@ -179,11 +206,12 @@ function Team(props) {
 }
 
 Team.propTypes = {
-  refreshToken: PropTypes.func.isRequired
+  refreshToken: PropTypes.func.isRequired,
+  deleteMemberFromProject: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default compose(connect(mapStateToProps, { refreshToken }))(Team)
+export default compose(connect(mapStateToProps, { refreshToken, deleteMemberFromProject }))(Team)

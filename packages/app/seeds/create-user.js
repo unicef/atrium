@@ -18,7 +18,7 @@ require('dotenv').config()
   const newWallet = ethers.createWallet()
   const encryptedWallet = await encryptDecrypt.encrypt(newWallet)
 
-  const email2 = 'test@unicef.com'
+  const email2 = 'test2@unicef.com'
   const emailHash2 = md5Hash(email2)
   const password2 = 'password'
   const hashedPassword2 = await saltAndHashPassword(password2)

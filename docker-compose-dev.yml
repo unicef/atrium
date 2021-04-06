@@ -1,7 +1,6 @@
 version: "3.6"
 
 services:
-<<<<<<< HEAD
   forum:
     image: appliedblockchain/node-bb-atrium
     build:
@@ -20,40 +19,6 @@ services:
       - DATABASE_PORT=27017
       - DATABASE_NAME=forum
     command: sh -ac 'echo "{\"url\":\"$$URL\",\"port\":\"$$PORT\",\"secret\":\"$$SESSION_SECRET\",\"database\":\"mongo\",\"mongo\":{\"host\":\"$$DATABASE_HOST\",\"port\":\"$$DATABASE_PORT\",\"database\":\"$$DATABASE_NAME\"}}" > config.json && node app --setup "{\"admin:username\":\"$$ADMIN_USERNAME\",\"admin:password\":\"$$ADMIN_PASSWORD\",\"admin:password:confirm\":\"$$ADMIN_PASSWORD\",\"admin:email\":\"$$ADMIN_EMAIL\"}" --defaultPlugins "[\"nodebb-plugin-session-sharing\", \"nodebb-plugin-mentions\"]" && ./nodebb start'
-    ports:
-      - 4567:4567
-
-  remix:
-    image: appliedblockchain/remix-atrium
-    build:
-      context: packages/remix
-      dockerfile: Dockerfile
-    ports:
-      - 8080:80
-=======
-  init:
-    build:
-      context: ./packages
-      dockerfile: init/Dockerfile-dev
-    user: root
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/app
-      - ETHEREUM_PROVIDER_URL=http://parity1:8545
-      - ATRIUM_WALLET_SECRET=dev
-    depends_on:
-      - mongo
-      - parity1
-    volumes:
-      - contracts:/contracts
->>>>>>> create-projects, mainPage need refactor
-
-  forum:
-    image: appliedblockchain/node-bb-atrium
-    build:
-      context: packages/node-bb
-      dockerfile: Dockerfile
-    depends_on:
-      - mongo
     ports:
       - 4567:4567
 

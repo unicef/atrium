@@ -22,6 +22,9 @@ const useDefaultStyles = makeStyles(() => ({
     margin: '-60% 0 0 -50%',
     minWidth: 0,
     borderRadius: '50%'
+  },
+  addDocumentButton: {
+    margin: '5% 0'
   }
 }))
 
@@ -79,7 +82,7 @@ function ProjectOverviewForm(props) {
               <Typography className={classes.header} variant="subtitle1">
                 Documents
               </Typography>
-              <Button color="primary">+ Add document file</Button>
+              <Button className={classes.addDocumentButton} color="primary">+ Add document file</Button>
               <Typography className={classes.header} variant="subtitle1">
                 Links
               </Typography>

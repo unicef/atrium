@@ -15,7 +15,7 @@ const useDefaultStyles = makeStyles(theme => ({
   counter: {
     display: 'flex',
     justifyContent: 'flex-end',
-    marginTop: '-40px',
+    margin: '-40px 0 3% 0',
     paddingRight: '10px',
     color: '#636767',
     fontSize: 13
