@@ -4,20 +4,27 @@ import Typography from '@material-ui/core/Typography'
 import { Button, TextField } from '../../../../ui'
 import InputLabel from '@material-ui/core/InputLabel'
 import makeStyles from '@material-ui/core/styles/makeStyles'
+import { MyPost, ProjectPicture } from '../assets'
 
 const useDefaultStyles = makeStyles(() => ({
   header: {
     textAlign: 'left',
-    fontSize: '18px'
-  },
-  image: {
-    width: '400px',
-    height: '220px',
     margin: '5% 0'
   },
   input: {
     color: 'black',
     marginTop: '5%'
+  },
+  myPostButton: {
+    width: '46px',
+    height: '46px',
+    padding: 0,
+    margin: '-60% 0 0 -50%',
+    minWidth: 0,
+    borderRadius: '50%'
+  },
+  addDocumentButton: {
+    margin: '5% 0'
   }
 }))
 
@@ -53,26 +60,22 @@ function ProjectOverviewForm(props) {
             ...props
           }) => (
             <form noValidate onSubmit={props.handleSubmit}>
-              <Typography
-                className={classes.header}
-                variant="subtitle1"
-              >
+              <Typography className={classes.header} variant="subtitle1">
                 Project Photo
               </Typography>
-              <div className={classes.image}>
-                <img src={values.attachment} alt="LoadProjectImage" />
-              </div>
-              <Typography
-                className={classes.header}
-                variant="subtitle1"
-              >
+              <img
+                className={classes.image}
+                src={values.attachment || ProjectPicture}
+                alt="LoadProjectImage"
+              />
+              <Button color="primary" className={classes.myPostButton}>
+                <img src={MyPost} />
+              </Button>
+              <Typography className={classes.header} variant="subtitle1">
                 Documents
               </Typography>
-              <Button color="primary">+ Add document file</Button>
-              <Typography
-                className={classes.header}
-                variant="subtitle1"
-              >
+              <Button className={classes.addDocumentButton} color="primary">+ Add document file</Button>
+              <Typography className={classes.header} variant="subtitle1">
                 Links
               </Typography>
               <InputLabel

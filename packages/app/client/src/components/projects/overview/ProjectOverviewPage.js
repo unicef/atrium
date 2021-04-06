@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container'
 import ProjectOverview from './components/ProjectOverview'
 import AdditionalInformation from './components/AdditionalInformation'
 import Story from './components/Story'
-import Teams from './components/Teams'
+import Team from './components/Team'
 import Updates from './components/Updates'
 import { connect, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -74,7 +74,7 @@ function ProjectOverviewPage(props) {
         <Story {...projectData} />
       </Panel>
       <Panel value={tabIndex} index={4}>
-        <Teams projectData={projectData} />
+        <Team {...projectData} />
       </Panel>
       <Panel value={tabIndex} index={5}>
         <Updates {...projectData} />

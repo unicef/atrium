@@ -42,6 +42,18 @@ const logProjectComment = async (userId, projectId) => {
   })
 }
 
+const logProjectUpdate = async (userId, projectId) => {
+  log.info(
+    { user: userId, project: projectId },
+    'Logging project added update activity'
+  )
+  return await logActivity({
+    typeOfActivity: ACTIVITY_ENUM.COMMENT_PROJECT,
+    user: userId,
+    project: projectId
+  })
+}
+
 const logProjectLike = async (userId, projectId) => {
   log.info(
     { user: userId, project: projectId },
@@ -161,6 +173,7 @@ module.exports = {
   logJoiningAtrium,
   logProjectCreation,
   logProjectComment,
+  logProjectUpdate,
   logProjectLike,
   logPollCreation,
   logPollAnswer,

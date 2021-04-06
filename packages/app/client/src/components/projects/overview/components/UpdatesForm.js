@@ -42,7 +42,6 @@ function UpdatesForm(props) {
     props.handleCreateProject(values)
     setSubmitting(false)
   }
-
   const history = useHistory()
 
   const cancelHandler = () => {
@@ -84,23 +83,26 @@ function UpdatesForm(props) {
               <InputLabel
                 className={classes.inputLabel}
                 shrink
-                htmlFor="updateTitle"
+                htmlFor="title"
               >
                 Title
               </InputLabel>
               <TextField
                 variant="outlined"
                 placeholder="Example"
+                onChange={handleChange}
+                onBlur={handleBlur}
                 fullWidth
                 className={classes.formElement}
-                id="updateTitle"
+                id="title"
+                name="title"
               />
             </div>
             <div>
               <InputLabel
                 className={classes.inputLabel}
                 shrink
-                htmlFor="updateText"
+                htmlFor="text"
               >
                 Text
               </InputLabel>
@@ -112,7 +114,8 @@ function UpdatesForm(props) {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className={classes.formElement}
-                id="updateText"
+                id="text"
+                name="text"
               />
             </div>
             <div>

@@ -2,7 +2,10 @@ const express = require('express'),
   router = new express.Router(),
   Project = require('../../models/Project'),
   Comment = require('../../models/Comment'),
+  User = require('../../models/User'),
+  Update = require('../../models/Update'),
   { createNewComment } = require('../../lib/comments'),
+  { createNewUpdate } = require('../../lib/updates'),
   GithubLibrary = require('../../lib/github'),
   BadgesLibrary = require('../../lib/badges'),
   passport = require('passport'),
@@ -15,6 +18,7 @@ const express = require('express'),
   {
     logProjectCreation,
     logProjectComment,
+    logProjectUpdate,
     logProjectLike,
     logIssueBadge
   } = require('../../lib/userActivity'),
@@ -27,7 +31,18 @@ const populateParams = [
     select: userFieldSelection
   },
   {
+    path: 'updates'
+  },
+  {
+    path: 'team',
+    select: userFieldSelection
+  },
+  {
     path: 'owner',
+    select: userFieldSelection
+  },
+  {
+    path: 'contactPerson',
     select: userFieldSelection
   },
   {
@@ -181,6 +196,9 @@ router.post(
         )
       }
 
+      const contactPerson = await User.findOne({
+        email: req.body.contactPersonEmail
+      })
       const linkToRepository = req.body.linkToRepository
       const newProject = new Project({
         name: req.body.name,
@@ -202,13 +220,15 @@ router.post(
         thematicArea: req.body.thematicArea,
         contactPersonFullName: req.body.contactPersonFullName,
         contactPersonEmail: req.body.contactPersonEmail,
+        contactPerson: contactPerson._id,
 
         websiteLink: req.body.websiteLink,
         tags: req.body.tags ? req.body.tags.split(',') : [],
         linkToDeployedApp: req.body.linkToDeployedApp,
         createdAt: Date.now(),
         linkToRepository: linkToRepository,
-        email: req.body.email
+        email: req.body.email,
+        team: []
       })
       return newProject
         .save()
@@ -697,6 +717,305 @@ router.post(
         )
         return sendError(res, 503, 'Error adding comment to project')
       }
+    })
+  }
+)
+
+router.put(
+  '/:_id/update/',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { _id } = req.params
+    const userId = req.user.id
+    const logData = {
+      requestId: req.id,
+      user: userId,
+      update: _id
+    }
+
+    const { text, title } = req.body
+
+    log.info(logData, 'Editing update')
+
+    try {
+      await Update.updateOne({ _id }, { $set: { text, title } })
+    } catch (e) {
+      log.error(logData, 'Error editing update')
+      return sendError(res, 503, 'Error Editing the update. Please try again')
+    }
+
+    log.info(logData, 'Succesfully Editted update')
+    res.send()
+  }
+)
+
+router.delete(
+  '/:updateId/update/',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { updateId } = req.params
+    const userId = req.user.id
+    const logData = {
+      requestId: req.id,
+      user: userId,
+      update: updateId
+    }
+
+    console.log(userId)
+
+    log.info(logData, 'Deleting update')
+
+    try {
+      await Project.update(
+        {},
+        { $pull: { updates: { $in: [mongoose.Types.ObjectId(updateId)] } } }
+      )
+      await Update.findByIdAndDelete({ _id: updateId, owner: userId })
+    } catch (e) {
+      log.error(logData, 'Error deleting update')
+      return sendError(res, 503, 'Error deleting the update. Please try again')
+    }
+
+    log.info(logData, 'Update deleted successfully')
+
+    res.send()
+  }
+)
+
+router.post(
+  '/:id/update',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        project: req.params.id
+      },
+      'User is adds update to project'
+    )
+
+    if (!req.body.text) {
+      log.warn(
+        {
+          requestId: req.id,
+          user: req.user.id,
+          project: req.params.id
+        },
+        'Error creating update. Text is mandatory'
+      )
+      return sendError(res, 400, 'Update text is mandatory')
+    }
+    const userId = req.user.id
+    Project.findOne({ _id: req.params.id }).exec(async (err, project) => {
+      if (err) {
+        log.error(
+          {
+            err,
+            requestId: req.id,
+            user: req.user.id,
+            project: req.params.id
+          },
+          'Error finding project in database'
+        )
+        return sendError(res, 503, 'Error adds update to project')
+      }
+
+      try {
+        const newUpdate = await createNewUpdate({
+          text: req.body.text,
+          title: req.body.title,
+          owner: userId
+        })
+
+        project.updates.push(newUpdate._id)
+        await project.save()
+        project.populate(
+          populateParams,
+          async (populateErr, populatedProject) => {
+            if (populateErr) {
+              log.error(
+                {
+                  err: populateErr,
+                  requestId: req.id,
+                  user: req.user.id,
+                  project: req.params.id
+                },
+                'Error populating fields in update'
+              )
+              return sendError(res, 403, 'Error adding update to project')
+            }
+            log.info(
+              {
+                requestId: req.id,
+                user: req.user.id,
+                project: populatedProject,
+                update: newUpdate
+              },
+              'Update added successfully'
+            )
+            await logProjectUpdate(req.user.id, populatedProject.id)
+            return res.status(200).json({ project: populatedProject })
+          }
+        )
+      } catch (updateErr) {
+        log.error(
+          {
+            err: updateErr,
+            requestId: req.id,
+            user: req.user.id,
+            project: req.params.id
+          },
+          'Error saving new update'
+        )
+        return sendError(res, 503, 'Error adding update to project')
+      }
+    })
+  }
+)
+
+router.post(
+  '/:id/addMembers',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        project: req.params.id
+      },
+      'User is adding members to project'
+    )
+
+    Project.findOne({ _id: req.params.id }).exec((err, project) => {
+      if (err) {
+        log.info(
+          {
+            err,
+            requestId: req.id,
+            project: req.params.id
+          },
+          'Error finding project'
+        )
+        return sendError(res, 503, 'Error adding members project')
+      }
+
+      project.team = [...project.team, ...req.body.members]
+      project
+        .save()
+        .then(() => {
+          log.info(
+            {
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Project members added successfully'
+          )
+          project.populate(populateParams, async (err, project) => {
+            if (err) {
+              log.err(
+                {
+                  err,
+                  requestId: req.id,
+                  project: req.params.id
+                },
+                'Error populating fields'
+              )
+              return sendError(res, 503, 'Error adding members to project')
+            }
+            log.info(
+              {
+                requestId: req.id,
+                project: project
+              },
+              'Fields populated successfully'
+            )
+            return res.status(200).json({ project })
+          })
+        })
+        .catch(err => {
+          log.error(
+            {
+              err,
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Error saving project'
+          )
+          return sendError(res, 503, 'Error adding members to project')
+        })
+    })
+  }
+)
+
+router.post(
+  '/:id/deleteMember',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        project: req.params.id
+      },
+      'User is deleting member from project'
+    )
+
+    Project.findOne({ _id: req.params.id }).exec((err, project) => {
+      if (err) {
+        log.info(
+          {
+            err,
+            requestId: req.id,
+            project: req.params.id
+          },
+          'Error finding project'
+        )
+        return sendError(res, 503, 'Error deleting member from project')
+      }
+
+      project.team = project.team.filter(member => member != req.body.memberId)
+      project
+        .save()
+        .then(() => {
+          log.info(
+            {
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Project member deleted successfully'
+          )
+          project.populate(populateParams, async (err, project) => {
+            if (err) {
+              log.err(
+                {
+                  err,
+                  requestId: req.id,
+                  project: req.params.id
+                },
+                'Error populating fields'
+              )
+              return sendError(res, 503, 'Error deleting member from project')
+            }
+            log.info(
+              {
+                requestId: req.id,
+                project: project
+              },
+              'Fields populated successfully'
+            )
+            return res.status(200).json({ project })
+          })
+        })
+        .catch(err => {
+          log.error(
+            {
+              err,
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Error saving project'
+          )
+          return sendError(res, 503, 'Error deleting member from project')
+        })
     })
   }
 )

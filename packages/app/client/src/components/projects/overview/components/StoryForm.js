@@ -5,6 +5,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import { TextField, Button } from '../../../../ui'
 import { Formik } from 'formik'
 import {useHistory} from "react-router-dom"
+
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
     width: '50%',
@@ -14,7 +15,7 @@ const useDefaultStyles = makeStyles(theme => ({
   counter: {
     display: 'flex',
     justifyContent: 'flex-end',
-    marginTop: '-40px',
+    margin: '-40px 0 3% 0',
     paddingRight: '10px',
     color: '#636767',
     fontSize: 13
