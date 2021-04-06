@@ -32,7 +32,7 @@ const usersRequest = async ({ method, endpoint, body, overwritingErrors }) => {
 
     return await axios[method](`${ROUTE}${composedEndpoint}`, body)
   } catch(error) {
-    throw getStandardizedError(error, overwritingErrors)
+    throw new Error(getStandardizedError(error, overwritingErrors))
   }
 }
 
