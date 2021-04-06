@@ -7,12 +7,12 @@ const styles = makeStyles(theme => (
       marginBottom: 6,
       fontStyle: 'normal',
       fontWeight: 500,
-      fontSize: '12px',
+      fontSize: '16px',
       lineHeight: '15px',
     },
     input: props => (
       {
-        color: props.hasError ? theme.palette.error.main : theme.palette.text.primary,
+        color: props.hasError ? theme.palette.error.main : theme.colors[props.borderColorFocus],
         padding: '17px 23px 19px 18px',
 
         fontStyle: 'normal',
@@ -21,15 +21,16 @@ const styles = makeStyles(theme => (
         lineHeight: '180%',
       }
     ),
-    root: {
+    root: props => ({
       overflow: 'hidden',
-      border: '1.2px solid #BCBEBE'
-    },
+      border: `1.2px solid ${props.hasError ? theme.palette.error.main : theme.colors[props.borderColor]}`,
+      maxHeight: 56,
+    }),
     notchedOutline: {
       border: 'none',
     },
     focused: props => ({
-      border: `1.6px solid ${props.hasError ? theme.palette.error.main : theme.colors['black-two']}`
+      border: `1.6px solid ${props.hasError ? theme.palette.error.main : theme.colors[props.borderColorFocus]}`
     }),
     error: {
       border: `1.2px solid ${theme.palette.error.main}`

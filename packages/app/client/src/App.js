@@ -12,7 +12,6 @@ import Reports from './components/reports'
 import ManualInvite from './components/manual-invite'
 // New pages
 import GitHubPage from './components/github/GitHubPage'
-import Footer from './components/layout/Footer'
 import { Header } from './components/layout/Header'
 import Landing from './components/layout/Landing'
 import LearnPage from './components/learn/Learn'
@@ -36,12 +35,13 @@ import {
   DiscussionDetails,
   ProjectDetails,
   ProfilePage,
-  Toast
+  Toast,
+  Footer
 } from './ui'
 import setAuthToken from './utils/setAuthToken'
 
 // pages
-import { Register, Login, ForgotPassword, ResetPassword } from './ui/pages'
+import { Register, Login, ForgotPassword, ResetPassword, Learn } from './ui/pages'
 
 
 require('./utils/configureRequests')
@@ -79,6 +79,7 @@ const App = () => {
               <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/learn" component={Learn} />
               <Route exact path="/forgot-password" component={ForgotPassword} />
               <Route exact path="/reset-password/:token" component={ResetPassword} />
               <PrivateRoute exact path="/learn" component={LearnPage} />

@@ -35,8 +35,13 @@ const styles = theme => ({
     marginLeft: '1em',
     width: '100%',
     maxWidth: 220,
-    flexGrow: 1,
     fontSize: '16px',
+    [theme.breakpoints.down("xs")]: {
+      maxWidth: 80,
+      fontSize: '14px',
+    },
+    flexGrow: 1,
+    
     fontWeight: 500,
     letterSpacing: '1.8px',
     color: theme.colors['black-two'],
@@ -56,9 +61,6 @@ const styles = theme => ({
 })
 
 const Header = ({ logoutUser, auth, classes, location }) => {
-  if (!auth.isAuthenticated) {
-    return null
-  }
 
   if (exclusivePaths.includes(location.pathname)) {
     // exclude header from specific routes (has LimitedHeader)
@@ -78,11 +80,13 @@ const Header = ({ logoutUser, auth, classes, location }) => {
         </Link>
 
         <Navbar />
-        <ProfilePictureHeader user={auth.user} />
-        <DropdownHeaderMenu
-          // classes={classes} try to remove  red warning
-          logoutUser={logoutUser}
-        />
+        {auth.isAuthenticated && <ProfilePictureHeader user={auth.user} />}
+        {auth.isAuthenticated &&
+          <DropdownHeaderMenu
+            // classes={classes} try to remove  red warning
+            logoutUser={logoutUser}
+          />
+        }
       </Toolbar>
     </AppBar>
   )

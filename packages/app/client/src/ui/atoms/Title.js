@@ -9,6 +9,7 @@ const useStyles = makeStyles(theme =>
       marginBottom: props.mb,
       textAlign: props.align,
       fontWeight:'bold',
+      color: props.contrast ? theme.palette.primary.contrastText : theme.palette.text.primary,
       [theme.breakpoints.down('xs')]: {
         textAlign: props.alignMobile || props.align,
         fontSize: 20
@@ -17,11 +18,11 @@ const useStyles = makeStyles(theme =>
   })
 )
 
-const Title = ({ children, ...props }) => {
+const Title = ({ children, variant, ...props }) => {
   const classes = useStyles(props)
 
   return (
-    <Typography className={classes.title} variant="h4">
+    <Typography className={classes.title} variant={variant}>
       {children}
     </Typography>
   )
@@ -36,7 +37,9 @@ Title.propTypes = {
 Title.defaultProps = {
   align: 'center',
   alignMobile: 'center',
-  mb: 17
+  mb: 17,
+  variant: 'h4',
+  contrast: false
 }
 
 export default Title
