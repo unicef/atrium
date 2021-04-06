@@ -7,7 +7,7 @@ const styles = makeStyles(theme => (
       marginBottom: 6,
       fontStyle: 'normal',
       fontWeight: 500,
-      fontSize: '12px',
+      fontSize: '16px',
       lineHeight: '15px',
     },
     input: props => (
