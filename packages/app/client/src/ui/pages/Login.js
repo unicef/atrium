@@ -15,7 +15,6 @@ import { useToast } from '../hooks'
 const keepMLoggedCheckbox = {
   name: 'keepMLoggedCheckbox',
   id:'keepMLoggedCheckbox',
-  value: false,
   label: 'Keep me logged in',
   htmlFor: 'keepMLoggedCheckbox',
   type: 'checkbox'
@@ -67,7 +66,8 @@ const Login = ({ history }) => {
               <Grid container item xs={12} direction="row" alignItems="center" justify="space-between">
                 <CheckboxField
                   {...keepMLoggedCheckbox}
-                  onChange={() => {}}
+                  value={keepLogged}
+                  onChange={() => setKeepLogged(keep => !keep)}
                 />
                 <TextWithLinks
                   links={[
