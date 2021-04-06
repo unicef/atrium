@@ -43,15 +43,16 @@ const Login = ({ history }) => {
       const response = await loginUser({ email, password })
       showToast({ message: 'User authenticated', severity: 'success' })
       dispatch({ type: SET_CURRENT_USER, payload: response })
-      
+
       history.push('/landing')
     } catch(error) {
       showToast({ message: error.message, severity: 'danger' }) 
     }
   }
 
+  // TODO: remove inline styles and use shared style
   return (
-    <Container component="main" style={{ maxWidth: 1024 }}>
+    <Container component="main" style={{ maxWidth: 1024, marginTop: 100 }}>
       <MobileReverseGrid
         secondColumnProps={{
           justify: "center",
