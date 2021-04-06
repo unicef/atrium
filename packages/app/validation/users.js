@@ -8,11 +8,7 @@ const schemas = {
       .min(6)
       .max(30)
       .required(),
-    // password2: Joi.ref('password'),
-    // role: Joi.string().optional(),
-    // company: Joi.string().required(),
-    email: Joi.string().required(),
-    // invitationCode: Joi.string().required()
+    email: Joi.string().required()
   }),
   login: Joi.object({
     email: Joi.string()

@@ -61,9 +61,6 @@ const styles = theme => ({
 })
 
 const Header = ({ logoutUser, auth, classes, location }) => {
-  // if (!auth.isAuthenticated) {
-  //   return null
-  // }
 
   if (exclusivePaths.includes(location.pathname)) {
     // exclude header from specific routes (has LimitedHeader)
