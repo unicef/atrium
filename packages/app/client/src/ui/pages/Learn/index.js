@@ -7,7 +7,7 @@ import { SectionIcon } from './components'
 
 const Learn = () => {
   const containerStyle = useContainerStyle({ size: "full" })
-  const isAuthenticated = useIsAuthenticated()
+  const userIsAuthenticated = useIsAuthenticated()
 
   return (
     <Container component="main" className={containerStyle}>
@@ -23,20 +23,22 @@ const Learn = () => {
         otherComponent={<SectionIcon iconName="guide" />}
       />
       <Quiz />
-      <SectionWithBorderedText
-        id="smartContracts"
-        bgColor="section-bg"
-        boxDescription={`Are you a developer interested in writing digital rules for blockchain? 
-        Remix is an open-source tool that allows individuals to easily write and test smart contracts on The Atrium blockchain (Quorum blockchain). 
-        Test out your contract development skills with Remix now.`}
-        boxTitle="Write your first smart contract with Remix"
-        actionLabel="Open Remix"
-        otherComponent={<SectionIcon iconName="remix" />}
-        borderedTextFirst
-      />
+      {userIsAuthenticated &&
+        <SectionWithBorderedText
+          id="smartContracts"
+          bgColor="section-bg"
+          boxDescription={`Are you a developer interested in writing digital rules for blockchain? 
+          Remix is an open-source tool that allows individuals to easily write and test smart contracts on The Atrium blockchain (Quorum blockchain). 
+          Test out your contract development skills with Remix now.`}
+          boxTitle="Write your first smart contract with Remix"
+          actionLabel="Open Remix"
+          otherComponent={<SectionIcon iconName="remix" />}
+          borderedTextFirst
+        />
+      }
       <AtriumBlockchain />
       <ExternalResources />
-      <JoinAtrium LeftImageComponent={<SectionIcon iconName="butterflyLeft" />} RightImageComponent={<SectionIcon iconName="butterflyRight" />} />
+      {!userIsAuthenticated && <JoinAtrium LeftImageComponent={<SectionIcon iconName="butterflyLeft" />} RightImageComponent={<SectionIcon iconName="butterflyRight" />} />}
     </Container>
   )
 }
