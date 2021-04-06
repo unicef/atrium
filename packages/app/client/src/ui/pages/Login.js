@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { MobileReverseGrid } from '../templates'
@@ -8,6 +9,7 @@ import { CheckboxField } from '../atoms'
 import { password, email } from '../../utils/formFields'
 import { LoginIllustrationSVG } from '../assets'
 import { loginUser } from '../../api/users'
+import { SET_CURRENT_USER } from '../../actions/types'
 import { useToast } from '../hooks'
 
 const keepMLoggedCheckbox = {
@@ -33,11 +35,14 @@ const formProps = {
 const Login = ({ history }) => {
   const { showToast } = useToast()
   const [keepLogged, setKeepLogged] = useState(false)
+  const dispatch = useDispatch()
 
   const sendLoginRequest = async ({ email, password }) => {
     try {
       const response = await loginUser({ email, password })
       showToast({ message: 'User authenticated', severity: 'success' })
+      dispatch({ type: SET_CURRENT_USER, payload: response })
+      
       history.push('/landing')
     } catch(error) {
       showToast({ message: error.message, severity: 'danger' }) 
