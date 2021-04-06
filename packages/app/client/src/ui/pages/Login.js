@@ -30,15 +30,17 @@ const formProps = {
   buttonLayout: { xs: 4, sm: 6 }
 }
 
-const Login = () => {
+const Login = ({ history }) => {
   const { showToast } = useToast()
   const [keepLogged, setKeepLogged] = useState(false)
 
   const sendLoginRequest = async ({ email, password }) => {
     try {
       const response = await loginUser({ email, password })
+      showToast({ message: 'User authenticated', severity: 'success' })
+      history.push('/landing')
     } catch(error) {
-      showToast({ message: error, severity: 'danger' }) 
+      showToast({ message: error.message, severity: 'danger' }) 
     }
   }
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
 import { sendEmailToSignUp, registerUser } from '../../../api/users'
-import { ERRORS } from '../../../actions/authActions'
 import { email, name, surname, password, termsCheckbox } from '../../../utils/formFields'
 import { validateEmail } from '../../../utils/validators'
 import { CreateAccountFooter, EmailSent } from './components'
@@ -48,7 +47,7 @@ function Register () {
       saveEmail(email)
       changeStep(1)
     } catch (error) {
-      showToast({ message: error, severity: 'danger' }) 
+      showToast({ message: error.message, severity: 'danger' }) 
     }
   }
 
@@ -62,7 +61,7 @@ function Register () {
       })
       changeStep(2)
     } catch(error) {
-      showToast({ message: error.response?.data.err || ERRORS.GENERIC, severity: 'danger' }) 
+      showToast({ message: error.message, severity: 'danger' }) 
     }
   }
 
