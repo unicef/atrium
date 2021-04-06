@@ -2,6 +2,7 @@ import React from 'react'
 import { Tabs } from '../../../molecules'
 import { SectionContainer } from '../../../templates'
 import { makeStyles } from '@material-ui/core/styles'
+import { useIsAuthenticated } from '../../../hooks'
 
 const useStyles = makeStyles(() => 
   ({
@@ -14,26 +15,31 @@ const useStyles = makeStyles(() =>
 )
 
 const tabs = [
-  { label: "Guide", hash: 'guideSection' },
-  { label: "Quiz", hash:'quizSection' },
-  { label: "Directed learning", hash: 'directLearning' },
-  { label: "Smart contracts", hash: 'smartContracts' },
-  { label: "The Atrium blockchain", hash: 'atriumBlockchain' },
-  { label: "External resources", hash: 'externalResources' }
+  { label: "Guide", hash: 'guideSection', public: true },
+  { label: "Quiz", hash:'quizSection', public: true },
+  { label: "Directed learning", hash: 'directLearning', public: true },
+  { label: "Smart contracts", hash: 'smartContracts', public: false },
+  { label: "The Atrium blockchain", hash: 'atriumBlockchain', public: true },
+  { label: "External resources", hash: 'externalResources', public: true }
 ]
 
 const SectionTabs = () => {
   const classes = useStyles()
+  const userIsAuthenticated = useIsAuthenticated()
+  const filteredTabs = tabs.filter((tab) => {
+    if (!tab.public) return userIsAuthenticated
+    return tab.public
+  })
 
   const onTabChange = (index) => {
-    const target = document.getElementById(tabs[index].hash)
+    const target = document.getElementById(filteredTabs[index].hash)
     window.scrollTo({ top: target.offsetTop - (target.offsetHeight / 2), behavior: 'smooth' })
   }
 
   return (
     <div className={classes.container}>
       <SectionContainer padding={0} mobilePadding={0} justify="center" lg={10}>
-        <Tabs handleChange={onTabChange} tabs={tabs} className={classes.tabs} />
+        <Tabs handleChange={onTabChange} tabs={filteredTabs} className={classes.tabs} />
       </SectionContainer>
     </div>
   )
