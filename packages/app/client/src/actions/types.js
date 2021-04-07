@@ -21,3 +21,6 @@ export const SET_LEARNING_RESOURCES = 'SET_LEARNING_RESOURCES'
 
 export const SHOW_TOAST = 'toast/SHOW_TOAST'
 export const DISMISS_TOAST = 'toast/DISMISS_TOAST'
+
+export const SHOW_LOADING = 'pageLoading/SHOW_LOADING'
+export const DISMISS_LOADING = 'pageLoading/DISMISS_LOADING'

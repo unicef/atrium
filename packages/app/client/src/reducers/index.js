@@ -10,6 +10,7 @@ import projectReducer from './projectReducer'
 import learningReducer from './learningReducer'
 import discussionReducer from './discussionReducer'
 import toast from './toastReducer'
+import loader from './loaderReducer'
 
 export default combineReducers({
   auth: authReducer,
@@ -22,5 +23,6 @@ export default combineReducers({
   errors: errorReducer,
   learning: learningReducer,
   discussions: discussionReducer,
-  toast
+  toast,
+  loader
 })
