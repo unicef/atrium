@@ -36,7 +36,8 @@ import {
   ProjectDetails,
   ProfilePage,
   Toast,
-  Footer
+  Footer,
+  FullPageLoader
 } from './ui'
 import setAuthToken from './utils/setAuthToken'
 
@@ -70,7 +71,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Router>
         <Provider store={store}>
-          <>
+          <div style={{ position: 'relative', height: '100%', width: '100%'}}>
             <ModalMessage />
             <Header />
             <Toast />
@@ -127,7 +128,8 @@ const App = () => {
               <Route component={ErrorPage} />
             </Switch>
             <Footer />
-          </>
+            <FullPageLoader />
+          </div>
         </Provider>
       </Router>
     </ThemeProvider>

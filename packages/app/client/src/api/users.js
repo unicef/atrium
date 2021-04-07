@@ -1,5 +1,4 @@
-import axios from 'axios'
-import errorHandling from '../utils/errorHandling'
+import { baseRequest } from '../ui/utils'
 
 const ROUTE = 'users'
 
@@ -23,18 +22,8 @@ export const ERRORS = {
   404: "Your email wasn't found in our system. Please make sure you've entered it correctly, or, if you haven't signed up, please click the Register button"
 }
 
-const getStandardizedError = errorHandling(ERRORS)
-
 //BASE REQUEST
-const usersRequest = async ({ method, endpoint, body, overwritingErrors }) => {
-  try {
-    const composedEndpoint = endpoint ? `/${endpoint}` : ''
-
-    return await axios[method](`${ROUTE}${composedEndpoint}`, body)
-  } catch(error) {
-    throw new Error(getStandardizedError(error, overwritingErrors))
-  }
-}
+const usersRequest = baseRequest({ errors: ERRORS, baseURL: ROUTE })
 
 // REQUESTS
 export const updateUserDetails = (userDetails) => usersRequest({

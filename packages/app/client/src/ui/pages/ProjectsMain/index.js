@@ -1,7 +1,7 @@
 import React from 'react'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import { useContainerStyle } from '../../hooks/useStyles'
+import { useContainerStyle, useProjectsAsyncActions } from '../../hooks'
 import { ProjectMainCard } from '../../organisms'
 import { SearchBar, SectionHeader } from './components'
 import { makeStyles } from '@material-ui/core/styles'
@@ -17,10 +17,10 @@ const useStyles = makeStyles(theme => ({
 
 const projects = new Array(8).fill(
   {
-    title: 'Lorem Ipsum is simply dummy text of the printing and typesetting ',
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text...",
-    author: 'Paweł Bartosz',
-    date: '22.03.2020',
+    name: 'Lorem Ipsum is simply dummy text of the printing and typesetting ',
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text...",
+    owner: 'Paweł Bartosz',
+    createdAt: '22.03.2020',
     code: 'View Code',
     imageTitle: 'Random Image',
     imageAlt: 'Random Image',
@@ -28,11 +28,16 @@ const projects = new Array(8).fill(
   }
 )
 
-const sections = [{name: 'Featured Projects', sortable: false }, { name: 'All projects', sortable: true }]
+const sections = [{ name: 'Featured Projects', sortable: false }, { name: 'All projects', sortable: true }]
 
 const ProjectsMain = () => {
   const containerStyle = useContainerStyle({ size: 'regular'})
   const classes = useStyles()
+  const { fetchAllProjects } = useProjectsAsyncActions()
+
+  React.useEffect(() => {
+    fetchAllProjects()
+  }, [])
 
   return (
     <>

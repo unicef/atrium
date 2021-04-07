@@ -1,4 +1,19 @@
-import axios from 'axios'
+import { baseRequest } from '../ui/utils'
+
+const ROUTE = 'projects'
+
+// ENDPOINTS
+const getToggleLikeEndpoint = (projectId) => `${projectId}/like`
+const getCommentEndpoint = (id) => `${id}/comment`
+
+// ERRORS
+export const ERRORS = {
+  503: 'Unable to get user activity, refresh the page to try again',
+  403: 'Session expired, login again'
+}
+
+//BASE REQUEST
+const projectRequest = baseRequest({ errors: ERRORS, baseURL: ROUTE })
 
 /**
  * Toggle a user's like in a project
@@ -7,9 +22,10 @@ import axios from 'axios'
  * @param {string} projectId
  * @returns
  */
-export function toggleProjectLike(projectId) {
-  return axios.patch(`projects/${projectId}/like`)
-}
+export const toggleProjectLike = (projectId) => projectRequest({
+  method: 'patch',
+  endpoint: getToggleLikeEndpoint(projectId)
+})
 
 /**
  * Add new comment to project
@@ -19,9 +35,12 @@ export function toggleProjectLike(projectId) {
  * @param {Comment} comment
  * @returns
  */
-export function addComment(projectId, comment) {
-  return axios.post(`projects/${projectId}/comment`, comment)
-}
+export const addComment = (projectId, comment) => projectRequest({
+  method: 'post',
+  endpoint: getCommentEndpoint(projectId),
+  body: comment
+})
+
 /**
  * Edit a comment
  *
@@ -30,28 +49,36 @@ export function addComment(projectId, comment) {
  * @param {Comment} comment
  * @returns
  */
-export function editComment(commentId, content) {
-  return axios.put(`projects/${commentId}/comment`, { content })
-}
+export const  editComment = (commentId, content) => projectRequest({
+  method: 'put',
+  endpoint: getCommentEndpoint(commentId),
+  body: { content }
+})
+
 /**
  * Remove a comment
  *
  * @export
- * @param {string} projectId
- * @param {Comment} comment
+ * @param {string} commentId
  * @returns
  */
-export function deleteComment(commentId) {
-  return axios.delete(`projects/${commentId}/comment/`)
-}
+export const deleteComment = (commentId) => projectRequest({
+  method: 'delete',
+  endpoint: getCommentEndpoint(commentId)
+})
 
-export function getAttachment(attachment) {
-  if(!attachment)
-    return
-  return axios.get(attachment, {
-    responseType: 'arraybuffer'
+export const getAttachment = (attachment) => {
+  if(!attachment) throw new Error('Attachment is required')
+
+  return projectRequest({
+    method: 'get',
+    endpoint: attachment,
+    config: {
+      responseType: 'arraybuffer'
+    }
   })
 }
+
 /**
  * Get project
  *
@@ -59,6 +86,12 @@ export function getAttachment(attachment) {
  * @param {string} projectId
  * @returns
  */
-export function getProject(projectId) {
-  return axios.get(`projects/${projectId}`)
-}
+export const getProject = (projectId) =>  projectRequest({
+  method: 'get',
+  endpoint: projectId
+})
+
+/**
+ * Get all project
+ */
+ export const getAllProjects = () => projectRequest({ method: 'get' })
