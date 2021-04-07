@@ -47,12 +47,10 @@ const populateParams = [
 
 router.get(
   '/',
-  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     log.info(
       {
-        requestId: req.id,
-        user: req.user.id
+        requestId: req.id
       },
       'Get all projects'
     )
@@ -65,8 +63,7 @@ router.get(
           log.error(
             {
               err,
-              requestId: req.id,
-              user: req.user.id
+              requestId: req.id
             },
             'Error getting all projects'
           )
@@ -76,7 +73,6 @@ router.get(
         log.info(
           {
             requestId: req.id,
-            user: req.user.id,
             projects
           },
           'Success getting project list'
