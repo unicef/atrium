@@ -1,12 +1,11 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import makeStyles from '@material-ui/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
-import { TextField } from '../../../ui'
+import { JoinAtrium, SectionContainer } from '../../../ui'
 import { Button } from '../../../ui'
 import { LimitedHeader } from '../Header'
-import { ExpansionList } from './components'
 import {
   MainBackground,
   AccelerateInnovation,
@@ -15,11 +14,14 @@ import {
   BuildBackground,
   ReadingBoy,
   ReadingBackground,
-  ButterflyLeft,
-  ButterflyRight,
   ButterflyLogos
 } from '../assets'
-import { ATRIUM_CONSTANTS } from '../../../unin-constants'
+import {
+  CollapsableQuestion,
+  SectionIcon
+} from '../../../ui/pages/Learn/components'
+import Container from '@material-ui/core/Container'
+import { useContainerStyle } from '../../../ui/hooks'
 
 const theseAreBadVariableNamesThereIsNoReasonToSeparateThem = makeStyles(
   () => ({
@@ -44,18 +46,13 @@ const theseAreBadVariableNamesThereIsNoReasonToSeparateThem = makeStyles(
     section: {
       display: 'flex',
       width: '100%',
-      paddingTop: 119,
+      paddingTop: 60,
       '& > div': {
         maxWidth: 635
       },
       textAlign: 'left',
       paddingBottom: 100,
       justifyContent: 'center'
-    },
-    imgInSection: {
-      width: '100%',
-      maxWidth: '750px',
-      margin: '0 10%'
     },
     line: {
       borderBottom: 'solid 1.2px',
@@ -104,12 +101,18 @@ const useWelcomeSectionStyles = makeStyles(theme => ({
   },
   loginButton: {
     width: '105px',
-    height: '50px'
+    height: '50px',
+    margin: 0
   },
   signupButton: {
     width: '105px',
     height: '50px',
-    marginRight: '10px'
+    margin: '0 10px 0 0'
+  },
+  addProjectButton: {
+    width: '105px',
+    height: '50px',
+    margin: '10% 0 0 0'
   }
 }))
 
@@ -178,7 +181,7 @@ const useBlockchainSectionStyles = makeStyles(theme => ({
     margin: '-273px 0 10% 0'
   },
   readingBackground: {
-    margin: '-120px 0 0 -21%'
+    margin: '-60px 0 0 -21%'
   },
   wrapper: {
     marginLeft: '30%'
@@ -200,53 +203,6 @@ const useMoreInfoStyles = makeStyles(theme => ({
   }
 }))
 
-const useInviteStyles = makeStyles(theme => ({
-  section: {
-    backgroundColor: '#3592F1',
-    alignItems: 'center'
-  },
-  sectionHeader: {
-    textAlign: 'center',
-    color: 'white'
-  },
-  container: {
-    alignItems: 'center'
-  },
-  contactButton: {
-    marginTop: '5%',
-    backgroundColor: 'white',
-    color: '#3592F1',
-    width: '100%'
-  },
-  emailInput: {
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: '10%',
-    border: 'solid 1.2px',
-    borderColor: 'white',
-    borderRadius: '3px',
-    marginBottom: '5%'
-  },
-  textField: {
-    width: '79%',
-  },
-  submitButton: {
-    backgroundColor: '#3592F1',
-    color: 'white',
-    width: '19%',
-    margin: 0,
-  },
-  descriptionText: {
-    marginTop: '10%',
-    marginLeft: '10%',
-    width: '80%',
-    color: 'white',
-    fontWeight: '300',
-    fontSize: '14px',
-    textAlign: 'center'
-  }
-}))
-
 const Landing = props => {
   const welcomeStyles = useWelcomeSectionStyles()
   const whyJoinStyles = useWhyJoinSectionStyles()
@@ -254,10 +210,22 @@ const Landing = props => {
   const exploreStyles = useExploreSectionStyles()
   const moreInfoStyles = useMoreInfoStyles()
   const blockchainStyles = useBlockchainSectionStyles()
-  const inviteStyles = useInviteStyles()
+  const containerStyle = useContainerStyle({ size: 'full' })
   const classes = theseAreBadVariableNamesThereIsNoReasonToSeparateThem()
 
-  const [email, setEmail] = useState('')
+  const questions = [
+    {
+      title: 'What kind of projects can I share on The Atrium?',
+      answer: `Any distributed application (dApp) can be shared on The Atrium. In addition to uploading your project to the "Projects" page, you can also share in The Atrium's Github repository. This allows any user of The Atrium to access the code, increasing the opportunity for rapid innovation. As a note, although The Atrium uses a private Ethereum blockchain as the test network, the GitHub repository is agnostic to infrastructure.`
+    },
+    {
+      title:
+        'I am working on a project that is not public-facing. How secure is The Atrium to host my project?',
+      answer:
+        'The Atrium is a tool which enables UN organisations to learn about and collaborate on blockchain projects. Hence keeping the platform restricted to UN personnel helps individuals to comfortably share their ideas and work in a secure environment.'
+    }
+  ]
+
   const handleRedirectToLogin = () => {
     props.history.push('/login')
   }
@@ -281,7 +249,6 @@ const Landing = props => {
   const handleRedirectToForum = () => {
     props.history.push('/engage')
   }
-
   return (
     <>
       {!props.isAuthenticated && (
@@ -313,14 +280,14 @@ const Landing = props => {
           }
         />
       )}
-      <div className={classes.main}>
+      <Container component="main" className={containerStyle}>
         <Grid container xs={12}>
           <Grid item container xs={12} className={classes.section}>
             <Grid item xs={12} sm={12} md={4}>
-              <Typography className={welcomeStyles.header} variant="h2">
+              <Typography style={{width: '75%'}} className={welcomeStyles.header} variant="h2">
                 Start your blockchain journey
               </Typography>
-              <Typography variant="body1" className={welcomeStyles.description}>
+              <Typography style={{width: '70%'}} variant="body1" className={welcomeStyles.description}>
                 Welcome to The Atrium, an interagency platform designed to
                 foster and support learning, collaboration, and discussion
                 across the UN community.
@@ -329,7 +296,7 @@ const Landing = props => {
                 <Button
                   color="primary"
                   onClick={handleRedirectToAddProject}
-                  className={welcomeStyles.signupButton}
+                  className={welcomeStyles.addProjectButton}
                 >
                   Add project
                 </Button>
@@ -355,7 +322,6 @@ const Landing = props => {
             </Grid>
             <Grid item xs={12} sm={12} md={8}>
               <img
-                className={classes.imgInSection}
                 alt="MainBackground"
                 src={MainBackground}
               />
@@ -400,7 +366,6 @@ const Landing = props => {
             </Grid>
             <Grid item xs={12} sm={12} md={8}>
               <img
-                className={classes.imgInSection}
                 alt="AccelerateInnovation"
                 src={AccelerateInnovation}
               />
@@ -485,7 +450,6 @@ const Landing = props => {
             </Grid>
             <Grid item xs={12} sm={12} md={8}>
               <img
-                className={classes.imgInSection}
                 alt="DecisionMaking"
                 src={DecisionMaking}
               />
@@ -572,106 +536,43 @@ const Landing = props => {
             </Grid>
             <Grid item xs={12} sm={12} md={8}>
               <img
-                  className={classes.imgInSection}
-                  style={{    marginBottom: '-105px'}}
-                  alt="ButterflyLogos"
-                  src={ButterflyLogos}
+                style={{ marginBottom: '-105px' }}
+                alt="ButterflyLogos"
+                src={ButterflyLogos}
               />
             </Grid>
           </Grid>
 
-          <Grid
-            item
-            container
-            xs={12}
-            className={[classes.section, inviteStyles.section].join(' ')}
+          <JoinAtrium
+            LeftImageComponent={<SectionIcon iconName="butterflyLeft" />}
+            RightImageComponent={<SectionIcon iconName="butterflyRight" />}
+            isAuthenticated={props.isAuthenticated}
+          />
+
+          <SectionContainer
+            id="atriumBlockchain"
+            spacing={4}
+            md={8}
+            lg={6}
+            style={{ justifyContent: 'center' }}
           >
-            <Grid item xs={12} md={4}>
-              <img src={ButterflyLeft} />
+            <Typography
+              className={moreInfoStyles.descriptionHeader}
+              variant="h2"
+            >
+              Want more information?
+            </Typography>
+            <Typography variant="h4" className={moreInfoStyles.descriptionText}>
+              Here are some of our Frequently Asked Questions
+            </Typography>
+            <Grid item container xs={12}>
+              {questions.map(question => (
+                <CollapsableQuestion key={question.title} {...question} />
+              ))}
             </Grid>
-
-            <Grid item xs={12} md={4} className={inviteStyles.container}>
-              <Typography className={inviteStyles.sectionHeader} variant="h2">
-                {props.isAuthenticated ? 'Invite to Atrium' : 'Join Atrium now'}
-              </Typography>
-              <div className={inviteStyles.emailInput}>
-                <TextField
-                  InputProps={{
-                    disableUnderline: true
-                  }}
-                  className={inviteStyles.textField}
-                  onChange={(e)=>setEmail(e.target.value)}
-                  placeholder="For example—janedoe@wfp.org"
-                />
-                <Button className={inviteStyles.submitButton}
-                  onClick={() => (document.location.href = `mailto:${email}`)}
-                >Submit</Button>
-              </div>
-              <div className={classes.separator}>
-                <div className={classes.smallLine} />
-                <Typography variant="body1" className={classes.separatorOr}>
-                  OR
-                </Typography>
-                <div className={classes.smallLine} />
-              </div>
-              <Button
-                className={inviteStyles.contactButton}
-                onClick={() =>
-                  (document.location.href = `mailto:${ATRIUM_CONSTANTS.ATRIUM_EMAIL_CONTACT}`)
-                }
-              >
-                Contact us
-              </Button>
-              <Typography className={inviteStyles.descriptionText}>
-                We are looking for other organizations that would be interested
-                in setting up their own node, therefore, participating by
-                increasing the resilience of the system. If interested, please
-                contact blockchain@uninnovation.network.
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <img style={{width: '350px', marginLeft: '27%'}} src={ButterflyRight} />
-            </Grid>
-          </Grid>
-
-          <Grid
-            item
-            container
-            xs={12}
-            className={[classes.section, moreInfoStyles.section]}
-          >
-            <Grid item xs={12} className={moreInfoStyles.container}>
-              <Typography
-                className={moreInfoStyles.descriptionHeader}
-                variant="h2"
-              >
-                Want more information?
-              </Typography>
-              <Typography
-                variant="h4"
-                className={moreInfoStyles.descriptionText}
-              >
-                Here are some of our Frequently Asked Questions
-              </Typography>
-              <ExpansionList
-                list={[
-                  {
-                    title: 'What kind of projects can I share on The Atrium?',
-                    content: `Any distributed application (dApp) can be shared on The Atrium. In addition to uploading your project to the "Projects" page, you can also share in The Atrium's Github repository. This allows any user of The Atrium to access the code, increasing the opportunity for rapid innovation. As a note, although The Atrium uses a private Ethereum blockchain as the test network, the GitHub repository is agnostic to infrastructure.`
-                  },
-                  {
-                    title:
-                      'I am working on a project that is not public-facing. How secure is The Atrium to host my project?',
-                    content:
-                      'The Atrium is a tool which enables UN organisations to learn about and collaborate on blockchain projects. Hence keeping the platform restricted to UN personnel helps individuals to comfortably share their ideas and work in a secure environment.'
-                  }
-                ]}
-              />
-            </Grid>
-          </Grid>
+          </SectionContainer>
         </Grid>
-      </div>
+      </Container>
     </>
   )
 }

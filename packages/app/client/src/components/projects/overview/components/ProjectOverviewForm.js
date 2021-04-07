@@ -25,6 +25,11 @@ const useDefaultStyles = makeStyles(() => ({
   },
   addDocumentButton: {
     margin: '5% 0'
+  },
+  image: {
+    width: '400px',
+    height: '220px',
+    borderRadius: '5px'
   }
 }))
 

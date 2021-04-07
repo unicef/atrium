@@ -7,7 +7,7 @@ import SectionContainer from './SectionContainer'
 import { Title, TextField, Button, TextButton } from '../atoms'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => 
+const useStyles = makeStyles(theme =>
   ({
     text: {
      color: theme.palette.primary.contrastText
@@ -45,10 +45,9 @@ const SideColumn = ({ children }) => (
   </Hidden>
 )
 
-const JoinAtrium = ({ LeftImageComponent, RightImageComponent, onSubmit }) => {
+const JoinAtrium = ({ LeftImageComponent, RightImageComponent, isAuthenticated}) => {
   const classes = useStyles()
   const [email, setEmail] = useState(undefined)
-
   return (
     <SectionContainer justify="center" padding="80px 0 80px 0" sm={12} lg={12} bgColor="blue-info">
       <SideColumn>
@@ -57,7 +56,16 @@ const JoinAtrium = ({ LeftImageComponent, RightImageComponent, onSubmit }) => {
 
       <Grid className={classes.text} justify="center" item container xs={12} sm={10} md={8}>
         <Grid justify="center" item container xs={12} sm={8} md={6}>
-          <Title contrast mb={30}>Join Atrium now</Title>
+
+          {isAuthenticated ? (
+            <Title contrast mb={30}>
+              Invite to Atrium
+            </Title>
+          ) : (
+            <Title contrast mb={30}>
+              Join Atrium now
+            </Title>
+          )}
 
           <TextField
             borderColor="white"
@@ -70,7 +78,7 @@ const JoinAtrium = ({ LeftImageComponent, RightImageComponent, onSubmit }) => {
                   textContent="Submit"
                   size="full"
                   labelColor="white"
-                  onClick={() => onSubmit(email)}
+                  onClick={() => (document.location.href = `mailto:${email}`)}
                 />
               </InputAdornment>
             }
@@ -89,7 +97,7 @@ const JoinAtrium = ({ LeftImageComponent, RightImageComponent, onSubmit }) => {
           </Button>
 
           <Typography align="center" variant="body1" className={classes.description}>
-            We are looking for other organizations that would be interested in setting up their own node, therefore, participating by increasing the resilience of the system. 
+            We are looking for other organizations that would be interested in setting up their own node, therefore, participating by increasing the resilience of the system.
             If interested, please contact blockchain@uninnovation.network.
           </Typography>
         </Grid>
@@ -100,10 +108,6 @@ const JoinAtrium = ({ LeftImageComponent, RightImageComponent, onSubmit }) => {
       </SideColumn>
     </SectionContainer>
   )
-}
-
-JoinAtrium.defaultProps = {
-  onSubmit: () => {}
 }
 
 export default JoinAtrium
