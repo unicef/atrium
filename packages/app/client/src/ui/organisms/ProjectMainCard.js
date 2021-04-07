@@ -57,7 +57,7 @@ const useStyles = makeStyles({
   }
 })
 
-const CardWithImage = ({ title, description, author, date, commentsCount, likesCount, code, src, imageTitle, imageAlt }) => {
+const CardWithImage = ({ name, details, owner, createdAt, commentsCount, likesCount, code, src, imageTitle, imageAlt }) => {
   const [imageLoaded, setLoaded] = useState(false)
   const classes = useStyles({ imageLoaded })
   
@@ -76,10 +76,10 @@ const CardWithImage = ({ title, description, author, date, commentsCount, likesC
         </MediaLoader>
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h3" component="h6" className={classes.title}>
-            {title}
+            {name}
           </Typography>
           <Typography variant="caption"  component="p">
-            {description}
+            {details}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -102,11 +102,11 @@ const CardWithImage = ({ title, description, author, date, commentsCount, likesC
       <CardContent className={classes.footer}>
         <Divider mb={10} mt={10} />
         <Typography className={classes.footerText}>
-          By {author}
+          By {owner}
         </Typography>
         <Grid container item xs={12}>
           <Typography className={classes.footerText}>
-            {date}
+            {createdAt}
           </Typography>
           <Typography className={mergeClassNames(classes.code, classes.footerText)}>·</Typography>
           <Typography className={mergeClassNames(classes.code, classes.footerText)}>{code}</Typography>
