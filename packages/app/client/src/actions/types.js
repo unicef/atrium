@@ -24,3 +24,12 @@ export const DISMISS_TOAST = 'toast/DISMISS_TOAST'
 
 export const SHOW_LOADING = 'pageLoading/SHOW_LOADING'
 export const DISMISS_LOADING = 'pageLoading/DISMISS_LOADING'
+
+export const ADD_FILTER = 'projectsMain/ADD_FILTER'
+export const REMOVE_FILTER = 'projectsMain/REMOVE_FILTER'
+export const SORT_DESC = 'projectsMain/SORT_DESC'
+export const SORT_ASC = 'projectsMain/SORT_ASC'
+export const CLEAR_FILTERS = 'projectsMain/CLEAR_FILTERS'
+export const SHOW_FILTERS = 'projectsMain/SHOW_FILTERS'
+export const HIDE_FILTERS = 'projectsMain/HIDE_FILTERS'
+export const SAVE_PROJECTS = 'projectsMain/SAVE_PROJECTS'

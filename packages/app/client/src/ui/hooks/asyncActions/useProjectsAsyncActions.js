@@ -1,17 +1,16 @@
 import useHandledRequest from './useHandledRequest'
-import { SET_ALL_PROJECTS } from '../../../actions/types'
 import * as ProjectApi from '../../../api/projects'
-import { useDispatch } from 'react-redux'
+import { useProjectsMainActions } from '../actions'
 
 const useProjectsAsyncActions = () => {
   const handledRequest = useHandledRequest()
-  const dispatch = useDispatch()
+  const { saveProjects } = useProjectsMainActions()
 
   return {
     fetchAllProjects: handledRequest(
       { 
         request: ProjectApi.getAllProjects,
-        onSuccess: (projects) => dispatch({ type: SET_ALL_PROJECTS, payload: projects }),
+        onSuccess: ({ projects }) => saveProjects(projects),
         pageLoading: true
       }
     )

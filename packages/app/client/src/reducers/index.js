@@ -11,6 +11,7 @@ import learningReducer from './learningReducer'
 import discussionReducer from './discussionReducer'
 import toast from './toastReducer'
 import loader from './loaderReducer'
+import projectsMain from './projectsMain'
 
 export default combineReducers({
   auth: authReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
   learning: learningReducer,
   discussions: discussionReducer,
   toast,
-  loader
+  loader,
+  projectsMain
 })

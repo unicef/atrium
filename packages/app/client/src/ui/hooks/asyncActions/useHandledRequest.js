@@ -11,7 +11,7 @@ const useAsyncAction = () => {
 
     try {
       const response = await request(data)
-      onSuccess({ response })
+      onSuccess(response.data)
 
     } catch(error) {
       showToast({ message: error.message, severity: 'danger' }) 
