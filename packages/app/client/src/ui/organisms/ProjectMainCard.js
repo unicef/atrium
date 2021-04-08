@@ -14,13 +14,19 @@ import { mergeClassNames } from '../utils'
 
 const useStyles = makeStyles({
   root: {
+    width: '100%',
     maxWidth: 345,
+    minWidth: 280,
+    '&:hover': {
+      backgroundColor: 'trasparent'
+    }
   },
   image: props => ({
     borderRadius: 5,
     objectFit: 'fill',
     transition: 'opacity 1s',
     height: 208,
+    width: '100%',
     opacity: props.imageLoaded ? 1 : 0
   }),
   button: {
@@ -102,7 +108,7 @@ const CardWithImage = ({ name, details, owner, createdAt, commentsCount, likesCo
       <CardContent className={classes.footer}>
         <Divider mb={10} mt={10} />
         <Typography className={classes.footerText}>
-          By {owner}
+          By {owner.name}
         </Typography>
         <Grid container item xs={12}>
           <Typography className={classes.footerText}>
@@ -117,4 +123,4 @@ const CardWithImage = ({ name, details, owner, createdAt, commentsCount, likesCo
   )
 }
 
-export default CardWithImage
+export default React.memo(CardWithImage)

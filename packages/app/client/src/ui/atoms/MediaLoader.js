@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: props.mediaBorderRadius
   }),
   animated: {
-    animation: `$pulse 1000ms ${theme.transitions.easing.easeInOut} infinite alternate`,
+    animation: `$pulse 800ms ${theme.transitions.easing.easeInOut} infinite alternate`,
     opacity: 1,
   },
   "@keyframes pulse": {

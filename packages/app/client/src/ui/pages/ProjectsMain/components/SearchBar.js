@@ -24,11 +24,11 @@ const useStyles = makeStyles(theme =>
       borderBottom: `2px solid ${theme.colors['light-gray-three']}`,
       paddingTop: 65,
       paddingBottom: 35
-    }
+    },
   })
 )
 
-const SearchBar = () => {
+const SearchBar = ({ toggleFilters, areFiltersVisible }) => {
   const classes = useStyles()
 
   const onSearch = (value) => {
@@ -37,13 +37,14 @@ const SearchBar = () => {
 
   return (
   <Grid justify="center" className={classes.container} container item xs={12}> 
-    <Title mb={25}>All projects</Title>
+    <Title mb={25}>Projects</Title>
     <Grid justify="center" item container xs={12}>
       <TextButton
         className={classes.filtersButton}
         startIcon={<TuneOutlinedIcon />}
-        textContent="Filters"
+        textContent={areFiltersVisible ? 'Hide filters' : "Show filters"}
         size="outlined"
+        onClick={toggleFilters}
       />
       
       <SearchField onChange={onSearch} placeholder="Search in projects" fullWidth={false} className={classes.textField} />
