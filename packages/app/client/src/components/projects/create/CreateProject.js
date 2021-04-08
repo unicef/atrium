@@ -14,15 +14,6 @@ const styles = theme => ({
       backgroundColor: theme.palette.common.white
     }
   },
-  main: {
-    overflowY: 'auto',
-    maxHeight: 'calc(100vh - 40px)'
-  },
-  container: {
-    maxWidth: 564,
-    marginLeft: 'auto',
-    marginRight: 'auto'
-  },
   titleOfPage: {
     textAlign: 'center',
     fontSize: '120%'
@@ -118,16 +109,13 @@ function CreateProject(props) {
     }
     props.refreshToken()
   }
-
   return (
-    <Container className={classes.main} component="main">
-      <div className={classes.container}>
-        <FirstProjectForm
-          formData={dynamicFormData}
-          handleCreateProject={handleCreateProject}
-          editting={props.editting}
-        />
-      </div>
+    <Container>
+      <FirstProjectForm
+        formData={dynamicFormData}
+        handleCreateProject={handleCreateProject}
+        editting={props.editting}
+      />
     </Container>
   )
 }

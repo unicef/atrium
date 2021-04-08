@@ -3,6 +3,8 @@ import setAuthToken from '../utils/setAuthToken'
 
 import { SET_CURRENT_USER, USER_LOADING, SET_USER_ACTIVITY } from './types'
 import { setError } from './errorActions'
+import get from 'lodash/get'
+import { setAllProjects } from './projectActions'
 
 require('dotenv').config()
 
@@ -127,4 +129,8 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false)
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}))
+}
+
+export const getFilteredUsers = prefix => async dispatch => {
+  return await axios.post('users', { prefix })
 }

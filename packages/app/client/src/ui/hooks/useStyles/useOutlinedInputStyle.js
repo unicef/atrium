@@ -23,8 +23,7 @@ const styles = makeStyles(theme => (
     ),
     root: props => ({
       overflow: 'hidden',
-      border: `1.2px solid ${props.hasError ? theme.palette.error.main : theme.colors[props.borderColor]}`,
-      maxHeight: 56,
+      border: `1.2px solid ${props.hasError ? theme.palette.error.main : theme.colors[props.borderColor]}`
     }),
     notchedOutline: {
       border: 'none',

@@ -43,7 +43,7 @@ const Login = ({ history }) => {
       showToast({ message: 'User authenticated', severity: 'success' })
       dispatch({ type: SET_CURRENT_USER, payload: response })
 
-      history.push('/landing')
+      history.push('/')
     } catch(error) {
       showToast({ message: error.message, severity: 'danger' }) 
     }

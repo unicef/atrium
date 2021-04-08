@@ -95,3 +95,18 @@ export const getProject = (projectId) =>  projectRequest({
  * Get all project
  */
  export const getAllProjects = () => projectRequest({ method: 'get' })
+export function getProject(projectId) {
+  return axios.get(`projects/${projectId}`)
+}
+
+export function addUpdate(projectId, update) {
+  return axios.post(`projects/${projectId}/update`, update)
+}
+
+export function addMembers(projectId, members) {
+  return axios.post(`projects/${projectId}/addMembers`, { members })
+}
+
+export function deleteMember(projectId, memberId) {
+  return axios.post(`projects/${projectId}/deleteMember`, { memberId })
+}
