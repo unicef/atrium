@@ -5,6 +5,7 @@ import { makeStyles, ThemeProvider } from '@material-ui/styles'
 import classnames from 'classnames'
 
 import { colors } from '../theme'
+import { composeMargins } from '../utils'
 
 const defaultTheme = createMuiTheme({
   ...colors,
@@ -35,28 +36,27 @@ const largeBtnTheme = createMuiTheme({
 })
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  root: props => ({
     position: 'relative',
     fontFamily: theme.typography.fontFamily,
     fontSize: 13,
     fontWeight: 500,
     padding: 15,
-    margin: '7% 2% 0 0',
     textTransform: 'none',
     lineHeight: 1.3,
+    ...composeMargins(props),
     '&:disabled': {
       color: theme.colors['white'],
       backgroundColor: theme.colors['warm-gray']
     }
-  },
+  }),
   outlined: {
     letterSpacing: 1,
     color: theme.colors['shamrock-green'],
     borderWidth: 1.2,
     borderColor: theme.colors['shamrock-green'],
     borderRadius: 3,
-    textTransform: 'none',
-    margin: '7% 2% 0 0'
+    textTransform: 'none'
   },
   sizeMini: {
     padding: '7px 14px',
