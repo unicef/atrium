@@ -32,6 +32,19 @@ const onRemoveFilter = (filters, { option, filterName }) => {
   return { ...filters, [filterName]: filterFromState.filter(opt => opt !== option )}
 }
 
+const onSaveProjects = ({ registeredUser, projects }) => {
+
+  if (!Array.isArray(projects)) {
+    return []
+  }
+
+  if (!registeredUser) {
+    return projects.filter(project => project.freeForAll)
+  }
+
+  return projects
+}
+
 export default function(state = initialState, { type, payload }) {
 
   switch (type) {
@@ -53,7 +66,7 @@ export default function(state = initialState, { type, payload }) {
     case SAVE_PROJECTS:
       return {
         ...state,
-        projects: Array.isArray(payload) ? payload : state.projects
+        projects: onSaveProjects(payload)
       }
     default:
       return state

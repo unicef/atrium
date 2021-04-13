@@ -1,5 +1,14 @@
 export const getToast = state => state.toast
 export const isAuthenticated = state => state.auth.isAuthenticated
 export const showFullPageLoader = state => state.loader.showLoader
-export const areProjectsFiltersVisible = state => state.projectsMain.showFilters
-export const getAllProjects = state => state.projectsMain.projects
+
+// PROJECTS MAIN
+export const getSearchedProjects = state => state.projectsMain.main.projects
+export const projectsSearchSelectedFilters = state => state.projectsMain.main.filters
+export const getProjectsSearchFilter = (state, filterTitle) => state.projectsMain.main.filters[filterTitle]
+
+// SEARCH
+export const searchSort = state => state.search.sort
+export const searchCurrentPage = state => state.search.page
+export const getSearchText = state => state.search.searchText
+export const searchIsLoading = state => state.search.isLoading
