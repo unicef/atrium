@@ -7,8 +7,9 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { refreshToken } from '../../../../actions/authActions'
 import { editProject } from '../../../../actions/projectActions'
-import ProjectOverviewForm from './ProjectOverviewForm'
 import CirclePercents from './CirclePercents'
+import {Button} from "../../../../ui";
+import {useHistory} from "react-router-dom";
 
 const useDefaultStyles = makeStyles(() => ({
   wrapper: {
@@ -61,6 +62,11 @@ const useDefaultStyles = makeStyles(() => ({
   firstCard: {
     width: '50%',
     paddingLeft: '3%'
+  },
+  publishButton: {
+    width: '105px',
+    height: '42px',
+    margin: '5% 0 10% 0'
   }
 }))
 
@@ -94,11 +100,6 @@ function ProjectOverview(props) {
   const [additionalPercent, setAdditionalPercent] = useState(0)
   const [storyPercent, setStoryPercent] = useState(0)
   const [updateCounter, setUpdateCounter] = useState(0)
-  const [dynamicFormData, setDynamicFormData] = useState({
-    projectId: props._id,
-    websiteLink: props.websiteLink || '',
-    linkToRepository: props.linkToRepository || ''
-  })
 
   useEffect(() => {
     if (props._id) {
@@ -131,24 +132,15 @@ function ProjectOverview(props) {
       )
       setStoryPercent(Math.floor((story * 100) / storyFields.length))
       setUpdateCounter(props.updates.length)
-      setDynamicFormData({
-        projectId: props._id,
-        websiteLink: props.websiteLink || '',
-        linkToRepository: props.linkToRepository || '',
-        attachment: props.attachment || ''
-      })
     }
   }, [props._id])
 
-  const handleCreateProject = async data => {
-    const { projectId } = dynamicFormData
-    await setDynamicFormData(prev => ({ ...prev, ...data }))
-    await props.editProject(projectId, data, () => {
-      window.location.reload()
-    })
-    props.refreshToken()
+  const history = useHistory()
+  const clickHandler = async () => {
+    await props.editProject(props._id, { published: true }, () =>
+      history.push('/view-projects')
+    )
   }
-
   return (
     <div className={classes.wrapper}>
       <div className={classes.leftBlock}>
@@ -161,7 +153,7 @@ function ProjectOverview(props) {
           <Link href="#"> need help?</Link>
         </Typography>
         <div>
-          <div className={classes.card}>
+          <div onClick={e => props.handleChange(e, 1)} className={classes.card}>
             <CirclePercents value={requiredPercent} text={requiredPercent} />
             <div className={classes.firstCard}>
               <Typography className={classes.cardHeader} variant="subtitle1">
@@ -173,7 +165,7 @@ function ProjectOverview(props) {
               </Typography>
             </div>
           </div>
-          <div className={classes.card}>
+          <div onClick={e => props.handleChange(e, 2)} className={classes.card}>
             <CirclePercents
               value={additionalPercent}
               text={additionalPercent}
@@ -182,19 +174,19 @@ function ProjectOverview(props) {
               Additional information
             </Typography>
           </div>
-          <div className={classes.card}>
+          <div onClick={e => props.handleChange(e, 3)} className={classes.card}>
             <CirclePercents value={storyPercent} text={storyPercent} />
             <Typography className={classes.cardText} variant="subtitle1">
               Story
             </Typography>
           </div>
-          <div className={classes.card}>
+          <div onClick={e => props.handleChange(e, 4)} className={classes.card}>
             <CirclePercents value={0} text={0} />
             <Typography className={classes.cardText} variant="subtitle1">
               Team
             </Typography>
           </div>
-          <div className={classes.card}>
+          <div onClick={e => props.handleChange(e, 5)} className={classes.card}>
             <CirclePercents
               update={true}
               value={updateCounter === 0 ? 0 : 100}
@@ -205,12 +197,7 @@ function ProjectOverview(props) {
             </Typography>
           </div>
         </div>
-      </div>
-      <div className={classes.rightBlock}>
-        <ProjectOverviewForm
-          formData={dynamicFormData}
-          handleCreateProject={handleCreateProject}
-        />
+        <Button onClick={clickHandler} color="primary" className={classes.publishButton}>Publish</Button>
       </div>
     </div>
   )

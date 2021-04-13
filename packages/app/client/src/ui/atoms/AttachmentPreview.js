@@ -63,11 +63,9 @@ const AttachmentPreview = ({
   const fileType = getFileType(fileName)
   const isImage = ['png', 'jpg', 'jpeg', 'svg'].includes(fileType)
 
-
   const downloadFile = () => {
     // This one line of code replaces the entire useFetchWithCache.
-    window.open((`/api/projects/download/${fileName}`))
-
+    window.open(`/api/projects/download/${fileName}`)
   }
 
   return (
@@ -81,8 +79,8 @@ const AttachmentPreview = ({
               className={classes.image}
             />
           ) : (
-              <InsertDriveFileIcon />
-            )}
+            <InsertDriveFileIcon />
+          )}
           <div className={classes.fileTypeIndicator}>
             <Typography variant="caption">{fileType}</Typography>
           </div>

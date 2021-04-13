@@ -19,8 +19,9 @@ const useDefaultStyles = makeStyles(() => ({
   main: {
     height: '100%',
     minHeight: '100vh',
-    width: '100%',
-    marginTop: '51px'
+    width: '80%',
+    marginTop: '51px',
+    margin: 'auto'
   },
   tab: {
     textTransform: 'none'
@@ -62,7 +63,7 @@ function ProjectOverviewPage(props) {
       </div>
 
       <Panel value={tabIndex} index={0}>
-        <ProjectOverview {...projectData} />
+        <ProjectOverview handleChange={handleChange} {...projectData} />
       </Panel>
       <Panel value={tabIndex} index={1}>
         <CreateProject {...projectData} editting={true} />
