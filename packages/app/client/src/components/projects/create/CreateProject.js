@@ -5,7 +5,11 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/styles'
 import Container from '@material-ui/core/Container'
 import { FirstProjectForm } from './components'
-import { createProject, editProject } from '../../../actions/projectActions'
+import {
+  createProject,
+  deleteFileFromProject,
+  editProject
+} from '../../../actions/projectActions'
 import { refreshToken } from '../../../actions/authActions'
 
 const styles = theme => ({
@@ -47,7 +51,10 @@ function CreateProject(props) {
     thematicArea: props.thematicArea || '',
     contactPersonFullName: props.contactPersonFullName || '',
     contactPersonEmail: props.contactPersonEmail || '',
-    attachment: null
+    attachment: props.attachment || null,
+    documents: props.documents || [],
+    photos: props.photos || [],
+    videos: props.videos || [],
   })
 
   const { auth, classes } = props
@@ -64,13 +71,25 @@ function CreateProject(props) {
       innovationCategory,
       thematicArea,
       contactPersonFullName,
-      contactPersonEmail
+      contactPersonEmail,
+      documents,
+      videos,
+      photos
     } = data
     const { projectId } = dynamicFormData
     await setDynamicFormData(prev => ({ ...prev, ...data }))
     const formData = new FormData()
     if (attachment) {
       formData.append('attachment', attachment)
+    }
+    if (documents) {
+      formData.append('documents', documents)
+    }
+    if (photos) {
+      formData.append('photos', photos)
+    }
+    if (videos) {
+      formData.append('videos', videos)
     }
     formData.append('name', projectName)
     formData.append('details', projectDescription)
@@ -115,6 +134,8 @@ function CreateProject(props) {
         formData={dynamicFormData}
         handleCreateProject={handleCreateProject}
         editting={props.editting}
+        deleteFileFromProject={props.deleteFileFromProject}
+        refreshToken={props.refreshToken}
       />
     </Container>
   )
@@ -125,7 +146,8 @@ CreateProject.propTypes = {
   classes: PropTypes.object.isRequired,
   createProject: PropTypes.func.isRequired,
   editProject: PropTypes.func.isRequired,
-  refreshToken: PropTypes.func.isRequired
+  refreshToken: PropTypes.func.isRequired,
+  deleteFileFromProject: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -133,6 +155,11 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-  connect(mapStateToProps, { refreshToken, createProject, editProject }),
+  connect(mapStateToProps, {
+    refreshToken,
+    createProject,
+    editProject,
+    deleteFileFromProject
+  }),
   withStyles(styles)
 )(CreateProject)
