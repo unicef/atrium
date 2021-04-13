@@ -10,63 +10,68 @@ import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined'
 import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined'
 import { makeStyles } from '@material-ui/core/styles'
 import { TextButton, Divider, MediaLoader } from '../atoms'
-import { mergeClassNames } from '../utils'
+import { mergeClassNames, dateFormatter, composeMargins } from '../utils'
 
-const useStyles = makeStyles({
-  root: {
-    width: '100%',
-    maxWidth: 345,
-    minWidth: 280,
-    '&:hover': {
-      backgroundColor: 'trasparent'
+const useStyles = makeStyles(theme =>
+  ({
+    root: props => ({
+      width: '100%',
+      maxWidth: 345,
+      [theme.breakpoints.only("md")]: {
+        maxWidth: 285,
+      },
+      [theme.breakpoints.only("sm")]: {
+        maxWidth: 245,
+      },
+      ...composeMargins(props)
+    }),
+    image: props => ({
+      borderRadius: 5,
+      objectFit: 'fill',
+      transition: 'opacity 1s',
+      height: 208,
+      width: '100%',
+      opacity: props.imageLoaded ? 1 : 0
+    }),
+    button: {
+      padding: 10,
+      marginTop: 0
+    },
+    footer: {
+      paddingTop: 0,
+      paddingLeft: 0
+    },
+    footerText: {
+      fontSize: 13,
+      lineHeight: '180%',
+      fontWeight: 'normal'
+    },
+    code: {
+      fontWeight: 500,
+      marginLeft: 5
+    },
+    cardActions: {
+      paddingTop: 0,
+      paddingBottom: 0,
+      paddingLeft: 0
+    },
+    cardContent: {
+      paddingLeft: 0
+    },
+    title: {
+      fontStyle: 'normal',
+      fontWeight: 600,
+      fontSize: '18px',
+      lineHeight: '140%',
+      marginBottom: 20
     }
-  },
-  image: props => ({
-    borderRadius: 5,
-    objectFit: 'fill',
-    transition: 'opacity 1s',
-    height: 208,
-    width: '100%',
-    opacity: props.imageLoaded ? 1 : 0
-  }),
-  button: {
-    padding: 10,
-    marginTop: 0
-  },
-  footer: {
-    paddingTop: 0,
-    paddingLeft: 0
-  },
-  footerText: {
-    fontSize: 13,
-    lineHeight: '180%',
-    fontWeight: 'normal'
-  },
-  code: {
-    fontWeight: 500,
-    marginLeft: 5
-  },
-  cardActions: {
-    paddingTop: 0,
-    paddingBottom: 0,
-    paddingLeft: 0
-  },
-  cardContent: {
-    paddingLeft: 0
-  },
-  title: {
-    fontStyle: 'normal',
-    fontWeight: 600,
-    fontSize: '18px',
-    lineHeight: '140%',
-    marginBottom: 20
-  }
-})
+  })
+)
 
-const CardWithImage = ({ name, details, owner, createdAt, commentsCount, likesCount, code, src, imageTitle, imageAlt }) => {
+const CardWithImage = ({ name, details, owner, createdAt, commentsCount, likesCount, code, src, imageTitle, imageAlt, mt, mb, ml, mr }) => {
   const [imageLoaded, setLoaded] = useState(false)
-  const classes = useStyles({ imageLoaded })
-  
+  const classes = useStyles({ imageLoaded, mt, mb, ml, mr })
+
   return (
     <Card className={classes.root} elevation={0}>
       <CardActionArea>
@@ -112,7 +117,7 @@ const CardWithImage = ({ name, details, owner, createdAt, commentsCount, likesCo
         </Typography>
         <Grid container item xs={12}>
           <Typography className={classes.footerText}>
-            {createdAt}
+            {dateFormatter({ date: createdAt, separator: '.'})}
           </Typography>
           <Typography className={mergeClassNames(classes.code, classes.footerText)}>·</Typography>
           <Typography className={mergeClassNames(classes.code, classes.footerText)}>{code}</Typography>
