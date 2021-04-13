@@ -42,7 +42,8 @@ import {
 import setAuthToken from './utils/setAuthToken'
 
 // pages
-import { Register, Login, ForgotPassword, ResetPassword, Learn, ProjectsMain } from './ui/pages'
+import { Register, Login, ForgotPassword, ResetPassword, Learn } from './ui/pages'
+import ProjectsRoutes from './routes/projects'
 
 require('./utils/configureRequests')
 
@@ -82,7 +83,6 @@ const App = () => {
               <Route exact path="/learn" component={Learn} />
               <Route exact path="/forgot-password" component={ForgotPassword} />
               <Route exact path="/reset-password/:token" component={ResetPassword} />
-              <Route exact path="/projects" component={ProjectsMain} />
               <PrivateRoute exact path="/learn" component={LearnPage} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/github" component={GitHubPage} />
@@ -93,6 +93,7 @@ const App = () => {
               <PrivateRoute exact path="/reports" component={Reports} />
               <PrivateRoute exact path="/invite" component={ManualInvite} />
               <PrivateRoute exact path="/about" component={About} />
+              {/* <ProjectsRoutes /> */}
               <PrivateRoute
                 exact
                 path="/create-projects"
