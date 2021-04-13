@@ -5,6 +5,9 @@ const ROUTE = 'projects'
 // ENDPOINTS
 const getToggleLikeEndpoint = (projectId) => `${projectId}/like`
 const getCommentEndpoint = (id) => `${id}/comment`
+const getUpdateEndpoint = (projectId) => `${projectId}/update`
+const getAddMemberEndpoint = (projectId) => `${projectId}/addMembers`
+const getDeleteMemberEndpoint = (projectId) => `${projectId}/addMembers`
 
 // ERRORS
 export const ERRORS = {
@@ -94,20 +97,22 @@ export const getProject = (projectId) =>  projectRequest({
 /**
  * Get all project
  */
- export const getAllProjects = () => projectRequest({ method: 'get' })
- 
-export function getProject(projectId) {
-  return axios.get(`projects/${projectId}`)
-}
+export const getAllProjects = (query) => projectRequest({ method: 'get', endpoint: query })
 
-export function addUpdate(projectId, update) {
-  return axios.post(`projects/${projectId}/update`, update)
-}
+export const addUpdate = (projectId, update) => projectRequest({
+  method: 'post',
+  endpoint: getUpdateEndpoint(projectId),
+  body: update
+})
 
-export function addMembers(projectId, members) {
-  return axios.post(`projects/${projectId}/addMembers`, { members })
-}
+export const addMembers = (projectId, members) => projectRequest({
+  method: 'post',
+  endpoint: getAddMemberEndpoint(projectId),
+  body: { members }
+})
 
-export function deleteMember(projectId, memberId) {
-  return axios.post(`projects/${projectId}/deleteMember`, { memberId })
-}
+export const deleteMember = (projectId, memberId) => projectRequest({
+  method: 'post',
+  endpoint: getDeleteMemberEndpoint(projectId),
+  body: { memberId }
+})
