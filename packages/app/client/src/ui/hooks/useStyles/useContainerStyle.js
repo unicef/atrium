@@ -16,10 +16,8 @@ const useStyles = makeStyles({
     paddingBottom: 0
   }),
   regular: handleProps({
-    display: 'flex',
-    flexGrow: 1,
     width: '100%',
-    maxWidth: 1024
+    maxWidth: 1200
   })
 })
 
