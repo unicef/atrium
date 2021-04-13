@@ -16,10 +16,14 @@ const ProjectSchema = new Schema({
   comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }], // list of comment ids added to this project
   likes: [{ type: Schema.Types.ObjectId, ref: 'users' }], // list of users who liked this project
   attachment: { type: String },
+  documents: [{ type: String }],
+  videos: [{ type: String }],
+  photos: [{ type: String }],
 
   blockchainName: { type: String },
   blockchainType: { type: String },
   freeForAll: { type: Boolean },
+  published: { type: Boolean },
   stageOfProject: { type: String },
   innovationCategory: { type: String },
   thematicArea: { type: String },

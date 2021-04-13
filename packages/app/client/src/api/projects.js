@@ -74,3 +74,7 @@ export function addMembers(projectId, members) {
 export function deleteMember(projectId, memberId) {
   return axios.post(`projects/${projectId}/deleteMember`, { memberId })
 }
+
+export function deleteFile(projectId, filePath, type) {
+  return axios.post(`projects/${projectId}/${type}/deleteFile`, { filePath })
+}
