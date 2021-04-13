@@ -1,17 +1,21 @@
 import useHandledRequest from './useHandledRequest'
 import * as ProjectApi from '../../../api/projects'
-import { useProjectsMainActions } from '../actions'
+import { useSearchActions, useProjectsMainActions } from '../actions'
 
 const useProjectsAsyncActions = () => {
   const handledRequest = useHandledRequest()
+  const { showLoading, dismissLoading } = useSearchActions()
   const { saveProjects } = useProjectsMainActions()
 
   return {
-    fetchAllProjects: handledRequest(
+    fetchProjects: handledRequest(
       { 
         request: ProjectApi.getAllProjects,
         onSuccess: ({ projects }) => saveProjects(projects),
-        pageLoading: true
+        specificLoading: {
+          show: showLoading,
+          dismiss: dismissLoading
+        }
       }
     )
   }
