@@ -16,7 +16,11 @@ const useStyles = makeStyles(theme =>
   ({
     root: props => ({
       width: '100%',
+      height: '100%',
       maxWidth: 345,
+      maxHeight: 509,
+      display: 'flex',
+      flexDirection: 'column',
       [theme.breakpoints.only("md")]: {
         maxWidth: 285,
       },
@@ -44,11 +48,13 @@ const useStyles = makeStyles(theme =>
     footerText: {
       fontSize: 13,
       lineHeight: '180%',
-      fontWeight: 'normal'
+      fontWeight: 'normal',
+      color: theme.palette.text.primary
     },
     code: {
       fontWeight: 500,
-      marginLeft: 5
+      marginLeft: 5,
+      textDecoration: 'none'
     },
     cardActions: {
       paddingTop: 0,
@@ -64,17 +70,29 @@ const useStyles = makeStyles(theme =>
       fontSize: '18px',
       lineHeight: '140%',
       marginBottom: 20
+    },
+    detailsWrapper: {
+      display: 'flex',
+      flexGrow: 1,
+    },
+    upperArea: {
+      display: 'flex',
+      flexGrow: 1,
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
+      position: 'relative'
     }
   })
 )
 
-const CardWithImage = ({ name, details, owner, createdAt, commentsCount, likesCount, code, src, imageTitle, imageAlt, mt, mb, ml, mr }) => {
+const CardWithImage = ({ name, details, owner, createdAt, commentsCount, likesCount, linkToRepository, src, imageTitle, imageAlt, mt, mb, ml, mr }) => {
   const [imageLoaded, setLoaded] = useState(false)
   const classes = useStyles({ imageLoaded, mt, mb, ml, mr })
 
   return (
     <Card className={classes.root} elevation={0}>
-      <CardActionArea>
+      <CardActionArea className={classes.upperArea}>
         <MediaLoader imageLoaded={imageLoaded}>
           <CardMedia
             component="img"
@@ -89,9 +107,11 @@ const CardWithImage = ({ name, details, owner, createdAt, commentsCount, likesCo
           <Typography gutterBottom variant="h3" component="h6" className={classes.title}>
             {name}
           </Typography>
-          <Typography variant="caption"  component="p">
-            {details}
-          </Typography>
+          <Grid item xs={12}>
+            <Typography variant="caption"  component="p">
+              {details}
+            </Typography>
+          </Grid>
         </CardContent>
       </CardActionArea>
 
@@ -119,8 +139,12 @@ const CardWithImage = ({ name, details, owner, createdAt, commentsCount, likesCo
           <Typography className={classes.footerText}>
             {dateFormatter({ date: createdAt, separator: '.'})}
           </Typography>
-          <Typography className={mergeClassNames(classes.code, classes.footerText)}>·</Typography>
-          <Typography className={mergeClassNames(classes.code, classes.footerText)}>{code}</Typography>
+          {linkToRepository && 
+            <>
+              <Typography className={mergeClassNames(classes.code, classes.footerText)}>·</Typography>
+              <Typography component="a" href={linkToRepository} className={mergeClassNames(classes.code,classes.footerText)}>View code</Typography>
+            </>
+          }
         </Grid>
         <Divider mb={10} mt={10} />
       </CardContent>

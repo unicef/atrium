@@ -5,7 +5,8 @@ import { mergeClassNames } from '../utils'
 
 const useStyles = makeStyles(theme => ({
   container: {
-    position: 'relative'
+    position: 'relative',
+    width: '100%'
   },
   loader: props => ({
     display: 'flex',
