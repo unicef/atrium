@@ -5,6 +5,8 @@ import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles(theme => ({
   root: props => ({
+    display: 'flex',
+    alignItems: 'center',
     fontFamily: ['Red Hat Display', 'sans-serif'].join(','),
     fontSize: 12,
     fontWeight: theme.typography.fontWeightMedium,
