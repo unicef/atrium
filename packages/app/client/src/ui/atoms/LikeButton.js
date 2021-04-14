@@ -11,6 +11,8 @@ const useStyles = makeStyles(theme => ({
       return theme.palette.text.primary
     }
     return {
+      display: 'flex',
+      alignItems: 'center',
       fontFamily: ['Red Hat Display', 'sans-serif'].join(','),
       fontSize: 12,
       fontWeight: theme.typography.fontWeightMedium,
@@ -18,7 +20,10 @@ const useStyles = makeStyles(theme => ({
       textDecoration: 'none',
       padding: 5,
       fill: handleMainColor(),
-      color: handleMainColor()
+      color: handleMainColor(),
+      '& > span > span:last-child': {
+        marginTop: 3
+      }
     }
   }
 }))
