@@ -32,7 +32,7 @@ const onRemoveFilter = (filters, { option, filterName }) => {
   return { ...filters, [filterName]: filterFromState.filter(opt => opt !== option )}
 }
 
-const onSaveProjects = ({ registeredUser, projects }) => {
+const onSaveProjects = ({ userId, registeredUser, projects }) => {
 
   if (!Array.isArray(projects)) {
     return []
@@ -42,7 +42,11 @@ const onSaveProjects = ({ registeredUser, projects }) => {
     return projects.filter(project => project.freeForAll)
   }
 
-  return projects
+  return projects.map(project => {
+    const likeIndex = project.likes.findIndex(like => like._id === userId)
+    const userLiked = likeIndex >= 0
+    return { ...project, userLiked }
+  })
 }
 
 export default function(state = initialState, { type, payload }) {

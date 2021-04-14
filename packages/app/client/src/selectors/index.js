@@ -1,6 +1,9 @@
 export const getToast = state => state.toast
-export const isAuthenticated = state => state.auth.isAuthenticated
 export const showFullPageLoader = state => state.loader.showLoader
+
+// AUTH
+export const isAuthenticated = state => state.auth.isAuthenticated
+export const getUserId = state => state.auth.user.id
 
 // PROJECTS MAIN
 export const getSearchedProjects = state => state.projectsMain.main.projects

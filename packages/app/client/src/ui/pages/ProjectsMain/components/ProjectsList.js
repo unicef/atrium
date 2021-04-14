@@ -2,7 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import combineProjectsQueryStrings from '../../../../utils/combineProjectsQueryStrings'
 import { useSelector } from 'react-redux'
-import { useProjectsAsyncActions } from '../../../hooks'
+import { useProjectsAsyncActions, useHandledRequest, useIsAuthenticated } from '../../../hooks'
 import { ProjectMainCard } from '../../../organisms'
 import { 
   getSearchedProjects,
@@ -11,11 +11,15 @@ import {
   searchCurrentPage,
   getSearchText
 } from '../../../../selectors'
+import { toggleProjectLike } from '../../../../api/projects'
 
 const PAGINATION_LIMIT = 10
 
 const ProjectsList = ({ WrapperComponent }) => {
-  const { fetchProjects } = useProjectsAsyncActions()
+  const { fetchSearchedProjects } = useProjectsAsyncActions()
+  const handledRequest = useHandledRequest()
+
+  const isUserAuthenticated = useIsAuthenticated()
   const projects = useSelector(getSearchedProjects)
   const filters = useSelector(projectsSearchSelectedFilters)
   const sort = useSelector(searchSort)
@@ -33,11 +37,16 @@ const ProjectsList = ({ WrapperComponent }) => {
       }
     )
     const requestProjects = async () => {
-      await fetchProjects(query)
+      await fetchSearchedProjects(query)
     }
     
     requestProjects()
   }, [filters, sort, searchText, page])
+
+  const handleLike = handledRequest({
+    request: toggleProjectLike,
+    successMessage: 'Action successfully performed'
+  })
 
   if (!Array.isArray(projects)) return null
 
@@ -63,6 +72,8 @@ const ProjectsList = ({ WrapperComponent }) => {
                commentsCount={project.comments.length}
                likesCount={project.likes.length}
                src={project.attachment}
+               onLike={handleLike}
+               disableActions={!isUserAuthenticated}
                {...project}
              />
            </Grid>

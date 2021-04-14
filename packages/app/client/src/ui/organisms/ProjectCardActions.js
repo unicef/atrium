@@ -3,10 +3,8 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Link } from 'react-router-dom'
 import { withStyles, CardActions } from '@material-ui/core'
-import { ReactComponent as LikeButton } from '../../icons/like.svg'
 import { ReactComponent as SearchButton } from '../../icons/search.svg'
-import { ReactComponent as CommentIcon } from '../../icons/comment.svg'
-import { Button } from '../'
+import { Button, LikeButton, CommentsButton } from '../atoms'
 
 const styles = theme => ({
   container: {
@@ -59,35 +57,25 @@ const ProjectCardActions = ({
   linkToRepo,
   isDetailsPage = false
 }) => {
-  const likedClassName = classnames(classes.actionButton, {
-    [classes.actionButtonAccent]: isLiked
-  })
 
   const renderCommentsButton = React.useCallback(
     () => (
-      <Button
-        variant="text"
+      <CommentsButton
         className={classes.actionButton}
-        startIcon={<CommentIcon />}
-        size="mini"
-      >
-        {numberOfComments}
-      </Button>
+        numberOfComments={numberOfComments}
+      />
     ),
     [numberOfComments, classes.actionButton]
   )
 
   return (
     <CardActions className={classes.container} disableSpacing={true}>
-      <Button
-        size="small"
-        className={likedClassName}
-        onClick={onLikeClick}
-        startIcon={<LikeButton />}
-        variant="text"
-      >
-        {numberOfLikes}
-      </Button>
+      <LikeButton
+        onLike={onLikeClick}
+        numberOfLikes={numberOfLikes}
+        liked={isLiked}
+      />
+      
       {!isDetailsPage ? (
         <Link to={`/project-details/${id}`}>{renderCommentsButton()}</Link>
       ) : (
