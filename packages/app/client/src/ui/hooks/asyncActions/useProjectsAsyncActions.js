@@ -1,19 +1,22 @@
 import useHandledRequest from './useHandledRequest'
+import useIsAuthenticated from '../useIsAuthenticated'
 import * as ProjectApi from '../../../api/projects'
 import { useSearchActions, useProjectsMainActions } from '../actions'
-import useIsAuthenticated from '../useIsAuthenticated'
+import { useSelector } from 'react-redux'
+import { getUserId } from '../../../selectors'
 
 const useProjectsAsyncActions = () => {
   const handledRequest = useHandledRequest()
+  const userId = useSelector(getUserId)
   const { showLoading, dismissLoading } = useSearchActions()
-  const { saveProjects } = useProjectsMainActions()
+  const { saveSearchedProjects } = useProjectsMainActions()
   const isUserAuthenticated = useIsAuthenticated()
 
   return {
-    fetchProjects: handledRequest(
+    fetchSearchedProjects: handledRequest(
       { 
         request: ProjectApi.getAllProjects,
-        onSuccess: ({ projects }) => saveProjects({ projects, registeredUser: isUserAuthenticated }),
+        onSuccess: ({ projects }) => saveSearchedProjects({ projects, registeredUser: isUserAuthenticated, userId }),
         specificLoading: {
           show: showLoading,
           dismiss: dismissLoading
