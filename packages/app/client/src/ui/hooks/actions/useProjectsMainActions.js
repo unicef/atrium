@@ -7,7 +7,7 @@ const useProjectsMainActions = () => {
   return {
     addFilter: (payload) => { dispatch(addFilter(payload)) },
     removeFilter: (payload) => { dispatch(removeFilter(payload)) },
-    saveProjects: (payload) => { dispatch(saveProjects(payload)) },
+    saveSearchedProjects: (payload) => { dispatch(saveProjects(payload)) },
     clearFilters: () => { dispatch(clearFilters()) },
   }
 }

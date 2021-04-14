@@ -8,7 +8,7 @@ const useHandledRequest = () => {
 
   const request = useCallback(({
     request,
-    onSuccess,
+    onSuccess = () => {},
     showFullPageLoading,
     successMessage,
     specificLoading = {}
@@ -21,7 +21,10 @@ const useHandledRequest = () => {
     try {
       const response = await request(data)
       onSuccess(response.data)
-      successMessage && showToast({ message: successMessage, severity: 'success' }) 
+      successMessage && showToast({ 
+        message: successMessage,
+        severity: 'success'
+      }) 
 
     } catch(error) {
       showToast({ message: error.message, severity: 'danger' }) 
