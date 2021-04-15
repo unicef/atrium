@@ -1,21 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Card from '@material-ui/core/Card'
 import Grid from '@material-ui/core/Grid'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
+import CardMedia from '@material-ui/core/CardMedia'
 import { makeStyles } from '@material-ui/core/styles'
-import { Divider, MediaLoader, LikeButton, CommentsButton } from '../atoms'
+import { Divider, LikeButton, CommentsButton, Image } from '../atoms'
 import { mergeClassNames, dateFormatter, composeMargins } from '../utils'
+import { useTrimmedText } from '../hooks'
 
 const useStyles = makeStyles(theme =>
   ({
     root: props => ({
-      width: '100%',
       height: '100%',
+      width: '100%',
       maxWidth: 345,
       maxHeight: 509,
       display: 'flex',
@@ -27,14 +28,6 @@ const useStyles = makeStyles(theme =>
         maxWidth: 245,
       },
       ...composeMargins(props)
-    }),
-    image: props => ({
-      borderRadius: 5,
-      objectFit: 'fill',
-      transition: 'opacity 1s',
-      height: 208,
-      width: '100%',
-      opacity: props.imageLoaded ? 1 : 0
     }),
     footer: {
       paddingTop: 0,
@@ -66,9 +59,8 @@ const useStyles = makeStyles(theme =>
       lineHeight: '140%',
       marginBottom: 20
     },
-    detailsWrapper: {
-      display: 'flex',
-      flexGrow: 1,
+    details: {
+      overflowWrap: 'break-word',
     },
     upperArea: {
       display: 'flex',
@@ -81,30 +73,28 @@ const useStyles = makeStyles(theme =>
   })
 )
 
-const ProjectMainCard = ({ disableActions, ...props }) => {
-  const [imageLoaded, setLoaded] = useState(false)
-  const classes = useStyles({ imageLoaded, ...props })
-  
+const ProjectVerticalCard = ({ disableActions, ...props }) => {
+  const classes = useStyles({ ...props })
+  const trimmedDetails = useTrimmedText({ text: props.details, max: 134 })
+
   return (
     <Card className={classes.root} elevation={0}>
-      <CardActionArea className={classes.upperArea}>
-        <MediaLoader imageLoaded={imageLoaded}>
-          <CardMedia
-            component="img"
+      <CardActionArea onClick={props.onClick} className={classes.upperArea}>
+        <CardMedia>
+          <Image
             alt={props.imageAlt}
-            image={props.src}
+            src={props.src}
             title={props.imageTitle}
-            className={classes.image}
-            onLoad={() => setLoaded(true)}
+            height={208}
           />
-        </MediaLoader>
+        </CardMedia>
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h3" component="h6" className={classes.title}>
             {props.name}
           </Typography>
-          <Grid item xs={12}>
-            <Typography variant="caption"  component="p">
-              {props.details}
+          <Grid item container xs={12}>
+            <Typography variant="caption" component="p" className={classes.details}>
+              {trimmedDetails}
             </Typography>
           </Grid>
         </CardContent>
@@ -137,7 +127,7 @@ const ProjectMainCard = ({ disableActions, ...props }) => {
   )
 }
 
-ProjectMainCard.propTypes = {
+ProjectVerticalCard.propTypes = {
   name: PropTypes.string,
   details: PropTypes.string,
   owner: PropTypes.shape({ name: PropTypes.string }),
@@ -157,4 +147,4 @@ ProjectMainCard.propTypes = {
   isLiked: PropTypes.bool
 }
 
-export default React.memo(ProjectMainCard)
+export default React.memo(ProjectVerticalCard)
