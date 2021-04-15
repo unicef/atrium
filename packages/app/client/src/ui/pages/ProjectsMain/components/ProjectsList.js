@@ -2,21 +2,24 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import combineProjectsQueryStrings from '../../../../utils/combineProjectsQueryStrings'
 import { useSelector } from 'react-redux'
-import { useProjectsAsyncActions, useIsAuthenticated } from '../../../hooks'
+import { useProjectsAsyncActions, useIsAuthenticated, useSearchActions } from '../../../hooks'
 import { ProjectVerticalCard } from '../../../organisms'
 import { 
   getSearchedProjects,
   projectsSearchSelectedFilters,
   searchSort,
   searchCurrentPage,
-  getSearchText
+  getSearchText,
+  getSearchContext
 } from '../../../../selectors'
 import { useHistory } from 'react-router'
 
 const PAGINATION_LIMIT = 10
+const SEARCH_CONTEXT = 'PROJECTS'
 
 const ProjectsList = ({ WrapperComponent }) => {
   const { fetchSearchedProjects, toggleLike } = useProjectsAsyncActions()
+  const { setCurrentPageContext, resetSearch } = useSearchActions()
   const history = useHistory()
 
   const isUserAuthenticated = useIsAuthenticated()
@@ -25,6 +28,7 @@ const ProjectsList = ({ WrapperComponent }) => {
   const sort = useSelector(searchSort)
   const searchText = useSelector(getSearchText)
   const page = useSelector(searchCurrentPage)
+  const searchContextName = useSelector(getSearchContext)
 
   React.useEffect(() => {
     const query = combineProjectsQueryStrings(
@@ -36,6 +40,12 @@ const ProjectsList = ({ WrapperComponent }) => {
         search: searchText
       }
     )
+
+    if (searchContextName !== SEARCH_CONTEXT) {
+      resetSearch()
+      setCurrentPageContext(SEARCH_CONTEXT)
+    }
+
     const requestProjects = async () => {
       await fetchSearchedProjects(query)
     }

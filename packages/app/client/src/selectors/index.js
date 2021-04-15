@@ -15,3 +15,4 @@ export const searchSort = state => state.search.sort
 export const searchCurrentPage = state => state.search.page
 export const getSearchText = state => state.search.searchText
 export const searchIsLoading = state => state.search.isLoading
+export const getSearchContext = state => state.search.context
