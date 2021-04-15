@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { sortDesc, sortAsc, showLoading, dismissLoading, addSearchText, changePage } from '../../../reduxStructures/search'
+import { sortDesc, sortAsc, showLoading, dismissLoading, addSearchText, changePage, resetSearch } from '../../../reduxStructures/search'
 
 const useSearchActions = () => {
   const dispatch = useDispatch()
@@ -11,7 +11,7 @@ const useSearchActions = () => {
     dismissLoading: () => { dispatch(dismissLoading()) },
     addSearch: (payload) => { dispatch(addSearchText(payload)) },
     changePage: (payload) => { dispatch(changePage(payload)) },
-    resetSearch: () => { dispatch({ type: 'lkjhlkjk' })}
+    resetSearch: () => { dispatch(resetSearch())}
   }
 }
 
