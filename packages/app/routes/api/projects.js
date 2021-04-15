@@ -63,41 +63,61 @@ const populateParams = [
 router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id
+      },
+      'User is getting projects'
+    )
+    let projects = await Project.find()
+    if (req.query.name) {
+      projects = projects.filter(project =>
+        project.name.toLowerCase().includes(req.query.name.toLowerCase())
+      )
+    }
+    if (req.query.projectStage) {
+      projects = projects.filter(project =>
+        project.stageOfProject
+          .toLowerCase()
+          .includes(req.query.projectStage.toLowerCase())
+      )
+    }
+    if (req.query.innovationArea) {
+      projects = projects.filter(project =>
+        project.innovationCategory
+          .toLowerCase()
+          .includes(req.query.innovationArea.toLowerCase())
+      )
+    }
+    if (req.query.thematicArea) {
+      projects = projects.filter(project =>
+        project.thematicArea
+          .toLowerCase()
+          .includes(req.query.thematicArea.toLowerCase())
+      )
+    }
+    if (req.query.sort === 'asc') {
+      projects = projects.sort((a, b) =>
+        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+      )
+    } else {
+      projects = projects.sort((a, b) =>
+        a.name < b.name ? 1 : b.name < a.name ? -1 : 0
+      )
+    }
+    projects = projects.filter(
+      (project, i) =>
+        i >= req.query.offset && i < req.query.offset + req.query.limit
+    )
     log.info(
       {
         requestId: req.id,
-        user: req.user.id
+        projects
       },
-      'Get all projects'
+      'Success getting project list'
     )
-
-    Project.find()
-      .sort({ $natural: -1 })
-      .populate(populateParams)
-      .exec((err, projects) => {
-        if (err) {
-          log.error(
-            {
-              err,
-              requestId: req.id,
-              user: req.user.id
-            },
-            'Error getting all projects'
-          )
-          return sendError(res, 503, 'Error getting projects from the database')
-        }
-
-        log.info(
-          {
-            requestId: req.id,
-            user: req.user.id,
-            projects
-          },
-          'Success getting project list'
-        )
-        return res.status(200).json({ projects })
-      })
+    return res.status(200).json({ projects })
   }
 )
 
@@ -1017,63 +1037,6 @@ router.post(
           return sendError(res, 503, 'Error deleting member from project')
         })
     })
-  }
-)
-
-router.get(
-  '/:offset/:limit/:name/:sort/:projectStage/:innovationArea/thematicArea',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    log.info(
-      {
-        requestId: req.id
-      },
-      'User is getting projects'
-    )
-    let projects = await Project.find()
-    if (req.params.name) {
-      projects = projects.filter(project =>
-        project.name.toLowerCase().includes(req.params.name.toLowerCase())
-      )
-    }
-    if (req.params.projectStage) {
-      projects = projects.filter(project =>
-        project.stageOfProject
-          .toLowerCase()
-          .includes(req.params.projectStage.toLowerCase())
-      )
-    }
-    if (req.params.innovationArea) {
-      projects = projects.filter(project =>
-        project.innovationCategory
-          .toLowerCase()
-          .includes(req.params.innovationArea.toLowerCase())
-      )
-    }
-    if (req.params.thematicArea) {
-      projects = projects.filter(project =>
-        project.thematicArea
-          .toLowerCase()
-          .includes(req.params.thematicArea.toLowerCase())
-      )
-    }
-    if (req.params.sort === 'asc') {
-      projects.sort((a, b) => a.name - b.name)
-    } else {
-      projects.sort((a, b) => b.name - a.name)
-    }
-    projects = projects.filter(
-      (project, i) =>
-        i > req.params.offset && i <= req.params.offset + req.params.limit
-    )
-    log.info(
-      {
-        requestId: req.id,
-        projects
-      },
-      'Success getting project list'
-    )
-    return res.status(200).json({ projects })
   }
 )
 
