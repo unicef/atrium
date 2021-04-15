@@ -243,7 +243,9 @@ router.post(
               await logIssueBadge(req.user.id, BADGE_ENUM.CONTRIBUTOR)
             }
           }
-
+          const user = await User.findOne({ _id: req.user.id })
+          user.projects.push(project._id)
+          await user.save()
           log.info(
             {
               requestId: req.id,
@@ -673,9 +675,11 @@ router.post(
           mentions: req.body.mentions || [],
           user: userId
         })
-
+        const user = await User.findOne({ _id: userId })
+        user.comments.push(newComment._id)
         project.comments.push(newComment._id)
         await project.save()
+        await user.save()
 
         project.populate(
           populateParams,
