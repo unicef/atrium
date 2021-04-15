@@ -462,10 +462,11 @@ export const FirstProjectForm = props => {
                   <MenuItem value="">
                     <em className={classes.chooseSelect}>Choose</em>
                   </MenuItem>
-                  <MenuItem value="research">Research</MenuItem>
-                  <MenuItem value="ideation">Ideation</MenuItem>
-                  <MenuItem value="prototype">Prototype</MenuItem>
-                  <MenuItem value="implementation">Implementation</MenuItem>
+                  <MenuItem value="Research">Research</MenuItem>
+                  <MenuItem value="Ideation">Ideation</MenuItem>
+                  <MenuItem value="Prototype">Prototype</MenuItem>
+                  <MenuItem value="Implementation">Implementation</MenuItem>
+                  <MenuItem value="Production">Production</MenuItem>
                 </Select>
               </Grid>
               <Grid item xs={12}>
@@ -489,9 +490,20 @@ export const FirstProjectForm = props => {
                   <MenuItem value="">
                     <em className={classes.chooseSelect}>Choose</em>
                   </MenuItem>
-                  <MenuItem value="FirstCategory">FirstCategory</MenuItem>
-                  <MenuItem value="SecondCategory">SecondCategory</MenuItem>
-                  <MenuItem value="ThirdCategory">ThirdCategory</MenuItem>
+                  <MenuItem value="Blockchain">Blockchain</MenuItem>
+                  <MenuItem value="Financial Inclusion">Financial Inclusion</MenuItem>
+                  <MenuItem value="Health">Health</MenuItem>
+                  <MenuItem value="Identity">Identity</MenuItem>
+                  <MenuItem value="Supply Chains">Supply Chains</MenuItem>
+                  <MenuItem value="Food and Water">Food and Water</MenuItem>
+                  <MenuItem value="Marketplaces">Marketplaces</MenuItem>
+                  <MenuItem value="Energy">Energy</MenuItem>
+                  <MenuItem value="Accounting and Audit">Accounting and Audit</MenuItem>
+                  <MenuItem value="Innovative Financing">Innovative Financing</MenuItem>
+                  <MenuItem value="Nutrition">Nutrition</MenuItem>
+                  <MenuItem value="Emergency Response">Emergency Response</MenuItem>
+                  <MenuItem value="Government system">Government system</MenuItem>
+                  <MenuItem value="Other">Other</MenuItem>
                 </Select>
               </Grid>
               <Grid item xs={12}>
@@ -502,17 +514,40 @@ export const FirstProjectForm = props => {
                 >
                   Thematic area
                 </InputLabel>
-                <TextField
+                <Select
                   id="thematicArea"
                   name="thematicArea"
                   variant="outlined"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.thematicArea}
-                  onKeyPress={disableEnterSubmit}
+                  defaultValue={values.thematicArea}
                   fullWidth
-                  required
-                />
+                  className={classes.selects}
+                  displayEmpty
+                >
+                  <MenuItem value="">
+                    <em className={classes.chooseSelect}>Choose</em>
+                  </MenuItem>
+                  <MenuItem value="End Poverty">End Poverty</MenuItem>
+                  <MenuItem value="Zero Hunger">Zero Hunger</MenuItem>
+                  <MenuItem value="Good Health and Well-Being">Good Health and Well-Being</MenuItem>
+                  <MenuItem value="Quality Education">Quality Education</MenuItem>
+                  <MenuItem value="Gender Equality">Gender Equality</MenuItem>
+                  <MenuItem value="Clean Water and Sanitation">Clean Water and Sanitation</MenuItem>
+                  <MenuItem value="Affordable and Clean Energy">Affordable and Clean Energy</MenuItem>
+                  <MenuItem value="Decent Work and Economic Growth">Decent Work and Economic Growth</MenuItem>
+                  <MenuItem value="Industry, Innovation and Infrastructure">Industry, Innovation and Infrastructure</MenuItem>
+                  <MenuItem value="Reduced Inequalities">Reduced Inequalities</MenuItem>
+                  <MenuItem value="Sustainable Cities and Communities">Sustainable Cities and Communities</MenuItem>
+                  <MenuItem value="Responsible Consumption and Production">Responsible Consumption and Production</MenuItem>
+                  <MenuItem value="Climate action">Climate action</MenuItem>
+                  <MenuItem value="Life Below Water">Life Below Water</MenuItem>
+                  <MenuItem value="Life on Land">Life on Land</MenuItem>
+                  <MenuItem value="Peace, Justice and Strong Institutions">Peace, Justice and Strong Institutions</MenuItem>
+                  <MenuItem value="Partnerships for Goals">Partnerships for Goals</MenuItem>
+
+
+                </Select>
               </Grid>
               <Grid item xs={12}>
                 <div className={classes.line} />

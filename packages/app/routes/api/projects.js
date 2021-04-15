@@ -1020,4 +1020,61 @@ router.post(
   }
 )
 
+router.get(
+  '/:offset/:limit/:name/:sort/:projectStage/:innovationArea/thematicArea',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id
+      },
+      'User is getting projects'
+    )
+    let projects = await Project.find()
+    if (req.params.name) {
+      projects = projects.filter(project =>
+        project.name.toLowerCase().includes(req.params.name.toLowerCase())
+      )
+    }
+    if (req.params.projectStage) {
+      projects = projects.filter(project =>
+        project.stageOfProject
+          .toLowerCase()
+          .includes(req.params.projectStage.toLowerCase())
+      )
+    }
+    if (req.params.innovationArea) {
+      projects = projects.filter(project =>
+        project.innovationCategory
+          .toLowerCase()
+          .includes(req.params.innovationArea.toLowerCase())
+      )
+    }
+    if (req.params.thematicArea) {
+      projects = projects.filter(project =>
+        project.thematicArea
+          .toLowerCase()
+          .includes(req.params.thematicArea.toLowerCase())
+      )
+    }
+    if (req.params.sort === 'asc') {
+      projects.sort((a, b) => a.name - b.name)
+    } else {
+      projects.sort((a, b) => b.name - a.name)
+    }
+    projects = projects.filter(
+      (project, i) =>
+        i > req.params.offset && i <= req.params.offset + req.params.limit
+    )
+    log.info(
+      {
+        requestId: req.id,
+        projects
+      },
+      'Success getting project list'
+    )
+    return res.status(200).json({ projects })
+  }
+)
+
 module.exports = router
