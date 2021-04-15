@@ -2,8 +2,8 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import combineProjectsQueryStrings from '../../../../utils/combineProjectsQueryStrings'
 import { useSelector } from 'react-redux'
-import { useProjectsAsyncActions, useHandledRequest, useIsAuthenticated } from '../../../hooks'
-import { ProjectMainCard } from '../../../organisms'
+import { useProjectsAsyncActions, useIsAuthenticated } from '../../../hooks'
+import { ProjectVerticalCard } from '../../../organisms'
 import { 
   getSearchedProjects,
   projectsSearchSelectedFilters,
@@ -11,13 +11,13 @@ import {
   searchCurrentPage,
   getSearchText
 } from '../../../../selectors'
-import { toggleProjectLike } from '../../../../api/projects'
+import { useHistory } from 'react-router'
 
 const PAGINATION_LIMIT = 10
 
 const ProjectsList = ({ WrapperComponent }) => {
-  const { fetchSearchedProjects } = useProjectsAsyncActions()
-  const handledRequest = useHandledRequest()
+  const { fetchSearchedProjects, toggleLike } = useProjectsAsyncActions()
+  const history = useHistory()
 
   const isUserAuthenticated = useIsAuthenticated()
   const projects = useSelector(getSearchedProjects)
@@ -43,11 +43,6 @@ const ProjectsList = ({ WrapperComponent }) => {
     requestProjects()
   }, [filters, sort, searchText, page])
 
-  const handleLike = handledRequest({
-    request: toggleProjectLike,
-    successMessage: 'Action successfully performed'
-  })
-
   if (!Array.isArray(projects)) return null
 
   const handleHeaderText = () => {
@@ -67,13 +62,14 @@ const ProjectsList = ({ WrapperComponent }) => {
       {projects.map(
          (project, index) => (
            <Grid item xs={12} sm={4} container justify="center">
-             <ProjectMainCard
+             <ProjectVerticalCard
                key={`${project.id}_${index}`}
                commentsCount={project.comments.length}
                likesCount={project.likes.length}
                src={project.attachment}
-               onLike={handleLike}
+               onLike={toggleLike}
                disableActions={!isUserAuthenticated}
+               onClick={() => history.push(`projects/${project.id}`)}
                {...project}
              />
            </Grid>

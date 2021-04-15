@@ -1,20 +1,16 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import Avatar from '@material-ui/core/Avatar'
 import { StandardVerticalTemplate } from '../../../templates'
-import { Button } from '../../../atoms'
+import { Button, Image } from '../../../atoms'
 import { BackArrow } from '../../../molecules'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 //impor } from '../../overview/assets'
 import {Cloud, Flag, Like} from "../assets";
+import ProjectHeaderDetails from './ProjectHeaderDetails'
 
 const useStyles = makeStyles(theme => ({
-  image: {
-    width: '969px',
-    height: '386px',
-    borderRadius: '5px',
-    margin: '2% 0 5% 0'
-  },
   headerButton: {
     width: '203px',
     margin: '0 0 5% 0'
@@ -49,21 +45,20 @@ const useStyles = makeStyles(theme => ({
 function ProjectHeader(props) {
   const classes = useStyles()
   const contactPerson = props.contactPerson || {}
-  const team = props.team || []
+
   return (
     <>
       <BackArrow dest={'/view-projects'} />
-      <Grid item xs={12}>
-        <img
+      <Grid justify="center" style={{ marginBottom: 20, marginTop: 30 }} container item xs={12}>
+        <Image
           src={props.attachment}
           alt="project picture"
-          className={classes.image}
+          height={400}
         />
       </Grid>
-      <Grid item xs={12} md={5}>
-        <Typography variant="h3">{props.name}</Typography>
-        <Typography variant="body1">{props.details}</Typography>
-      </Grid>
+
+      <ProjectHeaderDetails details={props.details} name={props.name} />
+
       <Grid item xs={12} md={4}>
         <Typography variant="subtitle1">PROJECT WEBSITE</Typography>
         <Typography
@@ -83,9 +78,9 @@ function ProjectHeader(props) {
         </Typography>
         <Typography variant="subtitle1">CONTACT PERSON</Typography>
         <div className={classes.personInfo}>
-          <div style={{ display: 'flex' }}>
-            <img
-              className={classes.avatar}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar
+              
               alt="Avatar"
               src={contactPerson.avatar || null}
             />
@@ -108,7 +103,7 @@ function ProjectHeader(props) {
           </div>
         </div>
       </Grid>
-      <Grid item xs={12} md={3}>
+      <Grid container justify="flex-end" item xs={12} md={3}>
         <Button className={classes.headerButton} color="primary">
           <img className={classes.buttonImage} src={Like} />
           <div>Liked</div>
@@ -129,20 +124,6 @@ function ProjectHeader(props) {
           <img className={classes.buttonImage} src={Flag} />
           <div>Add to Bookmarks</div>
         </Button>
-        <Typography variant="subtitle1">TEAM</Typography>
-        <div>
-          {team.map((member, i) => {
-            if (i > 4) return null
-            if (i > 3) return <div>+{props.team - i}</div>
-            return (
-              <img
-                className={classes.avatar}
-                src={member.avatar}
-                alt="Avatar"
-              />
-            )
-          })}
-        </div>
       </Grid>
     </>
   )

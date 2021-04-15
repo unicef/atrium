@@ -9,7 +9,7 @@ const useProjectsAsyncActions = () => {
   const handledRequest = useHandledRequest()
   const userId = useSelector(getUserId)
   const { showLoading, dismissLoading } = useSearchActions()
-  const { saveSearchedProjects } = useProjectsMainActions()
+  const { saveSearchedProjects, updateProject } = useProjectsMainActions()
   const isUserAuthenticated = useIsAuthenticated()
 
   return {
@@ -21,6 +21,13 @@ const useProjectsAsyncActions = () => {
           show: showLoading,
           dismiss: dismissLoading
         }
+      }
+    ),
+    toggleLike: handledRequest(
+      { 
+        request: ProjectApi.toggleProjectLike,
+        onSuccess: ({ project }) => updateProject(project),
+        successMessage: 'Action successfully performed'
       }
     )
   }

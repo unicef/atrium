@@ -3,6 +3,7 @@ import {
   CLEAR_FILTERS,
   ADD_FILTER,
   SAVE_PROJECTS,
+  UPDATE_PROJECT_IN_LIST
 } from './types'
 
 const initialState = {
@@ -43,10 +44,22 @@ const onSaveProjects = ({ userId, registeredUser, projects }) => {
   }
 
   return projects.map(project => {
-    const likeIndex = project.likes.findIndex(like => like._id === userId)
+    const likeIndex = project.likes.findIndex(like => like.id === userId)
     const userLiked = likeIndex >= 0
     return { ...project, userLiked }
   })
+}
+
+const onProjectUpdate = (projectsList, project) => {
+  const updatedList = projectsList.reduce((newList, pjt) => {
+    if (project._id === pjt._id) {
+      return [...newList, {...project, userLiked: !pjt.userLiked }]
+    }
+
+    return [...newList, pjt]
+  }, [])
+
+  return updatedList
 }
 
 export default function(state = initialState, { type, payload }) {
@@ -71,6 +84,11 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         projects: onSaveProjects(payload)
+      }
+    case UPDATE_PROJECT_IN_LIST:
+      return {
+        ...state,
+        projects: onProjectUpdate(state.projects, payload)
       }
     default:
       return state
