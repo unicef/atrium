@@ -67,7 +67,7 @@ router.get(
       {
         requestId: req.id
       },
-      'Get all projects'
+      'Success getting project list'
     )
 
     Project.find()
@@ -1136,5 +1136,4 @@ router.post(
     })
   }
 )
-
 module.exports = router
