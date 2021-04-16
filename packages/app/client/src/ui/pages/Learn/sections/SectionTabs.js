@@ -3,6 +3,7 @@ import { Tabs } from '../../../molecules'
 import { SectionContainer } from '../../../templates'
 import { makeStyles } from '@material-ui/core/styles'
 import { useIsAuthenticated } from '../../../hooks'
+import { smoothVerticalScrolling } from '../../../utils'
 
 const useStyles = makeStyles(() => 
   ({
@@ -33,7 +34,7 @@ const SectionTabs = () => {
 
   const onTabChange = (index) => {
     const target = document.getElementById(filteredTabs[index].hash)
-    window.scrollTo({ top: target.offsetTop - (target.offsetHeight / 2), behavior: 'smooth' })
+    smoothVerticalScrolling({ element: target, time: 300, otherFixedElementsHeight: 130 })
   }
 
   return (

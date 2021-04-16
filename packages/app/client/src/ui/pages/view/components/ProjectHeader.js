@@ -13,7 +13,8 @@ import ProjectHeaderDetails from './ProjectHeaderDetails'
 const useStyles = makeStyles(theme => ({
   headerButton: {
     width: '203px',
-    margin: '0 0 5% 0'
+    // margin: '0 0 5% 0',
+    height: 50
   },
   projectInfo: {
     margin: '3% 0 6% 0'

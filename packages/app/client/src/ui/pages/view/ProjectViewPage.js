@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { StandardVerticalTemplate } from '../../templates'
 import { connect, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
-//import Panel from '../overview/components/Panel'
+import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { getAllProjects as getAllProjectsActions } from '../../../actions/projectActions'
 import { compose } from 'recompose'
 import ProjectHeader from "./components/ProjectHeader";
 import { useContainerStyle } from '../../hooks'
 import { Tabs } from '../../molecules'
-import TreeMenu from './components/TreeMenu'
-import { Box, Typography } from '@material-ui/core'
+import { AboutProject } from './panels'
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -61,150 +60,9 @@ function ProjectViewPage(props) {
       <Grid container justify="center" item xs={12}>
         <Tabs handleChange={() => {}} tabs={tabs} />
 
-        <Grid style={{ marginTop: 35}} container item xs={12}>
-          <Grid item xs={2}>
-            <TreeMenu />
-          </Grid>
-          <Grid style={{ marginTop: -10}} item xs={10}>
-            {projectData &&
-            
-              <Grid  item xs={12}>
-                <Box px={6}>
-                  <Box mb={2}>
-                    <Typography variant="h3">
-                      About
-                    </Typography>
-                  </Box>
+        <AboutProject projectData={projectData} />
 
-                  <Typography variant="h5">
-                    Story
-                  </Typography>
-
-                  <Box my={2}>
-                    <Typography variant="body1" component="p">
-                      {projectData.story}
-                    </Typography>
-                  </Box>
-
-                  <Typography variant="h5">
-                    Challenges
-                  </Typography>
-
-                  <Box my={2}>
-                    <Typography variant="body1" component="p">
-                      {projectData.challenges}
-                    </Typography>
-                  </Box>
-
-                  <Typography variant="h5">
-                    Benefits
-                  </Typography>
-
-                  <Box my={2}>
-                    <Typography variant="body1" component="p">
-                      {projectData.benefits}
-                    </Typography>
-                  </Box>
-
-                  <Typography variant="h5">
-                    Needs
-                  </Typography>
-
-                  <Box my={2}>
-                    <Typography variant="body1" component="p">
-                      {projectData.needs}
-                    </Typography>
-                  </Box>
-
-                  <Typography variant="h5">
-                    Section
-                  </Typography>
-
-                  <Box my={2}>
-                    <Typography variant="body1" component="p">
-                      {projectData.section}
-                    </Typography>
-                  </Box>
-
-                  <Box mb={2}>
-                    <Typography variant="h3">
-                      Aditional Info
-                    </Typography>
-                  </Box>
-
-                  <Grid container>
-                    <Grid spacing={2} container item xs={6}>
-                      <Grid item xs={12}>
-                        <Typography variant="body2">
-                          {"Innovation category".toUpperCase()}
-                        </Typography>
-                        <Typography>
-                          {projectData.innovationCategory}
-                        </Typography>
-                      </Grid>
-
-                      <Grid item xs={12}>
-                        <Typography variant="body2">
-                          {"Thematic area".toUpperCase()}
-                        </Typography>
-                        <Typography>
-                          {projectData.thematicArea}
-                        </Typography>
-                      </Grid>
-
-                      <Grid item xs={12}>
-                        <Typography variant="body2">
-                          {"Target launch date".toUpperCase()}
-                        </Typography>
-                        <Typography>
-                          {projectData.launchDateMonth}, {projectData.launchDateYear}
-                        </Typography>
-                      </Grid>
-
-                      <Grid item xs={12}>
-                        <Typography variant="body2">
-                          {"License".toUpperCase()}
-                        </Typography>
-                        <Typography>
-                          {projectData.license}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                    <Grid spacing={2} container item xs={6}>
-                    <Grid item xs={12}>
-                        <Typography variant="body2">
-                          {"Country".toUpperCase()}
-                        </Typography>
-                        <Typography>
-                          {projectData.country}
-                        </Typography>
-                      </Grid>
-
-                      <Grid item xs={12}>
-                        <Typography variant="body2">
-                          {"organization".toUpperCase()}
-                        </Typography>
-                        <Typography>
-                          {projectData.organization}
-                        </Typography>
-                      </Grid>
-
-                      <Grid item xs={12}>
-                        <Typography variant="body2">
-                          {"Number of nodes".toUpperCase()}
-                        </Typography>
-                        <Typography>
-                          {projectData.numberOfnodes} Nodes
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
-                </Box>
-              </Grid>
-            }
-          </Grid>
-        </Grid>
+        
       </Grid>
     </main>
   )
