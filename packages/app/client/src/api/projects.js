@@ -116,3 +116,10 @@ export const deleteMember = (projectId, memberId) => projectRequest({
   endpoint: getDeleteMemberEndpoint(projectId),
   body: { memberId }
 })
+export function deleteMember(projectId, memberId) {
+  return axios.post(`projects/${projectId}/deleteMember`, { memberId })
+}
+
+export function deleteFile(projectId, filePath, type) {
+  return axios.post(`projects/${projectId}/${type}/deleteFile`, { filePath })
+}

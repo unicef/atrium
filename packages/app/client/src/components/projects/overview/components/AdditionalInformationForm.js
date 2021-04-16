@@ -5,7 +5,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
 import Select from '@material-ui/core/Select'
-import { Button } from '../../../../ui'
+import {Button, TextField} from '../../../../ui'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import { useHistory } from 'react-router-dom'
@@ -284,6 +284,40 @@ function AdditionalInformationForm(props) {
                 <MenuItem value="ThirdLicense">ThirdLicense</MenuItem>
               </Select>
             </div>
+            <InputLabel
+                className={classes.inputLabel}
+                htmlFor="linkToRepository"
+                shrink
+            >
+              Repository link
+            </InputLabel>
+            <TextField
+                id="linkToRepository"
+                name="linkToRepository"
+                variant="outlined"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                defaultValue={values.linkToRepository}
+                fullWidth
+                placeholder="Http://atrium.com/project1234567"
+            />
+            <InputLabel
+                className={classes.inputLabel}
+                htmlFor="websiteLink"
+                shrink
+            >
+              Project website link
+            </InputLabel>
+            <TextField
+                id="websiteLink"
+                name="websiteLink"
+                fullWidth
+                onChange={handleChange}
+                onBlur={handleBlur}
+                defaultValue={values.websiteLink}
+                variant="outlined"
+                placeholder="Http:// ...."
+            />
             <div>
               <Button color="primary" type="submit">
                 Save

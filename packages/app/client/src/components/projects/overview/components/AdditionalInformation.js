@@ -15,7 +15,9 @@ function AdditionalInformation(props) {
     launchDateMonth: props.launchDateMonth || '',
     launchDateYear: props.launchDateYear || '',
     numberOfNodes: props.numberOfNodes || '',
-    license: props.license || ''
+    license: props.license || '',
+    linkToRepository: props.linkToRepository || '',
+    websiteLink: props.websiteLink || ''
   })
 
   const handleCreateProject = async data => {
