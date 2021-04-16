@@ -1050,4 +1050,88 @@ router.post(
   }
 )
 
+router.post(
+  '/:id/:type/deleteFile',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        project: req.params.id
+      },
+      'User is deleting file from project'
+    )
+
+    Project.findOne({ _id: req.params.id }).exec((err, project) => {
+      if (err) {
+        log.info(
+          {
+            err,
+            requestId: req.id,
+            project: req.params.id
+          },
+          'Error finding project'
+        )
+        return sendError(res, 503, 'Error deleting file from project')
+      }
+      if (req.params.type === 'video') {
+        project.videos = project.videos.filter(
+          file => file !== req.body.filePath
+        )
+      } else if (req.params.type === 'photo') {
+        project.photos = project.photos.filter(
+          file => file !== req.body.filePath
+        )
+      } else {
+        project.documents = project.documents.filter(
+          file => file !== req.body.filePath
+        )
+      }
+
+      project
+        .save()
+        .then(() => {
+          log.info(
+            {
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Project file deleted successfully'
+          )
+          project.populate(populateParams, async (err, project) => {
+            if (err) {
+              log.err(
+                {
+                  err,
+                  requestId: req.id,
+                  project: req.params.id
+                },
+                'Error populating fields'
+              )
+              return sendError(res, 503, 'Error deleting file from project')
+            }
+            log.info(
+              {
+                requestId: req.id,
+                project: project
+              },
+              'Fields populated successfully'
+            )
+            return res.status(200).json({ project })
+          })
+        })
+        .catch(err => {
+          log.error(
+            {
+              err,
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Error saving project'
+          )
+          return sendError(res, 503, 'Error deleting file from project')
+        })
+    })
+  }
+)
 module.exports = router
