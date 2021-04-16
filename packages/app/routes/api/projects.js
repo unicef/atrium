@@ -122,7 +122,6 @@ router.get(
       log.info(
         {
           requestId: req.id,
-          projects,
           error: error
         },
         'Can not get projects from the database'
