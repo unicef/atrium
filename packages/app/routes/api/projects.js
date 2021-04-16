@@ -63,41 +63,71 @@ const populateParams = [
 router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  async (req, res) => {
     log.info(
       {
         requestId: req.id,
         user: req.user.id
       },
-      'Get all projects'
+      'User is getting projects'
     )
-
-    Project.find()
-      .sort({ $natural: -1 })
-      .populate(populateParams)
-      .exec((err, projects) => {
-        if (err) {
-          log.error(
-            {
-              err,
-              requestId: req.id,
-              user: req.user.id
-            },
-            'Error getting all projects'
-          )
-          return sendError(res, 503, 'Error getting projects from the database')
-        }
-
-        log.info(
-          {
-            requestId: req.id,
-            user: req.user.id,
-            projects
-          },
-          'Success getting project list'
+    let projects = []
+    try {
+      projects = await Project.find()
+      if (req.query.name) {
+        projects = projects.filter(project =>
+          project.name.toLowerCase().includes(req.query.name.toLowerCase())
         )
-        return res.status(200).json({ projects })
-      })
+      }
+      if (req.query.projectStage) {
+        projects = projects.filter(project =>
+          project.stageOfProject
+            .toLowerCase()
+            .includes(req.query.projectStage.toLowerCase())
+        )
+      }
+      if (req.query.innovationArea) {
+        projects = projects.filter(project =>
+          project.innovationCategory
+            .toLowerCase()
+            .includes(req.query.innovationArea.toLowerCase())
+        )
+      }
+      if (req.query.thematicArea) {
+        projects = projects.filter(project =>
+          project.thematicArea
+            .toLowerCase()
+            .includes(req.query.thematicArea.toLowerCase())
+        )
+      }
+      if (req.query.sort === 'asc') {
+        projects = projects.sort((a, b) =>
+          a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+        )
+      } else {
+        projects = projects.sort((a, b) =>
+          a.name < b.name ? 1 : b.name < a.name ? -1 : 0
+        )
+      }
+      projects = projects.splice(req.query.offset, req.query.limit)
+      log.info(
+        {
+          requestId: req.id,
+          projects
+        },
+        'Success getting project list'
+      )
+      return res.status(200).json({ projects })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get projects from the database'
+      )
+      return sendError(res, 503, 'Error getting projects from the database')
+    }
   }
 )
 
@@ -1140,5 +1170,4 @@ router.post(
     })
   }
 )
-
 module.exports = router
