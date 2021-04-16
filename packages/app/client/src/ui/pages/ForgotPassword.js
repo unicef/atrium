@@ -34,17 +34,7 @@ const ForgotPassword = () => {
       showToast({ message: e, severity: 'danger' }) 
     }
   }
-
-  const verifyEmail = async ({ email }) => {
-    try {
-      await sendForgotPasswordEmail({ email })
-      saveEmail(email)
-      showEmailWasSent(true)
-    } catch(e) {
-      showToast({ message: e, severity: 'danger' }) 
-    }
-  }
-
+  
   return (
     <Container component="main" className={containerStyle}>
       {emailSent ?
