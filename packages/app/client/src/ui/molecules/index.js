@@ -16,3 +16,4 @@ export { default as BorderedTextBoxWithButton } from './BorderedTextBoxWithButto
 export { default as Tabs } from './Tabs'
 export { default as Nav } from './Nav'
 export { default as SortByDateHeader } from './SortByDateHeader'
+export { default as TreeMenu } from './TreeMenu'
