@@ -65,7 +65,8 @@ router.get(
   (req, res) => {
     log.info(
       {
-        requestId: req.id
+        requestId: req.id,
+        user: req.user.id
       },
       'Success getting project list'
     )
