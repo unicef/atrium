@@ -7,7 +7,7 @@ const getToggleLikeEndpoint = (projectId) => `${projectId}/like`
 const getCommentEndpoint = (id) => `${id}/comment`
 const getUpdateEndpoint = (projectId) => `${projectId}/update`
 const getAddMemberEndpoint = (projectId) => `${projectId}/addMembers`
-const getDeleteMemberEndpoint = (projectId) => `${projectId}/addMembers`
+const getDeleteMemberEndpoint = (projectId) => `${projectId}/deleteMember`
 
 // ERRORS
 export const ERRORS = {
@@ -116,3 +116,7 @@ export const deleteMember = (projectId, memberId) => projectRequest({
   endpoint: getDeleteMemberEndpoint(projectId),
   body: { memberId }
 })
+
+export function deleteFile(projectId, filePath, type) {
+  return axios.post(`projects/${projectId}/${type}/deleteFile`, { filePath })
+}
