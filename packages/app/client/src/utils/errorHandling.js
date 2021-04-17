@@ -6,6 +6,10 @@ const errorHandling = (errorsObj) => (error, overwritingErrors = {}) => {
     return error.response.data.err
   }
 
+  if (error.response?.data.err) {
+    return error.response.data.err
+  }
+
   if (error.response?.status) {
     const mergedErros = { ...errorsObj, ...overwritingErrors }
     const mappedError = mergedErros[error.response.status]

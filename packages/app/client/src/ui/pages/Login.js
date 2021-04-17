@@ -78,6 +78,18 @@ const Login = ({ history }) => {
           <TextWithLinks
             links={[
               {
+                to: '/forgot-password',
+                str: 'Forgot password',
+                variant: 'body2'
+              }
+            ]}
+            mt={36}
+          >
+            Forgot password
+          </TextWithLinks>
+          <TextWithLinks
+            links={[
+              {
                 to: '/register',
                 str: 'Join us',
                 variant: 'body2'

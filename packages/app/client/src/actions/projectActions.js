@@ -137,3 +137,17 @@ export const deleteMemberFromProject = (
     dispatch(setError(errorMessage))
   }
 }
+
+export const deleteFileFromProject = (
+  projectId,
+  filePath,
+  type
+) => async dispatch => {
+  try {
+    const { data } = await ProjectApi.deleteFile(projectId, filePath, type)
+    dispatch(updateProjectList(data.project))
+  } catch (err) {
+    const errorMessage = get(err, 'response.data.err', GENERIC_ERROR)
+    dispatch(setError(errorMessage))
+  }
+}

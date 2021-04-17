@@ -62,38 +62,62 @@ const populateParams = [
 
 router.get(
   '/',
-  (req, res) => {
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
     log.info(
       {
         requestId: req.id
       },
-      'Get all projects'
+      'User is getting projects'
     )
-
-    Project.find()
-      .sort({ $natural: -1 })
-      .populate(populateParams)
-      .exec((err, projects) => {
-        if (err) {
-          log.error(
-            {
-              err,
-              requestId: req.id
-            },
-            'Error getting all projects'
-          )
-          return sendError(res, 503, 'Error getting projects from the database')
-        }
-
-        log.info(
-          {
-            requestId: req.id,
-            projects
-          },
-          'Success getting project list'
-        )
-        return res.status(200).json({ projects })
-      })
+    let projects = await Project.find()
+    if (req.query.name) {
+      projects = projects.filter(project =>
+        project.name.toLowerCase().includes(req.query.name.toLowerCase())
+      )
+    }
+    if (req.query.projectStage) {
+      projects = projects.filter(project =>
+        project.stageOfProject
+          .toLowerCase()
+          .includes(req.query.projectStage.toLowerCase())
+      )
+    }
+    if (req.query.innovationArea) {
+      projects = projects.filter(project =>
+        project.innovationCategory
+          .toLowerCase()
+          .includes(req.query.innovationArea.toLowerCase())
+      )
+    }
+    if (req.query.thematicArea) {
+      projects = projects.filter(project =>
+        project.thematicArea
+          .toLowerCase()
+          .includes(req.query.thematicArea.toLowerCase())
+      )
+    }
+    if (req.query.sort === 'asc') {
+      projects = projects.sort((a, b) =>
+        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+      )
+    } else {
+      projects = projects.sort((a, b) =>
+        a.name < b.name ? 1 : b.name < a.name ? -1 : 0
+      )
+    }
+    projects = projects.filter(
+      (project, i) =>
+        i >= req.query.offset && i < req.query.offset + req.query.limit
+    )
+    log.info(
+      {
+        requestId: req.id,
+        projects
+      },
+      'Success getting project list'
+    )
+    return res.status(200).json({ projects })
   }
 )
 
@@ -207,10 +231,14 @@ router.post(
               req.headers.host
             }${req.baseUrl}/attachment/${req.file.key}`
           : null,
+        documents: [],
+        photos: [],
+        videos: [],
 
         blockchainName: req.body.blockchainName,
         blockchainType: req.body.blockchainType,
         freeForAll: req.body.freeForAll,
+        published: false,
         stageOfProject: req.body.stageOfProject,
         innovationCategory: req.body.innovationCategory,
         thematicArea: req.body.thematicArea,
@@ -239,7 +267,9 @@ router.post(
               await logIssueBadge(req.user.id, BADGE_ENUM.CONTRIBUTOR)
             }
           }
-
+          const user = await User.findOne({ _id: req.user.id })
+          user.projects.push(project._id)
+          await user.save()
           log.info(
             {
               requestId: req.id,
@@ -274,8 +304,13 @@ router.post(
 router.put(
   '/:id',
   passport.authenticate('jwt', { session: false }),
-  s3Upload.single('attachment'),
-  (req, res) => {
+  s3Upload.fields([
+    { name: 'attachment', maxCount: 1 },
+    { name: 'documents', maxCount: 15 },
+    { name: 'photos', maxCount: 15 },
+    { name: 'videos', maxCount: 15 }
+  ]),
+  async (req, res) => {
     log.info(
       {
         requestId: req.id,
@@ -302,13 +337,44 @@ router.put(
       )
     }
 
+    const oldProject = await Project.findOne({ _id: req.params.id })
     // Updates can be name, details, owner, tags, deployed app link
     const projectData = {
       ...req.body,
       tags: req.body.tags ? req.body.tags.split(',') : [],
-      attachment: req.file // How do I relative path?
-        ? `https://${req.headers.host}${req.baseUrl}/attachment/${req.file.key}`
-        : null
+      attachment:
+        req.files && req.files.attachment // How do I relative path?
+          ? `${req.connection.encrypted ? 'https' : 'http'}://${
+              req.headers.host
+            }${req.baseUrl}/attachment/${req.files.attachment[0].key}`
+          : null,
+      documents:
+        req.files && req.files.documents
+          ? [
+              ...oldProject.documents,
+              `${req.connection.encrypted ? 'https' : 'http'}://${
+                req.headers.host
+              }${req.baseUrl}/attachment/${req.files.documents[0].key}`
+            ]
+          : [...oldProject.documents],
+      videos:
+        req.files && req.files.videos
+          ? [
+              ...oldProject.videos,
+              `${req.connection.encrypted ? 'https' : 'http'}://${
+                req.headers.host
+              }${req.baseUrl}/attachment/${req.files.videos[0].key}`
+            ]
+          : [...oldProject.videos],
+      photos:
+        req.files && req.files.photos
+          ? [
+              ...oldProject.photos,
+              `${req.connection.encrypted ? 'https' : 'http'}://${
+                req.headers.host
+              }${req.baseUrl}/attachment/${req.files.photos[0].key}`
+            ]
+          : [...oldProject.photos]
     }
     Object.keys(projectData).forEach(
       key => projectData[key] == null && delete projectData[key]
@@ -602,8 +668,6 @@ router.delete(
       comment: commentId
     }
 
-    console.log(userId)
-
     log.info(logData, 'Deleting comment')
 
     try {
@@ -669,9 +733,11 @@ router.post(
           mentions: req.body.mentions || [],
           user: userId
         })
-
+        const user = await User.findOne({ _id: userId })
+        user.comments.push(newComment._id)
         project.comments.push(newComment._id)
         await project.save()
+        await user.save()
 
         project.populate(
           populateParams,
@@ -756,8 +822,6 @@ router.delete(
       user: userId,
       update: updateId
     }
-
-    console.log(userId)
 
     log.info(logData, 'Deleting update')
 
@@ -1016,4 +1080,88 @@ router.post(
   }
 )
 
+router.post(
+  '/:id/:type/deleteFile',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        project: req.params.id
+      },
+      'User is deleting file from project'
+    )
+
+    Project.findOne({ _id: req.params.id }).exec((err, project) => {
+      if (err) {
+        log.info(
+          {
+            err,
+            requestId: req.id,
+            project: req.params.id
+          },
+          'Error finding project'
+        )
+        return sendError(res, 503, 'Error deleting file from project')
+      }
+      if (req.params.type === 'video') {
+        project.videos = project.videos.filter(
+          file => file !== req.body.filePath
+        )
+      } else if (req.params.type === 'photo') {
+        project.photos = project.photos.filter(
+          file => file !== req.body.filePath
+        )
+      } else {
+        project.documents = project.documents.filter(
+          file => file !== req.body.filePath
+        )
+      }
+
+      project
+        .save()
+        .then(() => {
+          log.info(
+            {
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Project file deleted successfully'
+          )
+          project.populate(populateParams, async (err, project) => {
+            if (err) {
+              log.err(
+                {
+                  err,
+                  requestId: req.id,
+                  project: req.params.id
+                },
+                'Error populating fields'
+              )
+              return sendError(res, 503, 'Error deleting file from project')
+            }
+            log.info(
+              {
+                requestId: req.id,
+                project: project
+              },
+              'Fields populated successfully'
+            )
+            return res.status(200).json({ project })
+          })
+        })
+        .catch(err => {
+          log.error(
+            {
+              err,
+              requestId: req.id,
+              project: req.params.id
+            },
+            'Error saving project'
+          )
+          return sendError(res, 503, 'Error deleting file from project')
+        })
+    })
+  }
+)
 module.exports = router

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 
 import Grid from '@material-ui/core/Grid'
@@ -15,6 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { useHistory } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
+import { DeleteButton, MyPost, ProjectPicture } from '../../overview/assets'
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -188,6 +189,67 @@ const useStyles = makeStyles(theme => ({
   },
   checkBox: {
     color: 'grey'
+  },
+  header: {
+    textAlign: 'left',
+    margin: '5% 0'
+  },
+  myPostButton: {
+    width: '46px',
+    height: '46px',
+    padding: 0,
+    margin: '-35% 0 0 -40%',
+    minWidth: 0,
+    borderRadius: '50%'
+  },
+  addFileButton: {
+    margin: '5% 0'
+  },
+  image: {
+    width: '400px',
+    height: '220px',
+    borderRadius: '5px'
+  },
+  document: {
+    padding: '2% 4%',
+    border: '1.6px solid #636767',
+    borderRadius: '3px',
+    margin: '2% 0',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  deleteButton: {
+    width: '13px',
+    height: '13px',
+    minWidth: 0,
+    margin: 0
+  },
+  documentName: {
+    fontSize: '13px'
+  },
+  fileInput: {
+    width: 0.1,
+    height: 0.1,
+    opacity: 0,
+    overflow: 'hidden',
+    position: 'absolute',
+    zIndex: -1
+  },
+  fileInputLabel: {
+    cursor: 'pointer'
+  },
+  chosenFile: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  eraseButton: {
+    margin: 0,
+    backgroundColor: 'white',
+    minWidth: 0,
+    width: '5px',
+    height: '5px'
   }
 }))
 
@@ -222,6 +284,67 @@ const disableEnterSubmit = e => {
 export const FirstProjectForm = props => {
   const classes = useStyles()
 
+  const fileInputRef = React.useRef(null)
+  const imgInputRef = React.useRef(null)
+  const photoInputRef = React.useRef(null)
+  const videoInputRef = React.useRef(null)
+
+  const [picture, setPicture] = useState(null)
+  const [file, setFile] = useState(null)
+  const [photo, setPhoto] = useState(null)
+  const [video, setVideo] = useState(null)
+
+  const [oldPicture, setOldPicture] = useState(props.formData.attachment)
+  const [oldFiles, setOldFiles] = useState(props.formData.documents)
+  const [oldPhotos, setOldPhotos] = useState(props.formData.documents)
+  const [oldVideos, setOldVideos] = useState(props.formData.documents)
+
+  useEffect(() => {
+    setOldPicture(props.formData.attachment)
+  }, [props.formData.attachment])
+
+  useEffect(() => {
+    setOldFiles(props.formData.documents)
+  }, [props.formData.documents])
+
+  useEffect(() => {
+    setOldPhotos(props.formData.photos)
+  }, [props.formData.photos])
+
+  useEffect(() => {
+    setOldVideos(props.formData.videos)
+  }, [props.formData.videos])
+
+  const clickInput = (e, type) => {
+    e.preventDefault()
+    switch (type) {
+      case 'image':
+        imgInputRef.current.click()
+        break
+      case 'file':
+        fileInputRef.current.click()
+        break
+      case 'photo':
+        photoInputRef.current.click()
+        break
+      case 'video':
+        videoInputRef.current.click()
+        break
+    }
+  }
+
+  const deleteHandler = async (filePath, type) => {
+    await props.deleteFileFromProject(props.formData.projectId, filePath, type)
+    props.refreshToken()
+    if (type === 'document') {
+      setOldFiles(oldFiles.filter(file => file !== filePath))
+    } else if (type === 'video') {
+      setOldVideos(oldVideos.filter(file => file !== filePath))
+    } else {
+      setOldPhotos(oldPhotos.filter(file => file !== filePath))
+    }
+  }
+
   const history = useHistory()
   const cancelHandler = () => {
     history.push('/view-projects')
@@ -240,10 +363,7 @@ export const FirstProjectForm = props => {
   const [contactPerson, setContactPerson] = useState(false)
   return (
     <div className={classes.wrapper}>
-      <Typography
-        color="secondary"
-        variant="h3"
-      >
+      <Typography color="secondary" variant="h3">
         {props.editting ? 'Edit Required information' : 'Create project'}
       </Typography>
 
@@ -265,7 +385,14 @@ export const FirstProjectForm = props => {
         )}
       </Typography>
       <Formik
-        initialValues={{ ...props.formData, editting: props.editting }}
+        initialValues={{
+          ...props.formData,
+          attachment: picture,
+          documents: file,
+          photos: photo,
+          videos: video,
+          editting: props.editting
+        }}
         enableReinitialize={true}
         validate={validateProjectForm}
         onSubmit={onFormSubmit}
@@ -285,7 +412,67 @@ export const FirstProjectForm = props => {
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                {values.editting ? null : (
+                {values.editting ? (
+                  <>
+                    <InputLabel
+                      className={classes.inputLabel}
+                      shrink
+                      htmlFor="attachment"
+                    >
+                      Project photo
+                    </InputLabel>
+                    <img
+                      className={classes.image}
+                      src={oldPicture || ProjectPicture}
+                      alt="LoadProjectImage"
+                    />
+                    <input
+                      ref={imgInputRef}
+                      type="file"
+                      id="attachment"
+                      name="attachment"
+                      className={classes.fileInput}
+                      onChange={e => {
+                        setPicture(e.target.files[0])
+                        handleChange(e)
+                      }}
+                    />
+                    <Button
+                      color="primary"
+                      className={classes.myPostButton}
+                      onClick={e => clickInput(e,'image')}
+                      disabled={!!picture}
+                    >
+                      <label
+                        htmlFor={'attachment'}
+                        className={classes.fileInputLabel}
+                        aria-label={'ATTACH IMAGE'}
+                        title={'ATTACH IMAGE'}
+                      >
+                        <img src={MyPost} alt="ProjectPicture" />
+                      </label>
+                    </Button>
+                    {picture ? (
+                      <div className={classes.chosenFile}>
+                        <Typography
+                          variant="h5"
+                          className={classes.documentName}
+                        >
+                          {picture.name}
+                        </Typography>
+                        <Button
+                          className={classes.eraseButton}
+                          onClick={() => {
+                            setPicture(null)
+                            imgInputRef.current.value = null
+                          }}
+                        >
+                          X
+                        </Button>
+                      </div>
+                    ) : null}
+                  </>
+                ) : (
                   <div className={classes.dropBoxBorder}>
                     <div>
                       <CloudUploadIcon fontSize="large" />
@@ -299,6 +486,7 @@ export const FirstProjectForm = props => {
                     <AttachmentUploader
                       attachment={values.attachment}
                       setAttachment={val => setFieldValue('attachment', val)}
+                      variant="create"
                     />
                   </div>
                 )}
@@ -462,10 +650,11 @@ export const FirstProjectForm = props => {
                   <MenuItem value="">
                     <em className={classes.chooseSelect}>Choose</em>
                   </MenuItem>
-                  <MenuItem value="research">Research</MenuItem>
-                  <MenuItem value="ideation">Ideation</MenuItem>
-                  <MenuItem value="prototype">Prototype</MenuItem>
-                  <MenuItem value="implementation">Implementation</MenuItem>
+                  <MenuItem value="Research">Research</MenuItem>
+                  <MenuItem value="Ideation">Ideation</MenuItem>
+                  <MenuItem value="Prototype">Prototype</MenuItem>
+                  <MenuItem value="Implementation">Implementation</MenuItem>
+                  <MenuItem value="Production">Production</MenuItem>
                 </Select>
               </Grid>
               <Grid item xs={12}>
@@ -489,9 +678,20 @@ export const FirstProjectForm = props => {
                   <MenuItem value="">
                     <em className={classes.chooseSelect}>Choose</em>
                   </MenuItem>
-                  <MenuItem value="FirstCategory">FirstCategory</MenuItem>
-                  <MenuItem value="SecondCategory">SecondCategory</MenuItem>
-                  <MenuItem value="ThirdCategory">ThirdCategory</MenuItem>
+                  <MenuItem value="Blockchain">Blockchain</MenuItem>
+                  <MenuItem value="Financial Inclusion">Financial Inclusion</MenuItem>
+                  <MenuItem value="Health">Health</MenuItem>
+                  <MenuItem value="Identity">Identity</MenuItem>
+                  <MenuItem value="Supply Chains">Supply Chains</MenuItem>
+                  <MenuItem value="Food and Water">Food and Water</MenuItem>
+                  <MenuItem value="Marketplaces">Marketplaces</MenuItem>
+                  <MenuItem value="Energy">Energy</MenuItem>
+                  <MenuItem value="Accounting and Audit">Accounting and Audit</MenuItem>
+                  <MenuItem value="Innovative Financing">Innovative Financing</MenuItem>
+                  <MenuItem value="Nutrition">Nutrition</MenuItem>
+                  <MenuItem value="Emergency Response">Emergency Response</MenuItem>
+                  <MenuItem value="Government system">Government system</MenuItem>
+                  <MenuItem value="Other">Other</MenuItem>
                 </Select>
               </Grid>
               <Grid item xs={12}>
@@ -502,18 +702,264 @@ export const FirstProjectForm = props => {
                 >
                   Thematic area
                 </InputLabel>
-                <TextField
+                <Select
                   id="thematicArea"
                   name="thematicArea"
                   variant="outlined"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.thematicArea}
-                  onKeyPress={disableEnterSubmit}
+                  defaultValue={values.thematicArea}
                   fullWidth
-                  required
-                />
+                  className={classes.selects}
+                  displayEmpty
+                >
+                  <MenuItem value="">
+                    <em className={classes.chooseSelect}>Choose</em>
+                  </MenuItem>
+                  <MenuItem value="End Poverty">End Poverty</MenuItem>
+                  <MenuItem value="Zero Hunger">Zero Hunger</MenuItem>
+                  <MenuItem value="Good Health and Well-Being">Good Health and Well-Being</MenuItem>
+                  <MenuItem value="Quality Education">Quality Education</MenuItem>
+                  <MenuItem value="Gender Equality">Gender Equality</MenuItem>
+                  <MenuItem value="Clean Water and Sanitation">Clean Water and Sanitation</MenuItem>
+                  <MenuItem value="Affordable and Clean Energy">Affordable and Clean Energy</MenuItem>
+                  <MenuItem value="Decent Work and Economic Growth">Decent Work and Economic Growth</MenuItem>
+                  <MenuItem value="Industry, Innovation and Infrastructure">Industry, Innovation and Infrastructure</MenuItem>
+                  <MenuItem value="Reduced Inequalities">Reduced Inequalities</MenuItem>
+                  <MenuItem value="Sustainable Cities and Communities">Sustainable Cities and Communities</MenuItem>
+                  <MenuItem value="Responsible Consumption and Production">Responsible Consumption and Production</MenuItem>
+                  <MenuItem value="Climate action">Climate action</MenuItem>
+                  <MenuItem value="Life Below Water">Life Below Water</MenuItem>
+                  <MenuItem value="Life on Land">Life on Land</MenuItem>
+                  <MenuItem value="Peace, Justice and Strong Institutions">Peace, Justice and Strong Institutions</MenuItem>
+                  <MenuItem value="Partnerships for Goals">Partnerships for Goals</MenuItem>
+
+
+                </Select>
               </Grid>
+              {values.editting ? (
+                <>
+                  <Grid item xs={12}>
+                    <InputLabel
+                      className={classes.inputLabel}
+                      shrink
+                      htmlFor="documents"
+                    >
+                      Documents
+                    </InputLabel>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      id="documents"
+                      name="documents"
+                      className={classes.fileInput}
+                      onChange={e => {
+                        setFile(e.target.files[0])
+                        handleChange(e)
+                      }}
+                    />
+                    <Button
+                      className={classes.addFileButton}
+                      color="primary"
+                      onClick={e => clickInput(e,'file')}
+                      disabled={!!file}
+                    >
+                      <label
+                        htmlFor={'documents'}
+                        className={classes.fileInputLabel}
+                        aria-label={'ATTACH FILE'}
+                        title={'ATTACH FILE'}
+                      >
+                        + Add document file
+                      </label>
+                    </Button>
+                    {file ? (
+                      <div className={classes.chosenFile}>
+                        <Typography
+                          variant="h5"
+                          className={classes.documentName}
+                        >
+                          {file.name}
+                        </Typography>
+                        <Button
+                          className={classes.eraseButton}
+                          onClick={() => {
+                            setFile(null)
+                            fileInputRef.current.value = null
+                          }}
+                        >
+                          X
+                        </Button>
+                      </div>
+                    ) : null}
+                    {oldFiles && oldFiles[0]
+                      ? oldFiles.map(el => (
+                          <div key={Math.random()} className={classes.document}>
+                            <Typography
+                              variant="h5"
+                              className={classes.documentName}
+                            >
+                              {el.substr(el.indexOf('-') + 1)}
+                            </Typography>
+                            <Button
+                              color="secondary"
+                              className={classes.deleteButton}
+                              onClick={e => deleteHandler(el, 'document')}
+                            >
+                              <img alt="delete icon" src={DeleteButton} />
+                            </Button>
+                          </div>
+                        ))
+                      : null}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <InputLabel
+                      className={classes.inputLabel}
+                      shrink
+                      htmlFor="photos"
+                    >
+                      Photos
+                    </InputLabel>
+                    <input
+                      ref={photoInputRef}
+                      type="file"
+                      id="photos"
+                      name="photos"
+                      className={classes.fileInput}
+                      onChange={e => {
+                        setPhoto(e.target.files[0])
+                        handleChange(e)
+                      }}
+                    />
+                    <Button
+                      className={classes.addFileButton}
+                      color="primary"
+                      onClick={e => clickInput(e, 'photo')}
+                      disabled={!!photo}
+                    >
+                      <label
+                        htmlFor={'photos'}
+                        className={classes.fileInputLabel}
+                        aria-label={'ATTACH FILE'}
+                        title={'ATTACH FILE'}
+                      >
+                        + Add photo file
+                      </label>
+                    </Button>
+                    {photo ? (
+                      <div className={classes.chosenFile}>
+                        <Typography
+                          variant="h5"
+                          className={classes.documentName}
+                        >
+                          {photo.name}
+                        </Typography>
+                        <Button
+                          className={classes.eraseButton}
+                          onClick={() => {
+                            setPhoto(null)
+                            photoInputRef.current.value = null
+                          }}
+                        >
+                          X
+                        </Button>
+                      </div>
+                    ) : null}
+                    {oldPhotos && oldPhotos[0]
+                      ? oldPhotos.map(el => (
+                          <div key={Math.random()} className={classes.document}>
+                            <Typography
+                              variant="h5"
+                              className={classes.documentName}
+                            >
+                              {el.substr(el.indexOf('-') + 1)}
+                            </Typography>
+                            <Button
+                              color="secondary"
+                              className={classes.deleteButton}
+                              onClick={e => deleteHandler(el, 'photo')}
+                            >
+                              <img alt="delete icon" src={DeleteButton} />
+                            </Button>
+                          </div>
+                        ))
+                      : null}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <InputLabel
+                      className={classes.inputLabel}
+                      shrink
+                      htmlFor="videos"
+                    >
+                      Videos
+                    </InputLabel>
+                    <input
+                      ref={videoInputRef}
+                      type="file"
+                      id="videos"
+                      name="videos"
+                      className={classes.fileInput}
+                      onChange={e => {
+                        setVideo(e.target.files[0])
+                        handleChange(e)
+                      }}
+                    />
+                    <Button
+                      className={classes.addFileButton}
+                      color="primary"
+                      onClick={e => clickInput(e,'video')}
+                      disabled={!!video}
+                    >
+                      <label
+                        htmlFor={'videos'}
+                        className={classes.fileInputLabel}
+                        aria-label={'ATTACH FILE'}
+                        title={'ATTACH FILE'}
+                      >
+                        + Add video file
+                      </label>
+                    </Button>
+                    {video ? (
+                      <div className={classes.chosenFile}>
+                        <Typography
+                          variant="h5"
+                          className={classes.documentName}
+                        >
+                          {video.name}
+                        </Typography>
+                        <Button
+                          className={classes.eraseButton}
+                          onClick={() => {
+                            setVideo(null)
+                            photoInputRef.current.value = null
+                          }}
+                        >
+                          X
+                        </Button>
+                      </div>
+                    ) : null}
+                    {oldVideos && oldVideos[0]
+                      ? oldVideos.map(el => (
+                          <div key={Math.random()} className={classes.document}>
+                            <Typography
+                              variant="h5"
+                              className={classes.documentName}
+                            >
+                              {el.substr(el.indexOf('-') + 1)}
+                            </Typography>
+                            <Button
+                              color="secondary"
+                              className={classes.deleteButton}
+                              onClick={e => deleteHandler(el, 'video')}
+                            >
+                              <img alt="delete icon" src={DeleteButton} />
+                            </Button>
+                          </div>
+                        ))
+                      : null}
+                  </Grid>
+                </>
+              ) : null}
               <Grid item xs={12}>
                 <div className={classes.line} />
                 <Typography
