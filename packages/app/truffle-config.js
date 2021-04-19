@@ -59,6 +59,13 @@ module.exports = {
       gas: 9900000,
       websockets: false
     },
+    kube_development: {
+      host: process.env.ETHEREUM_NODE, // Localhost (default: none)
+      port: 8545, // Standard Ethereum port (default: none)
+      network_id: '*', // Any network (default: none)
+      gas: 9900000,
+      websockets: false
+    },
     prod: {
       host: '3.133.79.37', // Localhost (default: none)
       port: 8545, // Standard Ethereum port (default: none)

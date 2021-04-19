@@ -2,3 +2,4 @@
 !.git/refs/heads/
 !.git/HEAD
 **/node_modules
+packages/app/contracts/build/

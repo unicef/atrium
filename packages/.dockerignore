@@ -1,5 +1,0 @@
-.git
-!.git/refs/heads/
-!.git/HEAD
-**/node_modules
-app/contracts/build/
