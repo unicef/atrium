@@ -31,10 +31,10 @@ services:
       - 8080:80
 
   app:
-    image: asherbuck/atrium-web-app
+    image: appliedblockchain/atrium-app
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
     container_name: unin-app
     command: ./bin/entrypoint.sh
     working_dir: /node/app
@@ -45,7 +45,6 @@ services:
     volumes:
       - ./packages/app:/node/app
       - ./packages/blockchain:/node/blockchain
-      - contracts:/contracts
     environment:
       - MONGO_URI=mongodb://mongo:27017/app
       - SECRET_OR_KEY=raging-dog-cat

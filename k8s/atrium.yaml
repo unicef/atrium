@@ -108,30 +108,83 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: parity
-  name: parity-deployment
+    app: discovery
+  name: discovery-deployment
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
-      app: parity
+      app: discovery
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
-        app: parity
+        app: discovery
     spec:
       containers:
-        - env:
-            - name: PARITY_ID
-              value: "1"
-          image: appliedblockchain/parity-solo
-          name: parity
+        - image: redis
+          name: discovery
           ports:
-            - containerPort: 8545
-            - containerPort: 8546
-            - containerPort: 30303
+            - containerPort: 6379
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery
+spec:
+  selector:
+    app: discovery
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app
+  name: app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - args:
+            - ./bin/entrypoint.sh
+          env:
+            - name: ATRIUM_WALLET_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: atrium-secret
+                  key: atrium-wallet-secret
+            - name: ETHEREUM_NODE
+              value: blockchain-service
+            - name: ETHEREUM_PROVIDER_URL
+              value: http://blockchain-service:8545
+            - name: MONGO_URI
+              value: mongodb://mongodb-service:27017/app
+            - name: PORT
+              value: "5000"
+            - name: SECRET_OR_KEY
+              value: raging-dog-cat
+            - name: TRUFFLE_NETWORK
+              value: kube_development
+          image: appliedblockchain/atrium-app
+          name: unin-app
+          ports:
+            - containerPort: 5000
+          workingDir: /node/app
       imagePullSecrets:
         - name: appliedblockchain-reg
       restartPolicy: Always
@@ -139,65 +192,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: parity-service
+  name: app-service
 spec:
   selector:
-    app: parity
+    app: app
   ports:
     - protocol: TCP
-      port: 8545
-      targetPort: 8545
-      name: http-rpc
-    - protocol: TCP
-      port: 8546
-      targetPort: 8546
-      name: ws-rpc
-    - protocol: TCP
-      port: 30303
-      targetPort: 30303
-      name: gossip
----
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: init
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: init
-    spec:
-      containers:
-        - env:
-            - name: DATABASE_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: mongodb-configmap
-                  key: database_host
-            - name: ATRIUM_WALLET_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: atrium-secret
-                  key: atrium-wallet-secret
-            - name: ETHEREUM_PROVIDER_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: parity-configmap
-                  key: parity_host
-            - name: ETHEREUM_PROVIDER_URL
-              value: http://$(ETHEREUM_PROVIDER_HOST):8545
-            - name: MONGO_URI
-              value: "mongodb://$(DATABASE_HOST):27017/app"
-          image: init
-          name: init
-          resources: {}
-          volumeMounts:
-            - mountPath: /contracts
-              name: contracts
-      restartPolicy: Always
-      volumes:
-        - name: contracts
-          persistentVolumeClaim:
-            claimName: contracts
+      port: 5000
+      targetPort: 5000
