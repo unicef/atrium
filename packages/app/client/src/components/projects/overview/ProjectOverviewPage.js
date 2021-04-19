@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom'
 import { getAllProjects as getAllProjectsActions } from '../../../actions/projectActions'
 import CreateProject from '../create/CreateProject'
 import { compose } from 'recompose'
+import { getCurrentProject } from '../../../selectors'
 
 const useDefaultStyles = makeStyles(() => ({
   main: {
@@ -34,10 +35,6 @@ const useDefaultStyles = makeStyles(() => ({
 function ProjectOverviewPage(props) {
   const classes = useDefaultStyles()
 
-  useEffect(() => {
-    props.getAllProjects()
-  }, [props.getAllProjects])
-
   const [tabIndex, setTabIndex] = useState(0)
 
   const handleChange = (e, newVal) => {
@@ -45,9 +42,7 @@ function ProjectOverviewPage(props) {
   }
 
   const params = useParams()
-  const projectData = useSelector(
-    state => state.projects.allProjects.filter(el => el._id === params.id)[0]
-  )
+  const projectData = useSelector(getCurrentProject)
 
   return (
     <Container className={classes.main}>

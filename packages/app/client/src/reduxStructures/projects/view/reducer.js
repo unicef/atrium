@@ -12,7 +12,7 @@ export default function(state = initialState, { type, payload }) {
     case SET_CURRENT_PROJECT:
       return {
         ...state,
-        project: payload
+        project: payload[0]
       }
     default:
       return state

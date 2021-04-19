@@ -17,6 +17,7 @@ const useStyles = makeStyles({
   },
   media: {
     height: 140,
+    width: '100%'
   },
 });
 
@@ -35,7 +36,7 @@ export default function MediaCard( mediaType, src ) {
         <CardMedia
           className={classes.media}
         >
-          <video id="video" src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" controls></video><br/>
+          <video id="video" className={classes.media} src="http://localhost:5000/api/projects/attachment/1618838422262-no login, signup, account.mov" type="video/mp4" controls></video><br/>
           <canvas id="canvas"></canvas> <br/><br/>
         </CardMedia>
         <CardContent>

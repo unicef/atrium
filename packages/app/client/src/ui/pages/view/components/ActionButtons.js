@@ -7,7 +7,7 @@ import { useHistory } from 'react-router'
 
 const OwnerButtons = ({ onEdit, projectData }) => {
   const history = useHistory()
-  console.log(projectData)
+
   return (
     <>
       <Button
