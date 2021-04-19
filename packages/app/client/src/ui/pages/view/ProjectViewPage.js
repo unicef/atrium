@@ -8,7 +8,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import { getAllProjects as getAllProjectsActions } from '../../../actions/projectActions'
 import { compose } from 'recompose'
 import ProjectHeader from "./components/ProjectHeader";
-import { useContainerStyle } from '../../hooks'
+import { useContainerStyle, useProjectsAsyncActions } from '../../hooks'
 import { Tabs } from '../../molecules'
 import { AboutProject } from './panels'
 
@@ -38,32 +38,34 @@ const tabs = [
 function ProjectViewPage(props) {
   const classes = useStyles()
   const containerStyle = useContainerStyle({ size: 'regular' })
+  const projectData = useSelector(state => state.projectsMain.view.project)
+  const { getProjectById } = useProjectsAsyncActions()
+  const params = useParams()
+
   useEffect(() => {
-    props.getAllProjects()
-  }, [props.getAllProjects])
+    if (projectData === undefined) {
+      getProjectById(params.id)
+    }
+  }, [])
 
   const [tabIndex, setTabIndex] = useState(0)
   const handleChange = (e, newVal) => {
     setTabIndex(newVal)
   }
 
-  const params = useParams()
-  const projectData = useSelector(state =>
-      state.projects.allProjects.filter(el => el._id === params.id)[0]
-  )
-
   return (
     <main style={{ margin: '50px auto', paddingLeft: 20, paddingRight: 20 }} className={containerStyle}>
       <Grid item container xs={12} className={classes.header}>
-        {projectData && <ProjectHeader {...projectData} />}
+        {projectData && <ProjectHeader projectData={projectData} {...projectData} />}
       </Grid>
+      {projectData &&
       <Grid container justify="center" item xs={12}>
         <Tabs handleChange={() => {}} tabs={tabs} />
 
         <AboutProject projectData={projectData} />
 
         
-      </Grid>
+      </Grid>}
     </main>
   )
 }

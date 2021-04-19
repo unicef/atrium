@@ -5,10 +5,12 @@ import Avatar from '@material-ui/core/Avatar'
 import { StandardVerticalTemplate } from '../../../templates'
 import { Button, Image } from '../../../atoms'
 import { BackArrow } from '../../../molecules'
+import { useSelector } from 'react-redux'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 //impor } from '../../overview/assets'
 import {Cloud, Flag, Like} from "../assets";
 import ProjectHeaderDetails from './ProjectHeaderDetails'
+import ActionButtons from './ActionButtons'
 
 const useStyles = makeStyles(theme => ({
   headerButton: {
@@ -104,27 +106,8 @@ function ProjectHeader(props) {
           </div>
         </div>
       </Grid>
-      <Grid container justify="flex-end" item xs={12} md={3}>
-        <Button className={classes.headerButton} color="primary">
-          <img className={classes.buttonImage} src={Like} />
-          <div>Liked</div>
-        </Button>
-        <Button
-          className={classes.headerButton}
-          variant="outlined"
-          color="secondary"
-        >
-          <img className={classes.buttonImage} src={Cloud} />
-          <div>Add comment</div>
-        </Button>
-        <Button
-          className={classes.headerButton}
-          variant="outlined"
-          color="secondary"
-        >
-          <img className={classes.buttonImage} src={Flag} />
-          <div>Add to Bookmarks</div>
-        </Button>
+      <Grid direction="column" container alignItems="flex-end" item xs={12} md={3}>
+        <ActionButtons projectData={props.projectData} />
       </Grid>
     </>
   )
