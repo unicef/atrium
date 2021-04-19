@@ -186,6 +186,8 @@ kubectl create secret docker-registry appliedblockchain-reg \
 kubectl apply -f dev-secrets.yaml
 # Apply config map
 kubectl apply -f atrium-configmaps.yaml
+# Apply config map
+kubectl apply -f k8s/ganache-dev.yaml
 # Apply deployments and services
 kubectl apply -f atrium.yaml
 ````
