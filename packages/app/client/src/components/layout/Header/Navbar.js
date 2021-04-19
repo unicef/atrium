@@ -13,7 +13,7 @@ const styles = theme => ({
 
 const links = [
   { path: '/learn', name: 'Learn', public: true },
-  { path: '/view-projects', name: 'Projects', public: false },
+  { path: '/projects', name: 'Projects', public: false },
   { path: '/engage', name: 'Forum', public: false },
   { path: '/whatsnew', name: "What's new", public: true } // which route
 ]
