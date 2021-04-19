@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme =>
 const ProjectVerticalCard = ({ disableActions, ...props }) => {
   const classes = useStyles({ ...props })
   const trimmedDetails = useTrimmedText({ text: props.details, max: 134 })
-
+  
   return (
     <Card className={classes.root} elevation={0}>
       <CardActionArea onClick={props.onClick} className={classes.upperArea}>

@@ -3,7 +3,7 @@ import {
   CLEAR_FILTERS,
   ADD_FILTER,
   SAVE_PROJECTS,
-  UPDATE_PROJECT_IN_LIST
+  TOGGLE_LIKE
 } from './types'
 
 const initialState = {
@@ -44,22 +44,24 @@ const onSaveProjects = ({ userId, registeredUser, projects }) => {
   }
 
   return projects.map(project => {
-    const likeIndex = project.likes.findIndex(like => like.id === userId)
+    const likeIndex = project.likes.findIndex(id => id === userId)
     const userLiked = likeIndex >= 0
     return { ...project, userLiked }
   })
 }
 
-const onProjectUpdate = (projectsList, project) => {
-  const updatedList = projectsList.reduce((newList, pjt) => {
-    if (project._id === pjt._id) {
-      return [...newList, {...project, userLiked: !pjt.userLiked }]
-    }
+const onToggleLike = (projectsList, { project, userId }) => {
+  const projectIndex = projectsList.findIndex(pjt => project.id === pjt.id)
+  const isLikedProject = projectsList[projectIndex].userLiked
 
-    return [...newList, pjt]
-  }, [])
+  const newProject = { ...projectsList[projectIndex], userLiked: !projectsList[projectIndex].userLiked }
+  
+  const likes = isLikedProject ? newProject.likes.filter(id => id !== userId) : [...newProject.likes, userId]
+  newProject.likes = likes
+  const newList = projectsList
+  newList[projectIndex] = newProject
 
-  return updatedList
+  return newList
 }
 
 export default function(state = initialState, { type, payload }) {
@@ -85,10 +87,10 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         projects: onSaveProjects(payload)
       }
-    case UPDATE_PROJECT_IN_LIST:
+    case TOGGLE_LIKE:
       return {
         ...state,
-        projects: onProjectUpdate(state.projects, payload)
+        projects: onToggleLike(state.projects, payload)
       }
     default:
       return state

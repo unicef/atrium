@@ -36,6 +36,7 @@ const LikeButton = ({ id, liked, onLike, numberOfLikes, ...props }) => {
       className={classes.root}
       onClick={() => {
         onLike(id)
+        console.log(liked, 'liked')
       }}
       startIcon={<LikeIcon />}
       variant="text"
@@ -45,4 +46,4 @@ const LikeButton = ({ id, liked, onLike, numberOfLikes, ...props }) => {
   )
 }
 
-export default React.memo(LikeButton)
+export default LikeButton

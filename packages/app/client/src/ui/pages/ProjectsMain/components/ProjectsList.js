@@ -1,9 +1,7 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid'
 import combineProjectsQueryStrings from '../../../../utils/combineProjectsQueryStrings'
 import { useSelector } from 'react-redux'
-import { useProjectsAsyncActions, useIsAuthenticated, useSearchActions } from '../../../hooks'
-import { ProjectVerticalCard } from '../../../organisms'
+import { useProjectsAsyncActions, useIsAuthenticated, useSearchActions, useProjectViewActions } from '../../../hooks'
 import { 
   getSearchedProjects,
   projectsSearchSelectedFilters,
@@ -13,6 +11,7 @@ import {
   getSearchContext
 } from '../../../../selectors'
 import { useHistory } from 'react-router'
+import ProjectCard from './ProjectCard'
 
 const PAGINATION_LIMIT = 10
 const SEARCH_CONTEXT = 'PROJECTS'
@@ -20,6 +19,7 @@ const SEARCH_CONTEXT = 'PROJECTS'
 const ProjectsList = ({ WrapperComponent }) => {
   const { fetchSearchedProjects, toggleLike } = useProjectsAsyncActions()
   const { setCurrentPageContext, resetSearch } = useSearchActions()
+  const { setCurrentProject } = useProjectViewActions()
   const history = useHistory()
 
   const isUserAuthenticated = useIsAuthenticated()
@@ -71,18 +71,15 @@ const ProjectsList = ({ WrapperComponent }) => {
     <WrapperComponent numberOfPages={2} headerText={handleHeaderText()}>
       {projects.map(
          (project, index) => (
-           <Grid item xs={12} sm={4} container justify="center">
-             <ProjectVerticalCard
-               key={`${project.id}_${index}`}
-               commentsCount={project.comments.length}
-               likesCount={project.likes.length}
-               src={project.attachment}
-               onLike={toggleLike}
-               disableActions={!isUserAuthenticated}
-               onClick={() => history.push(`projects/${project.id}`)}
-               {...project}
-             />
-           </Grid>
+           <ProjectCard
+            disableActions={!isUserAuthenticated}
+            id={project.id}
+            key={`${project.id}_${index}`}
+            onClick={() => {
+              history.push(`projects/${project.id}`)
+              setCurrentProject(project)
+            }}
+          />
          )
        )}
     </WrapperComponent>
