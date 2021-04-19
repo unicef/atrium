@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { MobileReverseGrid } from '../templates'
@@ -10,7 +9,7 @@ import { password, email } from '../../utils/formFields'
 import { LoginIllustrationSVG } from '../assets'
 import { loginUser } from '../../api/users'
 import { SET_CURRENT_USER } from '../../actions/types'
-import { useToast } from '../hooks'
+import { useAuthAsyncActions } from '../hooks'
 
 const keepMLoggedCheckbox = {
   name: 'keepMLoggedCheckbox',
@@ -33,20 +32,12 @@ const formProps = {
 }
 
 const Login = ({ history }) => {
-  const { showToast } = useToast()
   const [keepLogged, setKeepLogged] = useState(false)
-  const dispatch = useDispatch()
+  const { login } = useAuthAsyncActions()
 
   const sendLoginRequest = async ({ email, password }) => {
-    try {
-      const response = await loginUser({ email, password })
-      showToast({ message: 'User authenticated', severity: 'success' })
-      dispatch({ type: SET_CURRENT_USER, payload: response })
-
-      history.push('/')
-    } catch(error) {
-      showToast({ message: error.message, severity: 'danger' }) 
-    }
+    await login({ email, password })
+    history.push('/')
   }
 
   // TODO: remove inline styles and use shared style
@@ -84,6 +75,18 @@ const Login = ({ history }) => {
             }
           />
           
+          <TextWithLinks
+            links={[
+              {
+                to: '/forgot-password',
+                str: 'Forgot password',
+                variant: 'body2'
+              }
+            ]}
+            mt={36}
+          >
+            Forgot password
+          </TextWithLinks>
           <TextWithLinks
             links={[
               {

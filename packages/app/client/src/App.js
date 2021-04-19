@@ -36,13 +36,13 @@ import {
   ProjectDetails,
   ProfilePage,
   Toast,
-  Footer
+  Footer,
+  FullPageLoader
 } from './ui'
 import setAuthToken from './utils/setAuthToken'
 
 // pages
-import { Register, Login, ForgotPassword, ResetPassword, Learn } from './ui/pages'
-
+import { Register, Login, ForgotPassword, ResetPassword, Learn, ProjectsMain } from './ui/pages'
 
 require('./utils/configureRequests')
 
@@ -71,7 +71,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Router>
         <Provider store={store}>
-          <>
+          <div style={{ position: 'relative', height: '100%', width: '100%'}}>
             <ModalMessage />
             <Header />
             <Toast />
@@ -82,6 +82,7 @@ const App = () => {
               <Route exact path="/learn" component={Learn} />
               <Route exact path="/forgot-password" component={ForgotPassword} />
               <Route exact path="/reset-password/:token" component={ResetPassword} />
+              <Route exact path="/projects" component={ProjectsMain} />
               <PrivateRoute exact path="/learn" component={LearnPage} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/github" component={GitHubPage} />
@@ -127,7 +128,8 @@ const App = () => {
               <Route component={ErrorPage} />
             </Switch>
             <Footer />
-          </>
+            <FullPageLoader />
+          </div>
         </Provider>
       </Router>
     </ThemeProvider>

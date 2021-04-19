@@ -34,7 +34,7 @@ const ForgotPassword = () => {
       showToast({ message: e, severity: 'danger' }) 
     }
   }
-
+  
   return (
     <Container component="main" className={containerStyle}>
       {emailSent ?

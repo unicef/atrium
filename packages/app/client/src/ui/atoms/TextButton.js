@@ -10,7 +10,10 @@ const styles = theme => ({
     textDecoration: 'none',
     textTransform: 'none',
     padding: 0
-  })
+  }),
+  disabled: {
+    backgroundColor: 'transparent'
+  }
 })
 
 export const TextButton = withStyles(styles)(
@@ -20,6 +23,7 @@ export const TextButton = withStyles(styles)(
         variant="text"
         onClick={onClick}
         className={classes.anchor}
+        classes={{ disabled: classes.disabled }}
         {...props}
       >
         <Typography variant="caption">{textContent}</Typography>

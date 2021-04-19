@@ -50,4 +50,4 @@ const CustomCheckbox = ({ contentPlacemet, fullWidth, formLabelProps, hasError, 
   )
 }
 
-export default CustomCheckbox
+export default React.memo(CustomCheckbox)

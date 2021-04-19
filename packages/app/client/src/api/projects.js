@@ -1,4 +1,23 @@
+import { baseRequest } from '../ui/utils'
 import axios from 'axios'
+
+const ROUTE = 'projects'
+
+// ENDPOINTS
+const getToggleLikeEndpoint = (projectId) => `${projectId}/like`
+const getCommentEndpoint = (id) => `${id}/comment`
+const getUpdateEndpoint = (projectId) => `${projectId}/update`
+const getAddMemberEndpoint = (projectId) => `${projectId}/addMembers`
+const getDeleteMemberEndpoint = (projectId) => `${projectId}/deleteMember`
+
+// ERRORS
+export const ERRORS = {
+  503: 'Unable to get user activity, refresh the page to try again',
+  403: 'Session expired, login again'
+}
+
+//BASE REQUEST
+const projectRequest = baseRequest({ errors: ERRORS, baseURL: ROUTE })
 
 /**
  * Toggle a user's like in a project
@@ -7,9 +26,10 @@ import axios from 'axios'
  * @param {string} projectId
  * @returns
  */
-export function toggleProjectLike(projectId) {
-  return axios.patch(`projects/${projectId}/like`)
-}
+export const toggleProjectLike = (projectId) => projectRequest({
+  method: 'patch',
+  endpoint: getToggleLikeEndpoint(projectId)
+})
 
 /**
  * Add new comment to project
@@ -19,9 +39,12 @@ export function toggleProjectLike(projectId) {
  * @param {Comment} comment
  * @returns
  */
-export function addComment(projectId, comment) {
-  return axios.post(`projects/${projectId}/comment`, comment)
-}
+export const addComment = (projectId, comment) => projectRequest({
+  method: 'post',
+  endpoint: getCommentEndpoint(projectId),
+  body: comment
+})
+
 /**
  * Edit a comment
  *
@@ -30,28 +53,36 @@ export function addComment(projectId, comment) {
  * @param {Comment} comment
  * @returns
  */
-export function editComment(commentId, content) {
-  return axios.put(`projects/${commentId}/comment`, { content })
-}
+export const  editComment = (commentId, content) => projectRequest({
+  method: 'put',
+  endpoint: getCommentEndpoint(commentId),
+  body: { content }
+})
+
 /**
  * Remove a comment
  *
  * @export
- * @param {string} projectId
- * @param {Comment} comment
+ * @param {string} commentId
  * @returns
  */
-export function deleteComment(commentId) {
-  return axios.delete(`projects/${commentId}/comment/`)
-}
+export const deleteComment = (commentId) => projectRequest({
+  method: 'delete',
+  endpoint: getCommentEndpoint(commentId)
+})
 
-export function getAttachment(attachment) {
-  if(!attachment)
-    return
-  return axios.get(attachment, {
-    responseType: 'arraybuffer'
+export const getAttachment = (attachment) => {
+  if(!attachment) throw new Error('Attachment is required')
+
+  return projectRequest({
+    method: 'get',
+    endpoint: attachment,
+    config: {
+      responseType: 'arraybuffer'
+    }
   })
 }
+
 /**
  * Get project
  *
@@ -59,21 +90,33 @@ export function getAttachment(attachment) {
  * @param {string} projectId
  * @returns
  */
-export function getProject(projectId) {
-  return axios.get(`projects/${projectId}`)
-}
+export const getProject = (projectId) =>  projectRequest({
+  method: 'get',
+  endpoint: projectId
+})
 
-export function addUpdate(projectId, update) {
-  return axios.post(`projects/${projectId}/update`, update)
-}
+/**
+ * Get all project
+ */
+export const getAllProjects = (query) => projectRequest({ method: 'get', endpoint: query })
 
-export function addMembers(projectId, members) {
-  return axios.post(`projects/${projectId}/addMembers`, { members })
-}
+export const addUpdate = (projectId, update) => projectRequest({
+  method: 'post',
+  endpoint: getUpdateEndpoint(projectId),
+  body: update
+})
 
-export function deleteMember(projectId, memberId) {
-  return axios.post(`projects/${projectId}/deleteMember`, { memberId })
-}
+export const addMembers = (projectId, members) => projectRequest({
+  method: 'post',
+  endpoint: getAddMemberEndpoint(projectId),
+  body: { members }
+})
+
+export const deleteMember = (projectId, memberId) => projectRequest({
+  method: 'post',
+  endpoint: getDeleteMemberEndpoint(projectId),
+  body: { memberId }
+})
 
 export function deleteFile(projectId, filePath, type) {
   return axios.post(`projects/${projectId}/${type}/deleteFile`, { filePath })

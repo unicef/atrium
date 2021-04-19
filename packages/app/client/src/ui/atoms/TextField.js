@@ -20,13 +20,7 @@ function TextField({ error, errorMessage, helperText, htmlFor, label, initialVal
       <OutlinedInput
         variant="outlined"
         error={error}
-        classes={{
-          root: classes.root,
-          notchedOutline: classes.notchedOutline,
-          focused: classes.focused,
-          input: classes.input,
-          error: classes.error
-        }}
+        classes={classes}
         labelWidth={0}
         {...props}
       />
