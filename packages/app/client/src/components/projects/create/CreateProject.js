@@ -58,7 +58,6 @@ function CreateProject(props) {
   })
 
   const { auth, classes } = props
-
   const handleCreateProject = async (data, editting) => {
     const {
       projectName,

@@ -73,7 +73,7 @@ router.get(
     )
     let projects = []
     try {
-      projects = await Project.find()
+      projects = await Project.find().populate(populateParams)
       if (req.query.name) {
         projects = projects.filter(project =>
           project.name.toLowerCase().includes(req.query.name.toLowerCase())
@@ -278,13 +278,13 @@ router.post(
             }
           }
           const user = await User.findOne({ _id: req.user.id })
-          user.projects.push(project._id)
+          user.projects.push(project)
           await user.save()
           log.info(
             {
               requestId: req.id,
               user: req.user.id,
-              project: newProject
+              project: project
             },
             'Project saved successfully'
           )

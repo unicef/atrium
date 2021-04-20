@@ -141,6 +141,7 @@ function ProjectOverview(props) {
       history.push('/view-projects')
     )
   }
+
   return (
     <div className={classes.wrapper}>
       <div className={classes.leftBlock}>

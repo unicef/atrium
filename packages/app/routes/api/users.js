@@ -54,7 +54,7 @@ router.post(
         user: req.user.id,
         inputs: req.body
       },
-      'Getting filtered projects'
+      'Getting filtered users'
     )
     const allUsers = await User.find()
     const users = allUsers.filter(
@@ -63,6 +63,45 @@ router.post(
         el.email.includes(req.body.prefix)
     )
     return res.status(200).json({ users })
+  }
+)
+
+router.get(
+  '/projects',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id
+      },
+      'Getting users projects'
+    )
+    try {
+      const user = await User.findOne({ _id: req.user.id }).populate('projects')
+      const { projects } = user
+      log.info(
+        {
+          requestId: req.id,
+          projects
+        },
+        'Success getting users projects'
+      )
+      return res.status(200).json({ projects })
+    } catch (err) {
+      log.info(
+        {
+          requestId: req.id,
+          error: err
+        },
+        'Can not get users projects from the database'
+      )
+      return sendError(
+        res,
+        503,
+        'Error getting users projects from the database'
+      )
+    }
   }
 )
 
