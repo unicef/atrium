@@ -4,7 +4,7 @@ import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
 import Typography from '@material-ui/core/Typography'
 import { TextButton } from '../../../atoms'
-import makeStyles from '@material-ui/core/styles/makeStyles'
+import { makeStyles } from '@material-ui/core/styles'
 import { useTrimmedText } from '../../../hooks'
 
 const useStyles = makeStyles(() => ({
@@ -21,20 +21,18 @@ const ProjectHeaderDetails = ({ details, name }) => {
   const classes = useStyles()
   
   return (
-    <Grid style={{ marginTop: -14 }} item xs={12} md={5}>
-      <Grid item xs={10}>
-        <Typography variant="h3" className={classes.title}>{name}</Typography>
-        <Typography variant="body1">{showFullDetails ? details : trimmedDetails}</Typography>
-       {shouldRenderShowMoreBtn &&
-          <TextButton
-            textContent={showFullDetails ? 'Show less' : 'Show more'}
-            color="primary"
-            endIcon={showFullDetails ? <RemoveIcon /> : <AddIcon />}
-            onClick={() => setFullDetails(show => !show)}
-            mt={20}
-          />
-        }
-      </Grid>
+    <Grid item xs={10}>
+      <Typography variant="h3" className={classes.title}>{name}</Typography>
+      <Typography variant="body1">{showFullDetails ? details : trimmedDetails}</Typography>
+      {shouldRenderShowMoreBtn &&
+        <TextButton
+          textContent={showFullDetails ? 'Show less' : 'Show more'}
+          color="primary"
+          endIcon={showFullDetails ? <RemoveIcon /> : <AddIcon />}
+          onClick={() => setFullDetails(show => !show)}
+          mt={20}
+        />
+      }
     </Grid>
   )
 }

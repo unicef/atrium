@@ -3,7 +3,6 @@ import { connect, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { getAllProjects as getAllProjectsActions } from '../../../actions/projectActions'
 import { compose } from 'recompose'
@@ -11,6 +10,7 @@ import ProjectHeader from "./components/ProjectHeader";
 import { useContainerStyle, useProjectsAsyncActions } from '../../hooks'
 import { Tabs } from '../../molecules'
 import { AboutProject } from './panels'
+import { getCurrentProject } from '../../../selectors'
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -38,7 +38,7 @@ const tabs = [
 function ProjectViewPage(props) {
   const classes = useStyles()
   const containerStyle = useContainerStyle({ size: 'regular' })
-  const projectData = useSelector(state => state.projectsMain.view.project)
+  const projectData = useSelector(getCurrentProject)
   const { getProjectById } = useProjectsAsyncActions()
   const params = useParams()
 
@@ -60,11 +60,11 @@ function ProjectViewPage(props) {
       </Grid>
       {projectData &&
       <Grid container justify="center" item xs={12}>
-        <Tabs handleChange={() => {}} tabs={tabs} />
+        <Box position="sticky" width="100%" bgcolor="white" top={50} zIndex={99}>
+          <Tabs handleChange={() => {}} tabs={tabs} />
+        </Box>
 
         <AboutProject projectData={projectData} />
-
-        
       </Grid>}
     </main>
   )

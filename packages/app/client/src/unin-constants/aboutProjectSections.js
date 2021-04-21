@@ -39,17 +39,20 @@ module.exports = [
       {
         label: 'Video',
         id: 'projectFilesVideo',
-        dataKey: 'videos'
+        dataKey: 'videos',
+        mediaType: 'video'
       },
       {
         label: 'Images',
         id: 'projectFilesImages',
-        dataKey: 'images'
+        dataKey: 'photos',
+        mediaType: 'image'
       },
       {
         label: 'Documents',
         id: 'projectFilesDocuments',
-        dataKey: 'documents'
+        dataKey: 'documents',
+        mediaType: 'document'
       }
     ]
   }

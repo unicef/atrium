@@ -56,3 +56,4 @@ export const AboutSection = ({ label, subItems, id, projectData }) => {
   )
 }
 
+export default AboutSection
