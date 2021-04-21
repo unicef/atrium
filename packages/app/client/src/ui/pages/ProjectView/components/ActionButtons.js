@@ -29,14 +29,14 @@ const OwnerButtons = ({ projectData }) => {
         color="primary"
         startIcon={<EditOutlinedIcon />}
         onClick={() => {
-          history.push(`/project-overview/${projectData.id}`)
+          history.push(`/projects/overview/${projectData.id}`)
         }}
       >
         Edit Project
       </Button>
       <Button
         startIcon={<ModeCommentOutlinedIcon />}
-        size="full" 
+        size="full"
         variant="outlined"
       >
         Comments

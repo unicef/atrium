@@ -138,7 +138,7 @@ function ProjectOverview(props) {
   const history = useHistory()
   const clickHandler = async () => {
     await props.editProject(props._id, { published: true }, () =>
-      history.push('/view-projects')
+      history.push('/projects')
     )
   }
   return (

@@ -46,7 +46,7 @@ const AboutProject = ({ projectData }) => {
 
   const additionalInfoPieces = PROJECT_ADITIONAL_INFO.reduce(handleAditionalInfoParties, { firstPart: [], secondPart: [] })
 
-  // TODO: IMPROVE THE TREE VIEW MENU TO SEEM SELECTED WHEN SCROLL TO SPECIFIC TOPICS POSITION
+  // TODO: IMPROVE THE TREE VIEW MENU TO LOOK LIKE A SELECTED ITEM WHEN SCROLL TO SPECIFIC TOPICS POSITION
   return (
     <Box pt={4}>
       <Grid container item xs={12}>
@@ -57,11 +57,12 @@ const AboutProject = ({ projectData }) => {
         </Grid>
         <Grid style={{ marginTop: -10}} item xs={10}>
           {projectData &&
-            <Grid  item xs={12}>
+            <Grid item xs={12}>
               <Box px={6}>
                 <AboutTextSections {...ABOUT_PROJECT_SECTIONS[0]} projectData={projectData} />
+
                 <Box mb={2}>
-                  <Typography variant="h3">
+                  <Typography id="projectAdditionalInfo" variant="h3">
                     Aditional Info
                   </Typography>
                 </Box>
