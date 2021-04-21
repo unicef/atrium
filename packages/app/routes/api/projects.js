@@ -73,7 +73,7 @@ router.get(
     )
     let projects = []
     try {
-      projects = await Project.find()
+      projects = await Project.find().populate(populateParams)
       if (req.query.name) {
         projects = projects.filter(project =>
           project.name.toLowerCase().includes(req.query.name.toLowerCase())
