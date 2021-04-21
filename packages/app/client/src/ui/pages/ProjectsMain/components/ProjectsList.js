@@ -8,7 +8,8 @@ import {
   searchSort,
   searchCurrentPage,
   getSearchText,
-  getSearchContext
+  getSearchContext,
+  getUserId
 } from '../../../../selectors'
 import { useHistory } from 'react-router'
 import ProjectCard from './ProjectCard'
@@ -17,11 +18,12 @@ const PAGINATION_LIMIT = 10
 const SEARCH_CONTEXT = 'PROJECTS'
 
 const ProjectsList = ({ WrapperComponent }) => {
-  const { fetchSearchedProjects, toggleLike } = useProjectsAsyncActions()
+  const { fetchSearchedProjects } = useProjectsAsyncActions()
   const { setCurrentPageContext, resetSearch } = useSearchActions()
   const { setCurrentProject } = useProjectViewActions()
   const history = useHistory()
-
+  
+  const userId = useSelector(getUserId)
   const isUserAuthenticated = useIsAuthenticated()
   const projects = useSelector(getSearchedProjects)
   const filters = useSelector(projectsSearchSelectedFilters)
@@ -77,7 +79,7 @@ const ProjectsList = ({ WrapperComponent }) => {
             key={`${project.id}_${index}`}
             onClick={() => {
               history.push(`projects/${project.id}`)
-              setCurrentProject(project)
+              setCurrentProject({ project, userId })
             }}
           />
          )

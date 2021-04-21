@@ -3,9 +3,10 @@ import Grid from '@material-ui/core/Grid'
 import { useSelector } from 'react-redux'
 import { ProjectVerticalCard } from '../../../organisms'
 import { useProjectsAsyncActions } from '../../../hooks'
+import { getSearchedProjectById } from '../../../../selectors'
 
 const ProjectCard = ({ id, onClick, disableActions }) => {
-  const project = useSelector(state => state.projectsMain.main.projects.find(pjt => pjt.id === id))
+  const project = useSelector(state => getSearchedProjectById(state, id))
   const { toggleLike } = useProjectsAsyncActions()
 
   return (
