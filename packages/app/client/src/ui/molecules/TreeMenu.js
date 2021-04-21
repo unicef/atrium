@@ -15,8 +15,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const mapItems = (items) => items.map(
-  ({ subItems, ...item }) => (
-    <TreeMenuItem nodeId={item.id} key={item.id} {...item}>
+  ({ subItems, id, ...item }) => (
+    <TreeMenuItem nodeId={id} key={`${id}_treeMenuItem`} {...item}>
       {Array.isArray(subItems) && subItems.length > 0 && mapItems(subItems)}
     </TreeMenuItem>
   )

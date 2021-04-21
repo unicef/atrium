@@ -13,7 +13,7 @@ const useStyles = makeStyles(() =>
   })
 )
 
-const Image = ({ height, width, objectFit, ...props}) => {
+const Image = ({ height, width, objectFit, children, ...props}) => {
   const [imageLoaded, setLoaded] = React.useState(false)
   const classes = useStyles({ imageLoaded, height, width, objectFit })
 
@@ -25,6 +25,7 @@ const Image = ({ height, width, objectFit, ...props}) => {
         onLoad={() => setLoaded(true)}
         className={classes.image}
       />
+      {children}
     </MediaLoader>
   )
 }

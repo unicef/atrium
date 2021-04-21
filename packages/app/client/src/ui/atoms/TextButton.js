@@ -10,7 +10,7 @@ const styles = theme => ({
     color: theme.colors[props.labelColor],
     textDecoration: 'none',
     textTransform: 'none',
-    padding: 0,
+    padding: 5,
     ...composeMargins(props)
   }),
   disabled: {

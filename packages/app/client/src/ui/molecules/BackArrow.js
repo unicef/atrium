@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import makeStyles from '@material-ui/styles/makeStyles'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Typography from '@material-ui/core/Typography'
 import { withRouter } from 'react-router-dom'
 
@@ -11,11 +11,15 @@ const useStyles = makeStyles(theme => ({
   },
   backArrow: {
     display: 'flex',
-    fontSize: 'xx-large',
+    alignItems: 'center',
     '&:hover': {
       color: theme.colors['shamrock-green'],
       cursor: 'pointer'
     }
+  },
+  icon: {
+    width: 20,
+    height: 20
   }
 }))
 
@@ -24,9 +28,9 @@ const BackArrow = ({ dest, history }) => {
 
   return (
     <div onClick={() => history.push(dest)} className={classes.backArrow}>
-      <ArrowBackIcon />
+      <ArrowBackIosIcon className={classes.icon} />
       <Typography variant="body1" className={classes.contentText}>
-        {' back to projects'}
+        {'Back do projects'}
       </Typography>
     </div>
   )

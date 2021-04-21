@@ -8,14 +8,16 @@ const useDefaultStyles = makeStyles(theme => ({
   tab: props => ({
     textTransform: 'none',
     width: '100%',
-    maxWidth: props.tabMaxWidth
+    maxWidth: props.tabMaxWidth,
+    backgroundColor: theme.colors.white
   }),
   tabsContainer: {
     display: 'flex',
     justifyContent: 'center',
     flexGrow: 1,
     width: '100%',
-    borderBottom: `1.2px solid ${theme.colors['light-gray']}`
+    borderBottom: `1.2px solid ${theme.colors['light-gray']}`,
+    zIndex: 99
   },
   tabs: {
     width: '100%'
