@@ -1,14 +1,15 @@
-import {
-  REMOVE_FILTER,
-  CLEAR_FILTERS,
-  ADD_FILTER,
-  SAVE_PROJECTS,
-  TOGGLE_LIKE
-} from './types'
+import * as TYPES from './types'
 
 const initialState = {
   filters: {},
-  projects: undefined
+  searchedProjects: undefined,
+  selectedProject: undefined
+}
+
+const handleProjectSaving = ({ project, userId }) => {
+  const likeIndex = project.likes.findIndex(like => like.id === userId)
+  const userLiked = likeIndex >= 0
+  return { ...project, userLiked }
 }
 
 const onAddFilter = (filters, { option, filterName }) => {
@@ -43,54 +44,65 @@ const onSaveProjects = ({ userId, registeredUser, projects }) => {
     return projects.filter(project => project.freeForAll)
   }
 
-  return projects.map(project => {
-    const likeIndex = project.likes.findIndex(id => id === userId)
-    const userLiked = likeIndex >= 0
-    return { ...project, userLiked }
-  })
+  return projects.map(project => handleProjectSaving({ project, userId }))
 }
 
-const onToggleLike = (projectsList, { project, userId }) => {
-  const projectIndex = projectsList.findIndex(pjt => project.id === pjt.id)
-  const isLikedProject = projectsList[projectIndex].userLiked
+const onToggleLike = (state, project) => {
+  const prevList = state.searchedProjects
+  const projectIndex = prevList.findIndex(pjt => project.id === pjt.id)
+  const userLiked = prevList[projectIndex].userLiked
 
-  const newProject = { ...projectsList[projectIndex], userLiked: !projectsList[projectIndex].userLiked }
+  const updatedProject = { ...project, userLiked: !userLiked }
   
-  const likes = isLikedProject ? newProject.likes.filter(id => id !== userId) : [...newProject.likes, userId]
-  newProject.likes = likes
-  const newList = projectsList
-  newList[projectIndex] = newProject
+  const newList = prevList
+  newList[projectIndex] = updatedProject
+  const selectedProjectId = state.selectedProject && state.selectedProject.id
 
-  return newList
+  if (selectedProjectId === project.id) {
+    return {
+      ...state,
+      searchedProjects: newList,
+      selectedProject: updatedProject
+    }
+  }
+
+  return {
+    ...state,
+    searchedProjects: newList
+  }
 }
 
 export default function(state = initialState, { type, payload }) {
 
   switch (type) {
-    case ADD_FILTER:
+    case TYPES.ADD_FILTER:
       return {
         ...state,
         filters: onAddFilter(state.filters, payload)
       }
-    case REMOVE_FILTER:
+    case TYPES.REMOVE_FILTER:
       return {
         ...state,
         filters: onRemoveFilter(state.filters, payload)
       }
-    case CLEAR_FILTERS:
+    case TYPES.CLEAR_FILTERS:
       return {
         ...state,
         filters: []
       }
-    case SAVE_PROJECTS:
+    case TYPES.SAVE_PROJECTS:
       return {
         ...state,
-        projects: onSaveProjects(payload)
+        searchedProjects: onSaveProjects(payload),
+        selectedProject: undefined
       }
-    case TOGGLE_LIKE:
+    case TYPES.TOGGLE_LIKE:
+      return onToggleLike(state, payload)
+
+    case TYPES.SET_PROJECT_VIEW:
       return {
         ...state,
-        projects: onToggleLike(state.projects, payload)
+        selectedProject: handleProjectSaving(payload)
       }
     default:
       return state

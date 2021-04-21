@@ -8,19 +8,17 @@ export const isAuthenticated = state => state.auth.isAuthenticated
 export const getUserId = state => state.auth.user.id
 
 // PROJECTS MAIN
-export const getSearchedProjects = state => state.projectsMain.main.projects
-export const projectsSearchSelectedFilters = state => state.projectsMain.main.filters
-export const getProjectsSearchFilter = (state, filterTitle) => state.projectsMain.main.filters[filterTitle]
+export const getSearchedProjects = state => state.projects.searchedProjects
+export const projectsSearchSelectedFilters = state => state.projects.filters
+export const getProjectsSearchFilter = (state, filterTitle) => state.projects.filters[filterTitle]
+export const getSearchedProjectById = (state, id) => state.projects.searchedProjects.find(pjt => pjt.id === id)
 
 // PROJECT VIEW
-export const getCurrentProject = state => state.projectsMain.view.project
+export const getCurrentProject = state => state.projects.selectedProject
 export const currentUserIsTheOwner = createSelector(
   getUserId,
   getCurrentProject,
-  (userId, project) => {
-    console.log(project, userId, project.owner.id === userId)
-    return project.owner.id === userId
-  }
+  (userId, project) => project.owner.id === userId
 )
 
 // SEARCH

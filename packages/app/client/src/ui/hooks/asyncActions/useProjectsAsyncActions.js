@@ -28,7 +28,7 @@ const useProjectsAsyncActions = () => {
       { 
         request: ProjectApi.toggleProjectLike,
         onSuccess: ({ project }) => {
-          toggleProjectLike({ project, userId })
+          toggleProjectLike(project)
         },
         successMessage: 'Action successfully performed'
       }
@@ -36,7 +36,7 @@ const useProjectsAsyncActions = () => {
     getProjectById:  handledRequest(
       { 
         request: ProjectApi.getProject,
-        onSuccess: ({ project }) => setCurrentProject(project),
+        onSuccess: ({ project }) => setCurrentProject({ project: project[0], userId }),
         showFullPageLoading: true
       }
     )

@@ -1,1 +1,0 @@
-export const SET_CURRENT_PROJECT = 'projectsView/SET_CURRENT_PROJECT'
