@@ -42,7 +42,6 @@ import {
 import { Register, Login, ForgotPassword, ResetPassword, Learn } from './ui/pages'
 import projectsRoutes from './routes/projects'
 
-
 require('./utils/configureRequests')
 
 getUserInformation()
