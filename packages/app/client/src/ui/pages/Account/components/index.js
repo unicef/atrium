@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 export { default as VerticalTabs } from './VerticalTabs'
->>>>>>> structure, components
 export { default as Dashboard } from './Dashboard'
 export { default as Settings } from './Settings'
 export { default as Profile } from './Profile'
