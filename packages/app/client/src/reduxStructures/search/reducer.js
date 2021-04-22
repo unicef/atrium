@@ -5,7 +5,7 @@ const initialState = {
   isLoading: false,
   searchText: undefined,
   page: 1,
-  headerText: undefined
+  context: undefined
 }
 
 const searchReducer = (state = initialState, { type, payload }) => {
@@ -42,6 +42,12 @@ const searchReducer = (state = initialState, { type, payload }) => {
       }
     case TYPES.RESET_SEARCH:
       return initialState
+
+    case TYPES.UPDATE_CONTEXT:
+        return {
+          ...state,
+          context: payload
+        }
     default:
       return state
   }

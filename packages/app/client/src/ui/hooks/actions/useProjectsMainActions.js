@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { addFilter, removeFilter, clearFilters, saveProjects } from '../../../reduxStructures/projects'
+import { addFilter, removeFilter, clearFilters, saveProjects, toggleLike } from '../../../reduxStructures/projects'
 
 const useProjectsMainActions = () => {
   const dispatch = useDispatch()
@@ -9,6 +9,7 @@ const useProjectsMainActions = () => {
     removeFilter: (payload) => { dispatch(removeFilter(payload)) },
     saveSearchedProjects: (payload) => { dispatch(saveProjects(payload)) },
     clearFilters: () => { dispatch(clearFilters()) },
+    toggleProjectLike: (payload) => { dispatch(toggleLike(payload)) }
   }
 }
 

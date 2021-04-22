@@ -1,30 +1,36 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid'
 import combineProjectsQueryStrings from '../../../../utils/combineProjectsQueryStrings'
 import { useSelector } from 'react-redux'
-import { useProjectsAsyncActions, useHandledRequest, useIsAuthenticated } from '../../../hooks'
-import { ProjectMainCard } from '../../../organisms'
+import { useProjectsAsyncActions, useIsAuthenticated, useSearchActions, useProjectViewActions } from '../../../hooks'
 import { 
   getSearchedProjects,
   projectsSearchSelectedFilters,
   searchSort,
   searchCurrentPage,
-  getSearchText
+  getSearchText,
+  getSearchContext,
+  getUserId
 } from '../../../../selectors'
-import { toggleProjectLike } from '../../../../api/projects'
+import { useHistory } from 'react-router'
+import ProjectCard from './ProjectCard'
 
 const PAGINATION_LIMIT = 10
+const SEARCH_CONTEXT = 'PROJECTS'
 
 const ProjectsList = ({ WrapperComponent }) => {
   const { fetchSearchedProjects } = useProjectsAsyncActions()
-  const handledRequest = useHandledRequest()
-
+  const { setCurrentPageContext, resetSearch } = useSearchActions()
+  const { setCurrentProject } = useProjectViewActions()
+  const history = useHistory()
+  
+  const userId = useSelector(getUserId)
   const isUserAuthenticated = useIsAuthenticated()
   const projects = useSelector(getSearchedProjects)
   const filters = useSelector(projectsSearchSelectedFilters)
   const sort = useSelector(searchSort)
   const searchText = useSelector(getSearchText)
   const page = useSelector(searchCurrentPage)
+  const searchContextName = useSelector(getSearchContext)
 
   React.useEffect(() => {
     const query = combineProjectsQueryStrings(
@@ -36,17 +42,18 @@ const ProjectsList = ({ WrapperComponent }) => {
         search: searchText
       }
     )
+
+    if (searchContextName !== SEARCH_CONTEXT) {
+      resetSearch()
+      setCurrentPageContext(SEARCH_CONTEXT)
+    }
+
     const requestProjects = async () => {
       await fetchSearchedProjects(query)
     }
     
     requestProjects()
   }, [filters, sort, searchText, page])
-
-  const handleLike = handledRequest({
-    request: toggleProjectLike,
-    successMessage: 'Action successfully performed'
-  })
 
   if (!Array.isArray(projects)) return null
 
@@ -66,17 +73,15 @@ const ProjectsList = ({ WrapperComponent }) => {
     <WrapperComponent numberOfPages={2} headerText={handleHeaderText()}>
       {projects.map(
          (project, index) => (
-           <Grid item xs={12} sm={4} container justify="center">
-             <ProjectMainCard
-               key={`${project.id}_${index}`}
-               commentsCount={project.comments.length}
-               likesCount={project.likes.length}
-               src={project.attachment}
-               onLike={handleLike}
-               disableActions={!isUserAuthenticated}
-               {...project}
-             />
-           </Grid>
+           <ProjectCard
+            disableActions={!isUserAuthenticated}
+            id={project.id}
+            key={`${project.id}_${index}`}
+            onClick={() => {
+              history.push(`projects/${project.id}`)
+              setCurrentProject({ project, userId })
+            }}
+          />
          )
        )}
     </WrapperComponent>

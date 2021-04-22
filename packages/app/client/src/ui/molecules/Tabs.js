@@ -5,22 +5,29 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import { mergeClassNames } from '../utils'
 
 const useDefaultStyles = makeStyles(theme => ({
-  tab: {
-    textTransform: 'none'
-  },
-  tabs: {
+  tab: props => ({
+    textTransform: 'none',
+    width: '100%',
+    maxWidth: props.tabMaxWidth,
+    backgroundColor: theme.colors.white
+  }),
+  tabsContainer: {
     display: 'flex',
     justifyContent: 'center',
     flexGrow: 1,
     width: '100%',
-    borderBottom: `1.2px solid ${theme.colors['light-gray']}`
+    borderBottom: `1.2px solid ${theme.colors['light-gray']}`,
+    zIndex: 99
+  },
+  tabs: {
+    width: '100%'
   }
 }))
 
 const Tabs = ({ handleChange, tabs, className }) => {
-  const classes = useDefaultStyles()
+  const classes = useDefaultStyles({ tabMaxWidth: `${parseInt(100 / tabs.length)}%` })
   const [tabIndex, setTabIndex] = useState(0)
-  const containerClassName = mergeClassNames(className, classes.tabs)
+  const containerClassName = mergeClassNames(className, classes.tabsContainer)
 
   const onTabChange = (e, index) => {
     e.preventDefault()
@@ -37,6 +44,7 @@ const Tabs = ({ handleChange, tabs, className }) => {
         variant="scrollable"
         scrollButtons="auto"
         indicatorColor="primary"
+        className={classes.tabs}
       >
         {tabs.map(tab => <Tab key={tab.id} className={classes.tab} label={tab.label} />)}
       </MuiTabs>

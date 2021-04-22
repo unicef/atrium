@@ -6,7 +6,6 @@ import ethersReducer from './ethersReducer'
 import pollReducer from './pollReducer'
 import decisionReducer from './decisionReducer'
 import errorReducer from './errorReducer'
-import projectReducer from './projectReducer'
 import learningReducer from './learningReducer'
 import discussionReducer from './discussionReducer'
 import toast from './toastReducer'
@@ -21,12 +20,11 @@ export default combineReducers({
   twitter: twitterReducer,
   ethers: ethersReducer,
   poll: pollReducer,
-  projects: projectReducer,
+  projects: projectsReducer,
   errors: errorReducer,
   learning: learningReducer,
   discussions: discussionReducer,
   toast,
   loader,
-  projectsMain: projectsReducer,
   search: searchReducer
 })

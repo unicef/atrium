@@ -9,6 +9,7 @@ import EditDeletePopover from '../../components/edit-delete-popover'
 import { deleteProject } from '../../actions/projectActions'
 import { ShadedPaper, ProjectCardActions, UserLink, TagsList } from '../'
 import { getRelativeTimeToNow } from '../../utils/timeManipulation'
+import { useTrimmedText } from '../hooks'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -63,12 +64,8 @@ function ProjectCard(props) {
       search: obj
     }))
   const { details } = props
-  const trimmedDetails = React.useMemo(() => {
-    return details.length && details.length >= 161
-      ? `${details.substring(0, 160)}...`
-      : details
-  }, [details])
-
+  const trimmedDetails = useTrimmedText({ text: details, max: 161 })
+  
   const projectData = {
     projectId: props.projectId,
     projectName: props.name,

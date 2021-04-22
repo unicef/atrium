@@ -21,7 +21,6 @@ import About from './components/about'
 // Poll pages
 import PrivateRoute from './components/private-route/PrivateRoute'
 // Project pages
-import ProjectOverviewPage from './components/projects/overview/ProjectOverviewPage'
 import CreateProject from './components/projects/create/CreateProject'
 import ProjectPage from './components/projects/ProjectPage'
 import Stats from './components/stats/Stats'
@@ -42,7 +41,8 @@ import {
 import setAuthToken from './utils/setAuthToken'
 
 // pages
-import { Register, Login, ForgotPassword, ResetPassword, Learn, ProjectsMain } from './ui/pages'
+import { Register, Login, ForgotPassword, ResetPassword, Learn } from './ui/pages'
+import ProjectsRoutes from './routes/projects'
 
 require('./utils/configureRequests')
 
@@ -82,7 +82,6 @@ const App = () => {
               <Route exact path="/learn" component={Learn} />
               <Route exact path="/forgot-password" component={ForgotPassword} />
               <Route exact path="/reset-password/:token" component={ResetPassword} />
-              <Route exact path="/projects" component={ProjectsMain} />
               <PrivateRoute exact path="/learn" component={LearnPage} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/github" component={GitHubPage} />
@@ -105,11 +104,6 @@ const App = () => {
               />
               <PrivateRoute
                 exact
-                path="/project-overview/:id"
-                component={ProjectOverviewPage}
-              />
-              <PrivateRoute
-                exact
                 path="/project-details/:id"
                 component={ProjectDetails}
               />
@@ -125,6 +119,7 @@ const App = () => {
                 path="/create-polls"
                 component={CreatePollPage}
               />
+              <ProjectsRoutes />
               <Route component={ErrorPage} />
             </Switch>
             <Footer />

@@ -4,10 +4,15 @@ import { makeStyles } from '@material-ui/core/styles'
 import { mergeClassNames } from '../utils'
 
 const useStyles = makeStyles(theme => ({
-  container: {
+  container: props => ({
     position: 'relative',
-    width: '100%'
-  },
+    width: '100%',
+    height: '100%',
+    '& > *:first-child': {
+      transition: 'opacity 1s',
+      opacity: props.imageLoaded ? 1 : 0
+    }
+  }),
   loader: props => ({
     display: 'flex',
     justifyContent: 'center',

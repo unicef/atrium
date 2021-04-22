@@ -37,7 +37,6 @@ const largeBtnTheme = createMuiTheme({
 
 const useStyles = makeStyles(theme => ({
   root: props => ({
-    position: 'relative',
     fontFamily: theme.typography.fontFamily,
     fontSize: 13,
     fontWeight: 500,
@@ -45,6 +44,7 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'none',
     lineHeight: 1.3,
     ...composeMargins(props),
+    maxHeight: 51,
     '&:disabled': {
       color: theme.colors['white'],
       backgroundColor: theme.colors['warm-gray']
@@ -79,8 +79,8 @@ const useStyles = makeStyles(theme => ({
   },
   full: props => ({
     maxHeight: 51,
-    margin: 0,
     color: theme.colors[props.labelColor],
+    width: '100%'
   })
 }))
 

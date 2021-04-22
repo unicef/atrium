@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const SearchWithSideMenu = ({ SideMenuComponent, SearchBarComponent, ListComponent }) => {
+const SearchWithSideMenu = ({ sideMenu, SearchBarComponent, list, loader }) => {
   const [isSideMenuVisible, toggleSideMenu] = React.useState(false)
   const classes = useStyles({ isSideMenuVisible })
   
@@ -68,15 +68,16 @@ const SearchWithSideMenu = ({ SideMenuComponent, SearchBarComponent, ListCompone
       <div className={classes.wrapper}>
 
         <div className={classnames(classes.sideMenuWrapper, { [classes.sideMenuVisible]: isSideMenuVisible })}>
-          <SideMenuComponent />
+          {sideMenu}
         </div>
         
         <div className={classes.firstGap} />
 
-        <ListComponent />
+        {list}
 
         <div className={classes.secondGap} />
-
+        
+        {loader}
       </div>
     </div>
   )

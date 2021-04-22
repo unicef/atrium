@@ -29,22 +29,17 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const LikeButton = ({ id, liked, onLike, numberOfLikes, ...props }) => {
-  const [isLiked, setLike] = React.useState(liked)
-  const [count, setCount] = React.useState(numberOfLikes)
-  const classes = useStyles({ isLiked, ...props })
-
+  const classes = useStyles({ isLiked: liked, ...props })
   return (
     <TextButton
       size="small"
       className={classes.root}
       onClick={() => {
-        setLike(liked => !liked)
         onLike(id)
-        setCount(count => isLiked ? count - 1 : count + 1)
       }}
       startIcon={<LikeIcon />}
       variant="text"
-      textContent={`${count} likes`}
+      textContent={`${numberOfLikes} likes`}
       {...props}
     />
   )
