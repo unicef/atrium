@@ -278,13 +278,13 @@ router.post(
             }
           }
           const user = await User.findOne({ _id: req.user.id })
-          user.projects.push(project._id)
+          user.projects.push(project)
           await user.save()
           log.info(
             {
               requestId: req.id,
               user: req.user.id,
-              project: newProject
+              project: project
             },
             'Project saved successfully'
           )

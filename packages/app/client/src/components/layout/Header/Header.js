@@ -12,6 +12,8 @@ import { logoutUser } from '../../../actions/authActions'
 import ProfilePictureHeader from './ProfilePictureHeader'
 import Navbar from './Navbar'
 import DropdownHeaderMenu from './DropdownHeaderMenu'
+import LimitedHeader from './LimitedHeader'
+import { Button } from '../../../ui'
 
 const exclusivePaths = ['/create-projects', '/create-polls']
 
@@ -57,15 +59,46 @@ const styles = theme => ({
     maxWidth: 131,
     height: 50,
     marginRight: '1.3rem'
-  }
+  },
+  loginButton: {
+    width: '105px',
+    height: '40px',
+    margin: 0,
+    padding: 8
+  },
+  signupButton: {
+    width: '105px',
+    height: '40px',
+    margin: '0 10px 0 0',
+    padding: 8
+  },
+  buttons: {
+    display: 'flex',
+    textAlign: 'right'
+  },
+  titleOfHeader: {
+    fontSize: 16,
+    color: theme.colors['black-two'],
+    letterSpacing: 1.8,
+    textTransform: 'uppercase'
+  },
 })
 
-const Header = ({ logoutUser, auth, classes, location }) => {
+const Header = ({ logoutUser, auth, classes, location, ...props }) => {
+
+  const handleRedirectToLogin = () => {
+    props.history.push('/login')
+  }
+
+  const handleRedirectToSignUp = () => {
+    props.history.push('/register')
+  }
 
   if (exclusivePaths.includes(location.pathname)) {
-    // exclude header from specific routes (has LimitedHeader)
     return null
   }
+
+  // TODO: IMPROVE HEADER VARIANTS
   return (
     <AppBar
       className={classes.root}
@@ -86,6 +119,25 @@ const Header = ({ logoutUser, auth, classes, location }) => {
             // classes={classes} try to remove  red warning
             logoutUser={logoutUser}
           />
+        }
+        {!auth.isAuthenticated && 
+          <div className={classes.buttons}>
+            <Button
+              color="primary"
+              onClick={handleRedirectToSignUp}
+              className={classes.signupButton}
+            >
+              Join us
+            </Button>
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={handleRedirectToLogin}
+              className={classes.loginButton}
+            >
+              Sign in
+            </Button>
+          </div>
         }
       </Toolbar>
     </AppBar>

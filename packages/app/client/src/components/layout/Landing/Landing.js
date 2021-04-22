@@ -101,17 +101,19 @@ const useWelcomeSectionStyles = makeStyles(theme => ({
   },
   loginButton: {
     width: '105px',
-    height: '50px',
-    margin: 0
+    height: '40px',
+    margin: 0,
+    padding: 8
   },
   signupButton: {
     width: '105px',
-    height: '50px',
-    margin: '0 10px 0 0'
+    height: '40px',
+    margin: '0 10px 0 0',
+    padding: 8
   },
   addProjectButton: {
     width: '105px',
-    height: '50px',
+    height: '40px',
     margin: '10% 0 0 0'
   }
 }))
