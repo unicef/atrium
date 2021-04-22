@@ -34,7 +34,6 @@ import {
   DiscussionPage,
   DiscussionDetails,
   ProjectDetails,
-  ProfilePage,
   Toast,
   Footer,
   FullPageLoader
@@ -42,8 +41,9 @@ import {
 import setAuthToken from './utils/setAuthToken'
 
 // pages
-import { Register, Login, ForgotPassword, ResetPassword, Learn } from './ui/pages'
+import { Register, Login, ForgotPassword, ResetPassword, Learn, Account } from './ui/pages'
 import ProjectsRoutes from './routes/projects'
+
 
 require('./utils/configureRequests')
 
@@ -69,7 +69,7 @@ const App = () => {
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/github" component={GitHubPage} />
               <PrivateRoute exact path="/twitter" component={TwitterPage} />
-              <PrivateRoute exact path="/profile" component={ProfilePage} />
+              <PrivateRoute exact path="/profile" component={Account} />
               <PrivateRoute exact path="/settings" component={Technical} />
               <PrivateRoute exact path="/statistics" component={Stats} />
               <PrivateRoute exact path="/reports" component={Reports} />
