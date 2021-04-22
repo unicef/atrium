@@ -110,53 +110,6 @@ const ProjectVerticalCard = ({ disableActions, ...props }) => {
         <Divider mb={10} mt={10} />
       </CardContent>
     </CardWithMedia>
-
-    // <Card className={classes.root} elevation={0}>
-    //   <CardActionArea onClick={props.onClick} className={classes.upperArea}>
-    //     <CardMedia>
-    //       <Image
-    //         alt={props.imageAlt}
-    //         src={props.src}
-    //         title={props.imageTitle}
-    //         height={208}
-    //       />
-    //     </CardMedia>
-    //     <CardContent className={classes.cardContent}>
-    //       <Typography gutterBottom variant="h3" component="h6" className={classes.title}>
-    //         {props.name}
-    //       </Typography>
-    //       <Grid item container xs={12}>
-    //         <Typography variant="caption" component="p" className={classes.details}>
-    //           {trimmedDetails}
-    //         </Typography>
-    //       </Grid>
-    //     </CardContent>
-    //   </CardActionArea>
-
-    //   <CardActions className={classes.cardActions}>
-    //     <LikeButton disabled={disableActions} id={props.id} mr={20} numberOfLikes={props.likesCount} onLike={props.onLike} liked={props.userLiked}/>
-    //     <CommentsButton disabled={disableActions} onClick={props.openComments} numberOfComments={`${props.commentsCount} comments`} />
-    //   </CardActions>
-
-    //   <CardContent className={classes.footer}>
-    //     <Divider mb={10} mt={10} />
-    //     <Typography className={classes.footerText}>
-    //       By {props.owner.name}
-    //     </Typography>
-    //     <Grid container item xs={12}>
-    //       <Typography className={classes.footerText}>
-    //         {dateFormatter({ date: props.createdAt, separator: '.'})}
-    //       </Typography>
-    //       {props.linkToRepository && 
-    //         <>
-    //           <Typography className={mergeClassNames(classes.code, classes.footerText)}>·</Typography>
-    //           <Typography component="a" href={props.linkToRepository} className={mergeClassNames(classes.code,classes.footerText)}>View code</Typography>
-    //         </>
-    //       }
-    //     </Grid>
-    //     <Divider mb={10} mt={10} />
-    //   </CardContent>
-    // </Card>
   )
 }
 
