@@ -4,6 +4,7 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
+import { useSelector } from 'react-redux'
 const useDefaultStyles = makeStyles(() => ({
   top: {
     height: '100px',
@@ -25,6 +26,7 @@ const useDefaultStyles = makeStyles(() => ({
 
 function VerticalTabs({ tabIndex, handleChange }) {
   const classes = useDefaultStyles()
+  const user = useSelector(state => state.auth.user)
   return (
     <Grid
       style={{ borderRight: '1px solid #E7E7E7' }}
@@ -36,28 +38,17 @@ function VerticalTabs({ tabIndex, handleChange }) {
       <div className={classes.top}>
         <img className={classes.avatar} alt="Avatar" />
         <div>
-          <Typography
-              variant="subtitle1"
-          >
-            Hardname
-          </Typography>
-          <Typography
-              variant="subtitle1"
-          >
-            Hardsurname
-          </Typography>
-          <Typography
-              style={{fontSize: '16px'}}
-              variant="body1"
-          >
-            Hardrole
+          <Typography variant="subtitle1">{user.name.split(' ')[0]}</Typography>
+          <Typography variant="subtitle1">{user.name.split(' ')[1]}</Typography>
+          <Typography style={{ fontSize: '16px' }} variant="body1">
+            {user.role}
           </Typography>
         </div>
       </div>
       <div style={{ borderBottom: '1px solid #E7E7E7' }} />
       <Typography
         variant="h3"
-        style={{ textAlign: 'center', fontSize: '20px' }}
+        style={{ textAlign: 'center', fontSize: '20px', marginTop: '5%' }}
       >
         My account
       </Typography>
