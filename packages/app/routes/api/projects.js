@@ -24,7 +24,7 @@ const express = require('express'),
   } = require('../../lib/userActivity'),
   { BADGE_ENUM } = require('../../config/unin-constants')
 const mongoose = require('mongoose')
-const userFieldSelection = 'name email avatar company projects comments likes' // select only name and email from users
+const userFieldSelection = 'name email avatar company' // select only name and email from users
 const populateParams = [
   {
     path: 'likes',
