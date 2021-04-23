@@ -22,12 +22,12 @@ const UserSchema = new Schema({
   engagePageFlag: { type: Boolean, default: false },
   acceptsEmail: { type: Boolean, default: false },
 
-  bio: { type: String },
-  projects: [{ type: Schema.Types.ObjectId, ref: 'projects' }],
-  comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
-  posts: [{ type: Schema.Types.ObjectId, ref: 'discussions' }],
-  bookmarks: [{ type: Schema.Types.ObjectId }],
-  websites: [{ type: String }],
+  bio: { type: String, default: '' },
+  projects: [{ type: Schema.Types.ObjectId, ref: 'projects', default: [] }],
+  comments: [{ type: Schema.Types.ObjectId, ref: 'comments', default: [] }],
+  posts: [{ type: Schema.Types.ObjectId, ref: 'discussions', default: [] }],
+  bookmarks: [{ type: Schema.Types.ObjectId, default: [] }],
+  websites: [{ type: String, default: [] }],
   // notifications
   commentOnPost: { type: Boolean, default: false },
   commentOnProject: { type: Boolean, default: false },

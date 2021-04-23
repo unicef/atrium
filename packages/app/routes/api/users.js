@@ -479,7 +479,8 @@ router.post(
         })
         console.log(res.cookies)
         res.json({
-          success: true
+          success: true,
+          ...user._doc
         })
       })
     } else {
@@ -1017,7 +1018,8 @@ router.patch(
 
           res.set({ [authorizationHeader]: token })
           res.json({
-            success: true
+            success: true,
+              ...updatedUser._doc
           })
         })
       }
