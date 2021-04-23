@@ -1117,7 +1117,8 @@ router.patch(
           }
           res.cookie(authCookieName, tokenOnly, cookieConfig)
           res.json({
-            success: true
+            success: true,
+            ...updatedUser._doc
           })
         })
       }
