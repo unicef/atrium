@@ -72,6 +72,7 @@ function NotificationsActivity({
       <div className={classes.item}>
         <Typography
           style={{ fontSize: '18px'}}
+          style={{ fontSize: '18px', marginTop: '2%' }}
           variant="body1"
         >
           {variant === 'posts'

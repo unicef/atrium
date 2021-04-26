@@ -1119,10 +1119,14 @@ router.patch(
           res.json({
             success: true,
 <<<<<<< HEAD
+<<<<<<< HEAD
             ...updatedUser._doc
 =======
               ...updatedUser._doc
 >>>>>>> before rebase
+=======
+            ...updatedUser._doc
+>>>>>>> ui for notifications, not finished dashboard(no data)
           })
         })
       }
