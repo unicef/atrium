@@ -1019,7 +1019,7 @@ router.patch(
           res.set({ [authorizationHeader]: token })
           res.json({
             success: true,
-              ...updatedUser._doc
+            ...updatedUser._doc
           })
         })
       }

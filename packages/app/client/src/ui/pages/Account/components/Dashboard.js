@@ -4,6 +4,33 @@ import Grid from '@material-ui/core/Grid'
 import BorderedInfo from './BorderedInfo'
 import Typography from '@material-ui/core/Typography'
 import { Button } from '../../../atoms'
+import { Badge, Like } from '../../../assets'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles(() => ({
+  buttons: {
+    marginTop: '10%',
+    width: '184px'
+  },
+  bordered: {
+    width: '185px',
+    height: '150px',
+    border: '2.2px solid #15B54A',
+    borderRadius: '10px'
+  },
+  topText: {
+    height: '56px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  count: {
+    height: '87px',
+    padding: '8%',
+    fontSize: '45px',
+    color: '#15B54A'
+  }
+}))
 
 function Dashboard(props) {
   const compareByDate = (a, b) => {
@@ -11,6 +38,7 @@ function Dashboard(props) {
     if (a.date < b.date) return 1
     return 0
   }
+  const classes = useStyles()
   const user = useSelector(state => state.auth.user)
   // const latestProject = user.projects.sort(compareByDate)[0]
   return (
@@ -22,31 +50,42 @@ function Dashboard(props) {
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo>
             <Typography variant="subtitle1">MY STATS</Typography>
-            <div>
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-              <div style={{width: '185px', height: '150px', border: '2.2px solid #15B54A', borderRadius: '10px'}}>
-                <div style={{height: '56px'}}>
 
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ textAlign: 'center' }}>
+                <div className={classes.bordered}>
+                  <div className={classes.topText}>
+                    <img style={{ marginRight: '5%' }} src={Like} />
+                    <div>Likes</div>
+                  </div>
+                  <div style={{ borderBottom: '2.2px solid #15B54A' }} />
+                  {/* <div className={classes.count}> {user.likes.length}</div>*/}
+                  <div className={classes.count}>23</div>
                 </div>
-                <div style={{borderBottom: '2.2px solid #15B54A'}}/>
-                <div>
-
-                </div>
+                <Button className={classes.buttons} color="primary">
+                  Redeem likes
+                </Button>
               </div>
-              <div style={{width: '185px', height: '150px', border: '2.2px solid #15B54A', borderRadius: '10px'}}>
-                <div style={{height: '56px'}}>
-
-                </div>
-                <div style={{borderBottom: '2.2px solid #15B54A'}}/>
+              <div style={{ textAlign: 'center' }}>
                 <div>
-
+                  <div className={classes.bordered}>
+                    <div className={classes.topText}>
+                      <img style={{ marginRight: '5%' }} src={Badge} />
+                      <div>Badges</div>
+                    </div>
+                    <div style={{ borderBottom: '2.2px solid #15B54A' }} />
+                    <div className={classes.count}>
+                      {user.badges &&
+                        Object.keys(user.badges).filter(key => user.badges[key])
+                          .length}
+                      /{Object.keys(user.badges).length}
+                    </div>
+                  </div>
                 </div>
+                <Button className={classes.buttons} color="primary">
+                  View Badges
+                </Button>
               </div>
-            </div>
-            <div>
-              <Button color="primary">Redeem likes</Button>
-              <Button color="primary">View Badges</Button>
-            </div>
             </div>
           </BorderedInfo>
         </Grid>
@@ -54,14 +93,18 @@ function Dashboard(props) {
           <BorderedInfo>
             <Typography variant="subtitle1">MY LATEST PROJECT</Typography>
             <div>
-              <div style={{width: '450px', height: '150px'}}>
-              {/*<div>{latestProject.date} days ago</div>*/}
-              {/*<div>{latestProject.name}</div>*/}
-              {/*<div>{latestProject.details}</div>*/}
+              <div style={{ width: '450px', height: '150px' }}>
+                {/* <div>{latestProject.date} days ago</div>*/}
+                {/* <div>{latestProject.name}</div>*/}
+                {/* <div>{latestProject.details}</div>*/}
               </div>
               <div>
-                <Button color="primary" variant="outlined">Edit</Button>
-                <Button color="primary" variant="outlined">View Project</Button>
+                <Button color="primary" variant="outlined">
+                  Edit
+                </Button>
+                <Button color="primary" variant="outlined">
+                  View Project
+                </Button>
               </div>
             </div>
             <div>content</div>
@@ -72,29 +115,29 @@ function Dashboard(props) {
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo>
             <Typography variant="subtitle1">MY COMMENTS</Typography>
-            {/*<div>*/}
-               {/*{user.comments.map(comment => (*/}
-               {/* <div>*/}
-               {/*   <div style={{ display: 'flex' }}>*/}
-               {/*     <div>Post name {comment.post.name}</div>*/}
-               {/*     <div>{comment.date} days ago</div>*/}
-               {/*   </div>*/}
-               {/*   <div>{comment.content}</div>*/}
-               {/* </div>*/}
-               {/*))}*/}
-            {/*</div>*/}
+            {/* <div>*/}
+            {/* {user.comments.map(comment => (*/}
+            {/* <div>*/}
+            {/*   <div style={{ display: 'flex' }}>*/}
+            {/*     <div>Post name {comment.post.name}</div>*/}
+            {/*     <div>{comment.date} days ago</div>*/}
+            {/*   </div>*/}
+            {/*   <div>{comment.content}</div>*/}
+            {/* </div>*/}
+            {/* ))}*/}
+            {/* </div>*/}
             <div>content</div>
           </BorderedInfo>
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo>
             <Typography variant="subtitle1">MY POSTS</Typography>
-             {/*{user.posts.map(post => (*/}
-             {/* <div>*/}
-             {/*     <div>{post.date} days ago</div>*/}
-             {/*   <div>{post.content}</div>*/}
-             {/* </div>*/}
-             {/*))}*/}
+            {/* {user.posts.map(post => (*/}
+            {/* <div>*/}
+            {/*     <div>{post.date} days ago</div>*/}
+            {/*   <div>{post.content}</div>*/}
+            {/* </div>*/}
+            {/* ))}*/}
             <div>content</div>
           </BorderedInfo>
         </Grid>
