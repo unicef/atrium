@@ -111,7 +111,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center'
   },
   bottomButtons: {
-    display: 'flex'
+    display: 'flex',
+    marginTop: '5%'
   },
   selects: {
     borderRadius: '3px',
@@ -157,21 +158,8 @@ const useStyles = makeStyles(theme => ({
   introButton: {
     margin: '0 0 0 5%'
   },
-  cancelButton: {
-    borderColor: 'rgb(1, 206, 75)',
-    color: 'rgb(1, 206, 75)',
-    marginTop: 40,
-    borderRadius: '3px',
-    textTransform: 'none',
-    width: '100px'
-  },
   saveButton: {
-    width: '180px',
-    color: 'white',
-    marginTop: 40,
-    borderRadius: '3px',
-    textTransform: 'none',
-    marginRight: 15
+    marginRight: '2%'
   },
   chooseSelect: {
     fontFamily: 'Roboto',
@@ -262,6 +250,27 @@ const validateProjectForm = values => {
   if (!values.projectDescription) {
     errors.projectDescription = 'Required'
   }
+  if (!values.websiteLink) {
+    errors.websiteLink = 'Required'
+  }
+  if (!values.blockchainType) {
+    errors.blockchainType = 'Required'
+  }
+  if (!values.blockchainName) {
+    errors.blockchainName = 'Required'
+  }
+  if (!values.freeForAll) {
+    errors.freeForAll = 'Required'
+  }
+  if (!values.stageOfProject) {
+    errors.stageOfProject = 'Required'
+  }
+  if (!values.innovationCategory) {
+    errors.innovationCategory = 'Required'
+  }
+  if (!values.thematicArea) {
+    errors.thematicArea = 'Required'
+  }
   if (
     values.contactPersonEmail &&
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.contactPersonEmail)
@@ -347,7 +356,7 @@ export const FirstProjectForm = props => {
 
   const history = useHistory()
   const cancelHandler = () => {
-    history.push('/view-projects')
+    history.push('/projects')
   }
 
   const onFormSubmit = (values, { setSubmitting }) => {
@@ -1050,7 +1059,7 @@ export const FirstProjectForm = props => {
               )}
             </Grid>
             <div className={classes.bottomButtons}>
-              <Button color="primary" type="submit">
+              <Button className={classes.saveButton} color="primary" type="submit">
                 Save
               </Button>
               <Button

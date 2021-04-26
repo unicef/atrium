@@ -90,6 +90,7 @@ export const Button = ({
   children,
   size,
   className,
+  disabled,
   ...props
 }) => {
   const classes = useStyles(props)
@@ -109,6 +110,7 @@ export const Button = ({
         className={buttonClassName}
         type={type}
         onClick={onClick}
+        disabled={disabled}
         classes={{
           root: classes.root
         }}
