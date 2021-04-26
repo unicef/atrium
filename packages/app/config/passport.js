@@ -4,8 +4,17 @@ const mongoose = require('mongoose')
 const User = mongoose.model('users')
 const keys = require('../config/keys')
 
+const authCookieName = 'SESSION_TOKEN'
+
+const jwtCookieExtractor = req => {
+  let token = null
+  if (req.cookies && req.cookies[authCookieName])
+    token = req.cookies[authCookieName]
+  return token
+}
+
 const opts = {}
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
+opts.jwtFromRequest = jwtCookieExtractor
 opts.secretOrKey = keys.SECRET_OR_KEY
 
 module.exports = passport => {

@@ -4,6 +4,7 @@ import setAuthToken from '../utils/setAuthToken'
 import { SET_CURRENT_USER, USER_LOADING, SET_USER_ACTIVITY } from './types'
 import { setError } from './errorActions'
 import get from 'lodash/get'
+import store from '../store'
 import { setAllProjects } from './projectActions'
 
 require('dotenv').config()
@@ -123,12 +124,57 @@ export const setUserActivity = activityList => {
 
 // Log user out
 export const logoutUser = () => dispatch => {
-  // Remove token from local storage
-  localStorage.removeItem('jwtToken')
-  // Remove auth header for future requests
-  setAuthToken(false)
-  // Set current user to empty object {} which will set isAuthenticated to false
+  axios.post('users/logout').catch(err => {
+    let errorMessage = ERRORS.GENERIC
+    if (err.response && err.response.status) {
+      switch (err.response.status) {
+        case 403:
+          errorMessage = ERRORS.AWAITING_VERIFICATION
+          break
+        case 400:
+          errorMessage = ERRORS.INVALID_CREDENTIALS
+          break
+        case 404:
+          errorMessage = ERRORS.EMAIL_NOT_FOUND
+          break
+        default:
+          break
+      }
+    }
+    dispatch(setError(errorMessage))
+  })
   dispatch(setCurrentUser({}))
+}
+
+export const getUserInformation = () => {
+  const auth = store.getState().auth
+  axios.get('users/me').catch(err => {
+    let errorMessage = ERRORS.GENERIC
+    if (err.response && err.response.status) {
+      switch (err.response.status) {
+        case 403:
+          errorMessage = ERRORS.AWAITING_VERIFICATION
+          break
+        case 400:
+          errorMessage = ERRORS.INVALID_CREDENTIALS
+          break
+        case 404:
+          errorMessage = ERRORS.EMAIL_NOT_FOUND
+          break
+        default:
+          break
+      }
+    }
+
+    
+    if (auth.user.id){
+      // Logout user
+      store.dispatch(logoutUser())
+      
+      // Redirect to login
+      window.location.href = './login'
+    } 
+  })
 }
 
 export const getFilteredUsers = prefix => async dispatch => {

@@ -10,7 +10,8 @@ const {
   getTokenForUser,
   getBadgesForUser,
   signToken,
-  verifyToken
+  verifyToken,
+  getTokenPayload
 } = require('../../lib/users')
 const { s3Upload, s3Download } = require('../../middleware')
 const md5Hash = require('../../lib/hash')
@@ -25,6 +26,7 @@ const { diacriticSensitiveRegex } = require('../../lib/paramManipulation')
 const EncryptDecrypt = require('../../lib/encryptDecrypt')
 const encryptDecrypt = new EncryptDecrypt(process.env.ATRIUM_WALLET_SECRET)
 const keccak256 = require('keccak256')
+const { oneHour } = require('../../config/constants')
 
 // Load input validation
 const userSchemas = require('../../validation/users')
@@ -38,7 +40,7 @@ const {
 } = require('../../config/unin-constants')
 
 const allowedDomains = AGENCIES_LIST.map(agency => agency.domain.toLowerCase())
-const authorizationHeader = 'Authorization'
+const authCookieName = 'SESSION_TOKEN'
 
 // @route POST api/users/register
 // @desc Register user
@@ -125,7 +127,14 @@ router.get(
           },
           'Token generated successfully'
         )
-        res.set({ [authorizationHeader]: token })
+
+        const tokenOnly = token.split(' ')[1]
+        const cookieConfig = {
+          expires: new Date(Date.now() + oneHour * 8000),
+          httpOnly: true,
+          secure: true
+        }
+        res.cookie(authCookieName, tokenOnly, cookieConfig)
         res.json({
           success: true
         })
@@ -229,7 +238,13 @@ router.put(
             },
             'Token generated correctly'
           )
-          res.set({ [authorizationHeader]: token })
+          const tokenOnly = token.split(' ')[1]
+          const cookieConfig = {
+            expires: new Date(Date.now() + oneHour * 8000),
+            httpOnly: true,
+            secure: true
+          }
+          res.cookie(authCookieName, tokenOnly, cookieConfig)
           res.json({
             success: true
           })
@@ -431,16 +446,18 @@ router.post(
           },
           'Token created successfully'
         )
-        res.set({ [authorizationHeader]: token })
+
         const tokenOnly = token.split(' ')[1]
-        console.log(tokenOnly)
-        res.cookie('token', tokenOnly, {
-          domain: 'localhost',
-          httpOnly: true
-        })
+        const cookieConfig = {
+          expires: new Date(Date.now() + oneHour * 8000),
+          httpOnly: true,
+          secure: true
+        }
+        res.cookie(authCookieName, tokenOnly, cookieConfig)
         console.log(res.cookies)
         res.json({
-          success: true
+          success: true,
+          payload: user
         })
       })
     } else {
@@ -455,6 +472,58 @@ router.post(
     }
   }
 )
+
+// @route POST api/users/logout
+// @desc Remove authentication cookie
+router.post('/logout', (req, res) => {
+  const cookieConfig = {
+    expires: new Date(0),
+    httpOnly: true,
+    secure: true
+  }
+  res.cookie(authCookieName, '', cookieConfig)
+  res.json({
+    success: true,
+    message: 'User logged out.'
+  })
+})
+
+// @route GET api/users/me
+// @desc Provide User information
+router.get('/me', (req, res) => {
+  log.info(
+    {
+      requestId: req.id
+    },
+    'User getting information'
+  )
+  try {
+    const authCookie = req.cookies[authCookieName]
+    if (!authCookie) {
+      log.info(
+        {
+          requestId: req.id
+        },
+        'Cookie not found'
+      )
+      return sendError(res, 404, 'Cookie not found')
+    }
+
+    const payload = verifyToken(authCookie)
+    res.json({
+      success: true,
+      payload
+    })
+  } catch (error) {
+    log.info(
+      {
+        requestId: req.id
+      },
+      'Error on token verify.'
+    )
+    return sendError(res, 500, 'Error on token verify.')
+  }
+})
 
 // @route GET api/users/email-verify/:email
 // @desc User will receive an email from the unin inbox with this link
@@ -747,7 +816,13 @@ router.post(
           },
           'Token generated successfully'
         )
-        res.set({ [authorizationHeader]: token })
+        const tokenOnly = token.split(' ')[1]
+        const cookieConfig = {
+          expires: new Date(Date.now() + oneHour * 8000),
+          httpOnly: true,
+          secure: true
+        }
+        res.cookie(authCookieName, tokenOnly, cookieConfig)
         return res.status(200).json({
           response: 'Learn flag updated!'
         })
@@ -809,7 +884,13 @@ router.post(
           },
           'Token generated successfully'
         )
-        res.set({ [authorizationHeader]: token })
+        const tokenOnly = token.split(' ')[1]
+        const cookieConfig = {
+          expires: new Date(Date.now() + oneHour * 8000),
+          httpOnly: true,
+          secure: true
+        }
+        res.cookie(authCookieName, tokenOnly, cookieConfig)
         return res.status(200).json({
           response: 'Explore flag updated!'
         })
@@ -872,7 +953,13 @@ router.post(
           },
           'Token generated successfully'
         )
-        res.set({ [authorizationHeader]: token })
+        const tokenOnly = token.split(' ')[1]
+        const cookieConfig = {
+          expires: new Date(Date.now() + oneHour * 8000),
+          httpOnly: true,
+          secure: true
+        }
+        res.cookie(authCookieName, tokenOnly, cookieConfig)
         return res.status(200).json({
           response: 'Engage flag updated!'
         })
@@ -976,7 +1063,13 @@ router.patch(
             return sendError(res, 500, 'Error generating token')
           }
 
-          res.set({ [authorizationHeader]: token })
+          const tokenOnly = token.split(' ')[1]
+          const cookieConfig = {
+            expires: new Date(Date.now() + oneHour * 8000),
+            httpOnly: true,
+            secure: true
+          }
+          res.cookie(authCookieName, tokenOnly, cookieConfig)
           res.json({
             success: true
           })
@@ -1026,7 +1119,13 @@ router.post(
               getAuthenticatedRequestLogDetails(req),
               'Token generated correctly'
             )
-            res.set({ [authorizationHeader]: token })
+            const tokenOnly = token.split(' ')[1]
+            const cookieConfig = {
+              expires: new Date(Date.now() + oneHour * 8000),
+              httpOnly: true,
+              secure: true
+            }
+            res.cookie(authCookieName, tokenOnly, cookieConfig)
             res.json({
               success: true
             })
@@ -1083,7 +1182,13 @@ router.post(
               getAuthenticatedRequestLogDetails(req),
               'Avatar updated successfully'
             )
-            res.set({ [authorizationHeader]: token })
+            const tokenOnly = token.split(' ')[1]
+            const cookieConfig = {
+              expires: new Date(Date.now() + oneHour * 8000),
+              httpOnly: true,
+              secure: true
+            }
+            res.cookie(authCookieName, tokenOnly, cookieConfig)
             res.json({
               success: true
             })
