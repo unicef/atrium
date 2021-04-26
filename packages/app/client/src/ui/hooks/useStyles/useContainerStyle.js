@@ -1,28 +1,28 @@
 import { makeStyles } from '@material-ui/styles'
 
+const handleProps = (style) => (props) => ({ ...style, marginTop: props.mt })
+
 const useStyles = makeStyles({
-  small: {
+  small: handleProps({
     maxWidth: 475,
-    marginTop: 50
-  },
-  full: {
+  }),
+  full: handleProps({
     width: '100%',
     maxWidth: '100vw',
     marginRight: 0,
     marginLeft: 0,
     paddingLeft: 0,
     paddingRight: 0,
-    marginTop: 50,
     paddingBottom: 0
-  },
-  regular: {
-    maxWidth: 1024,
-    marginTop: 50
-  }
+  }),
+  regular: handleProps({
+    width: '100%',
+    maxWidth: 1200
+  })
 })
 
-const useContainerStyle = ({ size }) => {
-  const style = useStyles()
+const useContainerStyle = ({ size, mt = 50 }) => {
+  const style = useStyles({ mt })
 
   return style[size]
 }

@@ -21,7 +21,6 @@ import About from './components/about'
 // Poll pages
 import PrivateRoute from './components/private-route/PrivateRoute'
 // Project pages
-import ProjectOverviewPage from './components/projects/overview/ProjectOverviewPage'
 import CreateProject from './components/projects/create/CreateProject'
 import ProjectPage from './components/projects/ProjectPage'
 import Stats from './components/stats/Stats'
@@ -36,13 +35,14 @@ import {
   ProjectDetails,
   ProfilePage,
   Toast,
-  Footer
+  Footer,
+  FullPageLoader
 } from './ui'
 import setAuthToken from './utils/setAuthToken'
 
 // pages
 import { Register, Login, ForgotPassword, ResetPassword, Learn } from './ui/pages'
-
+import ProjectsRoutes from './routes/projects'
 
 require('./utils/configureRequests')
 
@@ -53,7 +53,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Router>
         <Provider store={store}>
-          <>
+          <div style={{ position: 'relative', height: '100%', width: '100%'}}>
             <ModalMessage />
             <Header />
             <Toast />
@@ -86,11 +86,6 @@ const App = () => {
               />
               <PrivateRoute
                 exact
-                path="/project-overview/:id"
-                component={ProjectOverviewPage}
-              />
-              <PrivateRoute
-                exact
                 path="/project-details/:id"
                 component={ProjectDetails}
               />
@@ -106,10 +101,12 @@ const App = () => {
                 path="/create-polls"
                 component={CreatePollPage}
               />
+              <ProjectsRoutes />
               <Route component={ErrorPage} />
             </Switch>
             <Footer />
-          </>
+            <FullPageLoader />
+          </div>
         </Provider>
       </Router>
     </ThemeProvider>
