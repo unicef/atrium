@@ -33,18 +33,17 @@ const useStyles = makeStyles(() => ({
 }))
 
 function Dashboard(props) {
+  const classes = useStyles()
   const compareByDate = (a, b) => {
     if (a.date > b.date) return -1
     if (a.date < b.date) return 1
     return 0
   }
-  const classes = useStyles()
-  const user = useSelector(state => state.auth.user)
-  // const latestProject = user.projects.sort(compareByDate)[0]
+  // const latestProject = props.projects.sort(compareByDate)[0]
   return (
     <>
       <Typography style={{ marginBottom: '2%', fontSize: '34px' }} variant="h3">
-        Hello, {user.name}
+        Hello, {props.name}
       </Typography>
       <Grid item container xs={12}>
         <Grid item xs={12} sm={12} md={6}>
@@ -59,7 +58,7 @@ function Dashboard(props) {
                     <div>Likes</div>
                   </div>
                   <div style={{ borderBottom: '2.2px solid #15B54A' }} />
-                  {/* <div className={classes.count}> {user.likes.length}</div>*/}
+                  {/* <div className={classes.count}> {props.likes.length}</div>*/}
                   <div className={classes.count}>23</div>
                 </div>
                 <Button className={classes.buttons} color="primary">
@@ -75,10 +74,10 @@ function Dashboard(props) {
                     </div>
                     <div style={{ borderBottom: '2.2px solid #15B54A' }} />
                     <div className={classes.count}>
-                      {user.badges &&
-                        Object.keys(user.badges).filter(key => user.badges[key])
+                      {props.badges &&
+                        Object.keys(props.badges).filter(key => props.badges[key])
                           .length}
-                      /{Object.keys(user.badges).length}
+                      /{Object.keys(props.badges).length}
                     </div>
                   </div>
                 </div>
@@ -116,7 +115,7 @@ function Dashboard(props) {
           <BorderedInfo>
             <Typography variant="subtitle1">MY COMMENTS</Typography>
             {/* <div>*/}
-            {/* {user.comments.map(comment => (*/}
+            {/* {props.comments.map(comment => (*/}
             {/* <div>*/}
             {/*   <div style={{ display: 'flex' }}>*/}
             {/*     <div>Post name {comment.post.name}</div>*/}
@@ -132,7 +131,7 @@ function Dashboard(props) {
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo>
             <Typography variant="subtitle1">MY POSTS</Typography>
-            {/* {user.posts.map(post => (*/}
+            {/* {props.posts.map(post => (*/}
             {/* <div>*/}
             {/*     <div>{post.date} days ago</div>*/}
             {/*   <div>{post.content}</div>*/}

@@ -12,8 +12,42 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-between',
     width: '100%',
-    margin: '3% 0'
-  }
+    margin: '3% 0',
+    alignItems: 'center'
+  },
+  root: {
+    width: 54,
+    height: 24,
+    padding: 0
+  },
+  switchBase: {
+    padding: 1,
+    '&$checked': {
+      transform: 'translateX(30px)',
+      color: 'white',
+      '& + $track': {
+        backgroundColor: '#15B54A',
+        opacity: 1,
+        border: 'none'
+      }
+    },
+    '&$focusVisible $thumb': {
+      color: '#15B54A',
+      border: '6px solid #fff'
+    }
+  },
+  thumb: {
+    width: 22,
+    height: 22
+  },
+  track: {
+    borderRadius: 26 / 2,
+    border: `1px solid #BCBEBE`,
+    backgroundColor: '#BCBEBE',
+    opacity: 1
+  },
+  checked: {},
+  focusVisible: {}
 }))
 
 function NotificationsActivity({
@@ -37,7 +71,7 @@ function NotificationsActivity({
       </Typography>
       <div className={classes.item}>
         <Typography
-          style={{ fontSize: '18px', marginTop: '2%' }}
+          style={{ fontSize: '18px'}}
           variant="body1"
         >
           {variant === 'posts'
@@ -46,11 +80,23 @@ function NotificationsActivity({
             ? 'Comment on your projects'
             : 'Replies on your comments'}
         </Typography>
-        <Switch checked={firstValue} onChange={firstHandler} />
+        <Switch
+          focusVisibleClassName={classes.focusVisible}
+          disableRipple
+          classes={{
+            root: classes.root,
+            switchBase: classes.switchBase,
+            thumb: classes.thumb,
+            track: classes.track,
+            checked: classes.checked
+          }}
+          checked={firstValue}
+          onChange={() => firstHandler(!firstValue)}
+        />
       </div>
       <div className={classes.item}>
         <Typography
-          style={{ fontSize: '18px', marginTop: '2%' }}
+          style={{ fontSize: '18px' }}
           variant="body1"
         >
           {variant === 'posts'
@@ -59,7 +105,19 @@ function NotificationsActivity({
             ? 'Updates on your projects'
             : 'Updates on your comments'}
         </Typography>
-        <Switch checked={secondValue} onChange={secondHandler} />
+        <Switch
+          focusVisibleClassName={classes.focusVisible}
+          disableRipple
+          classes={{
+            root: classes.root,
+            switchBase: classes.switchBase,
+            thumb: classes.thumb,
+            track: classes.track,
+            checked: classes.checked
+          }}
+          checked={secondValue}
+          onChange={() => secondHandler(!secondValue)}
+        />
       </div>
     </>
   )
