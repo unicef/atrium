@@ -147,7 +147,11 @@ function Team(props) {
           ))}
         </div>
         <div className={classes.bottomButtons}>
-          <Button color="primary" onClick={clickHandler}>
+          <Button
+            className={classes.saveButton}
+            color="primary"
+            onClick={clickHandler}
+          >
             Save
           </Button>
           <Button onClick={cancelHandler} color="secondary" variant="outlined">
