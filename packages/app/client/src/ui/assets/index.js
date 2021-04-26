@@ -21,6 +21,8 @@ import { ReactComponent as DocumentSVG } from './document_icon.svg'
 export { default as DocumentBg } from './document_bg.png'
 export { default as ProjectsIntroImg } from './projects_intro.png'
 export { default as ForumIntroImg } from './forum_intro.png'
+export { default as Like } from './like.png'
+export { default as Badge } from './badge.png'
 
 export {
   CopyIcon,
