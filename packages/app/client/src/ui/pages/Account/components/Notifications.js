@@ -2,14 +2,61 @@ import React, { useState } from 'react'
 import Typography from '@material-ui/core/Typography'
 import { Switch } from '@material-ui/core'
 import NotificationsActivity from './NotificationsActivity'
+import { makeStyles } from '@material-ui/core/styles'
 
-function Notifications() {
-  const [commentPost, setCommentPost] = useState(false)
-  const [updatePost, setUpdatePost] = useState(false)
-  const [commentProject, setCommentProject] = useState(false)
-  const [updateProject, setUpdateProject] = useState(false)
-  const [replyComment, setReplyComment] = useState(false)
-  const [updateComment, setUpdateComment] = useState(false)
+const useStyles = makeStyles(() => ({
+  root: {
+    width: 54,
+    height: 24,
+    padding: 0,
+    margin: '3% 3% 3% 0'
+  },
+  switchBase: {
+    padding: 1,
+    '&$checked': {
+      transform: 'translateX(30px)',
+      color: 'white',
+      '& + $track': {
+        backgroundColor: '#15B54A',
+        opacity: 1,
+        border: 'none'
+      }
+    },
+    '&$focusVisible $thumb': {
+      color: '#15B54A',
+      border: '6px solid #fff'
+    }
+  },
+  thumb: {
+    width: 22,
+    height: 22
+  },
+  track: {
+    borderRadius: 26 / 2,
+    border: `1px solid #BCBEBE`,
+    backgroundColor: '#BCBEBE',
+    opacity: 1
+  },
+  checked: {},
+  focusVisible: {}
+}))
+
+function Notifications(props) {
+  const classes = useStyles()
+  const [commentPost, setCommentPost] = useState(props.commentOnPost)
+  const [updatePost, setUpdatePost] = useState(props.updatesOnPost)
+  const [commentProject, setCommentProject] = useState(props.commentOnProject)
+  const [updateProject, setUpdateProject] = useState(props.updatesOnProject)
+  const [replyComment, setReplyComment] = useState(props.repliesOnComments)
+  const [updateComment, setUpdateComment] = useState(props.updatesOnComments)
+  const [all, setAll] = useState(
+    commentPost &&
+      updatePost &&
+      commentProject &&
+      updateProject &&
+      replyComment &&
+      updateComment
+  )
 
   return (
     <div style={{ maxWidth: '470px' }}>
@@ -21,7 +68,19 @@ function Notifications() {
       </Typography>
       <div style={{ borderBottom: '1px solid #E7E7E7', width: '100%' }} />
       <div style={{ display: 'flex', alignItems: 'center', margin: '3% 0' }}>
-        <Switch />
+        <Switch
+          focusVisibleClassName={classes.focusVisible}
+          disableRipple
+          classes={{
+            root: classes.root,
+            switchBase: classes.switchBase,
+            thumb: classes.thumb,
+            track: classes.track,
+            checked: classes.checked
+          }}
+          checked={all}
+          onChange={() => setAll(!all)}
+        />
         <Typography variant="subtitle1"> All notifications</Typography>
       </div>
       <NotificationsActivity
