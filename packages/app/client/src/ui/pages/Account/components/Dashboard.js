@@ -119,6 +119,12 @@ function Dashboard(props) {
                 {/* <div>{latestProject.date} days ago</div>*/}
                 {/* <div>{latestProject.name}</div>*/}
                 {/* <div>{latestProject.details}</div>*/}
+                <Typography variant="body1">22.02.2021</Typography>
+                <Typography style={{marginTop: '3%'}} variant="subtitle1">Lets code together</Typography>
+                <Typography style={{margin: '2% 0'}} variant="body1">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                </Typography>
               </div>
               <div>
                 <Button
