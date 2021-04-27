@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import Container from '@material-ui/core/Container'
 import { sendEmailToSignUp, registerUser } from '../../../api/users'
 import { email, name, surname, password, termsCheckbox } from '../../../utils/formFields'
 import { validateEmail } from '../../../utils/validators'
 import { CreateAccountFooter, EmailSent } from './components'
-import { useContainerStyle, useToast, useIsMobileViewPort } from '../../hooks'
+import { useToast, useIsMobileViewPort } from '../../hooks'
 import validateCreationForm from './validateCreationForm'
 import { SimpleFormWithHeader } from '../../organisms'
+import { MainContainer } from '../../templates'
 
 const formProps = [
   {
@@ -37,7 +37,6 @@ const formProps = [
 function Register () {
   const [step, changeStep] = useState(0)
   const [verifiedEmail, saveEmail] = useState(undefined)
-  const containerStyle = useContainerStyle({ size: 'small' })
   const isMobileViewPort = useIsMobileViewPort()
   const { showToast } = useToast()
 
@@ -68,7 +67,7 @@ function Register () {
   const showCreateAccount = step <= 1
 
   return (
-    <Container component="main" className={containerStyle}>
+    <MainContainer size="small">
       {showCreateAccount ? 
         <>
           <SimpleFormWithHeader
@@ -80,7 +79,7 @@ function Register () {
         </> :
         <EmailSent email={verifiedEmail} />
       }
-    </Container>
+    </MainContainer>
   )
 }
 

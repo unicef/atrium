@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
-import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import { MobileReverseGrid } from '../templates'
+import { MobileReverseGrid, MainContainer } from '../templates'
 import { SimpleFormWithHeader } from '../organisms'
 import { TextWithLinks } from '../molecules'
 import { CheckboxField } from '../atoms'
 import { password, email } from '../../utils/formFields'
 import { LoginIllustrationSVG } from '../assets'
-import { loginUser } from '../../api/users'
-import { SET_CURRENT_USER } from '../../actions/types'
 import { useAuthAsyncActions } from '../hooks'
 
 const keepMLoggedCheckbox = {
@@ -39,10 +36,9 @@ const Login = ({ history }) => {
     await login({ email, password })
     history.push('/')
   }
-
-  // TODO: remove inline styles and use shared style
+  
   return (
-    <Container component="main" style={{ maxWidth: 1024, marginTop: 100 }}>
+    <MainContainer mt={100} size="regular">
       <MobileReverseGrid
         secondColumnProps={{
           justify: "center",
@@ -102,7 +98,7 @@ const Login = ({ history }) => {
         </>
         <LoginIllustrationSVG />
       </MobileReverseGrid>
-    </Container>
+    </MainContainer>
   )
 }
 

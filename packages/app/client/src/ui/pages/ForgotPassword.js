@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import Container from '@material-ui/core/Container'
 import { SimpleFormWithHeader } from '../organisms'
-import {  email } from '../../utils/formFields'
-import { useContainerStyle, useToast } from '../hooks'
+import { email } from '../../utils/formFields'
+import { useToast } from '../hooks'
 import { validateEmail } from '../../utils/validators'
 import { sendForgotPasswordEmail } from '../../api/users'
 import { EmailSent } from './Register/components'
+import { MainContainer } from '../templates'
 
 const formProps = {
   title: "Forgot password",
@@ -22,7 +22,6 @@ const formProps = {
 const ForgotPassword = () => {
   const [emailSent, showEmailWasSent] = useState(false)
   const [verifiedEmail, saveEmail] = useState(undefined)
-  const containerStyle = useContainerStyle({ size: 'small' })
   const { showToast } = useToast()
 
   const verifyEmail = async ({ email }) => {
@@ -36,7 +35,7 @@ const ForgotPassword = () => {
   }
   
   return (
-    <Container component="main" className={containerStyle}>
+    <MainContainer size="small">
       {emailSent ?
         <EmailSent email={verifiedEmail} /> :
         <SimpleFormWithHeader
@@ -44,7 +43,7 @@ const ForgotPassword = () => {
           {...formProps}
         /> 
       }
-    </Container>
+    </MainContainer>
   )
 }
 

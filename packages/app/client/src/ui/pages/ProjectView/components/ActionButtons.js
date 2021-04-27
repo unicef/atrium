@@ -47,7 +47,7 @@ const OwnerButtons = ({ projectData }) => {
 
 const OtherUsersButtons = ({ projectId }) => {
   const classes = useStyles()
-  const userLiked = useSelector(state => state.projectsMain.main.selectedProject.userLiked)
+  const userLiked = useSelector(state => state.projects.selectedProject.userLiked)
   const { toggleLike } = useProjectsAsyncActions()
 
   return (
