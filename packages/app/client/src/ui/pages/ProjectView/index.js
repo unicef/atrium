@@ -56,7 +56,7 @@ const ProjectViewPage = () => {
     }
   }, [])
 
-  const [tabIndex, setTabIndex] = React.useState(2)
+  const [tabIndex, setTabIndex] = React.useState(0)
 
   const handleChange = (newVal) => {
     setTabIndex(newVal)
