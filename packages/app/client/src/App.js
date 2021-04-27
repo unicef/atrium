@@ -2,13 +2,11 @@
 import { ThemeProvider, withStyles } from '@material-ui/styles'
 
 import Box from '@material-ui/core/Box'
-import jwt_decode from 'jwt-decode'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { getUserInformation, logoutUser, setCurrentUser } from './actions/authActions'
+import { getUserInformation } from './actions/authActions'
 import Dashboard from './components/dashboard/Dashboard'
-import ErrorPage from './components/ErrorPage/ErrorPage'
 import Reports from './components/reports'
 import ManualInvite from './components/manual-invite'
 // New pages
@@ -40,7 +38,6 @@ import {
   FullPageLoader,
   PageNotFound
 } from './ui'
-import setAuthToken from './utils/setAuthToken'
 
 // pages
 import { Register, Login, ForgotPassword, ResetPassword, Learn } from './ui/pages'
@@ -104,7 +101,6 @@ const App = () => {
                 path="/create-polls"
                 component={CreatePollPage}
               />
-              {/* <Route component={ErrorPage} /> */}
               <Route path="*" component={PageNotFound} />
             </Switch>
             <Footer />
