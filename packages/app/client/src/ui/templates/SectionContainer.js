@@ -18,12 +18,12 @@ const useStyles = makeStyles(theme =>
   })
 )
 
-const SectionContainer = ({ id, ...props}) => {
-  const classes = useStyles(props)
+const SectionContainer = ({ id, containerProps, padding, mobilePadding, ...props}) => {
+  const classes = useStyles({ padding, mobilePadding, ...props })
 
   return (
     <Grid id={id} container item xs={12} justify="center" className={classes.container}>
-      <Grid container item xs={12} md={12} lg={8} {...props}>
+      <Grid container item xs={12} md={12} lg={8} {...containerProps} {...props}>
        {props.children}
       </Grid>
     </Grid>

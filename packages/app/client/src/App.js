@@ -1,6 +1,7 @@
 // Creating the theme
-import { withStyles } from '@material-ui/core'
-import { ThemeProvider } from '@material-ui/styles'
+import { ThemeProvider, withStyles } from '@material-ui/styles'
+
+import Box from '@material-ui/core/Box'
 import jwt_decode from 'jwt-decode'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -71,7 +72,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Router>
         <Provider store={store}>
-          <div style={{ position: 'relative', height: '100%', width: '100%'}}>
+          <Box display="flex" flexDirection="column" position="relative" height="100%" width="100%" minHeight="100vh" minWidth="100vw">
             <ModalMessage />
             <Header />
             <Toast />
@@ -124,7 +125,7 @@ const App = () => {
             </Switch>
             <Footer />
             <FullPageLoader />
-          </div>
+          </Box>
         </Provider>
       </Router>
     </ThemeProvider>

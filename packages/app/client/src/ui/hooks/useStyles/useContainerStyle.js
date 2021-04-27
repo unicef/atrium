@@ -4,7 +4,8 @@ const handleProps = (style) => (props) => ({ ...style, marginTop: props.mt })
 
 const useStyles = makeStyles({
   small: handleProps({
-    maxWidth: 475,
+    width: '100%',
+    maxWidth: 475
   }),
   full: handleProps({
     width: '100%',
