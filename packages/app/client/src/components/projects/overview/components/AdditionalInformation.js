@@ -6,6 +6,7 @@ import AdditionalInformationForm from './AdditionalInformationForm'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
+import {useHistory} from "react-router-dom";
 
 function AdditionalInformation(props) {
   const [dynamicFormData, setDynamicFormData] = useState({
@@ -19,7 +20,6 @@ function AdditionalInformation(props) {
     linkToRepository: props.linkToRepository || '',
     websiteLink: props.websiteLink || ''
   })
-
   const handleCreateProject = async data => {
     const { projectId } = dynamicFormData
     await setDynamicFormData(prev => ({ ...prev, ...data }))
