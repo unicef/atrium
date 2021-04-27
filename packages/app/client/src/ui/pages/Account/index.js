@@ -31,7 +31,7 @@ const Account = () => {
       <Grid container xs={12}>
         <VerticalTabs handleChange={handleChange} tabIndex={tabIndex} />
         <InfoSection>
-          {tabIndex === 0 ? <Dashboard {...user} /> : null}
+          {tabIndex === 0 ? <Dashboard {...user} handleChange={handleChange} /> : null}
           {tabIndex === 1 ? <Profile {...user} /> : null}
           {tabIndex === 2 ? <Settings {...user} /> : null}
           {tabIndex === 3 ? <MyPost {...user} /> : null}
