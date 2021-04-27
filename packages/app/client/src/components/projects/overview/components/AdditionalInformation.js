@@ -6,7 +6,6 @@ import AdditionalInformationForm from './AdditionalInformationForm'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import {useHistory} from "react-router-dom";
 
 function AdditionalInformation(props) {
   const [dynamicFormData, setDynamicFormData] = useState({

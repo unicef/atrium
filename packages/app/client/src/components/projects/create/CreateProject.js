@@ -118,7 +118,7 @@ function CreateProject(props) {
     }
     if (editting) {
       await props.editProject(projectId, formData, () => {
-        window.location.replace(`/projects/overview/${projectId}`)
+        window.location.reload()
       })
     } else {
       await props.createProject(formData, () => {
