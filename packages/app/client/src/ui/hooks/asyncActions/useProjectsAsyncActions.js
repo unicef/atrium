@@ -10,7 +10,7 @@ const useProjectsAsyncActions = () => {
   const userId = useSelector(getUserId)
   const { showLoading, dismissLoading } = useSearchActions()
   const { saveSearchedProjects, toggleProjectLike } = useProjectsMainActions()
-  const { setCurrentProject } = useProjectViewActions()
+  const { setCurrentProject, deleteUpdate } = useProjectViewActions()
   const isUserAuthenticated = useIsAuthenticated()
 
   return {
@@ -39,7 +39,19 @@ const useProjectsAsyncActions = () => {
         onSuccess: ({ project }) => setCurrentProject({ project: project[0], userId }),
         showFullPageLoading: true
       }
-    )
+    ),
+    deleteUpdate: async ({ month, year, id }) => {
+      const request = handledRequest(
+        { 
+          request: ProjectApi.removeUpdate,
+          onSuccess: () => deleteUpdate({ month, year, id }),
+          showFullPageLoading: true,
+          successMessage: 'Update successfully removed'
+        }
+      )
+
+      await request(id)
+    }
   }
 }
 

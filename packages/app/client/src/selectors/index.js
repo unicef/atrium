@@ -20,6 +20,7 @@ export const currentUserIsTheOwner = createSelector(
   getCurrentProject,
   (userId, project) => project.owner.id === userId
 )
+export const getHandledUpdates = state => state.projects.handledUpdates
 
 // SEARCH
 export const searchSort = state => state.search.sort
