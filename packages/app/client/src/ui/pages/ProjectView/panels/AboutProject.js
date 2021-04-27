@@ -2,6 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
+import Hidden from '@material-ui/core/Hidden'
 import { TreeMenu } from '../../../molecules'
 import { AboutTextSections, FilesSection } from '../components'
 import { ABOUT_PROJECT_SECTIONS, PROJECT_ADITIONAL_INFO } from '../../../../unin-constants'
@@ -50,12 +51,14 @@ const AboutProject = ({ projectData }) => {
   return (
     <Box pt={4}>
       <Grid container item xs={12}>
-        <Grid item xs={2}>
-          <Box position="sticky" width="100%" bgcolor="white" top={120}>
-            <TreeMenu onNodeSelect={handleSelect} menuItems={ABOUT_PROJECT_SECTIONS} allExpanded />
-          </Box>
-        </Grid>
-        <Grid style={{ marginTop: -10}} item xs={10}>
+        <Hidden xsDown>
+          <Grid item xs={2}>
+            <Box position="sticky" width="100%" bgcolor="white" top={120}>
+              <TreeMenu onNodeSelect={handleSelect} menuItems={ABOUT_PROJECT_SECTIONS} allExpanded />
+            </Box>
+          </Grid>
+        </Hidden>
+        <Grid style={{ marginTop: -10}} item xs={12} sm={10}>
           {projectData &&
             <Grid item xs={12}>
               <Box px={6}>
