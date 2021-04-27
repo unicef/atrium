@@ -14,7 +14,6 @@ function getAddressEnvs() {
 function run() {
   cd /node/app
   getAddressEnvs
-  echo $ETHEREUM_PROVIDER_URL
   BADGE_1_ADDRESS=$BADGE_1_ADDRESS BADGE_2_ADDRESS=$BADGE_2_ADDRESS BADGE_3_ADDRESS=$BADGE_3_ADDRESS BADGE_4_ADDRESS=$BADGE_4_ADDRESS node server.js
 }
 
@@ -47,7 +46,7 @@ disco set "cluster-leader" "$HOSTNAME"
 
 if [ -z "$CONTRACT_ADDRESSES" ]; then
   sleep 1 # TODO: tune or remove
-
+  
   LEADER=$(disco get cluster-leader)
   export CONTRACT_ADDRESSES=$(disco get contract-addresses)
 
