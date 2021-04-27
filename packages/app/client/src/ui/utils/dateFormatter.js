@@ -4,12 +4,17 @@ const dateFormatter = ({
   separator
 }) => {
   const formatter = (option) => {
-    const dateTime = new Intl.DateTimeFormat('en', option);
+    const dateTime = new Intl.DateTimeFormat('en', option)
     
-    return dateTime.format(new Date(date));
+    return dateTime.format(new Date(date))
   }
-  
-  return formatOptions.map(formatter).join(separator);
+  const formattedDateArray = formatOptions.map(formatter)
+
+  if (separator) {
+    return formattedDateArray.join(separator)
+  }
+
+  return formattedDateArray
 }
 
 export default dateFormatter
