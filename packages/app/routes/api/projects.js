@@ -100,7 +100,7 @@ router.get(
             .includes(req.query.thematicArea.toLowerCase())
         )
       }
-      if (req.query.sort === 'asc') {
+      if (req.query.sort.toLowerCase() === 'asc') {
         projects = projects.sort((a, b) =>
           a.name > b.name ? 1 : b.name > a.name ? -1 : 0
         )

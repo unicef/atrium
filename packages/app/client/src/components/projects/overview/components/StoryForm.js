@@ -4,7 +4,7 @@ import Link from '@material-ui/core/Link'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { TextField, Button } from '../../../../ui'
 import { Formik } from 'formik'
-import {useHistory} from "react-router-dom"
+import { useHistory } from 'react-router-dom'
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -42,6 +42,12 @@ const useDefaultStyles = makeStyles(theme => ({
   },
   inputs: {
     marginBottom: '3%'
+  },
+  bottomButtons: {
+    marginTop: '5%'
+  },
+  saveButton: {
+    marginRight: '2%'
   }
 }))
 
@@ -64,7 +70,7 @@ function StoryForm(props) {
   const history = useHistory()
 
   const cancelHandler = () => {
-    history.push('/view-projects')
+    history.push('/projects')
   }
 
   const onFormSubmit = (values, { setSubmitting }) => {
@@ -255,11 +261,19 @@ function StoryForm(props) {
                 </Button>
               )}
             </div>
-            <div>
-              <Button color="primary" type="submit">
+            <div className={classes.bottomButtons}>
+              <Button
+                className={classes.saveButton}
+                color="primary"
+                type="submit"
+              >
                 Save
               </Button>
-              <Button onClick={cancelHandler} color="secondary" variant="outlined">
+              <Button
+                onClick={cancelHandler}
+                color="secondary"
+                variant="outlined"
+              >
                 Cancel
               </Button>
             </div>

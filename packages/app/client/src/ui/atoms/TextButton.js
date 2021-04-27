@@ -19,11 +19,12 @@ const styles = theme => ({
 })
 
 export const TextButton = withStyles(styles)(
-  ({ textContent, onClick, classes, ...props }) => {
+  ({ textContent, onClick, classes, disabled, ...props }) => {
     return (
       <Button
         variant="text"
         onClick={onClick}
+        disabled={disabled}
         className={classes.anchor}
         classes={{ disabled: classes.disabled }}
         {...props}
