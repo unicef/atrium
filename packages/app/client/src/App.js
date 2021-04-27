@@ -37,13 +37,14 @@ import {
   ProfilePage,
   Toast,
   Footer,
-  FullPageLoader
+  FullPageLoader,
+  PageNotFound
 } from './ui'
 import setAuthToken from './utils/setAuthToken'
 
 // pages
 import { Register, Login, ForgotPassword, ResetPassword, Learn } from './ui/pages'
-import ProjectsRoutes from './routes/projects'
+import projectsRoutes from './routes/projects'
 
 require('./utils/configureRequests')
 
@@ -59,6 +60,7 @@ const App = () => {
             <Header />
             <Toast />
             <Switch>
+              {projectsRoutes()}
               <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
@@ -102,8 +104,8 @@ const App = () => {
                 path="/create-polls"
                 component={CreatePollPage}
               />
-              <ProjectsRoutes />
-              <Route component={ErrorPage} />
+              {/* <Route component={ErrorPage} /> */}
+              <Route path="*" component={PageNotFound} />
             </Switch>
             <Footer />
             <FullPageLoader />
