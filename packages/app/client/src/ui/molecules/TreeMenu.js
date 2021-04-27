@@ -7,16 +7,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     maxWidth: 400,
-  },
-  selectedItem: {
-    color: theme.palette.primary.main,
-   
   }
 }))
 
-const mapItems = (items) => items.map(
+const mapItems = (items, colors) => items.map(
   ({ subItems, id, ...item }) => (
-    <TreeMenuItem nodeId={id} key={`${id}_treeMenuItem`} {...item}>
+    <TreeMenuItem colors={colors} nodeId={id} key={`${id}_treeMenuItem`} {...item}>
       {Array.isArray(subItems) && subItems.length > 0 && mapItems(subItems)}
     </TreeMenuItem>
   )
@@ -26,18 +22,17 @@ const expandAll = (items) => items.map(
   (item) => item.id
 )
 
-const TreeMenu = ({ expanded, menuItems, allExpanded, ...props }) => {
-  const classes = useStyles()
+const TreeMenu = ({ colors, expanded, menuItems, allExpanded, ...props }) => {
+  const classes = useStyles(colors)
   
-  if (!Array.isArray(menuItems) || menuItems.length === 0) return null
-  
+  if (!Array.isArray(menuItems) || menuItems.length === 0) return null 
   return (
     <TreeView
       className={classes.root}
-      expanded={allExpanded ? expandAll(menuItems) : expanded}
+      {...{ expanded: allExpanded ? expandAll(menuItems) : expanded }}
       {...props}
     >
-      {mapItems(menuItems)}
+      {mapItems(menuItems, colors)}
     </TreeView>
   );
 }

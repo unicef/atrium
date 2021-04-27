@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import MuiTabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import makeStyles from '@material-ui/core/styles/makeStyles'
@@ -24,21 +24,24 @@ const useDefaultStyles = makeStyles(theme => ({
   }
 }))
 
-const Tabs = ({ handleChange, tabs, className }) => {
+const Tabs = ({ handleChange, tabs, className, currentIndex }) => {
   const classes = useDefaultStyles({ tabMaxWidth: `${parseInt(100 / tabs.length)}%` })
-  const [tabIndex, setTabIndex] = useState(0)
+  const shouldUseIndexFromProps = currentIndex !== undefined
+  const [tabIndex, setTabIndex] = React.useState(shouldUseIndexFromProps ? currentIndex : 0)
   const containerClassName = mergeClassNames(className, classes.tabsContainer)
 
   const onTabChange = (e, index) => {
     e.preventDefault()
-    setTabIndex(index)
+    if (!shouldUseIndexFromProps) {
+      setTabIndex(index)
+    }
     handleChange(index)
   }
 
   return (
     <div className={containerClassName}>
       <MuiTabs
-        value={tabIndex}
+        value={shouldUseIndexFromProps ? currentIndex : tabIndex}
         variant="fullWidth"
         onChange={onTabChange}
         variant="scrollable"

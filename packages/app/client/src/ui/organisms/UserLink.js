@@ -4,10 +4,15 @@ import { withStyles, Typography } from '@material-ui/core'
 import { UserInfoModal } from './'
 
 const styles = theme => ({
-  nameText: {
-    color: theme.colors['shamrock-green'],
-    cursor: 'pointer'
-  }
+  nameText: props => ({
+    color: theme.colors[props.color],
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontSize: '13px',
+    lineHeight: '180%',
+    marginLeft: 5,
+    marginRight: 5
+  })
 })
 
 /**
@@ -38,6 +43,10 @@ UserLink.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   classes: PropTypes.object
+}
+
+UserLink.defaultProps = {
+  color: 'shamrock-green'
 }
 
 export default withStyles(styles)(UserLink)
