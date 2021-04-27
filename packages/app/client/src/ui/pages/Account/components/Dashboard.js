@@ -29,10 +29,21 @@ const useStyles = makeStyles(() => ({
     padding: '8%',
     fontSize: '45px',
     color: '#15B54A'
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  seeAllButton: {
+    width: '85px',
+    height: '16px',
+    color: '#15B54A',
+    backgroundColor: 'white'
   }
 }))
 
 function Dashboard(props) {
+  const { handleChange } = props
   const classes = useStyles()
   const compareByDate = (a, b) => {
     if (a.date > b.date) return -1
@@ -49,7 +60,6 @@ function Dashboard(props) {
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo>
             <Typography variant="subtitle1">MY STATS</Typography>
-
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div style={{ textAlign: 'center' }}>
                 <div className={classes.bordered}>
@@ -75,13 +85,18 @@ function Dashboard(props) {
                     <div style={{ borderBottom: '2.2px solid #15B54A' }} />
                     <div className={classes.count}>
                       {props.badges &&
-                        Object.keys(props.badges).filter(key => props.badges[key])
-                          .length}
+                        Object.keys(props.badges).filter(
+                          key => props.badges[key]
+                        ).length}
                       /{Object.keys(props.badges).length}
                     </div>
                   </div>
                 </div>
-                <Button className={classes.buttons} color="primary">
+                <Button
+                  onClick={e => handleChange(e, 6)}
+                  className={classes.buttons}
+                  color="primary"
+                >
                   View Badges
                 </Button>
               </div>
@@ -90,7 +105,15 @@ function Dashboard(props) {
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo>
-            <Typography variant="subtitle1">MY LATEST PROJECT</Typography>
+            <div className={classes.header}>
+              <Typography variant="subtitle1">MY LATEST PROJECT</Typography>
+              <Button
+                className={classes.seeAllButton}
+                onClick={e => handleChange(e, 4)}
+              >
+                see all >
+              </Button>
+            </div>
             <div>
               <div style={{ width: '450px', height: '150px' }}>
                 {/* <div>{latestProject.date} days ago</div>*/}
@@ -98,10 +121,26 @@ function Dashboard(props) {
                 {/* <div>{latestProject.details}</div>*/}
               </div>
               <div>
-                <Button color="primary" variant="outlined">
+                <Button
+                  // onClick={() =>
+                  //   window.location.reload(
+                  //     `/projects/overview/${latestProject._id}`
+                  //   )
+                  // }
+                  color="primary"
+                  variant="outlined"
+                >
                   Edit
                 </Button>
-                <Button color="primary" variant="outlined">
+                <Button
+                  // onClick={() =>
+                  //   window.location.reload(
+                  //     `/projects/${latestProject._id}`
+                  //   )
+                  // }
+                  color="primary"
+                  variant="outlined"
+                >
                   View Project
                 </Button>
               </div>
@@ -113,7 +152,15 @@ function Dashboard(props) {
       <Grid style={{ marginTop: '2%' }} item container xs={12}>
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo>
-            <Typography variant="subtitle1">MY COMMENTS</Typography>
+            <div className={classes.header}>
+              <Typography variant="subtitle1">MY COMMENTS</Typography>
+              <Button
+                className={classes.seeAllButton}
+                onClick={e => handleChange(e, 5)}
+              >
+                see all >
+              </Button>
+            </div>
             {/* <div>*/}
             {/* {props.comments.map(comment => (*/}
             {/* <div>*/}
@@ -130,7 +177,15 @@ function Dashboard(props) {
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo>
-            <Typography variant="subtitle1">MY POSTS</Typography>
+            <div className={classes.header}>
+              <Typography variant="subtitle1">MY POSTS</Typography>
+              <Button
+                className={classes.seeAllButton}
+                onClick={e => handleChange(e, 3)}
+              >
+                see all >
+              </Button>
+            </div>
             {/* {props.posts.map(post => (*/}
             {/* <div>*/}
             {/*     <div>{post.date} days ago</div>*/}
