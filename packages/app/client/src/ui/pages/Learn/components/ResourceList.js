@@ -9,9 +9,9 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles({
   hrefText: {
     fontStyle: 'normal',
-    fontWeight: 500,
+    fontWeight: 400,
     fontSize: '15px',
-    lineHeight: '180%',
+    lineHeight: '180%'
   },
   rowContainer: {
     marginBottom: 17,
@@ -27,7 +27,7 @@ const ResourceRow = ({ title, href }) => {
       <Grid item container xs={12} justify="space-between" alignItems="center">
         <div>
           <Typography variant="body1">{title}</Typography>
-          <Typography className={classes.hrefText} variant="body2">via {href}</Typography>
+          <Typography className={classes.hrefText}>via {href}</Typography>
         </div>
         <IconButton
           color="primary"
