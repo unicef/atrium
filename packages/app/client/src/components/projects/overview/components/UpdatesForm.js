@@ -6,7 +6,7 @@ import { TextField } from '../../../../ui'
 import { Button } from '../../../../ui'
 import { Formik } from 'formik'
 import InputLabel from '@material-ui/core/InputLabel'
-import {useHistory} from "react-router-dom"
+import { useHistory } from 'react-router-dom'
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -26,6 +26,12 @@ const useDefaultStyles = makeStyles(theme => ({
   inputLabel: {
     color: 'black',
     margin: '3% 0 1% 0'
+  },
+  bottomButtons: {
+    marginTop: '5%'
+  },
+  saveButton: {
+    marginRight: '2%'
   }
 }))
 
@@ -45,7 +51,7 @@ function UpdatesForm(props) {
   const history = useHistory()
 
   const cancelHandler = () => {
-    history.push('/view-projects')
+    history.push('/projects')
   }
 
   return (
@@ -80,11 +86,7 @@ function UpdatesForm(props) {
               </Typography>
             </div>
             <div>
-              <InputLabel
-                className={classes.inputLabel}
-                shrink
-                htmlFor="title"
-              >
+              <InputLabel className={classes.inputLabel} shrink htmlFor="title">
                 Title
               </InputLabel>
               <TextField
@@ -99,11 +101,7 @@ function UpdatesForm(props) {
               />
             </div>
             <div>
-              <InputLabel
-                className={classes.inputLabel}
-                shrink
-                htmlFor="text"
-              >
+              <InputLabel className={classes.inputLabel} shrink htmlFor="text">
                 Text
               </InputLabel>
               <TextField
@@ -118,8 +116,12 @@ function UpdatesForm(props) {
                 name="text"
               />
             </div>
-            <div>
-              <Button color="primary" type="submit">
+            <div className={classes.bottomButtons}>
+              <Button
+                className={classes.saveButton}
+                color="primary"
+                type="submit"
+              >
                 Save
               </Button>
               <Button

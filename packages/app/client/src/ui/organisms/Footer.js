@@ -10,6 +10,7 @@ const styles = theme => ({
     root: {
     position: 'relative',
     display: 'flex',
+    bottom: 0,
     padding: '40px 100px 40px 100px',
     backgroundColor: theme.colors['light-gray-three'],
     [theme.breakpoints.down("sm")]: {

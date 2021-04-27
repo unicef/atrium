@@ -15,6 +15,7 @@ import { getAllProjects as getAllProjectsActions } from '../../../actions/projec
 import CreateProject from '../create/CreateProject'
 import { compose } from 'recompose'
 import { getCurrentProject } from '../../../selectors'
+import { useProjectsAsyncActions } from '../../../ui/hooks'
 
 const useDefaultStyles = makeStyles(() => ({
   main: {
@@ -41,13 +42,25 @@ function ProjectOverviewPage(props) {
     setTabIndex(newVal)
   }
 
-  const params = useParams()
   const projectData = useSelector(getCurrentProject)
+  const { getProjectById } = useProjectsAsyncActions()
+  const params = useParams()
+
+  useEffect(() => {
+    if (projectData === undefined) {
+      getProjectById(params.id)
+    }
+  }, [])
 
   return (
     <Container className={classes.main}>
       <div className={classes.tabs}>
-        <Tabs value={tabIndex} variant="fullWidth" onChange={handleChange} centered>
+        <Tabs
+          value={tabIndex}
+          variant="fullWidth"
+          onChange={handleChange}
+          centered
+        >
           <Tab className={classes.tab} label="Project overview" />
           <Tab className={classes.tab} label="Required information" />
           <Tab className={classes.tab} label="Additional information" />
@@ -58,26 +71,28 @@ function ProjectOverviewPage(props) {
       </div>
 
       <Panel value={tabIndex} index={0}>
-        <ProjectOverview handleChange={handleChange} {...projectData} />
+        {projectData && (
+          <ProjectOverview handleChange={handleChange} {...projectData} />
+        )}
       </Panel>
       <Panel value={tabIndex} index={1}>
-        <CreateProject {...projectData} editting={true} />
+        {projectData && <CreateProject {...projectData} editting={true} />}
       </Panel>
       <Panel value={tabIndex} index={2}>
-        <AdditionalInformation {...projectData} />
+        {projectData && <AdditionalInformation {...projectData} />}
       </Panel>
       <Panel value={tabIndex} index={3}>
-        <Story {...projectData} />
+        {projectData && <Story {...projectData} />}
       </Panel>
       <Panel value={tabIndex} index={4}>
-        <Team {...projectData} />
+        {projectData && <Team {...projectData} />}
       </Panel>
       <Panel value={tabIndex} index={5}>
-        <Updates {...projectData} />
+        {projectData && <Updates {...projectData} />}
       </Panel>
     </Container>
   )
 }
 export default compose(
-  connect(null, { getAllProjects: getAllProjectsActions }),
+  connect(null, { getAllProjects: getAllProjectsActions })
 )(ProjectOverviewPage)

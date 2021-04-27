@@ -20,8 +20,7 @@ import {
   CollapsableQuestion,
   SectionIcon
 } from '../../../ui/pages/Learn/components'
-import Container from '@material-ui/core/Container'
-import { useContainerStyle } from '../../../ui/hooks'
+import { MainContainer } from '../../../ui/templates'
 
 const theseAreBadVariableNamesThereIsNoReasonToSeparateThem = makeStyles(
   () => ({
@@ -212,7 +211,6 @@ const Landing = props => {
   const exploreStyles = useExploreSectionStyles()
   const moreInfoStyles = useMoreInfoStyles()
   const blockchainStyles = useBlockchainSectionStyles()
-  const containerStyle = useContainerStyle({ size: 'full' })
   const classes = theseAreBadVariableNamesThereIsNoReasonToSeparateThem()
 
   const questions = [
@@ -282,7 +280,7 @@ const Landing = props => {
           }
         />
       )}
-      <Container component="main" className={containerStyle}>
+      <MainContainer size="full">
         <Grid container xs={12}>
           <Grid item container xs={12} className={classes.section}>
             <Grid item xs={12} sm={12} md={4}>
@@ -574,7 +572,7 @@ const Landing = props => {
             </Grid>
           </SectionContainer>
         </Grid>
-      </Container>
+      </MainContainer>
     </>
   )
 }

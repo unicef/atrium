@@ -10,7 +10,7 @@ const useAuthAsyncActions = () => {
     login: handledRequest(
       { 
         request: UsersApi.loginUser,
-        onSuccess: (res) => setCurrentUser(res),
+        onSuccess: ({payload}) => setCurrentUser(payload),
         pageLoading: true,
         successMessage: 'User authenticated'
       }

@@ -38,7 +38,12 @@ app.use(favicon(`${__dirname}/public/favicon.png`))
 app.use(requestUuid)
 app.use(
   cors({
-    exposedHeaders: 'Content-Type,Authorization,x-request-uuid'
+    exposedHeaders: 'Content-Type,Authorization,x-request-uuid',
+    credentials: true,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true)
+      callback(null, origin)
+    }
   })
 )
 

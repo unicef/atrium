@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { SimpleFormWithHeader } from '../organisms'
 import { Button, Title } from '../atoms'
 import { password } from '../../utils/formFields'
-import { useContainerStyle, useToast } from '../hooks'
+import { useToast } from '../hooks'
 import { validatePassword } from '../../utils/validators'
 import { resetPassword } from '../../api/users'
+import { MainContainer } from '../templates'
 
 const formProps = {
   title: "Reset password",
@@ -20,7 +20,7 @@ const formProps = {
   buttonLayout: { xs: 8, sm: 8 }
 }
 
-const ForgotPassword = ({ history, match }) => {
+const ResetPassword = ({ history, match }) => {
   const { params: { token } } = match
 
   if(!token){
@@ -28,7 +28,6 @@ const ForgotPassword = ({ history, match }) => {
   }
 
   const [showSuccess, setSuccess] = useState(false)
-  const containerStyle = useContainerStyle({ size: 'small' })
   const { showToast } = useToast()
   
   const saveNewPassword = async ({ password }) => {
@@ -42,7 +41,7 @@ const ForgotPassword = ({ history, match }) => {
   }
 
   return (
-    <Container component="main" className={containerStyle}>
+    <MainContainer size="small">
       {showSuccess ?
         <Grid direction="column" container item xs={12} justify="center" alignItems="center">
           <Title >
@@ -57,8 +56,8 @@ const ForgotPassword = ({ history, match }) => {
           {...formProps}
         /> 
       }
-    </Container>
+    </MainContainer>
   )
 }
 
-export default ForgotPassword
+export default ResetPassword

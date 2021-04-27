@@ -49,6 +49,12 @@ const useDefaultStyles = makeStyles(theme => ({
     height: '22px',
     minWidth: 0,
     margin: 0
+  },
+  bottomButtons: {
+    marginTop: '5%'
+  },
+  saveButton: {
+    marginRight: '2%'
   }
 }))
 
@@ -57,7 +63,7 @@ function Team(props) {
 
   const history = useHistory()
   const cancelHandler = () => {
-    history.push('/view-projects')
+    history.push('/projects')
   }
   const clickHandler = () => {
     window.location.reload()
@@ -140,8 +146,12 @@ function Team(props) {
             </PersonInformation>
           ))}
         </div>
-        <div>
-          <Button color="primary" onClick={clickHandler}>
+        <div className={classes.bottomButtons}>
+          <Button
+            className={classes.saveButton}
+            color="primary"
+            onClick={clickHandler}
+          >
             Save
           </Button>
           <Button onClick={cancelHandler} color="secondary" variant="outlined">

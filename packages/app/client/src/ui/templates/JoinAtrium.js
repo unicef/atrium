@@ -121,6 +121,7 @@ const JoinAtrium = ({
               <InputAdornment position="end">
                 <TextButton
                   textContent="Submit"
+                  disabled={!email}
                   size="full"
                   labelColor="white"
                   onClick={() => (document.location.href = `mailto:${email}`)}
@@ -168,22 +169,22 @@ const JoinAtrium = ({
                 onChange={e => setSubject(e.target.value)}
               />
               <InputLabel
-                  className={classes.inputLabel}
-                  shrink
-                  htmlFor="message"
+                className={classes.inputLabel}
+                shrink
+                htmlFor="message"
               >
                 Message for Atrium team
               </InputLabel>
               <TextField
-                  id="message"
-                  name="message"
-                  borderColor="white"
-                  borderColorFocus="white"
-                  fullWidth
-                  multiline={true}
-                  rows={5}
-                  placeholder="Hello"
-                  onChange={e => setMessage(e.target.value)}
+                id="message"
+                name="message"
+                borderColor="white"
+                borderColorFocus="white"
+                fullWidth
+                multiline={true}
+                rows={5}
+                placeholder="Hello"
+                onChange={e => setMessage(e.target.value)}
               />
               <InputLabel
                 className={classes.inputLabel}

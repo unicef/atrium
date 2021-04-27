@@ -1,11 +1,12 @@
 // Creating the theme
-import { withStyles } from '@material-ui/core'
-import { ThemeProvider } from '@material-ui/styles'
+import { ThemeProvider, withStyles } from '@material-ui/styles'
+
+import Box from '@material-ui/core/Box'
 import jwt_decode from 'jwt-decode'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { logoutUser, setCurrentUser } from './actions/authActions'
+import { getUserInformation, logoutUser, setCurrentUser } from './actions/authActions'
 import Dashboard from './components/dashboard/Dashboard'
 import ErrorPage from './components/ErrorPage/ErrorPage'
 import Reports from './components/reports'
@@ -46,32 +47,14 @@ import ProjectsRoutes from './routes/projects'
 
 require('./utils/configureRequests')
 
-// Check for token to keep user logged in
-if (localStorage.jwtToken) {
-  // Set auth token header auth
-  const token = localStorage.jwtToken
-  setAuthToken(token)
-  // Decode token and get user info and exp
-  const decoded = jwt_decode(token)
-  // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded))
-  // Check for expired token
-  const currentTime = Date.now() / 1000 // to get in milliseconds
-  if (decoded.exp < currentTime) {
-    // Logout user
-    store.dispatch(logoutUser())
-
-    // Redirect to login
-    window.location.href = './login'
-  }
-}
+getUserInformation()
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Provider store={store}>
-          <div style={{ position: 'relative', height: '100%', width: '100%'}}>
+          <Box display="flex" flexDirection="column" position="relative" height="100%" width="100%" minHeight="100vh" minWidth="100vw">
             <ModalMessage />
             <Header />
             <Toast />
@@ -124,7 +107,7 @@ const App = () => {
             </Switch>
             <Footer />
             <FullPageLoader />
-          </div>
+          </Box>
         </Provider>
       </Router>
     </ThemeProvider>
