@@ -29,9 +29,9 @@ const useStyles = makeStyles(theme => ({
 
 const handleTabs = (projectData) => ([
   { label: "About the Project", hash: 'guideSection', public: true },
-  { label: `Comments (${projectData.comments.length})`, hash:'quizSection', public: true },
-  { label: `Updates (${projectData.updates.length})`, hash: 'directLearning', public: true },
   { label: `Team (${projectData.team.length})`, hash: 'smartContracts', public: false },
+  { label: `Updates (${projectData.updates.length})`, hash: 'directLearning', public: true },
+  { label: `Comments (${projectData.comments.length})`, hash:'quizSection', public: true }
 ])
 
 const Panel = ({ index, tabIndex, children }) => {
