@@ -20,6 +20,11 @@ const useStyles = makeStyles(theme => ({
 
 const UpdatesList = ({ selectedMonthId, handledUpdates }) => {
   const classes = useStyles()
+
+  if (selectedMonthId === undefined) {
+    return null
+  }
+  
   const [month, year] = selectedMonthId.split('_')
   const currentMonth = { year, month, data: handledUpdates[year] && handledUpdates[year][month] }
 

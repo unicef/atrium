@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 const mapItems = (items, colors) => items.map(
   ({ subItems, id, ...item }) => (
     <TreeMenuItem colors={colors} nodeId={id} key={`${id}_treeMenuItem`} {...item}>
-      {Array.isArray(subItems) && subItems.length > 0 && mapItems(subItems)}
+      {Array.isArray(subItems) && subItems.length > 0 && mapItems(subItems, colors)}
     </TreeMenuItem>
   )
 )
@@ -23,9 +23,10 @@ const expandAll = (items) => items.map(
 )
 
 const TreeMenu = ({ colors, expanded, menuItems, allExpanded, ...props }) => {
-  const classes = useStyles(colors)
+  const classes = useStyles()
   
-  if (!Array.isArray(menuItems) || menuItems.length === 0) return null 
+  if (!Array.isArray(menuItems) || menuItems.length === 0) return null
+  
   return (
     <TreeView
       className={classes.root}

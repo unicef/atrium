@@ -4,8 +4,8 @@ import Box from '@material-ui/core/Box'
 import Hidden from '@material-ui/core/Hidden'
 import { UpdatesList } from '../components'
 import { TreeMenu } from '../../../molecules'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined'
+import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined'
 import { useSelector } from 'react-redux'
 import { getHandledUpdates, getCurrentProjectId } from '../../../../selectors'
 
@@ -60,39 +60,48 @@ const ProjectUpdates = () => {
   }
 
   return (
-    <Grid  container item xs={12}>
-      <Hidden xsDown>
-        <Grid item xs={2}>
-          <Box position="sticky" width="100%" bgcolor="white" top={120}>
-            <TreeMenu
-              menuItems={menuStructure}
-              defaultCollapseIcon={<ExpandMoreIcon />}
-              defaultExpandIcon={<ChevronRightIcon />}
-              expanded={expanded}
-              selected={selected}
-              onNodeToggle={handleToggle}
-              onNodeSelect={handleSelect}
-              colors={
-                {
-                  selected: {
-                    subitem: 'black-three',
-                    main: 'shamrock-green'
-                  },
-                  hover: {
-                    subitem: 'black-three',
-                    main: 'shamrock-green'
+    <Box pt={4}>
+      <Grid  container item xs={12}>
+        <Hidden xsDown>
+          <Grid item xs={2}>
+            <Box position="sticky" width="100%" bgcolor="white" top={120}>
+              <TreeMenu
+                menuItems={menuStructure}
+                defaultCollapseIcon={<ExpandMoreOutlinedIcon />}
+                defaultExpandIcon={<ExpandLessOutlinedIcon />}
+                expanded={expanded}
+                selected={selected}
+                onNodeToggle={handleToggle}
+                onNodeSelect={handleSelect}
+                colors={
+                  {
+                    default: {
+                      subitem: 'black-three',
+                      main: 'shamrock-green'
+                    },
+                    expanded: {
+                      main: 'shamrock-green'
+                    },
+                    selected: {
+                      subitem: 'black-three',
+                      main: 'shamrock-green'
+                    },
+                    hover: {
+                      subitem: 'black-three',
+                      main: 'shamrock-green'
+                    }
                   }
                 }
-              }
-            />
-          </Box>
-        </Grid>
-      </Hidden>
+              />
+            </Box>
+          </Grid>
+        </Hidden>
 
-      <Grid item xs={10}>
-        <UpdatesList  handledUpdates={handledUpdates} selectedMonthId={selected[0]} />
+        <Grid item xs={10}>
+          <UpdatesList  handledUpdates={handledUpdates} selectedMonthId={selected[0]} />
+        </Grid>
       </Grid>
-    </Grid>
+    </Box>
   )
 }
 
