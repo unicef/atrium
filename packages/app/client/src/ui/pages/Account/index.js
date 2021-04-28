@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
 import { useContainerStyle } from '../../hooks'
 import {
-  InfoSection,
   Dashboard,
   Settings,
   Bookmarks,

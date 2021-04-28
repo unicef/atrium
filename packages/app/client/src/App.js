@@ -44,7 +44,6 @@ import setAuthToken from './utils/setAuthToken'
 import { Register, Login, ForgotPassword, ResetPassword, Learn, Account } from './ui/pages'
 import ProjectsRoutes from './routes/projects'
 
-
 require('./utils/configureRequests')
 
 getUserInformation()
