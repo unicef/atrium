@@ -122,7 +122,7 @@ function CreateProject(props) {
       })
     } else {
       await props.createProject(formData, () => {
-        window.location.replace(`/projects`)
+        window.location.replace('/projects')
       })
     }
     props.refreshToken()
