@@ -39,8 +39,8 @@ import {
 } from './ui'
 
 // pages
-import { Register, Login, ForgotPassword, ResetPassword, Learn } from './ui/pages'
 import projectsRoutes from './routes/projects'
+import { Register, Login, ForgotPassword, ResetPassword, Learn, Account } from './ui/pages'
 
 require('./utils/configureRequests')
 

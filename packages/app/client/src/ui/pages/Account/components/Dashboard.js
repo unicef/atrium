@@ -147,15 +147,7 @@ function Dashboard(props) {
                   <img src={Edit} />
                   Edit
                 </Button>
-                <Button
-                  // onClick={() =>
-                  //   window.location.reload(
-                  //     `/projects/${latestProject._id}`
-                  //   )
-                  // }
-                  color="primary"
-                  variant="outlined"
-                >
+                <Button color="primary" variant="outlined">
                   View Project
                 </Button>
               </div>
