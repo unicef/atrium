@@ -1,11 +1,11 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import BorderedInfo from './BorderedInfo'
 import Typography from '@material-ui/core/Typography'
 import { Button } from '../../../atoms'
-import { Badge, Like } from '../../../assets'
+import { Badge, Edit, Like } from '../../../assets'
 import { makeStyles } from '@material-ui/core/styles'
+import { StructuredCard } from '../../../molecules'
 
 const useStyles = makeStyles(() => ({
   buttons: {
@@ -31,6 +31,8 @@ const useStyles = makeStyles(() => ({
     color: '#15B54A'
   },
   header: {
+    height: '100%',
+    alignItems: 'center',
     display: 'flex',
     justifyContent: 'space-between'
   },
@@ -39,6 +41,14 @@ const useStyles = makeStyles(() => ({
     height: '16px',
     color: '#15B54A',
     backgroundColor: 'white'
+  },
+  line: {
+    borderBottom: '1px solid #E7E7E7'
+  },
+  boxes: {
+    margin: '5%',
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 }))
 
@@ -58,9 +68,9 @@ function Dashboard(props) {
       </Typography>
       <Grid item container xs={12}>
         <Grid item xs={12} sm={12} md={6}>
-          <BorderedInfo>
+          <BorderedInfo size="normal">
             <Typography variant="subtitle1">MY STATS</Typography>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div className={classes.boxes}>
               <div style={{ textAlign: 'center' }}>
                 <div className={classes.bordered}>
                   <div className={classes.topText}>
@@ -104,7 +114,7 @@ function Dashboard(props) {
           </BorderedInfo>
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
-          <BorderedInfo>
+          <BorderedInfo size="normal">
             <div className={classes.header}>
               <Typography variant="subtitle1">MY LATEST PROJECT</Typography>
               <Button
@@ -115,49 +125,39 @@ function Dashboard(props) {
               </Button>
             </div>
             <div>
-              <div style={{ width: '450px', height: '150px' }}>
+              <div style={{ width: '100%', height: '150px' }}>
                 {/* <div>{latestProject.date} days ago</div>*/}
                 {/* <div>{latestProject.name}</div>*/}
                 {/* <div>{latestProject.details}</div>*/}
-                <Typography variant="body1">22.02.2021</Typography>
-                <Typography style={{marginTop: '3%'}} variant="subtitle1">Lets code together</Typography>
-                <Typography style={{margin: '2% 0'}} variant="body1">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                </Typography>
+                <StructuredCard
+                  author={'Victor'}
+                  date="4/26/2021 2:28"
+                  title={'best title for project'}
+                  content={
+                    'this is the best content for project in the world and its sounds great'
+                  }
+                />
               </div>
-              <div>
+              <div style={{ margin: '5%' }}>
                 <Button
-                  // onClick={() =>
-                  //   window.location.reload(
-                  //     `/projects/overview/${latestProject._id}`
-                  //   )
-                  // }
+                  style={{ marginRight: '5%' }}
                   color="primary"
                   variant="outlined"
                 >
+                  <img src={Edit} />
                   Edit
                 </Button>
-                <Button
-                  // onClick={() =>
-                  //   window.location.reload(
-                  //     `/projects/${latestProject._id}`
-                  //   )
-                  // }
-                  color="primary"
-                  variant="outlined"
-                >
+                <Button color="primary" variant="outlined">
                   View Project
                 </Button>
               </div>
             </div>
-            <div>content</div>
           </BorderedInfo>
         </Grid>
       </Grid>
       <Grid style={{ marginTop: '2%' }} item container xs={12}>
         <Grid item xs={12} sm={12} md={6}>
-          <BorderedInfo>
+          <BorderedInfo size="large">
             <div className={classes.header}>
               <Typography variant="subtitle1">MY COMMENTS</Typography>
               <Button
@@ -167,22 +167,28 @@ function Dashboard(props) {
                 see all >
               </Button>
             </div>
-            {/* <div>*/}
-            {/* {props.comments.map(comment => (*/}
-            {/* <div>*/}
-            {/*   <div style={{ display: 'flex' }}>*/}
-            {/*     <div>Post name {comment.post.name}</div>*/}
-            {/*     <div>{comment.date} days ago</div>*/}
-            {/*   </div>*/}
-            {/*   <div>{comment.content}</div>*/}
-            {/* </div>*/}
-            {/* ))}*/}
-            {/* </div>*/}
-            <div>content</div>
+            {/* {props.comments.slice(3).map(comment => (*/}
+            {/* <StructuredCard*/}
+            {/*    author={comment.owner.name}*/}
+            {/*    date={comment.date}*/}
+            {/*    content={comment.content}*/}
+            {/* />*/}
+            {/* <div className={classes.line}/>*/}
+            {/* ))*/}
+            <div>
+              <StructuredCard
+                author={'Vanya'}
+                date="4/24/2021 2:28"
+                title={
+                  'Have you ever wondered how your entity could apply blockchain?'
+                }
+              />
+              <div className={classes.line} />
+            </div>
           </BorderedInfo>
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
-          <BorderedInfo>
+          <BorderedInfo size="large">
             <div className={classes.header}>
               <Typography variant="subtitle1">MY POSTS</Typography>
               <Button
@@ -192,13 +198,25 @@ function Dashboard(props) {
                 see all >
               </Button>
             </div>
-            {/* {props.posts.map(post => (*/}
-            {/* <div>*/}
-            {/*     <div>{post.date} days ago</div>*/}
-            {/*   <div>{post.content}</div>*/}
-            {/* </div>*/}
+            {/* {props.posts.slice(3).map(post => (*/}
+            {/* {/*<StructuredCard*/}
+            {/*    author={post.owner.name}*/}
+            {/*    date={post.date}*/}
+            {/*    title={post.title}*/}
+            {/*    content={post.content}*/}
+            {/* />*/}
             {/* ))}*/}
-            <div>content</div>
+            <div>
+              <StructuredCard
+                author="Vanya"
+                date="2/22/2021 2:28"
+                title="Lets code together"
+                content="Lorem Ipsum is simply dummy text of the printing and industry.
+                  Lorem Ipsum has been the industry's standard dummy text ever
+                  since the 1500s"
+              />
+              <div className={classes.line} />
+            </div>
           </BorderedInfo>
         </Grid>
       </Grid>

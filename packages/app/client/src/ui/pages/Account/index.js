@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { useContainerStyle } from '../../hooks'
 import {
   InfoSection,
-  VerticalTabs,
   Dashboard,
   Settings,
   Bookmarks,
@@ -15,6 +13,7 @@ import {
   MyPost,
   Notifications
 } from './components'
+import VerticalTabs from '../../molecules/VerticalTabs'
 import Grid from '@material-ui/core/Grid'
 import { useSelector } from 'react-redux'
 
