@@ -51,7 +51,19 @@ const getTokenPayload = (user, userBadges) => {
     badges: { 1: userBadges[0], 2: userBadges[1], 3: userBadges[2] },
     learnPageFlag: user.learnPageFlag ? user.learnPageFlag : false,
     explorePageFlag: user.explorePageFlag ? user.explorePageFlag : false,
-    engagePageFlag: user.engagePageFlag ? user.engagePageFlag : false
+    engagePageFlag: user.engagePageFlag ? user.engagePageFlag : false,
+    bio: user.bio ? user.bio : '',
+    projects: user.projects ? user.projects : [''],
+    comments: user.comments ? user.comments : [''],
+    posts: user.posts ? user.posts : [''],
+    bookmarks: user.bookmarks ? user.bookmarks : [''],
+    websites: user.websites ? user.websites : [''],
+    commentOnPost: user.commentOnPost ? user.commentOnPost : false,
+    commentOnProject: user.commentOnProject ? user.commentOnProject : false,
+    repliesOnComments: user.repliesOnComments ? user.repliesOnComments : false,
+    updatesOnPost: user.updatesOnPost ? user.updatesOnPost : false,
+    updatesOnProject: user.updatesOnProject ? user.updatesOnProject : false,
+    updatesOnComments: user.updatesOnComments ? user.updatesOnComments : false
   }
 }
 
@@ -63,7 +75,7 @@ const getTokenPayload = (user, userBadges) => {
  * @param {Function} cb
  * @param {String} expiration
  */
-const signToken = (payload, cb, expiration = '1y' ) => {
+const signToken = (payload, cb, expiration = '1y') => {
   // Sign token
   jwt.sign(
     payload,
@@ -75,7 +87,7 @@ const signToken = (payload, cb, expiration = '1y' ) => {
   )
 }
 
-const verifyToken = (token) => {
+const verifyToken = token => {
   return jwt.verify(token, keys.SECRET_OR_KEY)
 }
 
