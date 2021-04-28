@@ -1,10 +1,11 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
 import SystemUpdateAltOutlinedIcon from '@material-ui/icons/SystemUpdateAltOutlined'
 import FilesGrid from './FilesGrid'
 import FileGridWithViewModal from './FileGridWithViewModal'
 import { TextButton, Divider } from '../../../../atoms'
-import { Box, Typography } from '@material-ui/core'
 import { ABOUT_PROJECT_SECTIONS } from '../../../../../unin-constants'
 
 const Header = ({ title, count, id }) => (
@@ -30,31 +31,33 @@ const FilesSection = (props) => {
   const subItems = ABOUT_PROJECT_SECTIONS[lastSectionIndex].subItems
   return (
     <Grid container item xs={10}>
-      <Box mb={2}>
-        <Typography id="projectFiles" variant="h3">
-          Files
-        </Typography>
+      <Box flexDirection="column" flex={1} display="flex">
+        <Box mb={2}>
+          <Typography id="projectFiles" variant="h3">
+            Files
+          </Typography>
+        </Box>
+
+        {subItems.map((item, index) => {
+          const isTheLastIndex = index === (subItems.length - 1)
+          const files = props[item.dataKey]
+          const isDocumentsSubItem = item.mediaType === 'document'
+
+          return (
+            <Box key={item.id}>
+              <Grid direction="column" container item xs={12}>
+                <Header id={item.id} title={item.label} count={files.length} />
+
+                {isDocumentsSubItem ? 
+                  <FilesGrid mediaType={item.mediaType} files={files} /> :
+                  <FileGridWithViewModal  mediaType={item.mediaType} files={files} />
+                }
+              </Grid>
+              {!isTheLastIndex && <Divider mb={20} />}
+            </Box>
+          )
+        })}
       </Box>
-
-      {subItems.map((item, index) => {
-        const isTheLastIndex = index === (subItems.length - 1)
-        const files = props[item.dataKey]
-        const isDocumentsSubItem = item.mediaType === 'document'
-
-        return (
-          <div key={item.id}>
-            <Grid container item xs={12}>
-              <Header id={item.id} title={item.label} count={files.length} />
-
-              {isDocumentsSubItem ? 
-                <FilesGrid mediaType={item.mediaType} files={files} /> :
-                <FileGridWithViewModal  mediaType={item.mediaType} files={files} />
-              }
-            </Grid>
-            {!isTheLastIndex && <Divider mb={20} />}
-          </div>
-        )
-      })}
     </Grid>
   )
 }
