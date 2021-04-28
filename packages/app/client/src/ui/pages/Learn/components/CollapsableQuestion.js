@@ -21,7 +21,13 @@ const useStyles = makeStyles(theme =>
     }),
     question: props => ({
       color: props.showAnswer ? theme.palette.primary.main : theme.palette.text.primary
-    })
+    }),
+    answerText: {
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: '15px',
+      lineHeight: '180%',
+    }
   })
 )
 
@@ -32,6 +38,7 @@ const CollapsableQuestion = ({ title, answer }) => {
   return (
     <Grid item alignItems="center" container xs={12} className={classes.container}>
       <IconButton
+        disableRipple
         color={showAnswer ? 'primary' : '#BCBEBE'}
         aria-label="upload upward"
         component="span"
@@ -44,7 +51,7 @@ const CollapsableQuestion = ({ title, answer }) => {
       </Grid>
       <Collapse in={showAnswer} className={classes.answerWrapper}>
         <Grid container style={{ padding: 25 }} zeroMinWidth item xs={12}>
-          {answer}
+          <Typography className={classes.answerText}>{answer}</Typography>
         </Grid>
       </Collapse>
     </Grid>
