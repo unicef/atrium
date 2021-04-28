@@ -1118,15 +1118,7 @@ router.patch(
           res.cookie(authCookieName, tokenOnly, cookieConfig)
           res.json({
             success: true,
-<<<<<<< HEAD
-<<<<<<< HEAD
             ...updatedUser._doc
-=======
-              ...updatedUser._doc
->>>>>>> before rebase
-=======
-            ...updatedUser._doc
->>>>>>> ui for notifications, not finished dashboard(no data)
           })
         })
       }
