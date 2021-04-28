@@ -7,10 +7,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import { HorizontalCardWithMenu, DeleteActionDialog } from '../../../../organisms'
 import { UserLink } from '../../../../organisms'
 import { useSelector } from 'react-redux'
-import { getUserId } from '../../../../../selectors'
+import { getUserId, getCurrentProjectId } from '../../../../../selectors'
 import { getRelativeTimeToNow } from '../../../../../utils/timeManipulation'
 import { ShowMoreButton } from '../../../../atoms'
-import { useProjectsAsyncActions } from '../../../../hooks'
+import { useProjectsAsyncActions, useTrimmedText } from '../../../../hooks'
 
 const useStyles = makeStyles(theme => ({
   text: {
@@ -42,13 +42,23 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+const TEXT_MAX_LENGTH = 200
+
 const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
+  const classes = useStyles()
   const [editMode, setEditMode] = React.useState(false)
   const [showDeletionModal, setDeletionModalVisibility] = React.useState(false)
+  const [showTheCompleteText, setTextVisibility] = React.useState(false)
+
+  const { deleteUpdate, getProjectById } = useProjectsAsyncActions()
+  const trimmedText = useTrimmedText({ text, max: 161 })
+
+  const projectId = useSelector(getCurrentProjectId)
   const userId = useSelector(getUserId)
+  
   const userIsTheOwner = owner.id === userId
-  const classes = useStyles()
-  const { deleteUpdate } = useProjectsAsyncActions()
+  const textContent = showTheCompleteText ? text : trimmedText
+  const showMoreButtonVisible = !editMode && text.length > TEXT_MAX_LENGTH
 
   const menuItems = [
     {
@@ -57,7 +67,7 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
     },
     {
       label: 'Delete',
-      handleClick: async () => {
+      handleClick: () => {
         setDeletionModalVisibility(true)
       }
     }
@@ -95,19 +105,23 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
             <UpdateEdition dismissEdit={() => setEditMode(false)} text={text} year={year} month={month} id={id} />
             :
             <Typography className={classes.text}>
-              {text}
+              {textContent}
             </Typography>
           }
         </Box>
 
         <Grid container item xs={12} alignItems="center">
-          {!editMode && <ShowMoreButton />}
+          {showMoreButtonVisible && <ShowMoreButton isShowingMore={showTheCompleteText}  handleClick={() => setTextVisibility(show => !show)} />}
         </Grid>
       </HorizontalCardWithMenu>
       <DeleteActionDialog
         open={showDeletionModal}
         handleClose={() => setDeletionModalVisibility(false)}
-        onConfirm={() => { deleteUpdate({ year, month, id }) }}
+        onConfirm={async () => { 
+          await deleteUpdate(id)
+          setDeletionModalVisibility(false)
+          await getProjectById(projectId)
+        }}
       />
     </>
   )

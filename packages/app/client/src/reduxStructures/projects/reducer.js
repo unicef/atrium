@@ -46,8 +46,6 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         handledUpdates: dataManipulation.onEditUpdate({ updates: state.handledUpdates, ...payload })
       }
-    case TYPES.DELETE_UPDATE:
-      return dataManipulation.onDeleteUpdate({ state , ...payload })
     default:
       return state
   }

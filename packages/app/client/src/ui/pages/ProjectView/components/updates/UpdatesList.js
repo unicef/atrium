@@ -25,7 +25,7 @@ const UpdatesList = ({ selectedMonthId, handledUpdates }) => {
 
   return (
     <Grid container item xs={12}>
-      <Box pl={5}>
+      <Box display="flex" flex={1} flexDirection="column" pl={5}>
         <Grid container item xs={12}>
           <Typography className={classes.headerText}>{month && month.toLocaleUpperCase()} {year || ''}</Typography>
           <Box display="flex" flex={1} bgcolor="transparent" alignItems="center" pl={2}>

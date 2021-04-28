@@ -40,18 +40,13 @@ const useProjectsAsyncActions = () => {
         showFullPageLoading: true
       }
     ),
-    deleteUpdate: async ({ month, year, id }) => {
-      const request = handledRequest(
-        { 
-          request: ProjectApi.removeUpdate,
-          onSuccess: () => deleteUpdate({ month, year, id }),
-          showFullPageLoading: true,
-          successMessage: 'Update successfully removed'
-        }
-      )
-
-      await request(id)
-    }
+    deleteUpdate: handledRequest(
+      { 
+        request: ProjectApi.removeUpdate,
+        showFullPageLoading: true,
+        successMessage: 'Update successfully removed'
+      }
+    )
   }
 }
 

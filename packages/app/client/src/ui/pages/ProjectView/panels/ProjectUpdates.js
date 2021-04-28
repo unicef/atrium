@@ -7,9 +7,13 @@ import { TreeMenu } from '../../../molecules'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import { useSelector } from 'react-redux'
-import { getHandledUpdates } from '../../../../selectors'
+import { getHandledUpdates, getCurrentProjectId } from '../../../../selectors'
 
 const handleUpdatesToMenu = (updates) => {
+  if (updates === undefined) {
+    return null
+  }
+
   return Object.keys(updates).map((year) => {
     const monthsKeys = Object.keys(updates[year])
     return {
@@ -26,25 +30,33 @@ const handleUpdatesToMenu = (updates) => {
   })
 }
 
-const ProjectUpdates = ({ projectId }) => {
+const ProjectUpdates = () => {
   const handledUpdates = useSelector(getHandledUpdates)
-  const menuStructure = React.useMemo(() => handleUpdatesToMenu(handledUpdates), [handledUpdates.length, projectId])
+  const projectId = useSelector(getCurrentProjectId)
+  const menuStructure = React.useMemo(() => handleUpdatesToMenu(handledUpdates), [handledUpdates, projectId])
   
-  const firstUpdate = menuStructure[0]
-  const firstSubitem = firstUpdate.subItems[0]
-  const [expanded, setExpanded] = React.useState([firstUpdate.id])
-  const [selected, setSelected] = React.useState([firstSubitem.id])
+  const firstUpdate = menuStructure && menuStructure[0]
+  const firstSubitem = firstUpdate && firstUpdate.subItems[0]
+  const firstUpdateId = firstUpdate && firstUpdate.id
+  const firstSubitemId = firstSubitem && firstSubitem.id
+
+  const [expanded, setExpanded] = React.useState([firstUpdateId])
+  const [selected, setSelected] = React.useState([firstSubitemId])
   
   const handleToggle = (_, nodeIds) => {
     setExpanded(nodeIds)
   }
   
   const handleSelect = (_, nodeIds) => {
-    const wasYearClicked = Boolean(menuStructure.find(item => item.id === nodeIds))
+    const yearClicked = Boolean(menuStructure.find(item => item.id === nodeIds))
 
-    if (!wasYearClicked) {
+    if (!yearClicked) {
       setSelected([nodeIds])
     }
+  }
+
+  if (handledUpdates === undefined) {
+    return null
   }
 
   return (
@@ -82,10 +94,6 @@ const ProjectUpdates = ({ projectId }) => {
       </Grid>
     </Grid>
   )
-}
-
-ProjectUpdates.defaultProps = {
-  updates: []
 }
 
 export default ProjectUpdates

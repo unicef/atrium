@@ -78,6 +78,11 @@ export const onToggleLike = (state, project) => {
  * 
  */
 export const handleUpdates = (updates) => {
+
+  if (!Array.isArray(updates) || updates.length === 0) {
+    return undefined
+  }
+
   return updates.reverse().reduce((acc, update) => {
     const parsedDateArray = dateFormatter({ date: update.date, formatOptions: [{month: 'long'}, {year: 'numeric'}, {month: 'numeric'}] })
     const month = parsedDateArray[0]
@@ -115,18 +120,4 @@ export const onEditUpdate = ({ updates, year, month, id, text }) => {
   })
 
   return changedUpdates
-}
-
-export const onDeleteUpdate = ({ state, year, month, id }) => {
-  const handledUpdates = { ...state.handledUpdates }
-  const allUpdates = [...state.selectedProject.updates]
-  const targetMonthData = handledUpdates[year][month]
-
-  handledUpdates[year][month] = targetMonthData.filter((update) => update.id !== id)
-
-  return {
-    ...state,
-    handledUpdates,
-    selectedProject: { ...state.selectedProject, updates: allUpdates.filter((update) => update.id !== id) }
-  }
 }
