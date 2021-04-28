@@ -241,51 +241,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const validateProjectForm = values => {
-  const errors = {}
-
-  if (!values.projectName) {
-    errors.projectName = 'Required'
-  }
-  if (!values.projectDescription) {
-    errors.projectDescription = 'Required'
-  }
-  if (!values.websiteLink) {
-    errors.websiteLink = 'Required'
-  }
-  if (!values.blockchainType) {
-    errors.blockchainType = 'Required'
-  }
-  if (!values.blockchainName) {
-    errors.blockchainName = 'Required'
-  }
-  if (!values.freeForAll) {
-    errors.freeForAll = 'Required'
-  }
-  if (!values.stageOfProject) {
-    errors.stageOfProject = 'Required'
-  }
-  if (!values.innovationCategory) {
-    errors.innovationCategory = 'Required'
-  }
-  if (!values.thematicArea) {
-    errors.thematicArea = 'Required'
-  }
-  if (
-    values.contactPersonEmail &&
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.contactPersonEmail)
-  ) {
-    errors.contactPersonEmail = 'Invalid email address'
-  }
-  if (values.contactPersonFullName && !values.contactPersonEmail) {
-    errors.contactPersonEmail = 'Please also fill out project owner email'
-  }
-  if (!values.contactPersonFullName && values.contactPersonEmail) {
-    errors.contactPersonFullName = 'Please also fill out project owner name'
-  }
-  return errors
-}
-
 const disableEnterSubmit = e => {
   e.key === 'Enter' && e.preventDefault()
 }
@@ -370,6 +325,48 @@ export const FirstProjectForm = props => {
   }
   const [characters, setCharacters] = useState(0)
   const [contactPerson, setContactPerson] = useState(false)
+
+  const validateProjectForm = values => {
+    const errors = {}
+
+    if (!values.projectName) {
+      errors.projectName = 'Required'
+    }
+    if (!values.projectDescription) {
+      errors.projectDescription = 'Required'
+    }
+    if (!values.blockchainType) {
+      errors.blockchainType = 'Required'
+    }
+    if (!values.blockchainName) {
+      errors.blockchainName = 'Required'
+    }
+    if (!values.stageOfProject) {
+      errors.stageOfProject = 'Required'
+    }
+    if (!values.innovationCategory) {
+      errors.innovationCategory = 'Required'
+    }
+    if (!values.thematicArea) {
+      errors.thematicArea = 'Required'
+    }
+    if (
+      values.contactPersonEmail &&
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
+        values.contactPersonEmail
+      )
+    ) {
+      errors.contactPersonEmail = 'Invalid email address'
+    }
+    if (!contactPerson && !values.contactPersonEmail) {
+      errors.contactPersonEmail = 'Please also fill out project owner email'
+    }
+    if (!contactPerson && !values.contactPersonFullName) {
+      errors.contactPersonFullName = 'Please also fill out project owner name'
+    }
+    return errors
+  }
+
   return (
     <div className={classes.wrapper}>
       <Typography color="secondary" variant="h3">
@@ -449,7 +446,7 @@ export const FirstProjectForm = props => {
                     <Button
                       color="primary"
                       className={classes.myPostButton}
-                      onClick={e => clickInput(e,'image')}
+                      onClick={e => clickInput(e, 'image')}
                       disabled={!!picture}
                     >
                       <label
@@ -517,6 +514,7 @@ export const FirstProjectForm = props => {
                   onBlur={handleBlur}
                   onKeyPress={disableEnterSubmit}
                   error={!!(touched.projectName && errors.projectName)}
+                  errorMessage={!!values.projectName && errors.projectName}
                   fullWidth
                   autoFocus
                   required
@@ -542,6 +540,9 @@ export const FirstProjectForm = props => {
                   onBlur={handleBlur}
                   error={
                     !!(touched.projectDescription && errors.projectDescription)
+                  }
+                  errorMessage={
+                    !!values.projectDescription && errors.projectDescription
                   }
                   multiline={true}
                   rows="4"
@@ -577,6 +578,10 @@ export const FirstProjectForm = props => {
                   name="blockchainType"
                   id="blockchainType"
                   onChange={handleChange}
+                  error={!!(touched.blockchainType && errors.blockchainType)}
+                  errorMessage={
+                    !!values.blockchainType && errors.blockchainType
+                  }
                   onBlur={handleBlur}
                   value={values.blockchainType}
                 >
@@ -607,6 +612,10 @@ export const FirstProjectForm = props => {
                   displayEmpty
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  error={!!(touched.blockchainName && errors.blockchainName)}
+                  errorMessage={
+                    !!values.blockchainName && errors.blockchainName
+                  }
                   defaultValue={values.blockchainName}
                   variant="outlined"
                 >
@@ -652,6 +661,10 @@ export const FirstProjectForm = props => {
                   displayEmpty
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  error={!!(touched.stageOfProject && errors.stageOfProject)}
+                  errorMessage={
+                    !!values.stageOfProject && errors.stageOfProject
+                  }
                   defaultValue={values.stageOfProject}
                   id="stageOfProject"
                   name="stageOfProject"
@@ -679,6 +692,12 @@ export const FirstProjectForm = props => {
                   onBlur={handleBlur}
                   defaultValue={values.innovationCategory}
                   className={classes.selects}
+                  error={
+                    !!(touched.innovationCategory && errors.innovationCategory)
+                  }
+                  errorMessage={
+                    !!values.innovationCategory && errors.innovationCategory
+                  }
                   variant="outlined"
                   displayEmpty
                   id="innovationCategory"
@@ -688,18 +707,28 @@ export const FirstProjectForm = props => {
                     <em className={classes.chooseSelect}>Choose</em>
                   </MenuItem>
                   <MenuItem value="Blockchain">Blockchain</MenuItem>
-                  <MenuItem value="Financial Inclusion">Financial Inclusion</MenuItem>
+                  <MenuItem value="Financial Inclusion">
+                    Financial Inclusion
+                  </MenuItem>
                   <MenuItem value="Health">Health</MenuItem>
                   <MenuItem value="Identity">Identity</MenuItem>
                   <MenuItem value="Supply Chains">Supply Chains</MenuItem>
                   <MenuItem value="Food and Water">Food and Water</MenuItem>
                   <MenuItem value="Marketplaces">Marketplaces</MenuItem>
                   <MenuItem value="Energy">Energy</MenuItem>
-                  <MenuItem value="Accounting and Audit">Accounting and Audit</MenuItem>
-                  <MenuItem value="Innovative Financing">Innovative Financing</MenuItem>
+                  <MenuItem value="Accounting and Audit">
+                    Accounting and Audit
+                  </MenuItem>
+                  <MenuItem value="Innovative Financing">
+                    Innovative Financing
+                  </MenuItem>
                   <MenuItem value="Nutrition">Nutrition</MenuItem>
-                  <MenuItem value="Emergency Response">Emergency Response</MenuItem>
-                  <MenuItem value="Government system">Government system</MenuItem>
+                  <MenuItem value="Emergency Response">
+                    Emergency Response
+                  </MenuItem>
+                  <MenuItem value="Government system">
+                    Government system
+                  </MenuItem>
                   <MenuItem value="Other">Other</MenuItem>
                 </Select>
               </Grid>
@@ -717,6 +746,8 @@ export const FirstProjectForm = props => {
                   variant="outlined"
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  error={!!(touched.thematicArea && errors.thematicArea)}
+                  errorMessage={!!values.thematicArea && errors.thematicArea}
                   defaultValue={values.thematicArea}
                   fullWidth
                   className={classes.selects}
@@ -727,23 +758,43 @@ export const FirstProjectForm = props => {
                   </MenuItem>
                   <MenuItem value="End Poverty">End Poverty</MenuItem>
                   <MenuItem value="Zero Hunger">Zero Hunger</MenuItem>
-                  <MenuItem value="Good Health and Well-Being">Good Health and Well-Being</MenuItem>
-                  <MenuItem value="Quality Education">Quality Education</MenuItem>
+                  <MenuItem value="Good Health and Well-Being">
+                    Good Health and Well-Being
+                  </MenuItem>
+                  <MenuItem value="Quality Education">
+                    Quality Education
+                  </MenuItem>
                   <MenuItem value="Gender Equality">Gender Equality</MenuItem>
-                  <MenuItem value="Clean Water and Sanitation">Clean Water and Sanitation</MenuItem>
-                  <MenuItem value="Affordable and Clean Energy">Affordable and Clean Energy</MenuItem>
-                  <MenuItem value="Decent Work and Economic Growth">Decent Work and Economic Growth</MenuItem>
-                  <MenuItem value="Industry, Innovation and Infrastructure">Industry, Innovation and Infrastructure</MenuItem>
-                  <MenuItem value="Reduced Inequalities">Reduced Inequalities</MenuItem>
-                  <MenuItem value="Sustainable Cities and Communities">Sustainable Cities and Communities</MenuItem>
-                  <MenuItem value="Responsible Consumption and Production">Responsible Consumption and Production</MenuItem>
+                  <MenuItem value="Clean Water and Sanitation">
+                    Clean Water and Sanitation
+                  </MenuItem>
+                  <MenuItem value="Affordable and Clean Energy">
+                    Affordable and Clean Energy
+                  </MenuItem>
+                  <MenuItem value="Decent Work and Economic Growth">
+                    Decent Work and Economic Growth
+                  </MenuItem>
+                  <MenuItem value="Industry, Innovation and Infrastructure">
+                    Industry, Innovation and Infrastructure
+                  </MenuItem>
+                  <MenuItem value="Reduced Inequalities">
+                    Reduced Inequalities
+                  </MenuItem>
+                  <MenuItem value="Sustainable Cities and Communities">
+                    Sustainable Cities and Communities
+                  </MenuItem>
+                  <MenuItem value="Responsible Consumption and Production">
+                    Responsible Consumption and Production
+                  </MenuItem>
                   <MenuItem value="Climate action">Climate action</MenuItem>
                   <MenuItem value="Life Below Water">Life Below Water</MenuItem>
                   <MenuItem value="Life on Land">Life on Land</MenuItem>
-                  <MenuItem value="Peace, Justice and Strong Institutions">Peace, Justice and Strong Institutions</MenuItem>
-                  <MenuItem value="Partnerships for Goals">Partnerships for Goals</MenuItem>
-
-
+                  <MenuItem value="Peace, Justice and Strong Institutions">
+                    Peace, Justice and Strong Institutions
+                  </MenuItem>
+                  <MenuItem value="Partnerships for Goals">
+                    Partnerships for Goals
+                  </MenuItem>
                 </Select>
               </Grid>
               {values.editting ? (
@@ -770,7 +821,7 @@ export const FirstProjectForm = props => {
                     <Button
                       className={classes.addFileButton}
                       color="primary"
-                      onClick={e => clickInput(e,'file')}
+                      onClick={e => clickInput(e, 'file')}
                       disabled={!!file}
                     >
                       <label
@@ -916,7 +967,7 @@ export const FirstProjectForm = props => {
                     <Button
                       className={classes.addFileButton}
                       color="primary"
-                      onClick={e => clickInput(e,'video')}
+                      onClick={e => clickInput(e, 'video')}
                       disabled={!!video}
                     >
                       <label
@@ -1059,7 +1110,11 @@ export const FirstProjectForm = props => {
               )}
             </Grid>
             <div className={classes.bottomButtons}>
-              <Button className={classes.saveButton} color="primary" type="submit">
+              <Button
+                className={classes.saveButton}
+                color="primary"
+                type="submit"
+              >
                 Save
               </Button>
               <Button

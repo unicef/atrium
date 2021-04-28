@@ -487,7 +487,6 @@ router.post(
           },
           'Token created successfully'
         )
-
         const tokenOnly = token.split(' ')[1]
         const cookieConfig = {
           expires: new Date(Date.now() + oneHour * 8000),
@@ -496,9 +495,11 @@ router.post(
         }
         res.cookie(authCookieName, tokenOnly, cookieConfig)
         console.log(res.cookies)
+
+        const payload = verifyToken(tokenOnly)
         res.json({
           success: true,
-          payload: user
+          payload
         })
       })
     } else {
