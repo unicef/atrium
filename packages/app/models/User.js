@@ -34,7 +34,9 @@ const UserSchema = new Schema({
   repliesOnComments: { type: Boolean, default: false },
   updatesOnPost: { type: Boolean, default: false },
   updatesOnProject: { type: Boolean, default: false },
-  updatesOnComments: { type: Boolean, default: false }
+  updatesOnComments: { type: Boolean, default: false },
+  // registration validation
+  registrationCompleted: { type: Boolean, default: false }
 })
 
 UserSchema.set('toJSON', {

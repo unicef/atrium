@@ -204,6 +204,7 @@ router.put(
       retrievedUser.wallet = encryptedWallet.encrypted
       retrievedUser.address = newWallet.address
       retrievedUser.acceptsEmail = true
+      retrievedUser.registrationCompleted = true
 
       if (req.file && req.file.key) {
         retrievedUser.avatar = `${
@@ -343,7 +344,8 @@ router.post('/invite', async (req, res) => {
     role,
     company,
     acceptsEmail: true,
-    password: hashedPassword
+    password: hashedPassword,
+    registrationCompleted: true
   }
 
   try {
@@ -715,7 +717,7 @@ router.post('/email-to-sign-up', async (req, res) => {
     invitationCache.set(invitationCode, emailHash)
 
     // User is found, do not create a new user.
-    if (user) {
+    if (user && user.registrationCompleted) {
       nodemailer._sendWelcomeEmail(email, emailHash, invitationCode)
 
       if (user.emailVerified) {
@@ -740,6 +742,10 @@ router.post('/email-to-sign-up', async (req, res) => {
       emailVerified: false,
       emailHash
     })
+
+    // Prevent save another pre-registration email
+    if (user && !user.registrationCompleted) newUser.save = () => new Promise(resolve => resolve(user))
+
     newUser
       .save()
       .then(response => {
