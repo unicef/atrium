@@ -19,7 +19,6 @@ function AdditionalInformation(props) {
     linkToRepository: props.linkToRepository || '',
     websiteLink: props.websiteLink || ''
   })
-
   const handleCreateProject = async data => {
     const { projectId } = dynamicFormData
     await setDynamicFormData(prev => ({ ...prev, ...data }))
