@@ -51,7 +51,7 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
   const [showTheCompleteText, setTextVisibility] = React.useState(false)
 
   const { deleteUpdate, getProjectById } = useProjectsAsyncActions()
-  const trimmedText = useTrimmedText({ text, max: 161 })
+  const trimmedText = useTrimmedText({ text, max: TEXT_MAX_LENGTH })
 
   const projectId = useSelector(getCurrentProjectId)
   const userId = useSelector(getUserId)
