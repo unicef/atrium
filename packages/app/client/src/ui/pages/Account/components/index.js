@@ -1,4 +1,3 @@
-export { default as VerticalTabs } from './VerticalTabs'
 export { default as Dashboard } from './Dashboard'
 export { default as Settings } from './Settings'
 export { default as Profile } from './Profile'

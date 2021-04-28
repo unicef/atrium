@@ -23,6 +23,7 @@ export { default as ProjectsIntroImg } from './projects_intro.png'
 export { default as ForumIntroImg } from './forum_intro.png'
 export { default as Like } from './like.png'
 export { default as Badge } from './badge.png'
+export { default as Edit } from './edit.png'
 
 export {
   CopyIcon,
