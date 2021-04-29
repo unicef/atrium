@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useContainerStyle } from '../../hooks'
 import {
   InfoSection,
   Dashboard,
@@ -17,6 +16,18 @@ import Grid from '@material-ui/core/Grid'
 import { useSelector } from 'react-redux'
 import { MainContainer } from '../../templates'
 
+const tabsList = [
+  'Dashboard',
+  'Profile',
+  'Settings',
+  'My Post',
+  'My Projects',
+  'My Comments',
+  'Badges',
+  'Bookmarks',
+  'Notifications'
+]
+
 const Account = () => {
   const [tabIndex, setTabIndex] = useState(0)
   const user = useSelector(state => state.auth.user)
@@ -26,9 +37,15 @@ const Account = () => {
   return (
     <MainContainer>
       <Grid container xs={12}>
-        <VerticalTabs handleChange={handleChange} tabIndex={tabIndex} />
+        <VerticalTabs
+          tabsList={tabsList}
+          handleChange={handleChange}
+          tabIndex={tabIndex}
+        />
         <InfoSection>
-          {tabIndex === 0 ? <Dashboard {...user} handleChange={handleChange} /> : null}
+          {tabIndex === 0 ? (
+            <Dashboard {...user} handleChange={handleChange} />
+          ) : null}
           {tabIndex === 1 ? <Profile {...user} /> : null}
           {tabIndex === 2 ? <Settings {...user} /> : null}
           {tabIndex === 3 ? <MyPost {...user} /> : null}

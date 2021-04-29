@@ -24,7 +24,7 @@ const useDefaultStyles = makeStyles(() => ({
   }
 }))
 
-function VerticalTabs({ tabIndex, handleChange }) {
+function VerticalTabs({ tabIndex, handleChange, tabsList }) {
   const classes = useDefaultStyles()
   const user = useSelector(state => state.auth.user)
   return (
@@ -54,15 +54,9 @@ function VerticalTabs({ tabIndex, handleChange }) {
       </Typography>
       <div className={classes.tabs}>
         <Tabs value={tabIndex} onChange={handleChange} orientation="vertical">
-          <Tab className={classes.tab} label="Dashboard" />
-          <Tab className={classes.tab} label="Profile" />
-          <Tab className={classes.tab} label="Settings" />
-          <Tab className={classes.tab} label="My Post" />
-          <Tab className={classes.tab} label="My Projects" />
-          <Tab className={classes.tab} label="My Comments" />
-          <Tab className={classes.tab} label="Badges" />
-          <Tab className={classes.tab} label="Bookmarks" />
-          <Tab className={classes.tab} label="Notifications" />
+          {tabsList.map(tab => (
+            <Tab className={classes.tab} label={tab} />
+          ))}
         </Tabs>
       </div>
     </Grid>
