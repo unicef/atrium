@@ -1,7 +1,7 @@
 import * as TYPES from './types'
 
 const initialState = {
-  sort: 'ASC',
+  sort: 'asc',
   isLoading: false,
   searchText: undefined,
   page: 1,
@@ -13,12 +13,12 @@ const searchReducer = (state = initialState, { type, payload }) => {
     case TYPES.SORT_ASC:
       return {
         ...state,
-        sort: 'ASC'
+        sort: 'asc'
       }
     case TYPES.SORT_DESC:
       return {
         ...state,
-        sort: 'DESC'
+        sort: 'desc'
       }
     case TYPES.SHOW_LOADING:
       return {

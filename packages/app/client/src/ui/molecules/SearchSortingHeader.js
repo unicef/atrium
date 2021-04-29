@@ -24,9 +24,9 @@ const useStyles = makeStyles({
   }
 })
 
-const SearchDateSortHeader = ({ name, sortAsc, sortDesc, sortDirection }) => {
+const SearchSortingHeader = ({ name, sortAsc, sortDesc, sortDirection, sortType }) => {
   const classes = useStyles()
-  const isAscSorting = sortDirection === 'ASC'
+  const isAscSorting = sortDirection === 'asc'
 
   return (
     <Grid xs={12} style={{ padding: 30 }} item container justify="space-between" alignItems="center"> 
@@ -34,11 +34,11 @@ const SearchDateSortHeader = ({ name, sortAsc, sortDesc, sortDirection }) => {
       <TextButton
         onClick={isAscSorting ? sortDesc : sortAsc}
         endIcon={isAscSorting ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-        textContent={`Sort by date (${sortDirection.toUpperCase()})`}
+        textContent={`Sort by ${sortType} (${sortDirection.toUpperCase()})`}
         className={classes.textButton}
       />
     </Grid>
   )
 }
 
-export default SearchDateSortHeader
+export default SearchSortingHeader
