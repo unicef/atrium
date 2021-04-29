@@ -7,14 +7,14 @@ import FilterRow from './FilterRow'
 import { Divider, TextButton } from '../../../atoms'
 import { useProjectsMainActions } from '../../../hooks'
 
-const FiltersSection = ({ options, title  }) => {
+const FiltersSection = ({ options, title, dataKey  }) => {
   const { addFilter, removeFilter } = useProjectsMainActions()
   const [isShowingMore, toggleMoreOptions] = React.useState(false)
   const [minOptionsGroupHeigh, setOptionsGroupMinHeight] = React.useState(0)
   const shouldHaveShowMoreButton = options.length > 4
 
   React.useEffect(() =>  {
-    const checkboxHeight = document.getElementById(`${title}FilterOption_0`).clientHeight
+    const checkboxHeight = document.getElementById(`${dataKey}FilterOption_0`).clientHeight
 
     setOptionsGroupMinHeight(4 * checkboxHeight)
   }, [])
@@ -29,10 +29,10 @@ const FiltersSection = ({ options, title  }) => {
             {options.map((option, index) => (
               <FilterRow
                 option={option}
-                sectionTitle={title}
                 addFilter={addFilter}
                 removeFilter={removeFilter}
                 index={index}
+                dataKey={dataKey}
               />
             ))}
           </div>

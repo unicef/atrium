@@ -1,6 +1,7 @@
 module.exports = [
   {
     title: 'Blockchain name',
+    dataKey: 'blockchainName',
     options: [
       'Bitcoin',
       'Ethereum',
@@ -12,10 +13,10 @@ module.exports = [
   },
   {
     title: 'Project stage',
+    dataKey: 'projectStage',
     options: [
       'Research',
       'Ideation',
-      'Health',
       'Prototype',
       'Implementation',
       'Production'
@@ -23,6 +24,7 @@ module.exports = [
   },
   {
     title: 'Innovation area',
+    dataKey: 'innovationArea',
     options: [
       'Blockchain',
       'Financial Inclusion',
@@ -40,6 +42,7 @@ module.exports = [
   },
   {
     title: 'Thematic area',
+    dataKey: 'thematicArea',
     options: [
       'End Poverty',
       'Zero Hunger',
