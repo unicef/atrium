@@ -49,6 +49,15 @@ const useStyles = makeStyles(() => ({
     margin: '5%',
     display: 'flex',
     justifyContent: 'space-between'
+  },
+  editButton: {
+    marginRight: '5%',
+    width: '107px',
+    height: '42px'
+  },
+  viewProject: {
+    width: '139px',
+    height: '42px'
   }
 }))
 
@@ -60,7 +69,6 @@ function Dashboard(props) {
     if (a.date < b.date) return 1
     return 0
   }
-  // const latestProject = props.projects.sort(compareByDate)[0]
   return (
     <>
       <Typography style={{ marginBottom: '2%', fontSize: '34px' }} variant="h3">
@@ -69,7 +77,7 @@ function Dashboard(props) {
       <Grid item container xs={12}>
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo size="normal">
-            <Typography variant="subtitle1">MY STATS</Typography>
+            <Typography style={{ paddingTop: '4%' }} variant="subtitle1">MY STATS</Typography>
             <div className={classes.boxes}>
               <div style={{ textAlign: 'center' }}>
                 <div className={classes.bordered}>
@@ -78,7 +86,6 @@ function Dashboard(props) {
                     <div>Likes</div>
                   </div>
                   <div style={{ borderBottom: '2.2px solid #15B54A' }} />
-                  {/* <div className={classes.count}> {props.likes.length}</div>*/}
                   <div className={classes.count}>23</div>
                 </div>
                 <Button className={classes.buttons} color="primary">
@@ -126,9 +133,6 @@ function Dashboard(props) {
             </div>
             <div>
               <div style={{ width: '100%', height: '150px' }}>
-                {/* <div>{latestProject.date} days ago</div>*/}
-                {/* <div>{latestProject.name}</div>*/}
-                {/* <div>{latestProject.details}</div>*/}
                 <StructuredCard
                   author={'Victor'}
                   date="4/26/2021 2:28"
@@ -140,14 +144,21 @@ function Dashboard(props) {
               </div>
               <div style={{ margin: '5%' }}>
                 <Button
-                  style={{ marginRight: '5%' }}
+                  className={classes.editButton}
                   color="primary"
                   variant="outlined"
                 >
-                  <img src={Edit} />
+                  <img
+                    style={{ width: '14px', marginRight: '15%' }}
+                    src={Edit}
+                  />
                   Edit
                 </Button>
-                <Button color="primary" variant="outlined">
+                <Button
+                  className={classes.viewProject}
+                  color="primary"
+                  variant="outlined"
+                >
                   View Project
                 </Button>
               </div>
@@ -167,14 +178,6 @@ function Dashboard(props) {
                 see all >
               </Button>
             </div>
-            {/* {props.comments.slice(3).map(comment => (*/}
-            {/* <StructuredCard*/}
-            {/*    author={comment.owner.name}*/}
-            {/*    date={comment.date}*/}
-            {/*    content={comment.content}*/}
-            {/* />*/}
-            {/* <div className={classes.line}/>*/}
-            {/* ))*/}
             <div>
               <StructuredCard
                 author={'Vanya'}
@@ -198,14 +201,6 @@ function Dashboard(props) {
                 see all >
               </Button>
             </div>
-            {/* {props.posts.slice(3).map(post => (*/}
-            {/* {/*<StructuredCard*/}
-            {/*    author={post.owner.name}*/}
-            {/*    date={post.date}*/}
-            {/*    title={post.title}*/}
-            {/*    content={post.content}*/}
-            {/* />*/}
-            {/* ))}*/}
             <div>
               <StructuredCard
                 author="Vanya"

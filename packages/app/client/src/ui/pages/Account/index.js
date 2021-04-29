@@ -21,7 +21,6 @@ const Account = () => {
   const containerStyle = useContainerStyle({ size: 'full' })
   const [tabIndex, setTabIndex] = useState(0)
   const user = useSelector(state => state.auth.user)
-
   const handleChange = (e, newVal) => {
     setTabIndex(newVal)
   }
