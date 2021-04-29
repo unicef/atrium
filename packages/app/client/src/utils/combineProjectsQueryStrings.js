@@ -8,7 +8,9 @@ const combineProjectsQueryStrings = (
     limit
   }
 ) => {
-  const combinedFilters = Object.entries(filters).map(([key, options]) => Array.isArray(options) ? `${key}=${options.join(',')}` : '')
+  const combinedFilters = Object.entries(filters).map(([key, options]) => {
+    return Array.isArray(options) ? `${key}=${options.join(',')}` : ''
+  })
   
   if (Array.isArray(combinedFilters)) {
     return `?offset=${offset}&limit=${limit}&name=${search}&sort=${sort}&${combinedFilters.join('&')}`

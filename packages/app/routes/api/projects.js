@@ -79,6 +79,13 @@ router.get(
           project.name.toLowerCase().includes(req.query.name.toLowerCase())
         )
       }
+      if (req.query.blockchainName) {
+        projects = projects.filter(project =>
+          project.blockchainName
+            .toLowerCase()
+            .includes(req.query.blockchainName.toLowerCase())
+        )
+      }
       if (req.query.projectStage) {
         projects = projects.filter(project =>
           project.stageOfProject
@@ -100,7 +107,7 @@ router.get(
             .includes(req.query.thematicArea.toLowerCase())
         )
       }
-      if (req.query.sort.toLowerCase() === 'asc') {
+      if (req.query.sort === 'asc') {
         projects = projects.sort((a, b) =>
           a.name > b.name ? 1 : b.name > a.name ? -1 : 0
         )
