@@ -55,7 +55,7 @@ function VerticalTabs({ tabIndex, handleChange, tabsList }) {
       <div className={classes.tabs}>
         <Tabs value={tabIndex} onChange={handleChange} orientation="vertical">
           {tabsList.map((tab, i) => (
-            <Tab key={tab.replaceAll(' ') + i} className={classes.tab} label={tab} />
+            <Tab key={tab.replace(/s/g, '') + "HorizontalTabItem" + i} className={classes.tab} label={tab} />
           ))}
         </Tabs>
       </div>
