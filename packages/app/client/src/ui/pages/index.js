@@ -8,8 +8,5 @@ export { default as ForgotPassword } from './ForgotPassword'
 export { default as ResetPassword } from './ResetPassword'
 export { default as ProjectsMain } from './ProjectsMain'
 export { default as ProjectView } from './ProjectView'
-<<<<<<< HEAD
 export { default as PageNotFound } from './PageNotFound'
-=======
->>>>>>> structure, components
 export { default as Account } from './Account'
