@@ -66,6 +66,19 @@ const populateParams = [
   }
 ]
 
+/**
+ * This function a filter string with many possible values
+ * and returns the projects that match any value of the strings
+ * @param {String} dataKey - e.g. blockchainName
+ * @param {String} values - e.g. "Bitcoin,Stellar,Corda"
+ */
+ const filterMultipleValues = async (dataKey, values) => {
+  const parsedValues = values.split(',').join('|')
+  const regex = new RegExp("\\b(?:" + parsedValues + ")\\b", "gi")
+
+  return await Project.find({ [dataKey]: regex }).populate(populateParams).exec()
+}
+
 router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -86,32 +99,16 @@ router.get(
         )
       }
       if (req.query.blockchainName) {
-        projects = projects.filter(project =>
-          project.blockchainName
-            .toLowerCase()
-            .includes(req.query.blockchainName.toLowerCase())
-        )
+        projects = await filterMultipleValues('blockchainName', req.query.blockchainName)
       }
-      if (req.query.projectStage) {
-        projects = projects.filter(project =>
-          project.stageOfProject
-            .toLowerCase()
-            .includes(req.query.projectStage.toLowerCase())
-        )
+      if (req.query.stageOfProject) {
+        projects = await filterMultipleValues('stageOfProject', req.query.stageOfProject)
       }
-      if (req.query.innovationArea) {
-        projects = projects.filter(project =>
-          project.innovationCategory
-            .toLowerCase()
-            .includes(req.query.innovationArea.toLowerCase())
-        )
+      if (req.query.innovationCategory) {
+        projects = await filterMultipleValues('innovationCategory', req.query.innovationCategory)
       }
       if (req.query.thematicArea) {
-        projects = projects.filter(project =>
-          project.thematicArea
-            .toLowerCase()
-            .includes(req.query.thematicArea.toLowerCase())
-        )
+        projects = await filterMultipleValues('thematicArea', req.query.thematicArea)
       }
       if (req.query.sort === 'asc') {
         projects = projects.sort((a, b) =>
