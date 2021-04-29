@@ -15,6 +15,13 @@ const useStyles = makeStyles(() => ({
     margin: '3% 0',
     alignItems: 'center'
   },
+  header: {
+    fontSize: '18px',
+    margin: '3% 0'
+  },
+  title: {
+    fontSize: '18px'
+  },
   root: {
     width: 54,
     height: 24,
@@ -62,7 +69,7 @@ function NotificationsActivity({
   return (
     <>
       <div className={classes.line} />
-      <Typography style={{ fontSize: '18px', margin: '3% 0' }} variant="h3">
+      <Typography className={classes.header} variant="h3">
         {variant === 'posts'
           ? 'Forum activity'
           : variant === 'projects'
@@ -70,10 +77,7 @@ function NotificationsActivity({
           : 'Comments'}
       </Typography>
       <div className={classes.item}>
-        <Typography
-          style={{ fontSize: '18px'}}
-          variant="body1"
-        >
+        <Typography className={classes.title} variant="body1">
           {variant === 'posts'
             ? 'Comment on your posts'
             : variant === 'projects'
@@ -95,10 +99,7 @@ function NotificationsActivity({
         />
       </div>
       <div className={classes.item}>
-        <Typography
-          style={{ fontSize: '18px' }}
-          variant="body1"
-        >
+        <Typography className={classes.title} variant="body1">
           {variant === 'posts'
             ? 'Updates on your posts'
             : variant === 'projects'

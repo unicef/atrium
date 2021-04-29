@@ -2,7 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import BorderedInfo from './BorderedInfo'
 import Typography from '@material-ui/core/Typography'
-import { Button, LikeButton} from '../../../atoms'
+import { Button, Image, LikeButton } from '../../../atoms'
 import { Badge, Edit } from '../../../assets'
 import { makeStyles } from '@material-ui/core/styles'
 import { StructuredCard } from '../../../molecules'
@@ -45,6 +45,9 @@ const useStyles = makeStyles(() => ({
   line: {
     borderBottom: '1px solid #E7E7E7'
   },
+  greenLine: {
+    borderBottom: '2.2px solid #15B54A'
+  },
   boxes: {
     margin: '5%',
     display: 'flex',
@@ -58,6 +61,28 @@ const useStyles = makeStyles(() => ({
   viewProject: {
     width: '139px',
     height: '42px'
+  },
+  greeting: {
+    marginBottom: '2%',
+    fontSize: '34px'
+  },
+  bottomBoxes: {
+    marginTop: '2%'
+  },
+  centered: {
+    textAlign: 'center'
+  },
+  project: {
+    height: '150px'
+  },
+  title: {
+    paddingTop: '4%'
+  },
+  margined: {
+    margin: '5%'
+  },
+  editText: {
+    marginLeft: '10%'
   }
 }))
 
@@ -71,35 +96,35 @@ function Dashboard(props) {
   }
   return (
     <>
-      <Typography style={{ marginBottom: '2%', fontSize: '34px' }} variant="h3">
+      <Typography className={classes.greeting} variant="h3">
         Hello, {props.name}
       </Typography>
       <Grid item container xs={12}>
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo size="normal">
-            <Typography style={{ paddingTop: '4%' }} variant="subtitle1">MY STATS</Typography>
+            <Typography className={classes.title} variant="subtitle1">MY STATS</Typography>
             <div className={classes.boxes}>
-              <div style={{ textAlign: 'center' }}>
+              <div className={classes.centered}>
                 <div className={classes.bordered}>
                   <div className={classes.topText}>
                     <LikeButton liked onlyIcon disabled />
                     <div>Likes</div>
                   </div>
-                  <div style={{ borderBottom: '2.2px solid #15B54A' }} />
+                  <div className={classes.greenLine} />
                   <div className={classes.count}>23</div>
                 </div>
                 <Button className={classes.buttons} color="primary">
                   Redeem likes
                 </Button>
               </div>
-              <div style={{ textAlign: 'center' }}>
+              <div className={classes.centered}>
                 <div>
                   <div className={classes.bordered}>
                     <div className={classes.topText}>
-                      <img style={{ marginRight: '5%' }} src={Badge} />
-                      <div>Badges</div>
+                      <Image sameSize borderRadius={0} width="18px" height="22px" src={Badge} />
+                      <span className={classes.margined}>Badges</span>
                     </div>
-                    <div style={{ borderBottom: '2.2px solid #15B54A' }} />
+                    <div className={classes.greenLine} />
                     <div className={classes.count}>
                       {props.badges &&
                         Object.keys(props.badges).filter(
@@ -132,7 +157,7 @@ function Dashboard(props) {
               </Button>
             </div>
             <div>
-              <div style={{ width: '100%', height: '150px' }}>
+              <div className={classes.project}>
                 <StructuredCard
                   author={'Victor'}
                   date="4/26/2021 2:28"
@@ -142,17 +167,14 @@ function Dashboard(props) {
                   }
                 />
               </div>
-              <div style={{ margin: '5%' }}>
+              <div className={classes.margined}>
                 <Button
                   className={classes.editButton}
                   color="primary"
                   variant="outlined"
                 >
-                  <img
-                    style={{ width: '14px', marginRight: '15%' }}
-                    src={Edit}
-                  />
-                  Edit
+                  <Image sameSize borderRadius={0} width="14px" height="14px" src={Edit} />
+                  <span className={classes.editText}>Edit</span>
                 </Button>
                 <Button
                   className={classes.viewProject}
@@ -166,7 +188,7 @@ function Dashboard(props) {
           </BorderedInfo>
         </Grid>
       </Grid>
-      <Grid style={{ marginTop: '2%' }} item container xs={12}>
+      <Grid className={classes.bottomBoxes} item container xs={12}>
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo size="large">
             <div className={classes.header}>

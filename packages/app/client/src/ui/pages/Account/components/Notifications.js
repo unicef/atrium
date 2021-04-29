@@ -5,6 +5,9 @@ import NotificationsActivity from './NotificationsActivity'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
+  wraper: {
+    maxWidth: '470px'
+  },
   root: {
     width: 54,
     height: 24,
@@ -38,7 +41,20 @@ const useStyles = makeStyles(() => ({
     opacity: 1
   },
   checked: {},
-  focusVisible: {}
+  focusVisible: {},
+  line: {
+    borderBottom: '1px solid #E7E7E7',
+    width: '100%'
+  },
+  description: {
+    margin: '5% 0',
+    width: '81%'
+  },
+  allSection: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '3% 0'
+  }
 }))
 
 function Notifications(props) {
@@ -59,15 +75,15 @@ function Notifications(props) {
   )
 
   return (
-    <div style={{ maxWidth: '470px' }}>
+    <div className={classes.wraper}>
       <Typography variant="h3">Notifications settings</Typography>
-      <Typography style={{ margin: '5% 0', width: '81%' }} variant="body1">
+      <Typography className={classes.description} variant="body1">
         Lorem Ipsum is simply dummy text of the printing and typesetting
         industry. Lorem Ipsum has been the industry's standard dummy text ever
         since the 1500s,
       </Typography>
-      <div style={{ borderBottom: '1px solid #E7E7E7', width: '100%' }} />
-      <div style={{ display: 'flex', alignItems: 'center', margin: '3% 0' }}>
+      <div className={classes.line} />
+      <div className={classes.allSection}>
         <Switch
           focusVisibleClassName={classes.focusVisible}
           disableRipple

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Container from '@material-ui/core/Container'
 import { useContainerStyle } from '../../hooks'
 import {
   InfoSection,
@@ -16,16 +15,16 @@ import {
 import VerticalTabs from '../../molecules/VerticalTabs'
 import Grid from '@material-ui/core/Grid'
 import { useSelector } from 'react-redux'
+import { MainContainer } from '../../templates'
 
 const Account = () => {
-  const containerStyle = useContainerStyle({ size: 'full' })
   const [tabIndex, setTabIndex] = useState(0)
   const user = useSelector(state => state.auth.user)
   const handleChange = (e, newVal) => {
     setTabIndex(newVal)
   }
   return (
-    <Container className={containerStyle}>
+    <MainContainer>
       <Grid container xs={12}>
         <VerticalTabs handleChange={handleChange} tabIndex={tabIndex} />
         <InfoSection>
@@ -40,7 +39,7 @@ const Account = () => {
           {tabIndex === 8 ? <Notifications {...user} /> : null}
         </InfoSection>
       </Grid>
-    </Container>
+    </MainContainer>
   )
 }
 
