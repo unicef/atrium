@@ -31,7 +31,13 @@ const populateParams = [
     select: userFieldSelection
   },
   {
-    path: 'updates'
+    path: 'updates',
+    populate: [
+      {
+        path: 'owner',
+        select: userFieldSelection
+      }
+    ]
   },
   {
     path: 'team',

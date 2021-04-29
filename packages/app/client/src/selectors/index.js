@@ -15,11 +15,16 @@ export const getSearchedProjectById = (state, id) => state.projects.searchedProj
 
 // PROJECT VIEW
 export const getCurrentProject = state => state.projects.selectedProject
+export const getCurrentProjectId = createSelector(
+  getCurrentProject,
+  (project) => project.id
+)
 export const currentUserIsTheOwner = createSelector(
   getUserId,
   getCurrentProject,
   (userId, project) => project.owner.id === userId
 )
+export const getHandledUpdates = state => state.projects.handledUpdates
 
 // SEARCH
 export const searchSort = state => state.search.sort

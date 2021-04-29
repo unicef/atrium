@@ -9,6 +9,7 @@ const getCommentEndpoint = (id) => `${id}/comment`
 const getUpdateEndpoint = (projectId) => `${projectId}/update`
 const getAddMemberEndpoint = (projectId) => `${projectId}/addMembers`
 const getDeleteMemberEndpoint = (projectId) => `${projectId}/deleteMember`
+const getDeleteUpdateEndpoint = (updateId) => `${updateId}/update`
 
 // ERRORS
 export const ERRORS = {
@@ -106,6 +107,11 @@ export const addUpdate = (projectId, update) => projectRequest({
   body: update
 })
 
+export const removeUpdate = (updateId) => projectRequest({
+  method: 'delete',
+  endpoint: getDeleteUpdateEndpoint(updateId)
+})
+
 export const addMembers = (projectId, members) => projectRequest({
   method: 'post',
   endpoint: getAddMemberEndpoint(projectId),
@@ -118,6 +124,7 @@ export const deleteMember = (projectId, memberId) => projectRequest({
   body: { memberId }
 })
 
+// TODO: CHANGE THE FUNCTION BELOW TO USE projectRequest
 export function deleteFile(projectId, filePath, type) {
   return axios.post(`projects/${projectId}/${type}/deleteFile`, { filePath })
 }
