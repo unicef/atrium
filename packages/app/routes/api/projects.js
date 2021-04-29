@@ -101,11 +101,11 @@ router.get(
       if (req.query.blockchainName) {
         projects = await filterMultipleValues('blockchainName', req.query.blockchainName)
       }
-      if (req.query.projectStage) {
-        projects = await filterMultipleValues('projectStage', req.query.projectStage)
+      if (req.query.stageOfProject) {
+        projects = await filterMultipleValues('stageOfProject', req.query.stageOfProject)
       }
-      if (req.query.innovationArea) {
-        projects = await filterMultipleValues('innovationArea', req.query.innovationArea)
+      if (req.query.innovationCategory) {
+        projects = await filterMultipleValues('innovationCategory', req.query.innovationCategory)
       }
       if (req.query.thematicArea) {
         projects = await filterMultipleValues('thematicArea', req.query.thematicArea)
