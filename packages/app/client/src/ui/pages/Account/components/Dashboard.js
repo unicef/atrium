@@ -2,7 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import BorderedInfo from './BorderedInfo'
 import Typography from '@material-ui/core/Typography'
-import { Button } from '../../../atoms'
+import {Button, LikeButton} from '../../../atoms'
 import { Badge, Edit, Like } from '../../../assets'
 import { makeStyles } from '@material-ui/core/styles'
 import { StructuredCard } from '../../../molecules'
@@ -82,7 +82,7 @@ function Dashboard(props) {
               <div style={{ textAlign: 'center' }}>
                 <div className={classes.bordered}>
                   <div className={classes.topText}>
-                    <img style={{ marginRight: '5%' }} src={Like} />
+                    <LikeButton liked onlyIcon disabled />
                     <div>Likes</div>
                   </div>
                   <div style={{ borderBottom: '2.2px solid #15B54A' }} />
