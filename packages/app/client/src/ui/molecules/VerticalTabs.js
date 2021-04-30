@@ -5,6 +5,7 @@ import Tab from '@material-ui/core/Tab'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
 import { useSelector } from 'react-redux'
+import {getUser} from "../../selectors";
 const useDefaultStyles = makeStyles(() => ({
   top: {
     height: '100px',
@@ -26,7 +27,7 @@ const useDefaultStyles = makeStyles(() => ({
 
 function VerticalTabs({ tabIndex, handleChange, tabsList }) {
   const classes = useDefaultStyles()
-  const user = useSelector(state => state.auth.user)
+  const user = useSelector(getUser)
   return (
     <Grid
       style={{ borderRight: '1px solid #E7E7E7' }}
