@@ -91,10 +91,9 @@ router.get(
       'User is getting projects'
     )
     let projects = []
-    let counter = 0
+    let pageCounter = 0
     try {
       projects = await Project.find().populate(populateParams)
-      counter = Math.ceil(projects.length / 9)
       if (req.query.name) {
         projects = projects.filter(project =>
           project.name.toLowerCase().includes(req.query.name.toLowerCase())
@@ -121,15 +120,17 @@ router.get(
           a.name < b.name ? 1 : b.name < a.name ? -1 : 0
         )
       }
+      pageCounter = Math.ceil(projects.length / 9)
       projects = projects.splice(req.query.offset, req.query.limit)
       log.info(
         {
           requestId: req.id,
-          projects
+          projects,
+          pageCounter
         },
         'Success getting project list'
       )
-      return res.status(200).json({ projects, counter })
+      return res.status(200).json({ projects, pageCounter })
     } catch (error) {
       log.info(
         {
