@@ -32,3 +32,4 @@ export const searchCurrentPage = state => state.search.page
 export const getSearchText = state => state.search.searchText
 export const searchIsLoading = state => state.search.isLoading
 export const getSearchContext = state => state.search.context
+export const getNumberOfPages = state => state.search.numberOfPages

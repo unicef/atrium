@@ -8,3 +8,4 @@ export const addSearchText =  (payload) => ({ type: TYPES.ADD_SEARCH_TEXT, paylo
 export const changePage =  (payload) => ({ type: TYPES.CHANGE_PAGE, payload })
 export const resetSearch =  () => ({ type: TYPES.RESET_SEARCH })
 export const setCurrentPageContext = (payload) => ({ type: TYPES.UPDATE_CONTEXT, payload })
+export const setNumberOfPages = (payload) => ({ type: TYPES.SET_NUMBER_OF_PAGES, payload })
