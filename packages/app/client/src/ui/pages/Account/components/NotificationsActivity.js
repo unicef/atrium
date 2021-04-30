@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import { Switch } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { IosSwitch } from '../../../molecules'
 
 const useStyles = makeStyles(() => ({
   line: {
@@ -21,40 +21,7 @@ const useStyles = makeStyles(() => ({
   },
   title: {
     fontSize: '18px'
-  },
-  root: {
-    width: 54,
-    height: 24,
-    padding: 0
-  },
-  switchBase: {
-    padding: 1,
-    '&$checked': {
-      transform: 'translateX(30px)',
-      color: 'white',
-      '& + $track': {
-        backgroundColor: '#15B54A',
-        opacity: 1,
-        border: 'none'
-      }
-    },
-    '&$focusVisible $thumb': {
-      color: '#15B54A',
-      border: '6px solid #fff'
-    }
-  },
-  thumb: {
-    width: 22,
-    height: 22
-  },
-  track: {
-    borderRadius: 26 / 2,
-    border: `1px solid #BCBEBE`,
-    backgroundColor: '#BCBEBE',
-    opacity: 1
-  },
-  checked: {},
-  focusVisible: {}
+  }
 }))
 
 function NotificationsActivity({
@@ -84,16 +51,7 @@ function NotificationsActivity({
             ? 'Comment on your projects'
             : 'Replies on your comments'}
         </Typography>
-        <Switch
-          focusVisibleClassName={classes.focusVisible}
-          disableRipple
-          classes={{
-            root: classes.root,
-            switchBase: classes.switchBase,
-            thumb: classes.thumb,
-            track: classes.track,
-            checked: classes.checked
-          }}
+        <IosSwitch
           checked={firstValue}
           onChange={() => firstHandler(!firstValue)}
         />
@@ -106,16 +64,7 @@ function NotificationsActivity({
             ? 'Updates on your projects'
             : 'Updates on your comments'}
         </Typography>
-        <Switch
-          focusVisibleClassName={classes.focusVisible}
-          disableRipple
-          classes={{
-            root: classes.root,
-            switchBase: classes.switchBase,
-            thumb: classes.thumb,
-            track: classes.track,
-            checked: classes.checked
-          }}
+        <IosSwitch
           checked={secondValue}
           onChange={() => secondHandler(!secondValue)}
         />
