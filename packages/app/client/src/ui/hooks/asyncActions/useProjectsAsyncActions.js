@@ -8,7 +8,7 @@ import { getUserId } from '../../../selectors'
 const useProjectsAsyncActions = () => {
   const handledRequest = useHandledRequest()
   const userId = useSelector(getUserId)
-  const { showLoading, dismissLoading } = useSearchActions()
+  const { showLoading, dismissLoading, setNumberOfPages } = useSearchActions()
   const { saveSearchedProjects, toggleProjectLike } = useProjectsMainActions()
   const { setCurrentProject, deleteUpdate } = useProjectViewActions()
   const isUserAuthenticated = useIsAuthenticated()
@@ -17,7 +17,10 @@ const useProjectsAsyncActions = () => {
     fetchSearchedProjects: handledRequest(
       { 
         request: ProjectApi.getAllProjects,
-        onSuccess: ({ projects }) => saveSearchedProjects({ projects, registeredUser: isUserAuthenticated, userId }),
+        onSuccess: ({ projects, pageCounter }) => {
+          saveSearchedProjects({ projects, registeredUser: isUserAuthenticated, userId })
+          setNumberOfPages(pageCounter)
+        },
         specificLoading: {
           show: showLoading,
           dismiss: dismissLoading

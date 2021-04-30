@@ -5,7 +5,8 @@ const initialState = {
   isLoading: false,
   searchText: undefined,
   page: 1,
-  context: undefined
+  context: undefined,
+  numberOfPages: undefined
 }
 
 const searchReducer = (state = initialState, { type, payload }) => {
@@ -48,6 +49,11 @@ const searchReducer = (state = initialState, { type, payload }) => {
           ...state,
           context: payload
         }
+    case TYPES.SET_NUMBER_OF_PAGES:
+      return {
+        ...state,
+        numberOfPages: payload
+      }
     default:
       return state
   }

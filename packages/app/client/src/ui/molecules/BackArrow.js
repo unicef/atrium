@@ -30,7 +30,7 @@ const BackArrow = ({ dest, history }) => {
     <div onClick={() => history.push(dest)} className={classes.backArrow}>
       <ArrowBackIosIcon className={classes.icon} />
       <Typography variant="body1" className={classes.contentText}>
-        {'Back do projects'}
+        {'Back to projects'}
       </Typography>
     </div>
   )

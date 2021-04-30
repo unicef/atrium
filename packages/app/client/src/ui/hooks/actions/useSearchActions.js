@@ -7,7 +7,8 @@ import {
   addSearchText,
   changePage,
   resetSearch,
-  setCurrentPageContext
+  setCurrentPageContext,
+  setNumberOfPages
 } from '../../../reduxStructures/search'
 
 const useSearchActions = () => {
@@ -21,7 +22,8 @@ const useSearchActions = () => {
     addSearch: (payload) => { dispatch(addSearchText(payload)) },
     changePage: (payload) => { dispatch(changePage(payload)) },
     resetSearch: () => { dispatch(resetSearch())},
-    setCurrentPageContext: (payload) => { dispatch(setCurrentPageContext(payload)) }
+    setCurrentPageContext: (payload) => { dispatch(setCurrentPageContext(payload)) },
+    setNumberOfPages: (payload) => { dispatch(setNumberOfPages(payload)) }
   }
 }
 
