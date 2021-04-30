@@ -13,7 +13,7 @@ const useStyles = makeStyles(() =>
   })
 )
 
-const Image = ({ height, width, sameSize, objectFit, children, borderRadius = 5, ...props}) => {
+const Image = ({ height, width, sameSize, objectFit, children, borderRadius, ...props}) => {
   const [imageLoaded, setLoaded] = React.useState(false)
   const classes = useStyles({ imageLoaded, height, width, objectFit, borderRadius })
 
@@ -30,10 +30,11 @@ const Image = ({ height, width, sameSize, objectFit, children, borderRadius = 5,
   )
 }
 
-Image.defaultProps ={
+Image.defaultProps = {
   height: '100%',
   width: '100%',
-  objectFit: 'fill'
+  objectFit: 'fill',
+  borderRadius: 5
 }
 
 export default Image
