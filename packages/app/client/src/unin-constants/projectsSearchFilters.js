@@ -13,7 +13,7 @@ module.exports = [
   },
   {
     title: 'Project stage',
-    dataKey: 'projectStage',
+    dataKey: 'stageOfProject',
     options: [
       'Research',
       'Ideation',
@@ -24,7 +24,7 @@ module.exports = [
   },
   {
     title: 'Innovation area',
-    dataKey: 'innovationArea',
+    dataKey: 'innovationCategory',
     options: [
       'Blockchain',
       'Financial Inclusion',

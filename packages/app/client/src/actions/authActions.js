@@ -146,9 +146,11 @@ export const logoutUser = () => dispatch => {
   dispatch(setCurrentUser({}))
 }
 
-export const getUserInformation = () => {
+export const getUserInformation = async () => {
   const auth = store.getState().auth
-  axios.get('users/me').catch(err => {
+  try {
+    return await axios.get('users/me')
+  } catch (err) {
     let errorMessage = ERRORS.GENERIC
     if (err.response && err.response.status) {
       switch (err.response.status) {
@@ -166,15 +168,14 @@ export const getUserInformation = () => {
       }
     }
 
-    
-    if (auth.user.id){
+    if (auth.user.id) {
       // Logout user
       store.dispatch(logoutUser())
-      
+
       // Redirect to login
       window.location.href = './login'
-    } 
-  })
+    }
+  }
 }
 
 export const getFilteredUsers = prefix => async dispatch => {

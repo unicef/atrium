@@ -2,7 +2,7 @@
 import { ThemeProvider, withStyles } from '@material-ui/styles'
 
 import Box from '@material-ui/core/Box'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { getUserInformation } from './actions/authActions'
@@ -39,73 +39,103 @@ import {
 } from './ui'
 
 // pages
+import {
+  Register,
+  Login,
+  ForgotPassword,
+  ResetPassword,
+  Learn,
+  Account
+} from './ui/pages'
 import projectsRoutes from './routes/projects'
-import { Register, Login, ForgotPassword, ResetPassword, Learn, Account } from './ui/pages'
 
 require('./utils/configureRequests')
 
-getUserInformation()
-
 const App = () => {
+  const [userInfoSet, setUserInfoSet] = useState(false)
+  useEffect(() => {
+    const fetchUser = async () => {
+      await getUserInformation()
+      setUserInfoSet(true)
+    }
+    fetchUser()
+  }, [])
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Provider store={store}>
-          <Box display="flex" flexDirection="column" position="relative" height="100%" width="100%" minHeight="100vh" minWidth="100vw">
-            <ModalMessage />
-            <Header />
-            <Toast />
-            <Switch>
-              {projectsRoutes()}
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/learn" component={Learn} />
-              <Route exact path="/forgot-password" component={ForgotPassword} />
-              <Route exact path="/reset-password/:token" component={ResetPassword} />
-              <PrivateRoute exact path="/learn" component={LearnPage} />
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              <PrivateRoute exact path="/github" component={GitHubPage} />
-              <PrivateRoute exact path="/twitter" component={TwitterPage} />
-              <PrivateRoute exact path="/profile" component={Account} />
-              <PrivateRoute exact path="/settings" component={Technical} />
-              <PrivateRoute exact path="/statistics" component={Stats} />
-              <PrivateRoute exact path="/reports" component={Reports} />
-              <PrivateRoute exact path="/invite" component={ManualInvite} />
-              <PrivateRoute exact path="/about" component={About} />
-              <PrivateRoute
-                exact
-                path="/create-projects"
-                component={CreateProject}
-              />
-              <PrivateRoute
-                exact
-                path="/view-projects"
-                component={ProjectPage}
-              />
-              <PrivateRoute
-                exact
-                path="/project-details/:id"
-                component={ProjectDetails}
-              />
-
-              <PrivateRoute exact path="/engage" component={DiscussionPage} />
-              <PrivateRoute
-                exact
-                path="/discussion-details/:id"
-                component={DiscussionDetails}
-              />
-              <PrivateRoute
-                exact
-                path="/create-polls"
-                component={CreatePollPage}
-              />
-              <Route path="*" component={PageNotFound} />
-            </Switch>
-            <Footer />
-            <FullPageLoader />
-          </Box>
-        </Provider>
+        {userInfoSet && (
+          <Provider store={store}>
+            <Box
+              display="flex"
+              flexDirection="column"
+              position="relative"
+              height="100%"
+              width="100%"
+              minHeight="100vh"
+              minWidth="100vw"
+            >
+              <ModalMessage />
+              <Header />
+              <Toast />
+              <Switch>
+                {projectsRoutes()}
+                <Route exact path="/" component={Landing} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/learn" component={Learn} />
+                <Route
+                  exact
+                  path="/forgot-password"
+                  component={ForgotPassword}
+                />
+                <Route
+                  exact
+                  path="/reset-password/:token"
+                  component={ResetPassword}
+                />
+                <PrivateRoute exact path="/learn" component={LearnPage} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/github" component={GitHubPage} />
+                <PrivateRoute exact path="/twitter" component={TwitterPage} />
+                <PrivateRoute exact path="/profile" component={ProfilePage} />
+                <PrivateRoute exact path="/settings" component={Technical} />
+                <PrivateRoute exact path="/statistics" component={Stats} />
+                <PrivateRoute exact path="/reports" component={Reports} />
+                <PrivateRoute exact path="/invite" component={ManualInvite} />
+                <PrivateRoute exact path="/about" component={About} />
+                <PrivateRoute
+                  exact
+                  path="/create-projects"
+                  component={CreateProject}
+                />
+                <PrivateRoute
+                  exact
+                  path="/view-projects"
+                  component={ProjectPage}
+                />
+                <PrivateRoute
+                  exact
+                  path="/project-details/:id"
+                  component={ProjectDetails}
+                />
+                <PrivateRoute exact path="/engage" component={DiscussionPage} />
+                <PrivateRoute
+                  exact
+                  path="/discussion-details/:id"
+                  component={DiscussionDetails}
+                />
+                <PrivateRoute
+                  exact
+                  path="/create-polls"
+                  component={CreatePollPage}
+                />
+                <Route path="*" component={PageNotFound} />
+              </Switch>
+              <Footer />
+              <FullPageLoader />
+            </Box>
+          </Provider>
+        )}
       </Router>
     </ThemeProvider>
   )
