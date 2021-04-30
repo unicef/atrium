@@ -120,7 +120,7 @@ router.get(
           a.name < b.name ? 1 : b.name < a.name ? -1 : 0
         )
       }
-      pageCounter = Math.ceil(projects.length / 9)
+      pageCounter = Math.ceil(projects.length / req.query.limit)
       projects = projects.splice(req.query.offset, req.query.limit)
       log.info(
         {
