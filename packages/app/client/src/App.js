@@ -53,9 +53,12 @@ require('./utils/configureRequests')
 
 const App = () => {
   const [userInfoSet, setUserInfoSet] = useState(false)
-  useEffect(async () => {
-    await getUserInformation()
-    setUserInfoSet(true)
+  useEffect(() => {
+    const fetchUser = async () => {
+      await getUserInformation()
+      setUserInfoSet(true)
+    }
+    fetchUser()
   }, [])
   return (
     <ThemeProvider theme={theme}>
