@@ -41,6 +41,17 @@ const {
 
 const allowedDomains = AGENCIES_LIST.map(agency => agency.domain.toLowerCase())
 const authCookieName = 'SESSION_TOKEN'
+const userFieldSelection = 'name email avatar company' // select only name and email from users
+const commentsPopulateParams = [
+  {
+    path: 'mentions',
+    select: userFieldSelection
+  },
+  {
+    path: 'user',
+    select: userFieldSelection
+  }
+]
 
 // @route POST api/users/register
 // @desc Register user
@@ -69,7 +80,7 @@ router.post(
 )
 
 router.get(
-  '/projects',
+  '/comments',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     log.info(
@@ -77,32 +88,43 @@ router.get(
         requestId: req.id,
         user: req.user.id
       },
-      'Getting users projects'
+      'User is getting own comments'
     )
     try {
-      const user = await User.findOne({ _id: req.user.id }).populate('projects')
-      const { projects } = user
+      const user = await User.findOne({ _id: req.user.id }).populate({
+        path: 'comments',
+        populate: commentsPopulateParams
+      })
+      let { comments } = user
+      if (req.query.sort === 'asc') {
+        comments = comments.sort((a, b) =>
+          a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+        )
+      } else {
+        comments = comments.sort((a, b) =>
+          a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+        )
+      }
+      const pageCounter = Math.ceil(comments.length / req.query.limit)
+      comments = comments.splice(req.query.offset, req.query.limit)
       log.info(
         {
           requestId: req.id,
-          projects
+          comments,
+          pageCounter
         },
-        'Success getting users projects'
+        'Success getting comments list'
       )
-      return res.status(200).json({ projects })
-    } catch (err) {
+      return res.status(200).json({ comments, pageCounter })
+    } catch (error) {
       log.info(
         {
           requestId: req.id,
-          error: err
+          error: error
         },
-        'Can not get users projects from the database'
+        'Can not get comments from the database'
       )
-      return sendError(
-        res,
-        503,
-        'Error getting users projects from the database'
-      )
+      return sendError(res, 503, 'Error getting comments from the database')
     }
   }
 )
@@ -745,7 +767,8 @@ router.post('/email-to-sign-up', async (req, res) => {
     })
 
     // Prevent save another pre-registration email
-    if (user && !user.registrationCompleted) newUser.save = () => new Promise(resolve => resolve(user))
+    if (user && !user.registrationCompleted)
+      newUser.save = () => new Promise(resolve => resolve(user))
 
     newUser
       .save()
