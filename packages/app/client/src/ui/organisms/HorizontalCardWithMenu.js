@@ -6,7 +6,7 @@ import { ThreeDotsPopover } from '../molecules'
 
 const useStyles = makeStyles(theme => ({
   card: {
-    marginTop: theme.spacing(2),
+    //marginTop: theme.spacing(2),
     width: '100%',
     boxShadow: 'none',
     overflow: 'visible',
@@ -33,7 +33,7 @@ const HorizontalCardWithMenu = (props) => {
 
   return (
     <Card raised={false} className={classes.card}>
-      <ShadedPaper elevation={0} bgColor={bgColor} className={classes.cardContent}>
+      <ShadedPaper padding={props.padding} elevation={0} bgColor={bgColor} className={classes.cardContent}>
         {userIsTheOwner ? (
           <div className={classes.edit}>
             <ThreeDotsPopover

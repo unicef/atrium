@@ -1,161 +1,85 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { withStyles, Avatar, Grid, Typography } from '@material-ui/core'
-import { DateTime } from 'luxon'
-import Linkify from 'linkifyjs/react';
-import { getRelativeTime } from '../../utils/timeManipulation'
-import { UserLink } from '../atoms'
-import EditDeletePopover from '../../components/edit-delete-popover'
-import { editComment } from '../../api/projects'
-import CommentInput from '../../components/CommentInput'
-import { deleteComment } from '../../api/projects'
+import React from 'react'
+import Box from '@material-ui/core/Box'
+import Grid from '@material-ui/core/Grid'
+import Avatar from '@material-ui/core/Avatar'
+import Collapse from '@material-ui/core/Collapse'
+import SubdirectoryArrowRightOutlinedIcon from '@material-ui/icons/SubdirectoryArrowRightOutlined'
+import { makeStyles } from '@material-ui/core/styles'
+import { useSpring, animated } from 'react-spring/web.cjs' // web.cjs is required for IE 11 support
+import { HorizontalCardWithMenu } from '../organisms'
+import { TextButton, Divider } from '../atoms'
 
-const styles = theme => ({
-  container: {
-    marginBottom: 40
-  },
-  avatar: {
-    height: 45,
-    width: 45,
-    marginRight: 15
-  },
-  timeAgo: {
-    color: theme.colors['warm-gray']
-  },
-  author: {
-    fontWeight: 500
-  },
-  comment: {
-    whiteSpace: 'pre-wrap',
-    overflowWrap: 'break-word',
-    marginBottom: 10,
-    marginTop: 5
-  },
-  commentBox: {
-    paddingLeft: 7
-  },
-  commentLink: {
-    color: theme.colors['shamrock-green']
-  }
-})
+const TransitionComponent = (props) => {
+  const style = useSpring({
+    from: { opacity: 0, transform: 'translate3d(20px,0,0)' },
+    to: { opacity: props.in ? 1 : 0, transform: `translate3d(${props.in ? 0 : 20}px,0,0)` },
+  });
 
-const commentRegexString = '\\@\\[([a-zA-Z0-9 ]*)\\]\\(([a-zA-Z0-9]*)\\)' // eslint-disable-line
-
-/**
- * Get markup for a comment based on the commentRegexString
- *
- * @param {string} content
- */
-const getCommentMarkup = content => {
-  const markup = []
-  let currentString = content
-  let currentIndex = 0
-
-  const commentRegex = new RegExp(commentRegexString)
-  while (commentRegex.test(currentString)) {
-    const result = commentRegex.exec(currentString)
-
-    markup.push(currentString.substring(0, result.index))
-    markup.push(<UserLink name={result[1]} id={result[2]} />)
-    currentIndex = result.index + result[0].length
-    currentString = currentString.slice(currentIndex)
-  }
-  if (currentString) {
-    markup.push(currentString)
-  }
-  return markup
+  return (
+    <animated.div style={style}>
+      <Collapse {...props} />
+    </animated.div>
+  );
 }
 
-const Comment = ({ classes, id, user, content, date, auth, ...props }) => {
-  const [editting, setEditting] = useState(false)
-  const [commentContent, setCommentContent] = useState(null)
-  const parsedCreatedAt = DateTime.fromISO(date)
-  const now = DateTime.local().toUTC()
+const useStyles = makeStyles(() => ({
+  container: {
+    marginTop: 10
+  },
+  avatar: {
+    height: 35,
+    width: 35
+  },
+  collapseWrapper: {
+    marginLeft: 7,
+    paddingLeft: 18,
+  }
+}))
 
-  const { user: loggedInUser } = auth
-
-  useEffect(() => {
-    setCommentContent(content)
-  }, [content])
+const Comment = ({ content, children, userIsTheOwner = true, src }) => {
+  const [open, setOpen] = React.useState(false)
+  const classes = useStyles()
+  const childrenCount = React.Children.count(children)
+  const hasChildren = childrenCount > 0
+  const hasLine = open && hasChildren
 
   return (
     <Grid container wrap="nowrap" className={classes.container}>
-      <Grid container>
-        {editting ? (
-          <Grid item xs={12}>
-            <CommentInput
-              commentText={commentContent}
-              onChange={e => {
-                console.log(commentContent)
-                setCommentContent(e.target.value)
-              }}
-              labelText={'Comment'}
-              onClick={() => {
-                setEditting(false)
-                editComment(id, commentContent)
-              }}
-            />
-          </Grid>
-        ) : (
-          <Fragment>
-            <Grid item xs={1}>
-              <Avatar
-                alt={user.name}
-                src={user.avatar}
-                className={classes.avatar}
-              />
-            </Grid>
-            <Grid item xs={10} className={classes.commentBox}>
-              <Typography variant="subtitle1" className={classes.author}>
-                {user.name}
-              </Typography>
+      <Grid container item xs={12} >
+        <Box height="100%" >
+          <Box height="100%" display="flex" flex="1" flexDirection="column" alignItems="center" >
+            <Avatar className={classes.avatar} src={src} />
 
-              <Typography
-                variant="subtitle1"
-                component="div"
-                className={classes.comment}
-              >
-                <Linkify options={{target: '_blank', className: classes.commentLink}}>
-                  {getCommentMarkup(commentContent)}
-                </Linkify>    
-              </Typography>
-
-              <Typography variant="subtitle1" className={classes.timeAgo}>
-                Posted {getRelativeTime(parsedCreatedAt, now)} ago
-              </Typography>
-            </Grid>
-            <Grid item xs={1}>
-              {loggedInUser.id === user.id ? (
-                <EditDeletePopover
-                  commentId={id}
-                  type={'comment'}
-                  deleteRedirectUrl={window.location.href}
-                  onDeleteClick={() => {
-                    deleteComment(id)
-                    window.location.reload()
-                  }}
-                  onEditClick={setEditting}
-                ></EditDeletePopover>
-              ) : null}
-            </Grid>
-          </Fragment>
-        )}
+            <Box height="100%" paddingY={1}>
+              {hasLine && <Divider component="div" orientation="vertical" variant="middle" />}
+            </Box>
+          </Box>
+        </Box>
+        
+        <Box display="flex" flex={1} ml={1.5}>
+          <Box display="flex" flexDirection="column" width="100%">
+            <HorizontalCardWithMenu padding="10px 30px 10px 10px" menuItems={[]} userIsTheOwner={userIsTheOwner}>
+              {content}
+             {hasChildren && 
+                <TextButton
+                  textContent={!open ? `Show ${childrenCount} Replies` : 'Hide Replies'}
+                  startIcon={<SubdirectoryArrowRightOutlinedIcon />}
+                  onClick={() => setOpen(op => !op)}
+                />
+              }
+             
+            </HorizontalCardWithMenu>
+            <Box className={classes.collapseWrapper}>
+              <TransitionComponent in={open}>
+                {children}
+              </TransitionComponent>
+            </Box>
+          </Box>
+        </Box>
       </Grid>
     </Grid>
   )
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
-})
 
-Comment.propTypes = {
-  classes: PropTypes.object,
-  id: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired,
-  content: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(Comment))
+export default Comment
