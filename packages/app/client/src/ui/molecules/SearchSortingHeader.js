@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   }
 })
 
-const SearchSortingHeader = ({ name, sortAsc, sortDesc, sortDirection, sortType }) => {
+const SearchSortingHeader = ({ name, sortAsc, sortDesc, sortDirection, sortBy }) => {
   const classes = useStyles()
   const isAscSorting = sortDirection === 'asc'
 
@@ -34,7 +34,7 @@ const SearchSortingHeader = ({ name, sortAsc, sortDesc, sortDirection, sortType 
       <TextButton
         onClick={isAscSorting ? sortDesc : sortAsc}
         endIcon={isAscSorting ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-        textContent={`Sort by ${sortType} (${sortDirection.toUpperCase()})`}
+        textContent={`Sort by ${sortBy} (${sortDirection.toUpperCase()})`}
         className={classes.textButton}
       />
     </Grid>

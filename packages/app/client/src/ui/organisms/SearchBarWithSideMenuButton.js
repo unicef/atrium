@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme =>
   })
 )
 
-const SearchBar = ({ placeholder, title, isSideMenuVisible, showSideMenu, hideSideMenu, onChange, rightSideComponent }) => {
+const SearchBar = ({ placeholder, title, isSideMenuVisible, showSideMenu, hideSideMenu, onChange, rightSideComponent, searchText }) => {
   const classes = useStyles()
 
   return (
@@ -44,7 +44,13 @@ const SearchBar = ({ placeholder, title, isSideMenuVisible, showSideMenu, hideSi
         onClick={isSideMenuVisible ? hideSideMenu : showSideMenu}
       />
       
-      <SearchField onChange={onChange} placeholder={placeholder} fullWidth={false} className={classes.textField} />
+      <SearchField
+        searchText={searchText}
+        onChange={onChange}
+        placeholder={placeholder}
+        fullWidth={false}
+        className={classes.textField}
+      />
       
       {rightSideComponent}
     </Grid>
