@@ -6,9 +6,17 @@ import { makeStyles } from '@material-ui/styles'
 const useStyles = makeStyles(theme => ({
   root: props => {
     const handleMainColor = () => {
-      if (props.disabled) return theme.palette.text.disabled
       if (props.isLiked) return theme.colors['shamrock-green']
+      if (props.disabled && !props.onlyIcon) return theme.palette.text.disabled
       return theme.palette.text.primary
+    }
+    const handleBackgroundColor = () => {
+      if (props.disabled && !props.onlyIcon) return theme.colors['warm-grey']
+      return theme.colors['white']
+    }
+    const handleWidth = () => {
+      if (props.onlyIcon) return '30px'
+      return '80px'
     }
     return {
       display: 'flex',
@@ -21,6 +29,9 @@ const useStyles = makeStyles(theme => ({
       padding: 5,
       fill: handleMainColor(),
       color: handleMainColor(),
+      width: handleWidth(),
+      backgroundColor: `${handleBackgroundColor()} !important`,
+      minWidth: '20px',
       '& > span > span:last-child': {
         marginTop: 3
       }
@@ -28,8 +39,8 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const LikeButton = ({ id, liked, onLike, numberOfLikes, ...props }) => {
-  const classes = useStyles({ isLiked: liked, ...props })
+const LikeButton = ({ id, liked, onLike, numberOfLikes, onlyIcon, ...props }) => {
+  const classes = useStyles({ isLiked: liked, onlyIcon, ...props })
   return (
     <TextButton
       size="small"
@@ -39,7 +50,7 @@ const LikeButton = ({ id, liked, onLike, numberOfLikes, ...props }) => {
       }}
       startIcon={<LikeIcon />}
       variant="text"
-      textContent={`${numberOfLikes} likes`}
+      textContent={onlyIcon ? null : `${numberOfLikes} likes`}
       {...props}
     />
   )
