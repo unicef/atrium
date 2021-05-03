@@ -7,7 +7,7 @@ const styles = theme => ({
     width: '100%',
     borderRadius: 5,
     backgroundColor: theme.colors[props.bgColor],
-    padding: '30px 30px 10px 30px'
+    padding: props.padding
   })
 })
 
@@ -25,5 +25,6 @@ export const ShadedPaper = withStyles(styles)(
 )
 
 ShadedPaper.defaultProps = {
-  bgColor: 'light-green'
+  bgColor: 'light-green',
+  padding: '30px 30px 10px 30px'
 }
