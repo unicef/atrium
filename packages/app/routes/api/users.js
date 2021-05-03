@@ -110,7 +110,7 @@ router.post(
 )
 
 router.get(
-  '/',
+  '/projects',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     log.info(
