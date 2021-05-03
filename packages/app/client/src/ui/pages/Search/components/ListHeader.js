@@ -4,7 +4,7 @@ import { SearchSortingHeader } from '../../../molecules'
 import { useSearchActions } from '../../../hooks'
 import { searchSort } from '../../../../selectors'
 
-const ListHeader = ({ text }) => {
+const ListHeader = ({ text, sortBy }) => {
   const { sortAsc, sortDesc } = useSearchActions()
   const sort = useSelector(searchSort)
 
@@ -14,7 +14,7 @@ const ListHeader = ({ text }) => {
       sortDesc={sortDesc}
       sortDirection={sort} 
       name={text}
-      sortType="name"
+      sortBy={sortBy}
     />
   )
   

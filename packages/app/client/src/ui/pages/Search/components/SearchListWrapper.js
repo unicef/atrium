@@ -12,20 +12,23 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       justifyContent: 'center',
     }
+  },
+  paginationWrapper: {
+    marginTop: 30
   }
 }))
 
-const SearchListWrapper = ({ children, numberOfPages, headerText }) => {
+const SearchListWrapper = ({ children, headerText, sortBy }) => {
   const classes = useStyles()
   const containerStyle = useContainerStyle({ size: 'regular', mt: 10 })
 
   return (
     <Container component="div" className={containerStyle}>
       <Grid item xs={12} container classes={classes.projectsList}>
-        <ListHeader text={headerText} />
+        <ListHeader text={headerText} sortBy={sortBy} />
         {children}
-        <Grid item container style={{ marginTop: 30 }} xs={12} justify="center">
-          <Pagination count={numberOfPages} />
+        <Grid item container className={classes.paginationWrapper} xs={12} justify="center">
+          <Pagination />
         </Grid>
       </Grid>
     </Container>
