@@ -41,6 +41,47 @@ const {
 
 const allowedDomains = AGENCIES_LIST.map(agency => agency.domain.toLowerCase())
 const authCookieName = 'SESSION_TOKEN'
+const userFieldSelection = 'name email avatar company' // select only name and email from users
+const projectsPopulateParams = [
+  {
+    path: 'likes',
+    select: userFieldSelection
+  },
+  {
+    path: 'updates',
+    populate: [
+      {
+        path: 'owner',
+        select: userFieldSelection
+      }
+    ]
+  },
+  {
+    path: 'team',
+    select: userFieldSelection
+  },
+  {
+    path: 'owner',
+    select: userFieldSelection
+  },
+  {
+    path: 'contactPerson',
+    select: userFieldSelection
+  },
+  {
+    path: 'comments',
+    populate: [
+      {
+        path: 'user',
+        select: userFieldSelection
+      },
+      {
+        path: 'mentions',
+        select: userFieldSelection
+      }
+    ]
+  }
+]
 
 // @route POST api/users/register
 // @desc Register user
@@ -69,7 +110,7 @@ router.post(
 )
 
 router.get(
-  '/projects',
+  '/',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     log.info(
@@ -77,32 +118,43 @@ router.get(
         requestId: req.id,
         user: req.user.id
       },
-      'Getting users projects'
+      'User is getting own projects'
     )
     try {
-      const user = await User.findOne({ _id: req.user.id }).populate('projects')
-      const { projects } = user
+      const user = await User.findOne({ _id: req.user.id }).populate({
+        path: 'projects',
+        populate: projectsPopulateParams
+      })
+      let { projects } = user
+      if (req.query.sort === 'asc') {
+        projects = projects.sort((a, b) =>
+          a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+        )
+      } else {
+        projects = projects.sort((a, b) =>
+          a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+        )
+      }
+      const pageCounter = Math.ceil(projects.length / req.query.limit)
+      projects = projects.splice(req.query.offset, req.query.limit)
       log.info(
         {
           requestId: req.id,
-          projects
+          projects,
+          pageCounter
         },
-        'Success getting users projects'
+        'Success getting project list'
       )
-      return res.status(200).json({ projects })
-    } catch (err) {
+      return res.status(200).json({ projects, pageCounter })
+    } catch (error) {
       log.info(
         {
           requestId: req.id,
-          error: err
+          error: error
         },
-        'Can not get users projects from the database'
+        'Can not get projects from the database'
       )
-      return sendError(
-        res,
-        503,
-        'Error getting users projects from the database'
-      )
+      return sendError(res, 503, 'Error getting projects from the database')
     }
   }
 )
@@ -745,7 +797,8 @@ router.post('/email-to-sign-up', async (req, res) => {
     })
 
     // Prevent save another pre-registration email
-    if (user && !user.registrationCompleted) newUser.save = () => new Promise(resolve => resolve(user))
+    if (user && !user.registrationCompleted)
+      newUser.save = () => new Promise(resolve => resolve(user))
 
     newUser
       .save()
