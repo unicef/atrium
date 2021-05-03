@@ -82,6 +82,16 @@ const projectsPopulateParams = [
     ]
   }
 ]
+const commentsPopulateParams = [
+  {
+    path: 'mentions',
+    select: userFieldSelection
+  },
+  {
+    path: 'user',
+    select: userFieldSelection
+  }
+]
 
 // @route POST api/users/register
 // @desc Register user
@@ -155,6 +165,56 @@ router.get(
         'Can not get projects from the database'
       )
       return sendError(res, 503, 'Error getting projects from the database')
+    }
+  }
+)
+
+router.get(
+  '/comments',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id
+      },
+      'User is getting own comments'
+    )
+    try {
+      const user = await User.findOne({ _id: req.user.id }).populate({
+        path: 'comments',
+        populate: commentsPopulateParams
+      })
+      let { comments } = user
+      if (req.query.sort === 'asc') {
+        comments = comments.sort((a, b) =>
+          a.date > b.date ? 1 : b.date > a.date ? -1 : 0
+        )
+      } else {
+        comments = comments.sort((a, b) =>
+          a.date < b.date ? 1 : b.date < a.date ? -1 : 0
+        )
+      }
+      const pageCounter = Math.ceil(comments.length / req.query.limit)
+      comments = comments.splice(req.query.offset, req.query.limit)
+      log.info(
+        {
+          requestId: req.id,
+          comments,
+          pageCounter
+        },
+        'Success getting comments list'
+      )
+      return res.status(200).json({ comments, pageCounter })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get comments from the database'
+      )
+      return sendError(res, 503, 'Error getting comments from the database')
     }
   }
 )
