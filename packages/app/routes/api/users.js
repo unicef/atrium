@@ -42,7 +42,6 @@ const {
 const allowedDomains = AGENCIES_LIST.map(agency => agency.domain.toLowerCase())
 const authCookieName = 'SESSION_TOKEN'
 const userFieldSelection = 'name email avatar company' // select only name and email from users
-<<<<<<< HEAD
 const projectsPopulateParams = [
   {
     path: 'likes',
@@ -83,8 +82,6 @@ const projectsPopulateParams = [
     ]
   }
 ]
-=======
->>>>>>> 03394a27b81d555bb397d084700e3c1023b16001
 const commentsPopulateParams = [
   {
     path: 'mentions',
