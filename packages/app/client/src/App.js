@@ -32,7 +32,6 @@ import {
   DiscussionPage,
   DiscussionDetails,
   ProjectDetails,
-  ProfilePage,
   Toast,
   Footer,
   FullPageLoader,
@@ -45,7 +44,8 @@ import {
   Login,
   ForgotPassword,
   ResetPassword,
-  Learn
+  Learn,
+  Account
 } from './ui/pages'
 import projectsRoutes from './routes/projects'
 
@@ -97,7 +97,7 @@ const App = () => {
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute exact path="/github" component={GitHubPage} />
                 <PrivateRoute exact path="/twitter" component={TwitterPage} />
-                <PrivateRoute exact path="/profile" component={ProfilePage} />
+                <PrivateRoute exact path="/profile" component={Account} />
                 <PrivateRoute exact path="/settings" component={Technical} />
                 <PrivateRoute exact path="/statistics" component={Stats} />
                 <PrivateRoute exact path="/reports" component={Reports} />
@@ -118,7 +118,6 @@ const App = () => {
                   path="/project-details/:id"
                   component={ProjectDetails}
                 />
-
                 <PrivateRoute exact path="/engage" component={DiscussionPage} />
                 <PrivateRoute
                   exact

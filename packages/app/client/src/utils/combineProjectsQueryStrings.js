@@ -15,7 +15,6 @@ const combineProjectsQueryStrings = (
   }, [])
   
   if (Array.isArray(combinedFilters)) {
-    console.log(combinedFilters)
     return `?offset=${offset}&limit=${limit}&name=${search}&sort=${sort}${combinedFilters.length > 0 ? `&${combinedFilters.join('&')}` : ''}`
   }
 

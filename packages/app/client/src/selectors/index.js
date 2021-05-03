@@ -6,6 +6,7 @@ export const showFullPageLoader = state => state.loader.showLoader
 // AUTH
 export const isAuthenticated = state => state.auth.isAuthenticated
 export const getUserId = state => state.auth.user.id
+export const getUser = state => state.auth.user
 
 // PROJECTS MAIN
 export const getSearchedProjects = state => state.projects.searchedProjects

@@ -1,7 +1,13 @@
 import React from 'react'
 import combineProjectsQueryStrings from '../../../../utils/combineProjectsQueryStrings'
 import { useSelector } from 'react-redux'
-import { useProjectsAsyncActions, useIsAuthenticated, useSearchActions, useProjectViewActions } from '../../../hooks'
+import {
+  useProjectsAsyncActions,
+  useProjectsMainActions,
+  useIsAuthenticated,
+  useSearchActions,
+  useProjectViewActions
+} from '../../../hooks'
 import { 
   getSearchedProjects,
   projectsSearchSelectedFilters,
@@ -13,14 +19,16 @@ import {
 } from '../../../../selectors'
 import { useHistory } from 'react-router'
 import ProjectCard from './ProjectCard'
+import { EmptyResults } from '../../../molecules'
 
-const PAGINATION_LIMIT = 10
+const MAX_PROJECTS_PER_PAGE = 9
 const SEARCH_CONTEXT = 'PROJECTS'
 
 const ProjectsList = ({ WrapperComponent }) => {
   const { fetchSearchedProjects } = useProjectsAsyncActions()
   const { setCurrentPageContext, resetSearch } = useSearchActions()
   const { setCurrentProject } = useProjectViewActions()
+  const { clearFilters } = useProjectsMainActions()
   const history = useHistory()
   
   const userId = useSelector(getUserId)
@@ -33,10 +41,11 @@ const ProjectsList = ({ WrapperComponent }) => {
   const searchContextName = useSelector(getSearchContext)
 
   React.useEffect(() => {
+    // TODO: MAKE THE QUERY BE PART OF THE BROWSER URL
     const query = combineProjectsQueryStrings(
       {
-        limit: PAGINATION_LIMIT,
-        offset: page === 1 ? 0 : page * PAGINATION_LIMIT,
+        limit: MAX_PROJECTS_PER_PAGE,
+        offset: page === 1 ? 0 : page * MAX_PROJECTS_PER_PAGE,
         filters,
         sort,
         search: searchText
@@ -69,21 +78,39 @@ const ProjectsList = ({ WrapperComponent }) => {
     return ''
   }
 
+  const resultsAreEmpty = projects.length === 0
+
+  if (resultsAreEmpty) {
+    return (
+      <EmptyResults
+        handleClick={() => {
+          resetSearch()
+          setCurrentPageContext(SEARCH_CONTEXT)
+          clearFilters()
+        }}
+        mainMessage="No Projects found"
+        buttonLabel="All Projects"
+        suggestiontext={"See All Projects or add Projects"}
+      />
+    )
+  }
+
   return (
-    <WrapperComponent numberOfPages={2} headerText={handleHeaderText()}>
+    <WrapperComponent headerText={handleHeaderText()} sortBy="name">
       {projects.map(
-         (project, index) => (
-           <ProjectCard
-            disableActions={!isUserAuthenticated}
-            id={project.id}
-            key={`${project.id}_${index}`}
-            onClick={() => {
-              history.push(`projects/${project.id}`)
-              setCurrentProject({ project, userId })
-            }}
-          />
-         )
-       )}
+          (project) => (
+            <ProjectCard
+             disableActions={!isUserAuthenticated}
+             id={project.id}
+             key={project.id}
+             onClick={() => {
+               setCurrentProject({ project, userId })
+               history.push(`projects/${project.id}`)
+             }}
+           />
+          )
+        )
+      }
     </WrapperComponent>
   )
 }

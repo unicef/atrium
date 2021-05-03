@@ -5,8 +5,16 @@ import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined'
 import CloseIcon from '@material-ui/icons/Close'
 import IconButton from '@material-ui/core/IconButton'
 
-const SearchField = ({ onChange, ...props }) => {
-  const [value, setValue] = React.useState('')
+const SearchField = ({ onChange, searchText, ...props }) => {
+  const [value, setValue] = React.useState(searchText)
+ 
+  React.useEffect(() => {
+    if (searchText === undefined && searchText !== value) {
+      setValue('')
+    }
+  }, [searchText])
+
+  const isFieldFilled = value !== '' && value !== undefined
 
   return (
     <TextField
@@ -17,9 +25,9 @@ const SearchField = ({ onChange, ...props }) => {
         </InputAdornment>
       }
       endAdornment={
-        value !== '' && 
+        isFieldFilled && 
         <IconButton
-          aria-label="toggle password visibility"
+          aria-label="clear search field value"
           onClick={() => {
             setValue('')
             onChange('')

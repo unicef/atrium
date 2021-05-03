@@ -6,8 +6,8 @@ import { mergeClassNames } from '../utils'
 const useStyles = makeStyles(theme => ({
   container: props => ({
     position: 'relative',
-    width: '100%',
-    height: '100%',
+    width: props.width || '100%',
+    height: props.height || '100%',
     '& > *:first-child': {
       transition: 'opacity 1s',
       opacity: props.imageLoaded ? 1 : 0

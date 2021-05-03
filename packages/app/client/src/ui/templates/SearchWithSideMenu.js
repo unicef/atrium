@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -23,7 +24,8 @@ const useStyles = makeStyles(theme => ({
   wrapper: {
     display: 'flex',
     flex: 1,
-    position: 'relative'
+    position: 'relative',
+    height: '100%',
   },
   sideMenuWrapper: {
     padding: 20,
@@ -62,7 +64,7 @@ const SearchWithSideMenu = ({ sideMenu, SearchBarComponent, list, loader }) => {
   const classes = useStyles({ isSideMenuVisible })
   
   return (
-    <div>
+    <Box flex={1} display="flex" flexDirection="column" width="100%" height="100%">
       <SearchBarComponent isSideMenuVisible={isSideMenuVisible} toggleSideMenu={() => toggleSideMenu(prevVal => !prevVal)} />
 
       <div className={classes.wrapper}>
@@ -79,7 +81,7 @@ const SearchWithSideMenu = ({ sideMenu, SearchBarComponent, list, loader }) => {
         
         {loader}
       </div>
-    </div>
+    </Box>
   )
 }
 
