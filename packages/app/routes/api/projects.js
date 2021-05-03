@@ -69,14 +69,32 @@ const populateParams = [
 /**
  * This function a filter string with many possible values
  * and returns the projects that match any value of the strings
- * @param {String} dataKey - e.g. blockchainName
  * @param {String} values - e.g. "Bitcoin,Stellar,Corda"
  */
- const filterMultipleValues = async (dataKey, values) => {
+ const filterMultipleValues = (values) => {
   const parsedValues = values.split(',').join('|')
-  const regex = new RegExp("\\b(?:" + parsedValues + ")\\b", "gi")
+  const regex = "\\b(?:" + parsedValues + ")\\b"
 
-  return await Project.find({ [dataKey]: regex }).populate(populateParams).exec()
+  return { $regex: regex, $options: "gi" }
+}
+
+const handleFilters = (queryValues) => {
+  const filters = []
+
+  if (queryValues.blockchainName) {
+    filters.push({ blockchainName: filterMultipleValues(queryValues.blockchainName) })
+  }
+  if (queryValues.stageOfProject) {
+    filters.push({ stageOfProject: filterMultipleValues(queryValues.stageOfProject) })
+  }
+  if (queryValues.innovationCategory) {
+    filters.push({ innovationCategory: filterMultipleValues(queryValues.innovationCategory) })
+  }
+  if (queryValues.thematicArea) {
+    filters.push({ thematicArea: filterMultipleValues(queryValues.thematicArea) })
+  }
+
+  return filters
 }
 
 router.get(
@@ -90,46 +108,51 @@ router.get(
       },
       'User is getting projects'
     )
-    let projects = []
-    let pageCounter = 0
+
     try {
-      projects = await Project.find().populate(populateParams)
-      if (req.query.name) {
-        projects = projects.filter(project =>
-          project.name.toLowerCase().includes(req.query.name.toLowerCase())
+      const { name } = req.query
+      const offset = parseInt(req.query.offset)
+      const limit = parseInt(req.query.limit)
+      const sort = req.query.sort === 'asc' ? 1 : -1
+      const filtersQueries = handleFilters(req.query)
+
+      const searchQuery = []
+
+      if (name) {
+        searchQuery.push(
+          {
+            $or: [
+              {
+                name: { 
+                  $regex: name, 
+                  $options: "gi" 
+                }
+              },
+              {
+                details: {
+                  $regex: name, 
+                  $options: "gi"
+                },
+              }
+            ]
+          }
         )
       }
-      if (req.query.blockchainName) {
-        projects = await filterMultipleValues('blockchainName', req.query.blockchainName)
+      
+      if (filtersQueries.length > 0) {
+        searchQuery.push({ $or: filtersQueries })
       }
-      if (req.query.stageOfProject) {
-        projects = await filterMultipleValues('stageOfProject', req.query.stageOfProject)
-      }
-      if (req.query.innovationCategory) {
-        projects = await filterMultipleValues('innovationCategory', req.query.innovationCategory)
-      }
-      if (req.query.thematicArea) {
-        projects = await filterMultipleValues('thematicArea', req.query.thematicArea)
-      }
-      if (req.query.sort === 'asc') {
-        projects = projects.sort((a, b) =>
-          a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-        )
-      } else {
-        projects = projects.sort((a, b) =>
-          a.name < b.name ? 1 : b.name < a.name ? -1 : 0
-        )
-      }
-      pageCounter = Math.ceil(projects.length / req.query.limit)
-      projects = projects.splice(req.query.offset, req.query.limit)
-      log.info(
-        {
-          requestId: req.id,
-          projects,
-          pageCounter
-        },
-        'Success getting project list'
-      )
+
+      const finalQuery = searchQuery.length > 0 ? { $and: searchQuery } : {}
+
+      const projects = await Project.find(finalQuery)
+      .skip(offset)
+      .limit(limit)
+      .sort({ name: sort })
+      .populate(populateParams)
+
+      const pageCounter = Math.ceil(projects.length / limit)
+
       return res.status(200).json({ projects, pageCounter })
     } catch (error) {
       log.info(
