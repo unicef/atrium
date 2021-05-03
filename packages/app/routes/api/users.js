@@ -98,11 +98,11 @@ router.get(
       let { comments } = user
       if (req.query.sort === 'asc') {
         comments = comments.sort((a, b) =>
-          a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+          a.date > b.date ? 1 : b.date > a.date ? -1 : 0
         )
       } else {
         comments = comments.sort((a, b) =>
-          a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+          a.date < b.date ? 1 : b.date < a.date ? -1 : 0
         )
       }
       const pageCounter = Math.ceil(comments.length / req.query.limit)
