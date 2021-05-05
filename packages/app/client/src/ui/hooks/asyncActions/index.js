@@ -1,3 +1,5 @@
 export { default as useProjectsAsyncActions } from './useProjectsAsyncActions'
-export { default as  useHandledRequest } from './useHandledRequest'
+export { default as useHandledRequest } from './useHandledRequest'
 export { default as useAuthAsyncActions } from './useAuthAsyncActions'
+export { default as useUserProjectsAsyncActions } from './useUserProjectsAsyncActions'
+export { default as useUserCommentsAsyncActions } from './useUserCommentsAsyncActions'
