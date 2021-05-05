@@ -12,13 +12,12 @@ export const onSaveUserProjects = ({ userId, registeredUser, projects }) => {
   if (!registeredUser) {
     return projects.filter(project => project.freeForAll)
   }
-
-  return projects.map(project => handleItemSaving({ project, userId }))
+  return projects.map(item => handleItemSaving({ item, userId }))
 }
 
 export const onSaveUserComments = ({ userId, registeredUser, comments }) => {
   if (!Array.isArray(comments) || !registeredUser) {
     return []
   }
-  return comments.map(comment => handleItemSaving({ comment, userId }))
+  return comments.map(item => handleItemSaving({ item, userId }))
 }
