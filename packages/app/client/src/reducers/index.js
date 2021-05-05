@@ -12,6 +12,7 @@ import toast from './toastReducer'
 import loader from './loaderReducer'
 import { searchReducer } from '../reduxStructures/search'
 import { projectsReducer } from '../reduxStructures/projects'
+import { usersReducer } from '../reduxStructures/users'
 
 export default combineReducers({
   auth: authReducer,
@@ -26,5 +27,6 @@ export default combineReducers({
   discussions: discussionReducer,
   toast,
   loader,
-  search: searchReducer
+  search: searchReducer,
+  user: usersReducer
 })
