@@ -12,14 +12,14 @@ const useHandledRequest = () => {
     showFullPageLoading,
     successMessage,
     specificLoading = {}
-  }) => async (data) => {
+  }) => async (...params) => {
 
     dismissToast()
     showFullPageLoading && showLoading()
     specificLoading.show && specificLoading.show()
 
     try {
-      const response = await request(data)
+      const response = await request(...params)
       onSuccess(response.data)
       successMessage && showToast({ 
         message: successMessage,
