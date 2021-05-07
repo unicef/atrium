@@ -6,7 +6,6 @@ import { ThreeDotsPopover } from '../molecules'
 
 const useStyles = makeStyles(theme => ({
   card: {
-    //marginTop: theme.spacing(2),
     width: '100%',
     boxShadow: 'none',
     overflow: 'visible',

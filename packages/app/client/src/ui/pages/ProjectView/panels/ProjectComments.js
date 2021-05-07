@@ -1,9 +1,15 @@
 import React from 'react'
-import CommentsList from '../components/comments/CommentsList'
+import Grid from '@material-ui/core/Grid'
+import { CommentsList, CreateComment } from '../components/comments'
 
 const ProjectComments = () => {
   return (
-    <CommentsList />
+    <Grid container justify="center">
+      <Grid container item xs={10}>
+        <CreateComment />
+        <CommentsList />
+      </Grid>
+    </Grid>
   )
 }
 

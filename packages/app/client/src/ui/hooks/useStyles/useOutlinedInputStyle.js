@@ -13,8 +13,7 @@ const styles = makeStyles(theme => (
     input: props => (
       {
         color: props.hasError ? theme.palette.error.main : theme.colors[props.borderColorFocus],
-        padding: '17px 23px 19px 18px',
-
+        padding: props.padding,
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontSize: '15px',
@@ -45,6 +44,6 @@ const styles = makeStyles(theme => (
   }
 ))
 
-const useOutlinedInput = (props) => styles(props)
+const useOutlinedInput = ({ padding = '17px 23px 19px 18px', ...props }) => styles({ padding, ...props })
 
 export default useOutlinedInput

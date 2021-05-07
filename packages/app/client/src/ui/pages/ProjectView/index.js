@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useContainerStyle, useProjectsAsyncActions } from '../../hooks'
 import { Tabs } from '../../molecules'
-import { AboutProject, ProjectUpdates, ProjectComments } from './panels'
+import { AboutProject, ProjectUpdates, ProjectComments, ProjectTeam } from './panels'
 import { getCurrentProject } from '../../../selectors'
 import { TabPanel } from '../../atoms'
 
@@ -76,6 +76,10 @@ const ProjectViewPage = () => {
           
             <Panel index={0} tabIndex={tabIndex}>
               <AboutProject projectData={projectData} />
+            </Panel>
+
+            <Panel index={1} tabIndex={tabIndex}>
+              <ProjectTeam />
             </Panel>
 
             <Panel index={2} tabIndex={tabIndex}>
