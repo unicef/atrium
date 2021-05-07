@@ -109,11 +109,23 @@ router.post(
       },
       'Getting filtered users'
     )
-    const allUsers = await User.find()
-    const users = allUsers.filter(
-      el =>
-        el.name.toLowerCase().includes(req.body.prefix.toLowerCase()) ||
-        el.email.includes(req.body.prefix)
+    const users = await User.find(
+      { 
+        $or: [
+          { 
+            name: { 
+              $regex: req.body.prefix, 
+              $options: "gi" 
+            }
+          },
+          { 
+            email: { 
+              $regex: req.body.prefix, 
+              $options: "gi" 
+            }
+          }
+        ] 
+      }
     )
     return res.status(200).json({ users })
   }

@@ -36,7 +36,7 @@ const useProjectsAsyncActions = () => {
         successMessage: 'Action successfully performed'
       }
     ),
-    getProjectById:  handledRequest(
+    getProjectById: handledRequest(
       { 
         request: ProjectApi.getProject,
         onSuccess: ({ project }) => setCurrentProject({ project: project[0], userId }),
@@ -49,7 +49,28 @@ const useProjectsAsyncActions = () => {
         showFullPageLoading: true,
         successMessage: 'Update successfully removed'
       }
-    )
+    ),
+    addComment: handledRequest(
+      { 
+        request: ProjectApi.addComment,
+        showFullPageLoading: true,
+        successMessage: 'Comment successfully added'
+      }
+    ),
+    removeComment: handledRequest(
+      { 
+        request: ProjectApi.deleteComment,
+        showFullPageLoading: true,
+        successMessage: 'Comment successfully removed'
+      }
+    ),
+    editComment: handledRequest(
+      { 
+        request: ProjectApi.editComment,
+        showFullPageLoading: true,
+        //successMessage: 'Update successfully removed'
+      }
+    ),
   }
 }
 

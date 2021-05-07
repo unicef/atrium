@@ -4,8 +4,8 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import InputLabel from '@material-ui/core/InputLabel'
 import { useOutlinedInputStyle } from '../hooks'
 
-function TextField({ error, errorMessage, helperText, htmlFor, label, initialValue, borderColor, borderColorFocus, ...props }) {
-  const classes = useOutlinedInputStyle({ hasError: error, borderColor, borderColorFocus })
+function TextField({ error, errorMessage, helperText, htmlFor, label, initialValue, borderColor, borderColorFocus, padding, ...props }) {
+  const classes = useOutlinedInputStyle({ hasError: error, borderColor, borderColorFocus, padding })
   const errorClassName = error ? classes.errorMessage : ""
 
   return (

@@ -1,14 +1,14 @@
 import { Interval, DateTime } from 'luxon'
 
+const TIME_NOW_UTC =  DateTime.local().toUTC()
 /**
  * Get relative time between a provided time in string or number and now
  * @param {string | number} currentTime 
  */
 export function getRelativeTimeToNow(currentTime) {
   const parsedCurrentTime = DateTime.fromISO(currentTime)
-  const now = DateTime.local().toUTC()
 
-  return getRelativeTime(parsedCurrentTime, now)
+  return getRelativeTime(parsedCurrentTime, TIME_NOW_UTC)
 }
 
 /**
@@ -17,7 +17,7 @@ export function getRelativeTimeToNow(currentTime) {
  * @param {DateTime} firstDate
  * @param {DateTime} secondDate
  */
-export function getRelativeTime(firstDate, secondDate) {
+export function getRelativeTime(firstDate, secondDate = TIME_NOW_UTC) {
   const interval = Interval.fromDateTimes(firstDate, secondDate)
 
   let text

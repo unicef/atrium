@@ -1,9 +1,10 @@
 import React from 'react'
 import Link from '@material-ui/core/Link'
+import PropTypes from 'prop-types'
 import { Link as RouterLink } from 'react-router-dom'
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import PropTypes from 'prop-types'
+import { replaceTargetString } from '../utils'
 
 const useStyles = makeStyles({
   link: {
@@ -20,57 +21,35 @@ const useStyles = makeStyles({
   })
 })
 
-const FLAG = '<link>'
-
-const flagStr = ({ links, text }) => {
-  const flaggedStr = links.reduce((prevStr, link) => {
-    const regex = new RegExp(link.str, 'g')
-    return prevStr.replace(regex, `${FLAG}${link.str}${FLAG}`)
-  }, text)
-
-  return flaggedStr
-}
-
 const TextWithLinks = ({ children, links, mt, mb }) => {
-  const classes = useStyles({ mt, mb });
+  const classes = useStyles({ mt, mb })
 
-  const handleStr = () => {
-    if (typeof children === 'string') {
-      if (Array.isArray(links)) {
-        const flaggedStr = flagStr({ links, text: children })
-        
-        return flaggedStr.split(FLAG).map((str, index) => {
-          const linkFoundIndex = links.findIndex(link => link.str === str)
+  if (typeof children !== 'string') return null
 
-          if (linkFoundIndex >= 0) {
-            const link = links[linkFoundIndex]
-            return (
-              <Link
-                component={RouterLink}
-                variant={link.variant}
-                to={link.to}
-                className={[classes.common, classes.link].join(' ')}
-                key={`${link.str}_${index}`}
-              >
-                {link.str}
-              </Link>
-            )
-          }
+  if (!Array.isArray(links)) return children
 
-          return str
+  const handledLinksStr = links.map(link => link.str)
 
-        })
-      }
-
-      return children
-    }
-
-    return ''
+  const handleReplacement = ({ target, index, replacementTargetsIndex }) => {
+    const link = links[replacementTargetsIndex]
+    return (
+      <Link
+        component={RouterLink}
+        variant={link.variant}
+        to={link.to}
+        className={[classes.common, classes.link].join(' ')}
+        key={`${target}_${index}`}
+      >
+        {target}
+      </Link>
+    )
   }
+
+  const handledContent = replaceTargetString({ handleReplacement, text: children, replacementTargets: handledLinksStr })
 
   return (
     <Typography className={classes.common}>
-      {handleStr()}
+      {handledContent}
     </Typography>
   )
 }
