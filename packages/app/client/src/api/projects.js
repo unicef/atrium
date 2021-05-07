@@ -40,10 +40,10 @@ export const toggleProjectLike = (projectId) => projectRequest({
  * @param {Comment} comment
  * @returns
  */
-export const addComment = (projectId, comment) => projectRequest({
+export const addComment = (projectId, content) => projectRequest({
   method: 'post',
   endpoint: getCommentEndpoint(projectId),
-  body: comment
+  body: { content }
 })
 
 /**
