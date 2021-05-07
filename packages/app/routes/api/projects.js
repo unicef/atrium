@@ -61,37 +61,48 @@ const populateParams = [
       {
         path: 'mentions',
         select: userFieldSelection
+      },
+      {
+        path: 'likes',
+        select: userFieldSelection
       }
     ]
   }
 ]
-
 /**
  * This function a filter string with many possible values
  * and returns the projects that match any value of the strings
  * @param {String} values - e.g. "Bitcoin,Stellar,Corda"
  */
- const filterMultipleValues = (values) => {
+const filterMultipleValues = values => {
   const parsedValues = values.split(',').join('|')
-  const regex = "\\b(?:" + parsedValues + ")\\b"
+  const regex = '\\b(?:' + parsedValues + ')\\b'
 
-  return { $regex: regex, $options: "gi" }
+  return { $regex: regex, $options: 'gi' }
 }
 
-const handleFilters = (queryValues) => {
+const handleFilters = queryValues => {
   const filters = []
 
   if (queryValues.blockchainName) {
-    filters.push({ blockchainName: filterMultipleValues(queryValues.blockchainName) })
+    filters.push({
+      blockchainName: filterMultipleValues(queryValues.blockchainName)
+    })
   }
   if (queryValues.stageOfProject) {
-    filters.push({ stageOfProject: filterMultipleValues(queryValues.stageOfProject) })
+    filters.push({
+      stageOfProject: filterMultipleValues(queryValues.stageOfProject)
+    })
   }
   if (queryValues.innovationCategory) {
-    filters.push({ innovationCategory: filterMultipleValues(queryValues.innovationCategory) })
+    filters.push({
+      innovationCategory: filterMultipleValues(queryValues.innovationCategory)
+    })
   }
   if (queryValues.thematicArea) {
-    filters.push({ thematicArea: filterMultipleValues(queryValues.thematicArea) })
+    filters.push({
+      thematicArea: filterMultipleValues(queryValues.thematicArea)
+    })
   }
 
   return filters
@@ -119,26 +130,24 @@ router.get(
       const searchQuery = []
 
       if (name) {
-        searchQuery.push(
-          {
-            $or: [
-              {
-                name: { 
-                  $regex: name, 
-                  $options: "gi" 
-                }
-              },
-              {
-                details: {
-                  $regex: name, 
-                  $options: "gi"
-                },
+        searchQuery.push({
+          $or: [
+            {
+              name: {
+                $regex: name,
+                $options: 'gi'
               }
-            ]
-          }
-        )
+            },
+            {
+              details: {
+                $regex: name,
+                $options: 'gi'
+              }
+            }
+          ]
+        })
       }
-      
+
       if (filtersQueries.length > 0) {
         searchQuery.push({ $or: filtersQueries })
       }
@@ -146,10 +155,10 @@ router.get(
       const finalQuery = searchQuery.length > 0 ? { $and: searchQuery } : {}
 
       const projects = await Project.find(finalQuery)
-      .skip(offset)
-      .limit(limit)
-      .sort({ name: sort })
-      .populate(populateParams)
+        .skip(offset)
+        .limit(limit)
+        .sort({ name: sort })
+        .populate(populateParams)
 
       const pageCounter = Math.ceil(projects.length / limit)
 
@@ -298,7 +307,8 @@ router.post(
         createdAt: Date.now(),
         linkToRepository: linkToRepository,
         email: req.body.email,
-        team: []
+        team: [],
+        comments: []
       })
       return newProject
         .save()
@@ -777,6 +787,8 @@ router.post(
         const newComment = await createNewComment({
           content: req.body.content,
           mentions: req.body.mentions || [],
+          replies: [],
+          likes: [],
           user: userId
         })
         const user = await User.findOne({ _id: userId })
@@ -826,6 +838,64 @@ router.post(
         return sendError(res, 503, 'Error adding comment to project')
       }
     })
+  }
+)
+
+router.get(
+  '/:projectId/comments',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        project: req.params.projectId
+      },
+      'User is getting project comments'
+    )
+    try {
+      const project = await Project.findOne({
+        _id: req.params.projectId
+      }).populate(populateParams)
+      let { comments } = project
+      if (req.query.sort === 'asc') {
+        comments = comments.sort((a, b) =>
+          a.likes.length > b.likes.length
+            ? 1
+            : b.likes.length > a.likes.length
+            ? -1
+            : 0
+        )
+      } else {
+        comments = comments.sort((a, b) =>
+          a.likes.length < b.likes.length
+            ? 1
+            : b.likes.length < a.likes.length
+            ? -1
+            : 0
+        )
+      }
+      const pageCounter = Math.ceil(comments.length / req.query.limit)
+      comments = comments.splice(req.query.offset, req.query.limit)
+      log.info(
+        {
+          requestId: req.id,
+          comments,
+          pageCounter
+        },
+        'Success getting comments list'
+      )
+      return res.status(200).json({ comments, pageCounter })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get projects from the database'
+      )
+      return sendError(res, 503, 'Error getting projects from the database')
+    }
   }
 )
 
