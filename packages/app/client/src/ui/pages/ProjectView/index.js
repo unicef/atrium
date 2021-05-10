@@ -5,13 +5,14 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import ProjectHeader from "./components/ProjectHeader";
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { useContainerStyle, useProjectsAsyncActions } from '../../hooks'
+import { useProjectsAsyncActions } from '../../hooks'
 import { Tabs } from '../../molecules'
 import { AboutProject, ProjectUpdates, ProjectComments, ProjectTeam } from './panels'
 import { getCurrentProject } from '../../../selectors'
 import { TabPanel } from '../../atoms'
+import { MainContainer } from '../../templates'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   header: {
     marginBottom: '5%'
   },
@@ -45,7 +46,6 @@ const Panel = ({ index, tabIndex, children }) => {
 
 const ProjectViewPage = () => {
   const classes = useStyles()
-  const containerStyle = useContainerStyle({ size: 'regular' })
   const projectData = useSelector(getCurrentProject)
   const { getProjectById } = useProjectsAsyncActions()
   const params = useParams()
@@ -63,7 +63,7 @@ const ProjectViewPage = () => {
   }
 
   return (
-    <main style={{ margin: '50px auto'}} className={containerStyle}>
+    <MainContainer size="regular" margin="50px auto">
       <Grid item container xs={12} className={classes.header}>
         {projectData && <ProjectHeader projectData={projectData} {...projectData} />}
       </Grid>
@@ -91,7 +91,7 @@ const ProjectViewPage = () => {
             </Panel>
         </Grid>
       }
-    </main>
+    </MainContainer>
   )
 }
 
