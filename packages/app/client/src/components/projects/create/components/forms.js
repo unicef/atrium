@@ -335,6 +335,9 @@ export const FirstProjectForm = props => {
     if (!values.projectDescription) {
       errors.projectDescription = 'Required'
     }
+    if(values.projectDescription && values.projectDescription.length > 250) {
+      errors.projectDescription = 'Description must be no longer than 250 characters'
+    }
     if (!values.blockchainType) {
       errors.blockchainType = 'Required'
     }
