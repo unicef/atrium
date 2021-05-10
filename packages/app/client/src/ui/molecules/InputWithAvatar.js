@@ -33,7 +33,7 @@ const InputWithAvatar = ({ src, rows, inputInnerPadding, children,  }) => {
             setValue(e.target.value)
           }}
         />
-        {typeof children === 'function' ? children(value) : children}
+        {typeof children === 'function' ? children(value, () => setValue('')) : children}
       </Box>
     </Box>
   )
