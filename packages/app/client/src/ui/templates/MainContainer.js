@@ -2,8 +2,8 @@ import React from 'react'
 import Container from '@material-ui/core/Container'
 import { useContainerStyle } from '../hooks'
 
-const MainContainer = ({ size, mt, children, ...props }) => {
-  const containerStyle = useContainerStyle({ size, mt })
+const MainContainer = ({ size, mt, children, margin, ...props }) => {
+  const containerStyle = useContainerStyle({ size, mt, margin })
 
   return (
     <Container

@@ -1,6 +1,13 @@
 import { makeStyles } from '@material-ui/styles'
 
-const handleProps = (style) => (props) => ({ ...style, marginTop: props.mt })
+const handleProps = (style) => (props) => {
+  const margin = props.margin ? { margin: props.margin } : {}
+  return { 
+    ...style,
+    marginTop: props.mt,
+    ...margin
+  }
+}
 
 const useStyles = makeStyles({
   small: handleProps({
@@ -22,8 +29,8 @@ const useStyles = makeStyles({
   })
 })
 
-const useContainerStyle = ({ size, mt = 50 }) => {
-  const style = useStyles({ mt })
+const useContainerStyle = ({ margin, size, mt = 50 }) => {
+  const style = useStyles({ mt, margin })
 
   return style[size]
 }
