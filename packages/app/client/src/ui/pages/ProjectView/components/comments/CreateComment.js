@@ -8,20 +8,24 @@ import { useSelector } from 'react-redux'
 import { getCurrentProjectId } from '../../../../../selectors'
 
 const CreateComment = () => {
-  const { addComment } = useProjectsAsyncActions()
+  const { addComment, getProjectById } = useProjectsAsyncActions()
   const projectId = useSelector(getCurrentProjectId)
 
   return (
     <Box width="100%" mt={2} mb={2}>
       <Grid container item xs={12}>
         <InputWithAvatar rows={3}>
-          {(value) => (
+          {(value, clearField) => (
             <Box width="100%" mt={1}>
               <Grid container item xs={12}>
                 <Button 
                   color="primary"
                   size="small"
-                  onClick={async () => addComment(projectId, value)}
+                  onClick={async () => {
+                    await addComment(projectId, value)
+                    await getProjectById(projectId)
+                    clearField()
+                  }}
                 >
                   Add Comment
                 </Button>
