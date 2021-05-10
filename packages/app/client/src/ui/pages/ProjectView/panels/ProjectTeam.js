@@ -1,5 +1,6 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import { Divider, Button } from '../../../atoms'
 import { UserInfos } from '../../../molecules'
@@ -16,49 +17,54 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
+const MemberRow = ({ member }) => (
+  <Box mb="20px" mt="15px">
+    <Grid justify="space-between" container item xs={12} >
+      <UserInfos {...member} containerProps={{ xs: 6, item: true }} />
+      <Button variant="outlined">
+        View profile
+      </Button>
+    </Grid>
+  </Box>
+)
+
 const ProjectTeam = () => {
   const classes = useStyles() 
   const project = useSelector(state => state.projects.selectedProject)
   const contact = project.contactPerson
 
   return (
-    <Grid container item xs={12} justify="center" style={{ marginTop: 20 }}>
-      <Grid item xs={8}>
-        <Typography className={classes.title}>Contact person</Typography>
-        <Grid container justify="space-between" item xs={12} style={{ marginBottom: 50, marginTop: 15 }}>
-          <UserInfos {...contact} role="Developer" name="Jhon Doe" containerProps={{ xs: 6, item: true }} />
-          <Button variant="outlined">
-            View profile
-          </Button>
-        </Grid>
+    <Box mt="20px">
+      <Grid container item xs={12} justify="center" >
+        <Grid item xs={8}>
+          <Typography className={classes.title}>Contact person</Typography>
+          <Box mt="15px" mb="50px">
+            <Grid container justify="space-between" item xs={12}>
+              <UserInfos {...contact} role="Developer" name="Jhon Doe" containerProps={{ xs: 6, item: true }} />
+              <Button variant="outlined">
+                View profile
+              </Button>
+            </Grid>
+          </Box>
 
-        <Typography className={classes.title}>Team</Typography>
-        {project.team.map((member, index) => {
-          if ((index + 1) === project.team.length) {
+          <Typography className={classes.title}>Team</Typography>
+          {project.team.map((member, index) => {
+            if ((index + 1) === project.team.length) {
+              return (
+                <MemberRow member={member}/>
+              )
+            }
+
             return (
-              <Grid justify="space-between" container item xs={12} style={{ marginBottom: 20, marginTop: 15 }}>
-                <UserInfos {...member} role="Black Crow" name="John Snow" containerProps={{ xs: 6, item: true }} />
-                <Button variant="outlined">
-                  View profile
-                </Button>
-              </Grid>
+              <>
+                <MemberRow member={member} />
+                <Divider />
+              </>
             )
-          }
-
-          return (
-            <>
-              <Grid justify="space-between" container item xs={12} style={{ marginBottom: 20, marginTop: 15 }}>
-                <UserInfos containerProps={{ xs: 6, item: true }} {...member} role={index % 2 === 0 ? 'Queen of the North' : 'Queen of the Andalos'} name={index % 2 === 0 ? 'Sansa Stark' : 'Daenerys Targaryen'} />
-                <Button variant="outlined">
-                  View profile
-                </Button>
-              </Grid>
-              <Divider />
-            </>
-          )
-        })}
+          })}
+        </Grid>
       </Grid>
-    </Grid>
+    </Box>
   )
 }
 
