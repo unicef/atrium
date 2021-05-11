@@ -8,7 +8,7 @@ import {
   useSearchActions,
   useProjectViewActions
 } from '../../../hooks'
-import { 
+import {
   getSearchedProjects,
   projectsSearchSelectedFilters,
   searchSort,
@@ -30,7 +30,7 @@ const ProjectsList = ({ WrapperComponent }) => {
   const { setCurrentProject } = useProjectViewActions()
   const { clearFilters } = useProjectsMainActions()
   const history = useHistory()
-  
+
   const userId = useSelector(getUserId)
   const isUserAuthenticated = useIsAuthenticated()
   const projects = useSelector(getSearchedProjects)
@@ -45,7 +45,7 @@ const ProjectsList = ({ WrapperComponent }) => {
     const query = combineProjectsQueryStrings(
       {
         limit: MAX_PROJECTS_PER_PAGE,
-        offset: page === 1 ? 0 : page * MAX_PROJECTS_PER_PAGE,
+        offset: page === 1 ? 0 : (page - 1) * MAX_PROJECTS_PER_PAGE,
         filters,
         sort,
         search: searchText
@@ -60,7 +60,7 @@ const ProjectsList = ({ WrapperComponent }) => {
     const requestProjects = async () => {
       await fetchSearchedProjects(query)
     }
-    
+
     requestProjects()
   }, [filters, sort, searchText, page])
 
