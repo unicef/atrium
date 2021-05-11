@@ -47,7 +47,7 @@ function MyProjects(props) {
   React.useEffect(() => {
     const query = combineUserItemsQueryStrings({
       limit: MAX_PROJECTS_PER_PAGE,
-      offset: page === 1 ? 0 : page * MAX_PROJECTS_PER_PAGE,
+      offset: page === 1 ? 0 : (page - 1) * MAX_PROJECTS_PER_PAGE,
       sort
     })
 
@@ -64,7 +64,6 @@ function MyProjects(props) {
   }, [sort, page])
 
   if (!Array.isArray(projects)) return null
-
   return (
     <>
       <SearchListWrapper

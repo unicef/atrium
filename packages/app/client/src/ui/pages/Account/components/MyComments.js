@@ -35,7 +35,7 @@ function MyComments(props) {
   React.useEffect(() => {
     const query = combineUserItemsQueryStrings({
       limit: MAX_COMMENTS_PER_PAGE,
-      offset: page === 1 ? 0 : page * MAX_COMMENTS_PER_PAGE,
+      offset: page === 1 ? 0 : (page - 1) * MAX_COMMENTS_PER_PAGE,
       sort
     })
 
