@@ -79,6 +79,7 @@ const ProjectVerticalCard = ({
   const deleteHandler = async projectId => {
     await deleteProject(projectId)
   }
+
   return (
     <CardWithMedia
       className={classes.root}
