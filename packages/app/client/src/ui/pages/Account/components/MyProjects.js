@@ -64,7 +64,6 @@ function MyProjects(props) {
   }, [sort, page])
 
   if (!Array.isArray(projects)) return null
-
   return (
     <>
       <SearchListWrapper
