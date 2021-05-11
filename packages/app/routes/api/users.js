@@ -1384,43 +1384,39 @@ router.get(
       getAuthenticatedRequestLogDetails(req, req.query),
       'Searching for users'
     )
-    const name = req.query.name || ''
-    const email = req.query.email || ''
-    const company = req.query.company || ''
+    const queryKeys = Object.entries(req.query)
 
-    if (name || email || company) {
-      User.find(
-        {
-          _id: { $ne: req.user.id },
-          name: {
-            $regex: diacriticSensitiveRegex(name),
-            $options: 'i'
-          },
-          email: {
-            $regex: diacriticSensitiveRegex(email),
-            $options: 'i'
-          },
-          company: {
-            $regex: diacriticSensitiveRegex(company),
-            $options: 'i'
+    if (queryKeys.length > 0) {
+      const searchQuery = queryKeys.map(
+        ([key, value]) => ({
+          [key]: {
+            $regex: diacriticSensitiveRegex(value),
+            $options: 'gi'
           }
-        },
-        'name email avatar company role address',
-        (findErr, users) => {
-          if (findErr) {
-            log.error(
-              getAuthenticatedRequestLogDetails(req, { err: findErr }),
-              'Searching for users'
-            )
-            return sendError(res, 503, 'Error finding users')
-          }
-          log.info(
-            getAuthenticatedRequestLogDetails(req, users),
-            'Users found with success'
-          )
-          return res.json({ users })
-        }
+        })
       )
+      try {
+        const users = await User.find(
+          {
+            _id: { $ne: req.user.id },
+            $or: searchQuery
+          },
+          'name email avatar company role address'
+        ).exec()
+
+        log.info(
+          getAuthenticatedRequestLogDetails(req, users),
+          'Users found with success'
+        )
+        return res.json({ users })
+
+      } catch(e) {
+        log.error(
+          getAuthenticatedRequestLogDetails(req, { err: e }),
+          'Searching for users'
+        )
+        return sendError(res, 503, 'Error finding users')
+      }
     } else {
       log.warn(
         getAuthenticatedRequestLogDetails(req, req.query),
