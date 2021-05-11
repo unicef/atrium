@@ -5,11 +5,19 @@ import { useSelector } from 'react-redux'
 import {
   getSearchContext,
   getSearchedUserProjects,
+  getUserId,
   searchCurrentPage,
   searchSort
 } from '../../../../selectors'
-import { useUserProjectsAsyncActions, useSearchActions } from '../../../hooks'
+import {
+  useUserProjectsAsyncActions,
+  useSearchActions,
+  useIsAuthenticated,
+  useProjectViewActions
+} from '../../../hooks'
 import combineUserItemsQueryStrings from '../../../../utils/combineUserItemsQueryStrings'
+import ProjectCard from './ProjectCard'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(() => ({
   greeting: {
@@ -18,15 +26,19 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const MAX_PROJECTS_PER_PAGE = 9
+const MAX_PROJECTS_PER_PAGE = 6
 const SEARCH_CONTEXT = 'PROJECTS'
 
 function MyProjects(props) {
   const classes = useStyles()
   const { setCurrentPageContext, resetSearch } = useSearchActions()
+  const { setCurrentProject } = useProjectViewActions()
+  const history = useHistory()
+  const userId = useSelector(getUserId)
 
   const { fetchSearchedUserProjects } = useUserProjectsAsyncActions()
   const projects = useSelector(getSearchedUserProjects)
+  const isUserAuthenticated = useIsAuthenticated()
 
   const sort = useSelector(searchSort)
   const page = useSelector(searchCurrentPage)
@@ -59,7 +71,18 @@ function MyProjects(props) {
         headerText={`My projects (${projects.length})`}
         sortBy="date"
       >
-        <div>List</div>
+        {projects.map(project => (
+          <ProjectCard
+            count={2}
+            disableActions={!isUserAuthenticated}
+            project={project}
+            key={project.id}
+            onClick={() => {
+              setCurrentProject({ project, userId })
+              history.push(`projects/${project.id}`)
+            }}
+          />
+        ))}
         <Loader />
       </SearchListWrapper>
     </>
