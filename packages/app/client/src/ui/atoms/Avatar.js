@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
   })
 }))
 
-const Avatar = ({ growthTimes, size, className, name, src, ...props }) => {
+const Avatar = ({ growthTimes, className, name, src, ...props }) => {
   const classes = useStyles({ growthTimes })
   const imageSource = src !== undefined ? { src } : {}
   
@@ -31,6 +31,10 @@ const Avatar = ({ growthTimes, size, className, name, src, ...props }) => {
       {getUserInitials()}
     </MuiAvatar>
   )
+}
+
+Avatar.defaultProps = {
+  growthTimes: 8
 }
 
 export default Avatar
