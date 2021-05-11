@@ -1,13 +1,13 @@
 import React from 'react'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
-import UserInfoTooltip from './UserInfoTooltip'
 import SubdirectoryArrowRightOutlinedIcon from '@material-ui/icons/SubdirectoryArrowRightOutlined'
 import HorizontalCardWithMenu from './HorizontalCardWithMenu'
+import DeleteActionDialog from './DeleteActionDialog'
+import MentionsForm from './MentionsForm'
 import { makeStyles } from '@material-ui/core/styles'
 import { TextButton, Divider, CollapseWithFade, Avatar, Authorship } from '../atoms'
-import { InputWithAvatar, TextWithMentions, CardInfoRow } from '../molecules'
-import DeleteActionDialog from './DeleteActionDialog'
+import { TextWithMentions, CardInfoRow, UserInfoTooltip } from '../molecules'
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -64,7 +64,7 @@ const Comment = ({
       <Grid container item xs={12} >
         <Box height="100%" >
           <Box height="100%" display="flex" flex="1" flexDirection="column" alignItems="center" >
-            <Avatar growthTimes={5} src={src} name={author} />
+            <Avatar growthTimes={7} src={src} name={author} />
 
             <Box height="100%" paddingY={1}>
               {(hasLine || reply) && <Divider component="div" orientation="vertical" variant="middle" />}
@@ -142,7 +142,7 @@ const Comment = ({
               }
 
               <CollapseWithFade in={reply}>
-                <InputWithAvatar />
+                <MentionsForm avatarGrowth={7} minHeight={50} submitLabel="Submit" buttonPlacement="inside" />
               </CollapseWithFade>
             </Box>
 

@@ -29,26 +29,30 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const UserInfos = ({ name, role, email, src, containerProps }) => {
+const UserInfos = ({ name, role, email, src, containerProps, avatarGrowth, showInfos }) => {
   const classes = useStyles()
   return (
     <Grid container wrap="nowrap" spacing={2} {...containerProps}>
       <Grid item>
-        <Avatar name={name} growthTimes={12} src={src} />
+        <Avatar name={name} growthTimes={avatarGrowth} src={src} />
       </Grid>
 
-      <Grid item xs zeroMinWidth>
-        <Typography className={classes.name}>{name}</Typography>
-        <Typography className={classes.role}>{role}</Typography>
-        <Typography noWrap component="a" href={email ? `mailto:${email}` : ''} className={classes.email}>{email}</Typography>
-      </Grid>
+      {showInfos && 
+        <Grid item xs zeroMinWidth>
+          <Typography className={classes.name}>{name}</Typography>
+          <Typography className={classes.role}>{role}</Typography>
+          <Typography noWrap component="a" href={email ? `mailto:${email}` : ''} className={classes.email}>{email}</Typography>
+        </Grid>
+      }
     </Grid>
   )
 }
 
 UserInfos.defaultProps = {
   name: 'Not defined',
-  role: 'Not defined'
+  role: 'Not defined',
+  avatarGrowth: 12,
+  showInfos: true
 }
 
 export default UserInfos
