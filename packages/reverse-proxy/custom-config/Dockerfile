@@ -45,17 +45,17 @@ RUN apk update \
 
 RUN apk add --no-cache --allow-untrusted /tmp/packages/nginx-module-njs-${NGINX_VERSION}*.apk;
 
-WORKDIR /etc/nginx
 
-RUN echo -e "load_module modules/ngx_stream_js_module.so;\n$(cat nginx.conf)" > nginx.conf
-RUN echo -e "load_module modules/ngx_http_js_module.so;\n$(cat nginx.conf)" > nginx.conf
+RUN echo -e "load_module modules/ngx_stream_js_module.so;\n$(cat /etc/nginx/nginx.conf)" > /etc/nginx/nginx.conf
+RUN echo -e "load_module modules/ngx_http_js_module.so;\n$(cat /etc/nginx/nginx.conf)" > /etc/nginx/nginx.conf
 
+RUN rm -rf /tmp/packages/
 
 RUN nginx -t
 
-COPY ./reverse-proxy-config/ /etc/nginx/conf.d/
+COPY . /etc/nginx/conf.d
 
 RUN apk add --update nodejs npm
 
-RUN cd /etc/nginx/conf.d/reverse-proxy-js \ 
+RUN cd /etc/nginx/conf.d/reverse-proxy-njs/ \ 
         && npm install

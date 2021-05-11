@@ -1,0 +1,30 @@
+{
+  "name": "reverse-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "postinstall": "npx webpack --config webpack.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.1",
+    "babel-loader": "^8.2.2",
+    "browserify": "^17.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-es2015-modules-simple-commonjs": "^0.3.0",
+    "babel-plugin-transform-for-of-as-array": "^1.1.1",
+    "babel-preset-njs": "^0.2.0",
+    "crypto-browserify": "^3.12.0",
+    "stream-browserify": "^3.0.0",
+    "util": "^0.12.3"
+  }
+}

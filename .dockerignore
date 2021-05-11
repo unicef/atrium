@@ -3,3 +3,4 @@
 !.git/HEAD
 **/node_modules
 packages/app/contracts/build/
+packages/reverse-proxy/custom-config/reverse-proxy-njs/dist
