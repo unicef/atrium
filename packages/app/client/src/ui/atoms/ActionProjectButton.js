@@ -1,39 +1,41 @@
 import React from 'react'
 import { Button, Image } from './index'
-import { DeleteButton } from '../../components/projects/overview/assets'
-import { useHistory } from 'react-router-dom'
+import { Edit } from '../assets'
 import { makeStyles } from '@material-ui/core/styles'
+import { DeleteButton } from '../../components/projects/overview/assets'
 const useStyles = makeStyles(() => ({
-    deleteButton: {
+  button: {
     width: '107px',
     height: '42px'
   },
-    deleteText: {
+  text: {
     marginLeft: '10%'
   }
 }))
-function DeleteProjectButton({ id }) {
+
+function ActionProjectButton({ id, type, onClick }) {
   const classes = useStyles()
-  const history = useHistory()
   return (
     <>
       <Button
-        className={classes.deleteButton}
+        className={classes.button}
         color="primary"
         variant="outlined"
-        onClick={() => history.push(`projects/overview/${id}`)}
+        onClick={() => onClick()}
       >
         <Image
           sameSize
           borderRadius={0}
           width="14px"
           height="14px"
-          src={DeleteButton}
+          src={type === 'edit' ? Edit : DeleteButton}
         />
-        <span className={classes.deleteText}>Delete</span>
+        <span className={classes.text}>
+          {type === 'edit' ? 'Edit' : 'Delete'}
+        </span>
       </Button>
     </>
   )
 }
 
-export default DeleteProjectButton
+export default ActionProjectButton
