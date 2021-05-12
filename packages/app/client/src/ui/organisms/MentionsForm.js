@@ -5,7 +5,7 @@ import MentionsTextArea from './MentionsTextArea'
 import { CurrentUserAvatar } from '../molecules'
 import { Button, TextButton } from '../atoms'
 
-const MentionsForm = ({ minHeight, buttonPlacement, submitLabel, showAvatar, handleSubmit, avatarGrowth }) => {
+const MentionsForm = ({ minHeight, buttonPlacement, submitLabel, showAvatar, handleSubmit, avatarGrowth, content, mentions }) => {
   const isInnerButton = buttonPlacement === 'inside'
 
   const renderButton = ({ onExtractData, onExtractMentions }) => {
@@ -50,7 +50,7 @@ const MentionsForm = ({ minHeight, buttonPlacement, submitLabel, showAvatar, han
         </Box>
       }
       <Box display="flex" width="100%" flexDirection={isInnerButton ? "row" : "column"} pl={1}>
-        <MentionsTextArea minHeight={minHeight} {...handleButtonRenderer()} />
+        <MentionsTextArea content={content} mentions={mentions}  minHeight={minHeight} {...handleButtonRenderer()} />
       </Box>
     </Box>
   )

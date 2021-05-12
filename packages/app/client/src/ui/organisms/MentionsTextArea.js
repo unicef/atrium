@@ -3,11 +3,11 @@ import Editor from '@draft-js-plugins/editor'
 import createMentionPlugin from '@draft-js-plugins/mention'
 import useOutlinedInput from '../hooks/useStyles/useOutlinedInputStyle'
 import classNames from 'classnames'
-import { EditorState, convertToRaw } from 'draft-js'
+import { EditorState, convertToRaw, ContentState } from 'draft-js'
 import { makeStyles } from '@material-ui/core/styles'
 import { searchUser } from '../../api/users'
 import { SuggestionRow, Mention } from '../molecules'
-import { mergeClassNames } from '../utils'
+import { createMentionEntities, mergeClassNames } from '../utils'
 import '@draft-js-plugins/mention/lib/plugin.css'
 
 const useStyles = makeStyles(() => ({
@@ -29,23 +29,40 @@ const SUGGESTIONS_PLACEHOLDER = [{ _id: 'loading' }]
 
 const MentionsTextArea = (props) => {
   const ref = useRef(null)
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+  const [editorState, setEditorState] = useState(() => {
+    let editor
+    if (props.content) {
+      const state = createMentionEntities(props.content, props.mentions)
+      console.log('LDHDLHDLJDHJDDJH')
+      editor = EditorState.createWithContent(state)
+      editor = EditorState.moveFocusToEnd(editor)
+    } else {
+      editor = EditorState.createEmpty()
+    }
+    return editor
+  })
   const [open, setOpen] = useState(false)
   const [suggestions, setSuggestions] = useState(SUGGESTIONS_PLACEHOLDER)
-  const [textMentions, setMentions] = useState([])
   const [focused, setFocus] = useState(false)
   
   const classes = useStyles({ minHeight: props.minHeight })
   const inputStyles = useOutlinedInput()
+
   const editorStyle = classNames(
-    mergeClassNames(classes.editor, inputStyles.root), {
-    [inputStyles.input]: true,
+    mergeClassNames(classes.editor, inputStyles.root, inputStyles.input), {
     [inputStyles.focused]: focused
   })
 
+  const reset = () => {
+    const editorState = EditorState.push(editorState, ContentState.createFromText(''))
+    setEditorState(editorState)
+  }
+
   const { MentionSuggestions, plugins } = useMemo(() => {
     const mentionPlugin = createMentionPlugin({
-      mentionComponent({ mention, className, children }) {
+      mentionPrefix: '@',
+      mentionComponent({ mention, className, children, }) {
+        //console.log(textMentions)
         return (
           <Mention mention={mention} className={className}>
             {children}
@@ -57,7 +74,7 @@ const MentionsTextArea = (props) => {
     const { MentionSuggestions } = mentionPlugin;
     const plugins = [mentionPlugin];
     return { plugins, MentionSuggestions };
-  }, [])
+  }, [props.mentions])
 
   const setPlaceHolder = useCallback(() => {
     if (suggestions.length > 0 && suggestions[0]._id !== 'loading') setSuggestions(SUGGESTIONS_PLACEHOLDER)
@@ -90,7 +107,9 @@ const MentionsTextArea = (props) => {
 
   const onExtractMentions = () => {
     const content = editorState.getCurrentContent()
+    console.log(content, 'content')
     const raw = convertToRaw(content)
+    console.log(raw, 'raw')
     const mentions = Object.entries(raw.entityMap).reduce((acc,[_, entity]) => {
       if (entity.type === 'mention') {
         return [...acc, entity.data.mention]
@@ -98,7 +117,7 @@ const MentionsTextArea = (props) => {
 
       return acc
     }, [])
-
+    
     return mentions
   }
 
@@ -115,6 +134,7 @@ const MentionsTextArea = (props) => {
       >
         <Editor
           editorKey={'editor'}
+          mentionPrefix="@"
           editorState={editorState}
           onChange={setEditorState}
           plugins={plugins}
@@ -131,17 +151,17 @@ const MentionsTextArea = (props) => {
           suggestions={suggestions}
           onSearchChange={onSearchChange}
           onAddMention={(mention) => {
-            const existingMentionIndex = textMentions.findIndex(mt => mt._id === mention._id)
+            //const existingMentionIndex = textMentions.findIndex(mt => mt._id === mention._id)
             const isPlaceholder = mention._id !== SUGGESTIONS_PLACEHOLDER[0]._id
-            if (existingMentionIndex === -1 && isPlaceholder) setMentions([...textMentions, mention])
+            //if (existingMentionIndex === -1 && isPlaceholder) setMentions([...textMentions, mention])
             if (!isPlaceholder) setSuggestions(SUGGESTIONS_PLACEHOLDER)
             setOpen(false)
           }}
           entryComponent={SuggestionRow}
         />
-        {props.renderInnerButton({ onExtractData, onExtractMentions })}
+        {props.renderInnerButton({ onExtractData, onExtractMentions, reset })}
       </div>
-      {props.renderOuterButton({ onExtractData, onExtractMentions })}
+      {props.renderOuterButton({ onExtractData, onExtractMentions, reset })}
     </>
   )
 }
