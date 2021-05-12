@@ -67,9 +67,10 @@ const populateParams = [
 ]
 
 /**
- * This function a filter string with many possible values
- * and returns the projects that match any value of the strings
+ * This function creates a query
+ * to find one of the values inside of the given string
  * @param {String} values - e.g. "Bitcoin,Stellar,Corda"
+ * @returns {Object} - { $regex, $options }
  */
  const filterMultipleValues = (values) => {
   const parsedValues = values.split(',').join('|')
@@ -140,7 +141,7 @@ router.get(
       }
       
       if (filtersQueries.length > 0) {
-        searchQuery.push({ $or: filtersQueries })
+        searchQuery.push({ $and: filtersQueries })
       }
 
       const finalQuery = searchQuery.length > 0 ? { $and: searchQuery } : {}
