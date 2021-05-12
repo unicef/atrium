@@ -7,7 +7,7 @@ import {
   Image,
   LikeButton,
   ViewProjectButton,
-  EditProjectButton
+  ActionProjectButton
 } from '../../../atoms'
 import { Badge } from '../../../assets'
 import { makeStyles } from '@material-ui/core/styles'
@@ -92,7 +92,9 @@ function Dashboard(props) {
       <Grid item container xs={12}>
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo size="normal">
-            <Typography className={classes.title} variant="subtitle1">MY STATS</Typography>
+            <Typography className={classes.title} variant="subtitle1">
+              MY STATS
+            </Typography>
             <div className={classes.boxes}>
               <div className={classes.centered}>
                 <div className={classes.bordered}>
@@ -111,7 +113,13 @@ function Dashboard(props) {
                 <div>
                   <div className={classes.bordered}>
                     <div className={classes.topText}>
-                      <Image sameSize borderRadius={0} width="18px" height="22px" src={Badge} />
+                      <Image
+                        sameSize
+                        borderRadius={0}
+                        width="18px"
+                        height="22px"
+                        src={Badge}
+                      />
                       <span className={classes.margined}>Badges</span>
                     </div>
                     <div className={classes.greenLine} />
@@ -158,7 +166,11 @@ function Dashboard(props) {
                 />
               </div>
               <div className={classes.margined}>
-                <EditProjectButton />
+                <ActionProjectButton
+                  // id={props._id}
+                  type="edit"
+                  // onClick={() => history.push(`projects/overview/${props._id}`)}
+                />
                 <ViewProjectButton />
               </div>
             </div>

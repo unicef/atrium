@@ -10,12 +10,12 @@ import {
   LikeButton,
   CommentsButton,
   ViewProjectButton,
-  EditProjectButton,
-  DeleteProjectButton
+  ActionProjectButton
 } from '../atoms'
 import { CardWithMedia } from '../molecules'
 import { mergeClassNames, dateFormatter } from '../utils'
-import { useTrimmedText } from '../hooks'
+import { useProjectsAsyncActions, useTrimmedText } from '../hooks'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -72,9 +72,13 @@ const ProjectVerticalCard = ({
   maxWidth,
   ...props
 }) => {
+  const { deleteProject } = useProjectsAsyncActions()
   const classes = useStyles()
   const trimmedDetails = useTrimmedText({ text: props.details, max: 134 })
-
+  const history = useHistory()
+  const deleteHandler = async projectId => {
+    await deleteProject(projectId)
+  }
   return (
     <CardWithMedia
       className={classes.root}
@@ -134,8 +138,16 @@ const ProjectVerticalCard = ({
         {isOwner ? (
           <div className={classes.projectButtons}>
             <ViewProjectButton id={props._id} />
-            <EditProjectButton id={props._id} />
-            <DeleteProjectButton id={props._id} />
+            <ActionProjectButton
+              id={props._id}
+              type="edit"
+              onClick={() => history.push(`projects/overview/${props._id}`)}
+            />
+            <ActionProjectButton
+              id={props._id}
+              type="delete"
+              onClick={() => deleteHandler(props._id)}
+            />
           </div>
         ) : (
           <>
@@ -176,6 +188,10 @@ const ProjectVerticalCard = ({
       </CardContent>
     </CardWithMedia>
   )
+}
+
+ProjectVerticalCard.defaultProps = {
+  maxWidth: 349
 }
 
 ProjectVerticalCard.propTypes = {

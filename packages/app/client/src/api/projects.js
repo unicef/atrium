@@ -96,6 +96,11 @@ export const getProject = (projectId) =>  projectRequest({
   endpoint: projectId
 })
 
+export const deleteProject = (projectId) =>  projectRequest({
+  method: 'delete',
+  endpoint: projectId
+})
+
 /**
  * Get all project
  */
