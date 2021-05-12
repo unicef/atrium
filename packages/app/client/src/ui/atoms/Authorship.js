@@ -8,6 +8,7 @@ const useStyles = makeStyles(() => ({
     fontWeight: 600,
     fontSize: '14px',
     lineHeight: '19.6px',
+    marginRight: 5
   },
   prefix: {
     fontStyle: 'normal',

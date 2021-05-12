@@ -33,7 +33,6 @@ const MentionsTextArea = (props) => {
     let editor
     if (props.content) {
       const state = createMentionEntities(props.content, props.mentions)
-      console.log('LDHDLHDLJDHJDDJH')
       editor = EditorState.createWithContent(state)
       editor = EditorState.moveFocusToEnd(editor)
     } else {
@@ -62,7 +61,6 @@ const MentionsTextArea = (props) => {
     const mentionPlugin = createMentionPlugin({
       mentionPrefix: '@',
       mentionComponent({ mention, className, children, }) {
-        //console.log(textMentions)
         return (
           <Mention mention={mention} className={className}>
             {children}

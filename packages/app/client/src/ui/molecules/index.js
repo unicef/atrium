@@ -28,4 +28,4 @@ export { default as CardInfoRow } from './CardInfoRow'
 export { default as UserInfoTooltip } from './UserInfoTooltip'
 export { default as Mention } from './Mention'
 export { default as CurrentUserAvatar } from './CurrentUserAvatar'
-
+export { default as CommentInput } from './CommentInput'

@@ -2,9 +2,9 @@ import React from 'react'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
 import Comment from './Comment'
-import MentionsForm from './MentionsForm'
 import { makeStyles } from '@material-ui/core/styles'
 import { Divider, CollapseWithFade, Avatar } from '../atoms'
+import { CommentInput } from '../molecules'
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -78,7 +78,7 @@ const CommentBox = ({
               }
 
               <CollapseWithFade in={reply}>
-                <MentionsForm avatarGrowth={7} minHeight={50} submitLabel="Submit" buttonPlacement="inside" />
+                <CommentInput avatarGrowth={7} submitLabel="Submit" buttonPlacement="inside" />
               </CollapseWithFade>
             </Box>
 

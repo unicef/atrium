@@ -3,9 +3,8 @@ import Box from '@material-ui/core/Box'
 import SubdirectoryArrowRightOutlinedIcon from '@material-ui/icons/SubdirectoryArrowRightOutlined'
 import HorizontalCardWithMenu from './HorizontalCardWithMenu'
 import DeleteActionDialog from './DeleteActionDialog'
-import MentionsForm from './MentionsForm'
 import { TextButton, Authorship } from '../atoms'
-import { TextWithMentions, CardInfoRow, UserInfoTooltip } from '../molecules'
+import { TextWithMentions, CardInfoRow, UserInfoTooltip, CommentInput } from '../molecules'
 import { useSelector } from 'react-redux'
 import { getUserId } from '../../selectors'
 
@@ -49,9 +48,7 @@ const Comment = ({
               <Authorship author={user.name} />
             </UserInfoTooltip>
             {showEdit ? 
-             <MentionsForm content={content} mentions={mentions} minHeight={50} showAvatar={false} buttonPlacement="inside" submitLabel="Confirm" handleSubmit={(props) => {
-               console.log(props, 'lasjkdjskdj')
-             }} /> : 
+             <CommentInput buttonPositioning="flex-end" rows={2} content={content} showAvatar={false} buttonPlacement="outside" submitLabel="Confirm" handleSubmit={(props) => {}} /> : 
               <TextWithMentions
                 mentions={mentions}
               >
