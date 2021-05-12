@@ -43,6 +43,7 @@ const populateParams = [
   }
 ]
 
+
 router.get(
   '/:commentId',
   passport.authenticate('jwt', { session: false }),
@@ -62,21 +63,9 @@ router.get(
       let { replies } = comment
 
       if (req.query.sort === 'asc') {
-        replies = replies.sort((a, b) =>
-          a.likes.length > b.likes.length
-            ? 1
-            : b.likes.length > a.likes.length
-            ? -1
-            : 0
-        )
+        replies = replies.sort((a, b) => a.likes.length - b.likes.length)
       } else {
-        replies = replies.sort((a, b) =>
-          a.likes.length < b.likes.length
-            ? 1
-            : b.likes.length < a.likes.length
-            ? -1
-            : 0
-        )
+        replies = replies.sort((a, b) => b.likes.length - a.likes.length)
       }
       const pageCounter = Math.ceil(replies.length / req.query.limit)
       replies = replies.splice(req.query.offset, req.query.limit)
