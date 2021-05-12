@@ -81,7 +81,10 @@ const useStyles = makeStyles(theme => ({
     maxHeight: 51,
     color: theme.colors[props.labelColor],
     width: '100%'
-  })
+  }),
+  zeroMinWidth: {
+    minWidth: 0
+  }
 }))
 
 export const Button = ({
@@ -101,7 +104,8 @@ export const Button = ({
     [classes.full]: size === 'full',
     [classes.outlined]: props.variant === 'outlined',
     [classes.primary]: props.color === 'primary',
-    [classes.secondary]: props.color === 'secondary'
+    [classes.secondary]: props.color === 'secondary',
+    [classes.zeroMinWidth]: props.zeroMinWidth
   })
 
   return (
@@ -187,7 +191,8 @@ export const FabButton = withStyles(fabButtonStyles)(
 Button.defaultProps = {
   type: 'button',
   children: 'Button',
-  variant: 'contained'
+  variant: 'contained',
+  zeroMinWidth: false
 }
 
 LargeButton.defaultProps = {

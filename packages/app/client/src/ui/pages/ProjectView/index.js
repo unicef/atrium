@@ -5,13 +5,14 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import ProjectHeader from "./components/ProjectHeader";
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { useContainerStyle, useProjectsAsyncActions } from '../../hooks'
+import { useProjectsAsyncActions } from '../../hooks'
 import { Tabs } from '../../molecules'
-import { AboutProject, ProjectUpdates } from './panels'
+import { AboutProject, ProjectUpdates, ProjectComments, ProjectTeam } from './panels'
 import { getCurrentProject } from '../../../selectors'
 import { TabPanel } from '../../atoms'
+import { MainContainer } from '../../templates'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   header: {
     marginBottom: '5%'
   },
@@ -45,7 +46,6 @@ const Panel = ({ index, tabIndex, children }) => {
 
 const ProjectViewPage = () => {
   const classes = useStyles()
-  const containerStyle = useContainerStyle({ size: 'regular' })
   const projectData = useSelector(getCurrentProject)
   const { getProjectById } = useProjectsAsyncActions()
   const params = useParams()
@@ -56,14 +56,14 @@ const ProjectViewPage = () => {
     }
   }, [])
 
-  const [tabIndex, setTabIndex] = React.useState(0)
+  const [tabIndex, setTabIndex] = React.useState(3)
 
   const handleChange = (newVal) => {
     setTabIndex(newVal)
   }
 
   return (
-    <main style={{ margin: '50px auto'}} className={containerStyle}>
+    <MainContainer size="regular" margin="50px auto">
       <Grid item container xs={12} className={classes.header}>
         {projectData && <ProjectHeader projectData={projectData} {...projectData} />}
       </Grid>
@@ -78,12 +78,20 @@ const ProjectViewPage = () => {
               <AboutProject projectData={projectData} />
             </Panel>
 
+            <Panel index={1} tabIndex={tabIndex}>
+              <ProjectTeam />
+            </Panel>
+
             <Panel index={2} tabIndex={tabIndex}>
               <ProjectUpdates updates={projectData.updates} projectId={projectData.id} />
             </Panel>
+
+            <Panel index={3} tabIndex={tabIndex}>
+              <ProjectComments  />
+            </Panel>
         </Grid>
       }
-    </main>
+    </MainContainer>
   )
 }
 

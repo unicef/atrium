@@ -1,34 +1,29 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import Avatar from '@material-ui/core/Avatar'
 import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
+import { UserInfos } from '../../../molecules'
 
 const useStyles = makeStyles(() => ({
   projectInfo: {
     marginBottom: 20
-  },
-  personFullName: {
-    fontSize: '17px',
-    marginBottom: 0,
-    textAlign: 'left'
-  },
-  link: {
-    textDecoration: 'none'
   }
 }))
 
 const TitledPart = ({ children, title }) => (
   <Grid item xs={12}>
-    <Typography variant="subtitle1">{title}</Typography>
+    <Box mb={1}>
+      <Typography variant="subtitle1">{title}</Typography>
+    </Box>
     {children}
   </Grid>
 )
 
 const ProjectHeaderMiddleSection = (props) => {
+  // TODO: USE useSelector CONNECTION
   const classes = useStyles()
-  const contactPerson = props.contactPerson || {}
+  const contactPerson = props.projectData.contactPerson || {}
 
   return (
     <>
@@ -57,33 +52,7 @@ const ProjectHeaderMiddleSection = (props) => {
       </TitledPart>
 
       <TitledPart title="CONTACT PERSON">
-        <Grid container alignItems="center" item xs={12}>
-          <Avatar
-            alt="Avatar"
-            src={contactPerson.avatar || null}
-          />
-          <Box ml={2}>
-            <Typography
-              color="secondary"
-              className={classes.personFullName}
-              variant="subtitle1"
-            >
-              {contactPerson.name || null /* then + surname*/}
-            </Typography>
-            <Typography color="secondary" variant="body1">
-              Project menager
-            </Typography>
-            <Typography
-              component="a"
-              href={contactPerson.email ? `mailto:${contactPerson.email}`: ''}
-              color="primary"
-              variant="body1"
-              className={classes.link}
-            >
-              {contactPerson.email || null}
-            </Typography>
-          </Box>
-        </Grid>
+        <UserInfos {...contactPerson} name={props.projectData.contactPersonFullName} />
       </TitledPart>
     </>
   )

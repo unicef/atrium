@@ -3,7 +3,6 @@ import errorHandling from "../../utils/errorHandling"
 
 const baseRequest = ({ errors, baseURL }) => async ({ method, endpoint, body, overwritingErrors, config }) => {
   const getStandardizedError = errorHandling(errors)
-  
   try {
     const composedEndpoint = endpoint ? `/${endpoint}` : ''
 

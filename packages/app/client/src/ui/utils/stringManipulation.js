@@ -27,3 +27,34 @@ export const linkify = inputText => {
 
   return replacedText
 }
+
+const FLAG = '<flag>'
+
+const flagStr = ({ replacementTargets, text }) => {
+  const flaggedStr = replacementTargets.reduce((prevStr, target) => {
+    const regex = new RegExp(target, 'g')
+    return prevStr.replace(regex, `${FLAG}${target}${FLAG}`)
+  }, text)
+
+  return flaggedStr
+}
+
+export const replaceTargetString = ({ handleReplacement, text, replacementTargets }) => {
+  if (Array.isArray(replacementTargets)) {
+    const flaggedStr = flagStr({ replacementTargets, text })
+   
+    return flaggedStr.split(FLAG).map((target, index) => {
+      const targetFoundIndex = replacementTargets.findIndex(tgt => tgt === target)
+      const targetFound = replacementTargets[targetFoundIndex]
+
+      if (targetFound !== undefined) {
+        return handleReplacement({ index, target: targetFound, replacementTargetsIndex: targetFoundIndex })
+      }
+
+      return target
+
+    })
+  }
+
+  return ''
+}

@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid'
 import UpdateEdition from './UpdateEdition'
 import { makeStyles } from '@material-ui/core/styles'
 import { HorizontalCardWithMenu, DeleteActionDialog } from '../../../../organisms'
+import { CardInfoRow } from '../../../../molecules'
 import { UserLink } from '../../../../organisms'
 import { useSelector } from 'react-redux'
 import { getUserId, getCurrentProjectId } from '../../../../../selectors'
@@ -74,7 +75,7 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
   ]
 
   return (
-    <>
+    <Box mb={2}>
       <HorizontalCardWithMenu
         menuItems={menuItems}
         userIsTheOwner={userIsTheOwner}
@@ -84,20 +85,19 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
         </Typography>
 
         <Box display="flex" mb={1}>
-          <Typography className={classes.greyText}>
-              Uploaded by
-          </Typography>
-          <UserLink
-            id={owner.id}
-            color="black-three"
-            name={`${owner.name || 'test'}`}
+          <CardInfoRow
+            components={[
+              {
+                type: 'authorship',
+                author: owner.name
+              },
+              {
+                type: 'date',
+                variant: 'absolute',
+                date
+              }
+            ]}
           />
-          <Typography className={classes.dot}>
-            ·
-          </Typography>
-          <Typography className={classes.greyText}>
-            {`${getRelativeTimeToNow(date)} ago`}
-          </Typography>
         </Box>
 
         <Box mb={1}>
@@ -123,7 +123,7 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
           await getProjectById(projectId)
         }}
       />
-    </>
+    </Box>
   )
 }
 
