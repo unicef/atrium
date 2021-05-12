@@ -58,4 +58,5 @@ COPY . /etc/nginx/conf.d
 RUN apk add --update nodejs npm
 
 RUN cd /etc/nginx/conf.d/reverse-proxy-njs/ \ 
-        && npm install
+        && npm install && npm run postinstall \
+        && rm -rf node_modules

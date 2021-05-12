@@ -4,7 +4,10 @@
   "description": "",
   "private": true,
   "scripts": {
-    "postinstall": "npx webpack --config webpack.config.js"
+    "postinstall": "npm run browserify && npm run webpack && npm run concat-final-bundle ",
+    "browserify": "npx browserify loader.js -o ./dist/browserified-loader.js -d",
+    "webpack": "npx webpack --config webpack.config.js",
+    "concat-final-bundle": "cat dist/webpack-compiled-loader.js index.js > ./dist/bundle.js"
   },
   "keywords": [],
   "author": "",

@@ -2,10 +2,10 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './auth.js',
+  entry: './loader.js',
   output: {
     path: path.resolve('dist'),
-    filename: 'main.js',
+    filename: 'webpack-compiled-loader.js',
   },
   optimization: {
     minimize: false,
@@ -20,11 +20,15 @@ module.exports = {
         exclude: /(bower_components)/,
         use: {
           loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
         },
       },
     ],
   },
   resolve: {
+    extensions: ['.js'],
     fallback: {
       buffer: require.resolve('buffer/'),
       util: require.resolve('util/'),
@@ -32,5 +36,4 @@ module.exports = {
       crypto: require.resolve('crypto-browserify'),
     },
   },
-  devtool: 'source-map',
 };
