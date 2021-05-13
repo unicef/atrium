@@ -53,8 +53,8 @@ services:
       - ETHEREUM_PROVIDER_URL=http://ganache:8545
       - ATRIUM_WALLET_SECRET=dev
       - TRUFFLE_NETWORK=docker_development
-    ports:
-      - 5000:5000
+    expose:
+      - "5000"
     restart: always
 
   discovery:
@@ -92,6 +92,20 @@ services:
     restart: unless-stopped
     ports:
       - 27017:27017
+
+  reverse-proxy:
+    restart: always
+    build: 
+      context: ./packages/reverse-proxy/custom-config
+      dockerfile: ./Dockerfile
+    ports:
+      - "5000:5000"
+    environment: 
+      - SECRET_OR_KEY=raging-dog-cat
+    depends_on:
+      - app
+      - mongo
+
 
 volumes:
   discovery:
