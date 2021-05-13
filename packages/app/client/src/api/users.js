@@ -73,7 +73,7 @@ export const sendForgotPasswordEmail = (email) => usersRequest({
 
 /**
  * Reset password
- * @param {Object} data 
+ * @param {Object} data
  * @property {String} data.token
  * @property {String} data.password
  * @returns {Promise}
@@ -86,7 +86,7 @@ export const resetPassword = (data) => usersRequest({
 
 /**
  * Function to register a user after the email verification
- * @param {Object} userData 
+ * @param {Object} userData
  * @property {String} userData.emailHash
  * @property {String} userData.invitationCode
  * @property {String} userData.company
@@ -104,7 +104,7 @@ export const registerUser = (userData) => usersRequest({
 
 /**
  * Function to authenticate the user credentials
- * @param {Object} userData 
+ * @param {Object} userData
  * @property {String} userData.email
  * @property {String} userData.password
  * @returns {Promise}
@@ -114,4 +114,16 @@ export const loginUser = (userData) => usersRequest({
   endpoint: loginUserEndpoint,
   body: userData,
   overwritingErrors: { 400: 'Your email or password are incorrect' }
+})
+
+export const getUserProjects = query =>
+  usersRequest({
+    method: 'get',
+    endpoint: `projects${query}`
+})
+
+export const getUserComments = query =>
+  usersRequest({
+    method: 'get',
+    endpoint: `comments${query}`
 })
