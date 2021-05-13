@@ -10,7 +10,7 @@ const ProjectCard = ({ project, onClick, disableActions, count }) => {
   return (
     <Grid item xs={12} sm={12 / count} container justify="center">
       <ProjectVerticalCard
-        isOwner={userId === project.owner.id}
+        accountPage={userId === project.owner.id}
         maxWidth={userId === project.owner.id ? 469 : 345}
         commentsCount={project.comments.length}
         likesCount={project.likes.length}

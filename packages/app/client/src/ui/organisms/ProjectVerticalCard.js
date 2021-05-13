@@ -68,7 +68,7 @@ const useStyles = makeStyles(theme => ({
 
 const ProjectVerticalCard = ({
   disableActions,
-  isOwner,
+  accountPage,
   maxWidth,
   ...props
 }) => {
@@ -115,7 +115,7 @@ const ProjectVerticalCard = ({
       }
       {...props}
     >
-      {isOwner ? (
+      {accountPage ? (
         <div>657 likes 67 comments 22.02.2022</div>
       ) : (
         <CardActions className={classes.cardActions}>
@@ -136,7 +136,7 @@ const ProjectVerticalCard = ({
       )}
 
       <CardContent className={classes.footer}>
-        {isOwner ? (
+        {accountPage ? (
           <div className={classes.projectButtons}>
             <ViewProjectButton id={props._id} />
             <ActionProjectButton
