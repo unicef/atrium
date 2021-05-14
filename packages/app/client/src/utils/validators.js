@@ -36,9 +36,8 @@ export const validatePassword = (password) => {
 }
 
 export const validateWebsite = (website) => {
-    const real = /([A-Z])/g.test(website)
-
-    if (!real) {
+    const real = /([-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*))/g.test(website)
+    if (website && !real) {
       return { website: 'It is unreal website' }
     }
 

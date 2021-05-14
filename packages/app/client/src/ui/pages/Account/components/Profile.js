@@ -24,7 +24,8 @@ const useStyles = makeStyles(() => ({
   website: {
     border: '1.2px solid #E7E7E7',
     borderRadius: '5px',
-    padding: '2%'
+    padding: '2%',
+    marginBottom: '2%'
   },
   enterButton: {
     color: '#15B54A',
@@ -50,16 +51,17 @@ function Profile(props) {
   const { updateUser } = useAuthAsyncActions()
 
   const submitHandler = async userDetails => {
-    await updateUser(userDetails)
+    await updateUser({ ...userDetails, websites })
     setEditting(false)
   }
   const fields = [
-    { ...name, initialValue: props.name || '' },
-    { ...bio, initialValue: props.bio || '', rows: 4, multiline: true },
-    { ...role, initialValue: props.role || '' },
-    { ...organization, initialValue: props.organization || '' },
+    { ...name, initialValue: props.name || '', disabled: !editting },
+    { ...bio, initialValue: props.bio || '', rows: 4, multiline: true, disabled: !editting },
+    { ...role, initialValue: props.role || '', disabled: !editting },
+    { ...organization, initialValue: props.organization || '', disabled: !editting },
     {
       ...website,
+      disabled: !editting,
       endAdornment: editting ? (
         <InputAdornment position="end">
           <Button
@@ -89,7 +91,7 @@ function Profile(props) {
         buttonLayout={{ xs: 4 }}
         // isSubmitting={editting}
         // isValid={true}
-        validate={validateProfileForm}
+        // validate={validateProfileForm}
         renderBellowForm={
           <div className={classes.websites}>
             {websites.map((item, i) => (
@@ -107,7 +109,7 @@ function Profile(props) {
         <Button
           className={classes.viewButton}
           variant="outlined"
-          onClick={() => history.push(`users/${props._id}`)}
+          onClick={() => history.push(`users/${props.id}`)}
         >
           View profile
         </Button>
