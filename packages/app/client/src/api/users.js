@@ -28,7 +28,7 @@ const usersRequest = baseRequest({ errors: ERRORS, baseURL: ROUTE })
 // REQUESTS
 export const updateUserDetails = userDetails =>
   usersRequest({
-    method: 'patch',
+    method: 'post',
     body: userDetails
   })
 

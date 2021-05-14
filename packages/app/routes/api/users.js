@@ -110,21 +110,21 @@ router.post(
       'Getting filtered users'
     )
     const users = await User.find(
-      { 
+      {
         $or: [
-          { 
-            name: { 
-              $regex: req.body.prefix, 
-              $options: "gi" 
+          {
+            name: {
+              $regex: req.body.prefix,
+              $options: "gi"
             }
           },
-          { 
-            email: { 
-              $regex: req.body.prefix, 
-              $options: "gi" 
+          {
+            email: {
+              $regex: req.body.prefix,
+              $options: "gi"
             }
           }
-        ] 
+        ]
       }
     )
     return res.status(200).json({ users })
@@ -1193,7 +1193,7 @@ router.get(
   }
 )
 
-router.patch(
+router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   s3Upload.single('avatar'),

@@ -13,8 +13,8 @@ import { Button } from '../../../atoms'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
-import { useAuthAsyncActions } from "../../../hooks";
-import validateProfileForm from "../validateProfileForm";
+import { useAuthAsyncActions } from '../../../hooks'
+import validateProfileForm from '../validateProfileForm'
 
 const useStyles = makeStyles(() => ({
   websites: {
@@ -56,9 +56,19 @@ function Profile(props) {
   }
   const fields = [
     { ...name, initialValue: props.name || '', disabled: !editting },
-    { ...bio, initialValue: props.bio || '', rows: 4, multiline: true, disabled: !editting },
+    {
+      ...bio,
+      initialValue: props.bio || '',
+      rows: 4,
+      multiline: true,
+      disabled: !editting
+    },
     { ...role, initialValue: props.role || '', disabled: !editting },
-    { ...organization, initialValue: props.organization || '', disabled: !editting },
+    {
+      ...organization,
+      initialValue: props.organization || '',
+      disabled: !editting
+    },
     {
       ...website,
       disabled: !editting,
@@ -85,13 +95,14 @@ function Profile(props) {
       <SimpleFormWithHeader
         fields={fields}
         title="Profile"
-        onSubmit={editting ? submitHandler : () => setEditting(true)}
+        onSubmit={editting ? submitHandler : (_, formProps) => {
+                setEditting(true)
+                formProps.setSubmitting(false)
+        }}
         submitLabel={editting ? 'Save changes' : 'Edit'}
         titleProps={{ align: 'left' }}
         buttonLayout={{ xs: 4 }}
-        // isSubmitting={editting}
-        // isValid={true}
-        // validate={validateProfileForm}
+        validate={validateProfileForm}
         renderBellowForm={
           <div className={classes.websites}>
             {websites.map((item, i) => (
