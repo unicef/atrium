@@ -145,3 +145,9 @@ export const getUserComments = query =>
     method: 'get',
     endpoint: `comments${query}`
   })
+
+export const deleteUser = userId =>
+  usersRequest({
+    method: 'post',
+    endpoint: `${userId}`
+  })

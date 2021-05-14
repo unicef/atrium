@@ -84,5 +84,13 @@ module.exports = {
     initialValue: '',
     htmlFor: 'websiteInput',
     type: 'text'
+  },
+  currentPassword: {
+    name: 'password',
+    id: 'passwordInput',
+    label: 'Current password',
+    initialValue: '',
+    htmlFor: 'passwordInput',
+    type: 'password'
   }
 }
