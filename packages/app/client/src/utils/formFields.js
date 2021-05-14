@@ -1,32 +1,32 @@
 module.exports = {
   email: {
     name: 'email',
-    id:'emailInput',
-    label:'Email',
+    id: 'emailInput',
+    label: 'Email',
     initialValue: '',
     htmlFor: 'emailInput',
     type: 'email'
   },
   name: {
     name: 'name',
-    id:'nameInput',
-    label:'Name',
+    id: 'nameInput',
+    label: 'Name',
     initialValue: '',
     htmlFor: 'nameInput',
     type: 'text'
   },
   surname: {
     name: 'surname',
-    id:'surnameInput',
-    label:'Surname',
+    id: 'surnameInput',
+    label: 'Surname',
     initialValue: '',
     htmlFor: 'surnameInput',
     type: 'text'
   },
   password: {
     name: 'password',
-    id:'passwordInput',
-    label:'Password',
+    id: 'passwordInput',
+    label: 'Password',
     initialValue: '',
     htmlFor: 'passwordInput',
     type: 'password',
@@ -34,7 +34,7 @@ module.exports = {
   },
   termsCheckbox: {
     name: 'termsCheckbox',
-    id:'termsCheckbox',
+    id: 'termsCheckbox',
     initialValue: false,
     contentPlacemet: 'flex-start',
     label: 'I agree to The Atrium Terms of service and Privacy Policy',
@@ -52,5 +52,13 @@ module.exports = {
     ],
     htmlFor: 'termsCheckbox',
     type: 'checkbox'
+  },
+  currentPassword: {
+    name: 'password',
+    id: 'passwordInput',
+    label: 'Current password',
+    initialValue: '',
+    htmlFor: 'passwordInput',
+    type: 'password'
   }
 }
