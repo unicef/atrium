@@ -180,6 +180,16 @@ spec:
               value: raging-dog-cat
             - name: TRUFFLE_NETWORK
               value: kube_development
+            - name: AWS_SES_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: atrium-secret
+                  key: aws-ses-access-key
+            - name: AWS_SES_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: atrium-secret
+                  key: aws-ses-secret-key
           image: appliedblockchain/atrium-app
           name: unin-app
           ports:
