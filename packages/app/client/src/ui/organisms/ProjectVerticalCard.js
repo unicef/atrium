@@ -12,7 +12,7 @@ import {
   ViewProjectButton,
   ActionProjectButton
 } from '../atoms'
-import { CardWithMedia } from '../molecules'
+import { CardInfoRow, CardWithMedia } from '../molecules'
 import { mergeClassNames, dateFormatter } from '../utils'
 import { useProjectsAsyncActions, useTrimmedText } from '../hooks'
 import { useHistory } from 'react-router-dom'
@@ -116,7 +116,23 @@ const ProjectVerticalCard = ({
       {...props}
     >
       {accountPage ? (
-        <div>657 likes 67 comments 22.02.2022</div>
+        <CardInfoRow
+          components={[
+            {
+              type: 'text',
+              children: `${props.likes.length} Likes`
+            },
+            {
+              type: 'text',
+              children: `${props.comments.length} comments`
+            },
+            {
+              type: 'date',
+              variant: 'relative',
+              date: new Date(props.createdAt)
+            }
+          ]}
+        />
       ) : (
         <CardActions className={classes.cardActions}>
           <LikeButton
