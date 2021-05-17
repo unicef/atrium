@@ -21,7 +21,7 @@ const useAuthAsyncActions = () => {
     }),
     checkUserPassword: handledRequest({
       request: UsersApi.checkUserPassword,
-      onSuccess: ({ payload }) => setCurrentUser(payload),
+      onSuccess: ({ payload }) => setCurrentUser(payload),//
       pageLoading: true,
       successMessage: 'User entered correct password'
     })
