@@ -6,6 +6,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
 import { useSelector } from 'react-redux'
 import {getUser} from "../../selectors";
+import {Avatar} from "../atoms";
 const useDefaultStyles = makeStyles(() => ({
   top: {
     height: '100px',
@@ -20,8 +21,11 @@ const useDefaultStyles = makeStyles(() => ({
     marginTop: '5%'
   },
   avatar: {
-    height: '70px',
-    width: '70px'
+    marginRight: '5%'
+  },
+  role: {
+    fontSize: '16px',
+    color: '#919492'
   }
 }))
 
@@ -37,11 +41,11 @@ function VerticalTabs({ tabIndex, handleChange, tabsList }) {
       md={2}
     >
       <div className={classes.top}>
-        <img className={classes.avatar} alt="Avatar" />
+        <Avatar src={user.avatar} className={classes.avatar} name={user.name} />
         <div>
           <Typography variant="subtitle1">{user.name.split(' ')[0]}</Typography>
           <Typography variant="subtitle1">{user.name.split(' ')[1]}</Typography>
-          <Typography style={{ fontSize: '16px' }} variant="body1">
+          <Typography className={classes.role} variant="body1">
             {user.role}
           </Typography>
         </div>

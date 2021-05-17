@@ -109,24 +109,22 @@ router.post(
       },
       'Getting filtered users'
     )
-    const users = await User.find(
-      {
-        $or: [
-          {
-            name: {
-              $regex: req.body.prefix,
-              $options: "gi"
-            }
-          },
-          {
-            email: {
-              $regex: req.body.prefix,
-              $options: "gi"
-            }
+    const users = await User.find({
+      $or: [
+        {
+          name: {
+            $regex: req.body.prefix,
+            $options: 'gi'
           }
-        ]
-      }
-    )
+        },
+        {
+          email: {
+            $regex: req.body.prefix,
+            $options: 'gi'
+          }
+        }
+      ]
+    })
     return res.status(200).json({ users })
   }
 )
@@ -1194,63 +1192,6 @@ router.get(
 )
 
 router.post(
-  '/',
-  passport.authenticate('jwt', { session: false }),
-  s3Upload.single('avatar'),
-  validationMiddleware(userSchemas.updateUser),
-  async (req, res) => {
-    const informationToUpdate = req.body
-    if (req.file && req.file.key) {
-      informationToUpdate.avatar = `${
-        req.connection.encrypted ? 'https' : 'http'
-      }://${req.headers.host}${req.baseUrl}/avatar/${req.file.key}`
-    }
-
-    log.info(
-      getAuthenticatedRequestLogDetails(req, { update: informationToUpdate }),
-      'Updating user information'
-    )
-
-    User.findByIdAndUpdate(
-      req.user.id,
-      informationToUpdate,
-      { new: true },
-      (updateErr, updatedUser) => {
-        if (updateErr) {
-          log.error(
-            getAuthenticatedRequestLogDetails(req, { err: updateErr }),
-            'Error updating user'
-          )
-
-          return sendError(res, 500, 'Error updating user in the database')
-        }
-
-        getTokenForUser(updatedUser, (tokenError, token) => {
-          if (tokenError) {
-            log.error(
-              getAuthenticatedRequestLogDetails(req, { err: tokenError }),
-              'Error generating token'
-            )
-            return sendError(res, 500, 'Error generating token')
-          }
-
-          const tokenOnly = token.split(' ')[1]
-          const cookieConfig = {
-            expires: new Date(Date.now() + oneHour * 8000),
-            httpOnly: true,
-            secure: true
-          }
-          res.cookie(authCookieName, tokenOnly, cookieConfig)
-          res.json({
-            success: true
-          })
-        })
-      }
-    )
-  }
-)
-
-router.post(
   '/change-password',
   passport.authenticate('jwt', { session: false }),
   validationMiddleware(userSchemas.changePassword),
@@ -1486,6 +1427,65 @@ router.get(
     } else {
       sendError(res, 400, 'No user id provided')
     }
+  }
+)
+
+router.post(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  s3Upload.single('avatar'),
+  // validationMiddleware(userSchemas.updateUser),
+  async (req, res) => {
+    const informationToUpdate = req.body
+    if (req.body.websites)
+      informationToUpdate.websites = req.body.websites.split(',')
+    else informationToUpdate.websites = []
+    if (req.file && req.file.key) {
+      informationToUpdate.avatar = `${
+        req.connection.encrypted ? 'https' : 'http'
+      }://${req.headers.host}${req.baseUrl}/avatar/${req.file.key}`
+    }
+    log.info(
+      getAuthenticatedRequestLogDetails(req, { update: informationToUpdate }),
+      'Updating user information'
+    )
+
+    User.findByIdAndUpdate(
+      req.params.id,
+      informationToUpdate,
+      { new: true },
+      (updateErr, updatedUser) => {
+        if (updateErr) {
+          log.error(
+            getAuthenticatedRequestLogDetails(req, { err: updateErr }),
+            'Error updating user'
+          )
+
+          return sendError(res, 500, 'Error updating user in the database')
+        }
+
+        getTokenForUser(updatedUser, (tokenError, token) => {
+          if (tokenError) {
+            log.error(
+              getAuthenticatedRequestLogDetails(req, { err: tokenError }),
+              'Error generating token'
+            )
+            return sendError(res, 500, 'Error generating token')
+          }
+
+          const tokenOnly = token.split(' ')[1]
+          const cookieConfig = {
+            expires: new Date(Date.now() + oneHour * 8000),
+            httpOnly: true,
+            secure: true
+          }
+          res.cookie(authCookieName, tokenOnly, cookieConfig)
+          res.json({
+            success: true
+          })
+        })
+      }
+    )
   }
 )
 

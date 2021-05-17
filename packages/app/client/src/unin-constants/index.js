@@ -7,7 +7,7 @@ module.exports = {
   DISCUSSION_FILTER_ENUM: require('./discussionFilterEnum'),
   DATA_STATE_ENUM: require('./dataStateEnum'),
   AGENCIES_LIST: require('./agenciesList'),
-  MAX_UPLOAD_SIZE: 5242880,
+  MAX_UPLOAD_SIZE: 10485760,
   PROJECTS_SEARCH_FILTERS: require('./projectsSearchFilters'),
   ABOUT_PROJECT_SECTIONS: require('./aboutProjectSections'),
   PROJECT_ADITIONAL_INFO: require('./projectAditionalInfos')

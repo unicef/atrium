@@ -31,9 +31,10 @@ export const ERRORS = {
 const usersRequest = baseRequest({ errors: ERRORS, baseURL: ROUTE })
 
 // REQUESTS
-export const updateUserDetails = userDetails =>
+export const updateUserDetails = (userId, userDetails) =>
   usersRequest({
     method: 'post',
+    endpoint: `${userId}`,
     body: userDetails
   })
 
