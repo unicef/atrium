@@ -145,9 +145,3 @@ export const getUserComments = query =>
     method: 'get',
     endpoint: `comments${query}`
   })
-
-export const checkUserPassword = userId =>
-  usersRequest({
-    method: 'post',
-    endpoint: `checkPassword/${userId}`
-  })
