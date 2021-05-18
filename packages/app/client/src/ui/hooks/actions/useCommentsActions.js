@@ -1,12 +1,11 @@
 import { useDispatch } from 'react-redux'
-import { saveComments, updateComment } from '../../../reduxStructures/projects'
+import { saveComments } from '../../../reduxStructures/projects'
 
 const useCommentsActions = () => {
   const dispatch = useDispatch()
 
   return {
-    saveComments: (payload) => { dispatch(saveComments(payload)) },
-    updateComment: (payload) => { dispatch(updateComment(payload)) }
+    saveComments: (payload) => { dispatch(saveComments(payload)) }
   }
 }
 

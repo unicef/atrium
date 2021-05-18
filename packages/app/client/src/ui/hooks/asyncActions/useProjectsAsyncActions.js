@@ -1,7 +1,7 @@
 import useHandledRequest from './useHandledRequest'
 import useIsAuthenticated from '../useIsAuthenticated'
 import * as ProjectApi from '../../../api/projects'
-import { useSearchActions, useProjectsMainActions, useProjectViewActions } from '../actions'
+import { useSearchActions, useProjectsMainActions, useProjectViewActions, useCommentsActions } from '../actions'
 import { useSelector } from 'react-redux'
 import { getUserId } from '../../../selectors'
 
@@ -10,7 +10,8 @@ const useProjectsAsyncActions = () => {
   const userId = useSelector(getUserId)
   const { showLoading, dismissLoading, setNumberOfPages } = useSearchActions()
   const { saveSearchedProjects, toggleProjectLike } = useProjectsMainActions()
-  const { setCurrentProject, deleteUpdate } = useProjectViewActions()
+  const { setCurrentProject } = useProjectViewActions()
+  const { saveComments } = useCommentsActions()
   const isUserAuthenticated = useIsAuthenticated()
 
   return {
@@ -43,34 +44,21 @@ const useProjectsAsyncActions = () => {
         showFullPageLoading: true
       }
     ),
+    getComments: handledRequest(
+      { 
+        request: ProjectApi.getComments,
+        onSuccess: (res) => saveComments(res),
+        showFullPageLoading: true
+      }
+    ),
+    // TODO: RE-EVALUATE THE PROJECT UPDATE REQUESTS
     deleteUpdate: handledRequest(
       { 
         request: ProjectApi.removeUpdate,
         showFullPageLoading: true,
         successMessage: 'Update successfully removed'
       }
-    ),
-    addComment: handledRequest(
-      { 
-        request: ProjectApi.addComment,
-        showFullPageLoading: true,
-        successMessage: 'Comment successfully added'
-      }
-    ),
-    removeComment: handledRequest(
-      { 
-        request: ProjectApi.deleteComment,
-        showFullPageLoading: true,
-        successMessage: 'Comment successfully removed'
-      }
-    ),
-    editComment: handledRequest(
-      { 
-        request: ProjectApi.editComment,
-        showFullPageLoading: true,
-        //successMessage: 'Update successfully removed'
-      }
-    ),
+    )
   }
 }
 
