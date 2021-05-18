@@ -5,80 +5,109 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
-import { Divider, LikeButton, CommentsButton } from '../atoms'
+import {
+  Divider,
+  LikeButton,
+  CommentsButton,
+  ViewProjectButton,
+  ActionProjectButton
+} from '../atoms'
 import { CardWithMedia } from '../molecules'
 import { mergeClassNames, dateFormatter } from '../utils'
-import { useTrimmedText } from '../hooks'
+import { useProjectsAsyncActions, useTrimmedText } from '../hooks'
+import { useHistory } from 'react-router-dom'
 
-const useStyles = makeStyles(theme =>
-  ({
-    root: {
-      [theme.breakpoints.only("md")]: {
-        maxWidth: 285,
-      },
-      [theme.breakpoints.only("sm")]: {
-        maxWidth: 245,
-      }
+const useStyles = makeStyles(theme => ({
+  root: {
+    [theme.breakpoints.only('md')]: {
+      maxWidth: 285
     },
-    footer: {
-      paddingTop: 0,
-      paddingLeft: 0
-    },
-    footerText: {
-      fontSize: 13,
-      lineHeight: '180%',
-      fontWeight: 'normal',
-      color: theme.palette.text.primary
-    },
-    code: {
-      fontWeight: 500,
-      marginLeft: 5,
-      textDecoration: 'none'
-    },
-    cardActions: {
-      paddingTop: 0,
-      paddingBottom: 0,
-      paddingLeft: 0
-    },
-    cardContent: {
-      paddingLeft: 0
-    },
-    title: {
-      fontStyle: 'normal',
-      fontWeight: 600,
-      fontSize: '18px',
-      lineHeight: '140%',
-      marginBottom: 20
-    },
-    details: {
-      overflowWrap: 'break-word',
+    [theme.breakpoints.only('sm')]: {
+      maxWidth: 245
     }
-  })
-)
+  },
+  footer: {
+    paddingTop: 0,
+    paddingLeft: 0
+  },
+  footerText: {
+    fontSize: 13,
+    lineHeight: '180%',
+    fontWeight: 'normal',
+    color: theme.palette.text.primary
+  },
+  code: {
+    fontWeight: 500,
+    marginLeft: 5,
+    textDecoration: 'none'
+  },
+  cardActions: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0
+  },
+  cardContent: {
+    paddingLeft: 0
+  },
+  title: {
+    fontStyle: 'normal',
+    fontWeight: 600,
+    fontSize: '18px',
+    lineHeight: '140%',
+    marginBottom: 20
+  },
+  details: {
+    overflowWrap: 'break-word'
+  },
+  projectButtons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '5%'
+  }
+}))
 
-const ProjectVerticalCard = ({ disableActions, ...props }) => {
+const ProjectVerticalCard = ({
+  disableActions,
+  accountPage,
+  maxWidth,
+  ...props
+}) => {
+  const { deleteProject } = useProjectsAsyncActions()
   const classes = useStyles()
   const trimmedDetails = useTrimmedText({ text: props.details, max: 134 })
-  
+  const history = useHistory()
+  const deleteHandler = async projectId => {
+    await deleteProject(projectId)
+  }
+
   return (
     <CardWithMedia
       className={classes.root}
-      maxWidth={345}
+      maxWidth={maxWidth}
       maxHeight={509}
       mediaProps={{
         media: 'image',
         src: props.src,
         title: props.imageTitle,
         height: 208,
-        alt: props.imageAlt 
+        alt: props.imageAlt
       }}
       actionAreaContent={
         <CardContent className={classes.cardContent}>
-          <Typography gutterBottom variant="h3" component="h6" className={classes.title}>
+          <Typography
+            gutterBottom
+            variant="h3"
+            component="h6"
+            className={classes.title}
+          >
             {props.name}
           </Typography>
           <Grid item container xs={12}>
-            <Typography variant="caption" component="p" className={classes.details}>
+            <Typography
+              variant="caption"
+              component="p"
+              className={classes.details}
+            >
               {trimmedDetails}
             </Typography>
           </Grid>
@@ -86,31 +115,84 @@ const ProjectVerticalCard = ({ disableActions, ...props }) => {
       }
       {...props}
     >
-      <CardActions className={classes.cardActions}>
-        <LikeButton disabled={disableActions} id={props.id} mr={20} numberOfLikes={props.likesCount} onLike={props.onLike} liked={props.userLiked}/>
-        <CommentsButton disabled={disableActions} onClick={props.openComments} numberOfComments={`${props.commentsCount} comments`} />
-      </CardActions>
+      {accountPage ? (
+        <div>657 likes 67 comments 22.02.2022</div>
+      ) : (
+        <CardActions className={classes.cardActions}>
+          <LikeButton
+            disabled={disableActions}
+            id={props.id}
+            mr={20}
+            numberOfLikes={props.likesCount}
+            onLike={props.onLike}
+            liked={props.userLiked}
+          />
+          <CommentsButton
+            disabled={disableActions}
+            onClick={props.openComments}
+            numberOfComments={`${props.commentsCount} comments`}
+          />
+        </CardActions>
+      )}
 
       <CardContent className={classes.footer}>
-        <Divider mb={10} mt={10} />
-        <Typography className={classes.footerText}>
-          By {props.owner.name}
-        </Typography>
-        <Grid container item xs={12}>
-          <Typography className={classes.footerText}>
-            {dateFormatter({ date: props.createdAt, separator: '.'})}
-          </Typography>
-          {props.linkToRepository && 
-            <>
-              <Typography className={mergeClassNames(classes.code, classes.footerText)}>·</Typography>
-              <Typography component="a" href={props.linkToRepository} className={mergeClassNames(classes.code,classes.footerText)}>View code</Typography>
-            </>
-          }
-        </Grid>
-        <Divider mb={10} mt={10} />
+        {accountPage ? (
+          <div className={classes.projectButtons}>
+            <ViewProjectButton id={props._id} />
+            <ActionProjectButton
+              id={props._id}
+              type="edit"
+              onClick={() => history.push(`projects/overview/${props._id}`)}
+            />
+            <ActionProjectButton
+              id={props._id}
+              type="delete"
+              onClick={() => deleteHandler(props._id)}
+            />
+          </div>
+        ) : (
+          <>
+            <Divider mb={10} mt={10} />
+            <Typography className={classes.footerText}>
+              By {props.owner.name}
+            </Typography>
+            <Grid container item xs={12}>
+              <Typography className={classes.footerText}>
+                {dateFormatter({ date: props.createdAt, separator: '.' })}
+              </Typography>
+              {props.linkToRepository && (
+                <>
+                  <Typography
+                    className={mergeClassNames(
+                      classes.code,
+                      classes.footerText
+                    )}
+                  >
+                    ·
+                  </Typography>
+                  <Typography
+                    component="a"
+                    href={props.linkToRepository}
+                    className={mergeClassNames(
+                      classes.code,
+                      classes.footerText
+                    )}
+                  >
+                    View code
+                  </Typography>
+                </>
+              )}
+            </Grid>
+            <Divider mb={10} mt={10} />
+          </>
+        )}
       </CardContent>
     </CardWithMedia>
   )
+}
+
+ProjectVerticalCard.defaultProps = {
+  maxWidth: 349
 }
 
 ProjectVerticalCard.propTypes = {

@@ -5,3 +5,4 @@ packages/blockchain/build/contracts
 .env
 .vscode/launch.json
 .idea/
+packages/reverse-proxy/custom-config/reverse-proxy-njs/dist

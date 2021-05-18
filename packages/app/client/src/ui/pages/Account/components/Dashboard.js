@@ -2,8 +2,14 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import BorderedInfo from './BorderedInfo'
 import Typography from '@material-ui/core/Typography'
-import { Button, Image, LikeButton } from '../../../atoms'
-import { Badge, Edit } from '../../../assets'
+import {
+  Button,
+  Image,
+  LikeButton,
+  ViewProjectButton,
+  ActionProjectButton
+} from '../../../atoms'
+import { Badge } from '../../../assets'
 import { makeStyles } from '@material-ui/core/styles'
 import { StructuredCard } from '../../../molecules'
 
@@ -53,15 +59,6 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-between'
   },
-  editButton: {
-    marginRight: '5%',
-    width: '107px',
-    height: '42px'
-  },
-  viewProject: {
-    width: '139px',
-    height: '42px'
-  },
   greeting: {
     marginBottom: '2%',
     fontSize: '34px'
@@ -80,20 +77,13 @@ const useStyles = makeStyles(() => ({
   },
   margined: {
     margin: '5%'
-  },
-  editText: {
-    marginLeft: '10%'
   }
 }))
 
 function Dashboard(props) {
   const { handleChange } = props
   const classes = useStyles()
-  const compareByDate = (a, b) => {
-    if (a.date > b.date) return -1
-    if (a.date < b.date) return 1
-    return 0
-  }
+
   return (
     <>
       <Typography className={classes.greeting} variant="h3">
@@ -102,7 +92,9 @@ function Dashboard(props) {
       <Grid item container xs={12}>
         <Grid item xs={12} sm={12} md={6}>
           <BorderedInfo size="normal">
-            <Typography className={classes.title} variant="subtitle1">MY STATS</Typography>
+            <Typography className={classes.title} variant="subtitle1">
+              MY STATS
+            </Typography>
             <div className={classes.boxes}>
               <div className={classes.centered}>
                 <div className={classes.bordered}>
@@ -121,7 +113,13 @@ function Dashboard(props) {
                 <div>
                   <div className={classes.bordered}>
                     <div className={classes.topText}>
-                      <Image sameSize borderRadius={0} width="18px" height="22px" src={Badge} />
+                      <Image
+                        sameSize
+                        borderRadius={0}
+                        width="18px"
+                        height="22px"
+                        src={Badge}
+                      />
                       <span className={classes.margined}>Badges</span>
                     </div>
                     <div className={classes.greenLine} />
@@ -168,21 +166,12 @@ function Dashboard(props) {
                 />
               </div>
               <div className={classes.margined}>
-                <Button
-                  className={classes.editButton}
-                  color="primary"
-                  variant="outlined"
-                >
-                  <Image sameSize borderRadius={0} width="14px" height="14px" src={Edit} />
-                  <span className={classes.editText}>Edit</span>
-                </Button>
-                <Button
-                  className={classes.viewProject}
-                  color="primary"
-                  variant="outlined"
-                >
-                  View Project
-                </Button>
+                <ActionProjectButton
+                  // id={props._id}
+                  type="edit"
+                  // onClick={() => history.push(`projects/overview/${props._id}`)}
+                />
+                <ViewProjectButton />
               </div>
             </div>
           </BorderedInfo>

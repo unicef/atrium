@@ -1,7 +1,12 @@
 import useHandledRequest from './useHandledRequest'
 import useIsAuthenticated from '../useIsAuthenticated'
 import * as ProjectApi from '../../../api/projects'
-import { useSearchActions, useProjectsMainActions, useProjectViewActions, useCommentsActions } from '../actions'
+import {
+  useSearchActions,
+  useProjectsMainActions,
+  useProjectViewActions,
+  useCommentsActions
+} from '../actions'
 import { useSelector } from 'react-redux'
 import { getUserId } from '../../../selectors'
 
@@ -15,19 +20,21 @@ const useProjectsAsyncActions = () => {
   const isUserAuthenticated = useIsAuthenticated()
 
   return {
-    fetchSearchedProjects: handledRequest(
-      { 
-        request: ProjectApi.getAllProjects,
-        onSuccess: ({ projects, pageCounter }) => {
-          saveSearchedProjects({ projects, registeredUser: isUserAuthenticated, userId })
-          setNumberOfPages(pageCounter)
-        },
-        specificLoading: {
-          show: showLoading,
-          dismiss: dismissLoading
-        }
+    fetchSearchedProjects: handledRequest({
+      request: ProjectApi.getAllProjects,
+      onSuccess: ({ projects, pageCounter }) => {
+        saveSearchedProjects({
+          projects,
+          registeredUser: isUserAuthenticated,
+          userId
+        })
+        setNumberOfPages(pageCounter)
+      },
+      specificLoading: {
+        show: showLoading,
+        dismiss: dismissLoading
       }
-    ),
+    }),
     toggleLike: handledRequest(
       { 
         request: ProjectApi.toggleProjectLike,
@@ -58,7 +65,12 @@ const useProjectsAsyncActions = () => {
         showFullPageLoading: true,
         successMessage: 'Update successfully removed'
       }
-    )
+    ),
+    deleteProject: handledRequest({
+      request: ProjectApi.deleteProject,
+      onSuccess: () => window.location.reload(),
+      showFullPageLoading: true
+    })
   }
 }
 
