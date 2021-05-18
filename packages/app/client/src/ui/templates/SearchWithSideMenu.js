@@ -59,13 +59,19 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const SearchWithSideMenu = ({ sideMenu, SearchBarComponent, list, loader }) => {
+// TODO: USE SEARCH QUERY ON URL
+const SearchWithSideMenu = ({ sideMenu, SearchBarComponent, list, loader, showSearchBar }) => {
   const [isSideMenuVisible, toggleSideMenu] = React.useState(false)
   const classes = useStyles({ isSideMenuVisible })
-  
+
   return (
     <Box flex={1} display="flex" flexDirection="column" width="100%" height="100%">
-      <SearchBarComponent isSideMenuVisible={isSideMenuVisible} toggleSideMenu={() => toggleSideMenu(prevVal => !prevVal)} />
+      {showSearchBar && 
+        <SearchBarComponent
+          isSideMenuVisible={isSideMenuVisible}
+          toggleSideMenu={() => toggleSideMenu(prevVal => !prevVal)}
+        />
+      }
 
       <div className={classes.wrapper}>
 
@@ -75,7 +81,7 @@ const SearchWithSideMenu = ({ sideMenu, SearchBarComponent, list, loader }) => {
         
         <div className={classes.firstGap} />
 
-        {list}
+          {list}
 
         <div className={classes.secondGap} />
         
@@ -83,6 +89,10 @@ const SearchWithSideMenu = ({ sideMenu, SearchBarComponent, list, loader }) => {
       </div>
     </Box>
   )
+}
+
+SearchWithSideMenu.defaultProps = {
+  showSearchBar: true
 }
 
 export default SearchWithSideMenu
