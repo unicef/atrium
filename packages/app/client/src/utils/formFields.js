@@ -86,11 +86,19 @@ module.exports = {
     type: 'text'
   },
   currentPassword: {
-    name: 'password',
-    id: 'passwordInput',
+    name: 'currentPassword',
+    id: 'currentPasswordInput',
     label: 'Current password',
     initialValue: '',
-    htmlFor: 'passwordInput',
+    htmlFor: 'currentPasswordInput',
+    type: 'password'
+  },
+  confirmPassword: {
+    name: 'confirmPassword',
+    id: 'confirmPasswordInput',
+    label: 'Confirm new password',
+    initialValue: '',
+    htmlFor: 'confirmPasswordInput',
     type: 'password'
   }
 }
