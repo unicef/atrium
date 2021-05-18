@@ -105,7 +105,7 @@ const ProjectsList = ({ WrapperComponent }) => {
              key={project.id}
              onClick={() => {
                setCurrentProject({ project, userId })
-               history.push(`projects/${project.id}`)
+               history.push(`projects/view/${project.id}/about`)
              }}
            />
           )

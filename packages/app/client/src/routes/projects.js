@@ -7,16 +7,17 @@ import { ProjectsMain, ProjectView } from '../ui/pages'
 const projectsRoutes = () => (
   <Route path="/projects">
     <Route exact path="/projects" component={ProjectsMain} />
-    <PrivateRoute
-      exact
-      path="/projects/:id"
-      component={ProjectView}
-    />
    
     <PrivateRoute
       exact
       path="/projects/overview/:id"
       component={ProjectOverviewPage}
+    />
+
+    <PrivateRoute
+      exact
+      path="/projects/view/:id/:tab/:query?"
+      component={ProjectView}
     />
   </Route>
 )
