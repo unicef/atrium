@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import UpdateCard from './UpdateCard'
 import { makeStyles } from '@material-ui/core/styles'
+import { EmptyResults } from '../../../../molecules'
 
 const useStyles = makeStyles(theme => ({
   headerText: {
@@ -48,6 +49,7 @@ const UpdatesList = ({ selectedMonthId, handledUpdates }) => {
       </Box>
     </Grid>
   )
+  
 }
 
 export default UpdatesList

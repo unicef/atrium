@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Hidden from '@material-ui/core/Hidden'
 import { UpdatesList } from '../components'
-import { TreeMenu } from '../../../molecules'
+import { EmptyResults, TreeMenu } from '../../../molecules'
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined'
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined'
 import { useSelector } from 'react-redux'
@@ -33,6 +33,7 @@ const handleUpdatesToMenu = (updates) => {
 const ProjectUpdates = () => {
   const handledUpdates = useSelector(getHandledUpdates)
   const projectId = useSelector(getCurrentProjectId)
+  console.log(projectId)
   const menuStructure = React.useMemo(() => handleUpdatesToMenu(handledUpdates), [handledUpdates, projectId])
   
   const firstUpdate = menuStructure && menuStructure[0]
@@ -55,8 +56,15 @@ const ProjectUpdates = () => {
     }
   }
 
-  if (handledUpdates === undefined) {
-    return null
+  const areThereUpdates = Object.keys(handledUpdates).length > 0
+
+  if (!areThereUpdates) {
+    return (
+      <EmptyResults
+        height="100%"
+        mainMessage="There is no updates found"
+      />
+    )
   }
 
   return (
@@ -98,7 +106,7 @@ const ProjectUpdates = () => {
         </Hidden>
 
         <Grid item xs={10}>
-          <UpdatesList  handledUpdates={handledUpdates} selectedMonthId={selected[0]} />
+          <UpdatesList projectId={projectId} handledUpdates={handledUpdates} selectedMonthId={selected[0]} />
         </Grid>
       </Grid>
     </Box>

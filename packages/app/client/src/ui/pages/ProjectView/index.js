@@ -5,7 +5,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import ProjectHeader from "./components/ProjectHeader";
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { useProjectsAsyncActions } from '../../hooks'
+import { useProjectsAsyncActions, useTabsOnUrl } from '../../hooks'
 import { Tabs } from '../../molecules'
 import { AboutProject, ProjectUpdates, ProjectComments, ProjectTeam } from './panels'
 import { getCurrentProject } from '../../../selectors'
@@ -29,10 +29,10 @@ const useStyles = makeStyles(() => ({
 }))
 
 const handleTabs = (projectData) => ([
-  { label: "About the Project", hash: 'guideSection', public: true },
-  { label: `Team (${projectData.team.length})`, hash: 'smartContracts', public: false },
-  { label: `Updates (${projectData.updates.length})`, hash: 'directLearning', public: true },
-  { label: `Comments (${projectData.comments.length})`, hash:'quizSection', public: true }
+  { label: "About the Project", hash: 'about' },
+  { label: `Team (${projectData.team.length})`, hash: 'team' },
+  { label: `Updates (${projectData.updates.length})`, hash: 'updates' },
+  { label: `Comments (${projectData.comments.length})`, hash:'comments' }
 ])
 
 const Panel = ({ index, tabIndex, children }) => {
@@ -56,10 +56,22 @@ const ProjectViewPage = () => {
     }
   }, [])
 
-  const [tabIndex, setTabIndex] = React.useState(0)
+  const tabs = projectData ? handleTabs(projectData) : []
 
-  const handleChange = (newVal) => {
-    setTabIndex(newVal)
+  const { handleChange, tabIndex } = useTabsOnUrl({ tabs, baseRoute: `/projects/view/${params.id}` })
+
+  const onChangeTabIndex = (newIndex) => {
+    const nextTab = tabs[newIndex]
+
+    if (nextTab !== undefined) {
+      const isComments = nextTab.hash === 'comments'
+
+      if (isComments) {
+        handleChange(newIndex, { search: 'page=1&sort=asc' })
+      } else {
+        handleChange(newIndex)
+      }
+    }
   }
 
   return (
@@ -71,7 +83,7 @@ const ProjectViewPage = () => {
       {projectData &&
         <Grid container justify="center" item xs={12}>
           <Box position="sticky" width="100%" bgcolor="white" top={50} zIndex={99}>
-            <Tabs handleChange={handleChange} tabs={handleTabs(projectData)} currentIndex={tabIndex} />
+            <Tabs handleChange={onChangeTabIndex} tabs={tabs} currentIndex={tabIndex} />
           </Box>
           
             <Panel index={0} tabIndex={tabIndex}>
