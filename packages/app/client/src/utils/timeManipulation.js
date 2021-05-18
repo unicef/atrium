@@ -48,7 +48,7 @@ export function getRelativeTime(firstDate, secondDate = TIME_NOW_UTC) {
     }
   }
 
-  const text = Object.keys(time).reduce((text, key) => {
+  const text = Object.keys(time).reduce((newText, key) => {
     const timePartition = time[key]
     const isNaN = Number.isNaN(timePartition.interval)
 
@@ -57,7 +57,7 @@ export function getRelativeTime(firstDate, secondDate = TIME_NOW_UTC) {
       return `${duration} ${duration > 1 ? timePartition.pluralSufix : timePartition.singularSufix}`
     }
 
-    return text
+    return newText
 
   }, '< 1 min')
 
