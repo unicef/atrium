@@ -24,21 +24,25 @@ const useStyles = makeStyles({
   }
 })
 
-const SearchSortingHeader = ({ name, sortAsc, sortDesc, sortDirection, sortBy }) => {
+const SearchSortingHeader = ({ name, sortAsc, sortDesc, sortDirection, sortBy, withPrefix }) => {
   const classes = useStyles()
   const isAscSorting = sortDirection === 'asc'
-
+  
   return (
     <Grid xs={12} style={{ padding: 30 }} item container justify="space-between" alignItems="center"> 
       <Typography className={classes.title} mb={0}>{name}</Typography>
       <TextButton
         onClick={isAscSorting ? sortDesc : sortAsc}
         endIcon={isAscSorting ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-        textContent={`Sort by ${sortBy} (${sortDirection.toUpperCase()})`}
+        textContent={`${withPrefix ? 'Sort by' : ''} ${sortBy} (${sortDirection.toUpperCase()})`}
         className={classes.textButton}
       />
     </Grid>
   )
+}
+
+SearchSortingHeader.defaultProps = {
+  withPrefix: true
 }
 
 export default SearchSortingHeader
