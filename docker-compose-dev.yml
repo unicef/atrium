@@ -30,7 +30,7 @@ services:
     ports:
       - 8080:80
 
-  app:
+  app-service:
     image: appliedblockchain/atrium-app
     build:
       context: .
@@ -78,7 +78,7 @@ services:
     command: npm run start
     working_dir: /node/client
     depends_on:
-      - app
+      - app-service
     volumes:
       - ./packages/app/client:/node/client
     environment:
@@ -103,7 +103,7 @@ services:
     environment: 
       - SECRET_OR_KEY=raging-dog-cat
     depends_on:
-      - app
+      - app-service
       - mongo
 
 
