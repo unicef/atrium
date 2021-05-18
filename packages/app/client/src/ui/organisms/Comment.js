@@ -7,6 +7,8 @@ import { TextButton, Authorship } from '../atoms'
 import { TextWithMentions, CardInfoRow, UserInfoTooltip, CommentInput } from '../molecules'
 import { useSelector } from 'react-redux'
 import { getUserId } from '../../selectors'
+import { editComment } from '../../api/projects'
+import { useHandledRequest } from '../hooks'
 
 const Comment = ({ 
   handleToggleReplies,
@@ -17,10 +19,15 @@ const Comment = ({
   user,
   hasChildren,
   toggleReply,
-  numberOfreplies
+  numberOfReplies,
+  id,
+  likesCount,
+  removeComment
 }) => {
+  // TODO: IMPROVE TO USE MENTIONS
   const [showDeletionModal, setDeletionModalVisibility] = React.useState(false)
   const [showEdit, setEdit] = React.useState(false)
+  const [textContent, setContent] = React.useState(content)
   const currentUserId = useSelector(getUserId)
 
   const userIsTheOwner = currentUserId === user._id
@@ -33,8 +40,31 @@ const Comment = ({
     {
       label: 'Delete',
       handleClick: () => setDeletionModalVisibility(true)
+    },
+    {
+      label: 'Report',
+      handleClick: () => {}
     }
   ]
+
+  const handledRequest = useHandledRequest()
+ 
+  const updateComment = async ({ commentId, content }) => {
+    const request = handledRequest(
+      { 
+        request: editComment,
+        onSuccess: () => {
+          setContent(content)
+          setEdit(false)
+        },
+        successMessage: 'Comment successfully updated',
+        showFullPageLoading: true
+      }
+    )
+
+    await request({ commentId, content })
+  }
+
   return (
     <>
       <HorizontalCardWithMenu
@@ -45,48 +75,62 @@ const Comment = ({
         <Box width="100%" display="flex">
           <Box width="95%" mb={0.5}>
             <UserInfoTooltip user={{ ...user, src }}>
-              <Authorship author={user.name} />
+              <span>
+                <Authorship author={user.name} />
+              </span>
             </UserInfoTooltip>
             {showEdit ? 
-             <CommentInput buttonPositioning="flex-end" rows={2} content={content} showAvatar={false} buttonPlacement="outside" submitLabel="Confirm" handleSubmit={(props) => {}} /> : 
+             <CommentInput
+              onCancel={() => setEdit(false)}
+              cancelButton
+              buttonPositioning="flex-end"
+              rows={2}
+              content={textContent}
+              showAvatar={false}
+              buttonPlacement="outside"
+              submitLabel="Confirm"
+              handleSubmit={(content) => updateComment({ content, commentId: id })}
+            /> : 
               <TextWithMentions
                 mentions={mentions}
               >
-                {content}
+                {textContent}
               </TextWithMentions>}
             </Box>
         </Box>
 
         <Box display="flex" flex={1} flexDirection="column">
-          <Box display="flex" flex={1} alignItems="center">
-            <CardInfoRow
-              components={[
-                {
-                  type: 'textbutton',
-                  textContent: "Like"
-                },
-                {
-                  type: 'textbutton',
-                  textContent: "Reply",
-                  onClick: toggleReply
-                },
-                {
-                  type: 'text',
-                  children: '330 Likes'
-                },
-                {
-                  type: 'date',
-                  variant: 'relative',
-                  date: new Date(date)
-                }
-              ]}
-            />
-          </Box>
+          {!showEdit &&
+            <Box display="flex" flex={1} alignItems="center">
+              <CardInfoRow
+                components={[
+                  {
+                    type: 'textbutton',
+                    textContent: "Like"
+                  },
+                  {
+                    type: 'textbutton',
+                    textContent: "Reply",
+                    onClick: toggleReply
+                  },
+                  {
+                    type: 'text',
+                    children: `${likesCount} Likes`
+                  },
+                  {
+                    type: 'date',
+                    variant: 'relative',
+                    date: new Date(date)
+                  }
+                ]}
+              />
+            </Box>
+          }
 
           <Box>
             {hasChildren && 
               <TextButton
-                textContent={`${numberOfreplies} Replies`}
+                textContent={`${numberOfReplies} Replies`}
                 startIcon={<SubdirectoryArrowRightOutlinedIcon />}
                 onClick={handleToggleReplies}
               />
@@ -98,7 +142,10 @@ const Comment = ({
       <DeleteActionDialog
         open={showDeletionModal}
         handleClose={() => setDeletionModalVisibility(false)}
-        onConfirm={() => {}}
+        onConfirm={() => {
+          removeComment(id)
+          setDeletionModalVisibility(false)
+        }}
       />
     </>
   )
