@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const UserInfoTooltip = ({ children, user, ...textProps }) => {
+const UserInfoTooltip = ({ children, user }) => {
   const classes = useStyles()
   const { name, email, src, role } = user
 
@@ -26,7 +26,8 @@ const UserInfoTooltip = ({ children, user, ...textProps }) => {
       arrow
       TransitionComponent={Zoom}
       title={<UserInfos src={src} name={name} role={role} email={email} />}
-      interactive
+      disableFocusListener
+      disableTouchListener
     >
       {children}
     </Tooltip>
