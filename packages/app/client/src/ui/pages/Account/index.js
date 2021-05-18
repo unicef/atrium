@@ -20,7 +20,7 @@ import { getUser } from '../../../selectors'
 const tabsList = [
   'Dashboard',
   'Profile',
-  'Settings',
+  'Security',
   'My Post',
   'My Projects',
   'My Comments',

@@ -24,6 +24,12 @@ const useAuthAsyncActions = () => {
       onSuccess: ({ payload }) => setCurrentUser(payload),
       pageLoading: true,
       successMessage: 'Account deleted'
+    }),
+    checkUserPassword: handledRequest({
+      request: UsersApi.checkUserPassword,
+      onSuccess: ({ payload }) => console.log(payload), //
+      pageLoading: true,
+      successMessage: 'User entered correct password'
     })
   }
 }
