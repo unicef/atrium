@@ -31,7 +31,6 @@ const links = [
   },
   { path: '/learn', name: 'Learn', id: 'Learn', public: true  },
   { path: '/engage', name: 'Forum', id: 'Forum', public: false  },
-  { path: '/whatsnew', name: "What's new", id: 'WhatsNew', public: true  },
 ]
 
 const InfoText = ({ children, classes }) => (
