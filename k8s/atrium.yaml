@@ -190,7 +190,22 @@ spec:
                 secretKeyRef:
                   name: atrium-secret
                   key: aws-ses-secret-key
-          image: appliedblockchain/atrium-app
+          - name: AWS_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: atrium-secret
+                key: aws-access-key
+          - name: AWS_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: atrium-secret
+                key: aws-secret-key
+          - name: AWS_BUCKET_NAME
+            valueFrom:
+              secretKeyRef:
+                name: atrium-secret
+                key: aws-bucket-name
+        image: appliedblockchain/atrium-app:latest
           name: unin-app
           ports:
             - containerPort: 5000
