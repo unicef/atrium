@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { SimpleFormWithHeader } from '../../../organisms'
 import {
   name,
@@ -7,22 +7,17 @@ import {
   website,
   bio
 } from '../../../../utils/formFields'
-
 import { MainContainer } from '../../../templates'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import { Avatar, Button, Image } from '../../../atoms'
-import Typography from '@material-ui/core/Typography'
+import { Button } from '../../../atoms'
 import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
 import { useAuthAsyncActions } from '../../../hooks'
 import validateProfileForm from '../validateProfileForm'
-import { DeleteButton } from '../../../../components/projects/overview/assets'
 import Grid from '@material-ui/core/Grid'
+import { AvatarUploader, WebsitesList } from '../../../molecules'
 
 const useStyles = makeStyles(() => ({
-  websites: {
-    width: '100%'
-  },
   enterButton: {
     color: '#15B54A',
     backgroundColor: 'white'
@@ -36,47 +31,10 @@ const useStyles = makeStyles(() => ({
   viewButton: {
     width: '141px',
     height: '51px'
-  },
-  website: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    border: '1.2px solid #E7E7E7',
-    borderRadius: '5px',
-    padding: '2%',
-    marginBottom: '2%'
-  },
-  deleteButton: {
-    backgroundColor: 'white',
-    minWidth: 0,
-    width: '12px',
-    height: '13px'
-  },
-  fileInput: {
-    width: 0.1,
-    height: 0.1,
-    opacity: 0,
-    overflow: 'hidden',
-    position: 'absolute',
-    zIndex: -1
-  },
-  fileInputLabel: {
-    cursor: 'pointer'
-  },
-  addFileButton: {
-    marginRight: '5%'
-  },
-  avatarSection: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  clarification: {
-    color: '#919492'
   }
 }))
 
 function Profile(props) {
-  const inputRef = React.useRef(null)
   const classes = useStyles()
   const history = useHistory()
   const [editting, setEditting] = useState(false)
@@ -154,74 +112,19 @@ function Profile(props) {
         validate={validateProfileForm}
         renderBellowForm={
           <>
-            <Grid item xs={12} className={classes.avatarSection}>
-              <input
-                ref={inputRef}
-                disabled={!editting}
-                type="file"
-                id="avatar"
-                name="avatar"
-                className={classes.fileInput}
-                onChange={e => {
-                  setAvatar(e.target.files[0])
-                }}
+            <Grid item xs={12}>
+              <AvatarUploader
+                avatar={avatar}
+                setAvatar={setAvatar}
+                editting={editting}
               />
-              <Button
-                className={classes.addFileButton}
-                disabled={!editting}
-                color="primary"
-                onClick={e => {
-                  e.preventDefault()
-                  inputRef.current.click()
-                }}
-              >
-                <label
-                  htmlFor="avatar"
-                  className={classes.fileInputLabel}
-                  aria-label="ATTACH FILE"
-                  title="ATTACH FILE"
-                >
-                  Change avatar
-                </label>
-              </Button>
-              {typeof avatar === 'string' ? (
-                <Avatar src={avatar} />
-              ) : (
-                <Typography>{avatar.name}</Typography>
-              )}
             </Grid>
             <Grid item xs={12}>
-              <Typography className={classes.clarification} variant="body1">
-                Upload a photo of size 50 by 50 less then 10mb
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <div className={classes.websites}>
-                {websites.map((item, i) => (
-                  <div
-                    key={item.replace(/s/g, '') + i}
-                    className={classes.website}
-                  >
-                    <Typography>{item}</Typography>
-                    {editting ? (
-                      <Button
-                        className={classes.deleteButton}
-                        onClick={() =>
-                          setWebsites(websites.filter(el => el !== item))
-                        }
-                      >
-                        <Image
-                          sameSize
-                          borderRadius={0}
-                          width="14px"
-                          height="14px"
-                          src={DeleteButton}
-                        />
-                      </Button>
-                    ) : null}
-                  </div>
-                ))}
-              </div>
+              <WebsitesList
+                websites={websites}
+                setWebsites={setWebsites}
+                editting={editting}
+              />
             </Grid>
           </>
         }
