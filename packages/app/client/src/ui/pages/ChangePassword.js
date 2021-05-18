@@ -11,8 +11,8 @@ import {
   validatePassword
 } from '../../utils/validators'
 import { changeUserPassword } from '../../api/users'
-import {useHistory} from "react-router-dom";
-import {useToast} from "../hooks";
+import { useHistory } from 'react-router-dom'
+import { useToast } from '../hooks'
 
 function ChangePassword(props) {
   const fields = [
