@@ -60,24 +60,16 @@ router.get(
       const comment = await Comment.findOne({
         _id: req.params.commentId
       }).populate(populateParams)
-      let { replies } = comment
+      const { replies } = comment
 
-      if (req.query.sort === 'asc') {
-        replies = replies.sort((a, b) => a.likes.length - b.likes.length)
-      } else {
-        replies = replies.sort((a, b) => b.likes.length - a.likes.length)
-      }
-      const pageCounter = Math.ceil(replies.length / req.query.limit)
-      replies = replies.splice(req.query.offset, req.query.limit)
       log.info(
         {
           requestId: req.id,
-          replies,
-          pageCounter
+          replies
         },
         'Success getting replies list'
       )
-      return res.status(200).json({ replies, pageCounter })
+      return res.status(200).json({ replies })
     } catch (error) {
       log.info(
         {
