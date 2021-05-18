@@ -33,7 +33,6 @@ const handleUpdatesToMenu = (updates) => {
 const ProjectUpdates = () => {
   const handledUpdates = useSelector(getHandledUpdates)
   const projectId = useSelector(getCurrentProjectId)
-  console.log(projectId)
   const menuStructure = React.useMemo(() => handleUpdatesToMenu(handledUpdates), [handledUpdates, projectId])
   
   const firstUpdate = menuStructure && menuStructure[0]
