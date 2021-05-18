@@ -1,27 +1,40 @@
 import React from 'react'
 import Box from '@material-ui/core/Box'
-import { Avatar, TextField, Button, TextButton } from '../atoms'
+import { TextField, Button, TextButton } from '../atoms'
+import CurrentUserAvatar from './CurrentUserAvatar'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
-  avatar: {
-    marginRight: 5,
-    marginTop: 9
-  },
   textInput: props => ({
     padding: props.inputInnerPadding,
     backgroundColor: theme.colors.white
   })
 }))
 
-const CommentInput = ({ content, showAvatar, src, rows, inputInnerPadding, submitLabel, handleSubmit, avatarGrowth, buttonPlacement, buttonPositioning }) => {
+const CommentInput = ({
+  content,
+  showAvatar,
+  src,
+  rows,
+  inputInnerPadding,
+  submitLabel,
+  handleSubmit,
+  avatarGrowth,
+  buttonPlacement,
+  buttonPositioning,
+  cancelButton,
+  onCancel
+}) => {
   const classes = useStyles({ inputInnerPadding })
   const [value, setValue] = React.useState(content)
   const isInnerButton = buttonPlacement === 'inside'
 
-  const renderButton = (config) => {
+  const renderButton = () => {
     const onSubmit = () => {
-      handleSubmit(value)
+      if (value) {
+        handleSubmit(value)
+        setValue('')
+      }
     }
 
     if (isInnerButton) {
@@ -37,6 +50,17 @@ const CommentInput = ({ content, showAvatar, src, rows, inputInnerPadding, submi
 
     return (
       <Box display="flex" justifyContent={buttonPositioning}>
+        {cancelButton && 
+          <Box mr={1} mt={2}>
+            <Button
+              onClick={onCancel}
+              variant="outlined"
+            >
+              Cancel
+            </Button>
+          </Box>
+        }
+
         <Box mt={2}>
           <Button
             onClick={onSubmit}
@@ -51,7 +75,9 @@ const CommentInput = ({ content, showAvatar, src, rows, inputInnerPadding, submi
 
   return (
     <Box display="flex" flex={1} mt={2}>
-      {showAvatar && <Avatar growthTimes={avatarGrowth} className={classes.avatar} src={src} />}
+      <Box mt={1} ml={1}>
+        {showAvatar && <CurrentUserAvatar avatarGrowth={avatarGrowth} showInfos={false} src={src} />}
+      </Box>
       <Box position="relative" display="flex" width="100%" flexDirection="column" pl={1}>
         <TextField
           padding="5px"
@@ -64,7 +90,7 @@ const CommentInput = ({ content, showAvatar, src, rows, inputInnerPadding, submi
           }}
         />
         
-        {buttons.map(renderButton)}
+        {renderButton()}
       </Box>
     </Box>
   )
@@ -72,8 +98,10 @@ const CommentInput = ({ content, showAvatar, src, rows, inputInnerPadding, submi
 
 CommentInput.defaultProps = {
   inputInnerPadding: 5,
-  avatarGrowth: 7,
-  showAvatar: true
+  avatarGrowth: 8,
+  showAvatar: true,
+  cancelButton: false,
+  onCancel: () => {}
 }
 
 export default CommentInput
