@@ -210,3 +210,90 @@ spec:
     - protocol: TCP
       port: 5000
       targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: remix
+  name: remix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: remix
+  strategy: 
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: remix
+    spec:
+      containers:
+        - image: appliedblockchain/remix-atrium
+          name: remix
+          ports:
+            - containerPort: 80
+          resources: {}
+      imagePullSecrets:
+        - name: appliedblockchain-reg
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: remix
+  name: remix
+spec:
+  ports:
+    - name: "8080"
+      port: 80
+      targetPort: 80
+  selector:
+    app: remix
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: reverse-proxy
+  name: reverse-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reverse-proxy
+  strategy: 
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: reverse-proxy
+    spec:
+      containers:
+        - env:
+            - name: SECRET_OR_KEY
+              value: raging-dog-cat
+          image: appliedblockchain/atrium_reverse-proxy
+          name: reverse-proxy
+          ports:
+            - containerPort: 5000
+          resources: {}
+      imagePullSecrets:
+        - name: appliedblockchain-reg
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: reverse-proxy
+  name: reverse-proxy
+spec:
+  ports:
+    - name: "5000"
+      port: 5000
+      targetPort: 5000
+  selector:
+    app: reverse-proxy
