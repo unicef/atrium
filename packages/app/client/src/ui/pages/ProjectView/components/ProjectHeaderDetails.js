@@ -10,7 +10,8 @@ import { useTrimmedText } from '../../../hooks'
 const useStyles = makeStyles(() => ({
   title: {
     fontSize: 32,
-    marginBottom: 20
+    marginBottom: 20,
+    marginTop: -10
   }
 }))
 

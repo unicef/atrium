@@ -34,13 +34,6 @@ const OwnerButtons = ({ projectData }) => {
       >
         Edit Project
       </Button>
-      <Button
-        startIcon={<ModeCommentOutlinedIcon />}
-        size="full"
-        variant="outlined"
-      >
-        Comments
-      </Button>
     </>
   )
 }
@@ -61,15 +54,6 @@ const OtherUsersButtons = ({ projectId }) => {
         onClick={() => toggleLike(projectId)}
       >
         {userLiked ? 'Liked' : 'Like Project'}
-      </Button>
-
-      <Button
-        startIcon={<ModeCommentOutlinedIcon />}
-        size="full" 
-        variant="outlined"
-        mb={15}
-      >
-        Comments
       </Button>
 
       <Button

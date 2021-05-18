@@ -6,7 +6,7 @@ const Pagination = ({ count, changePage, currentpage, wrapperProps }) => (
   <Box {...wrapperProps}>
     <MuiPagination
       onChange={(_, page) => { changePage(page) }}
-      page={currentpage}
+      page={parseInt(currentpage)}
       count={count}
       variant="outlined"
       shape="rounded"

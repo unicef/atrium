@@ -5,7 +5,9 @@ const initialState = {
   filters: {},
   searchedProjects: undefined,
   selectedProject: undefined,
-  handledUpdates: undefined
+  handledUpdates: undefined,
+  comments: undefined,
+  commentsPages: 1
 }
 
 export default function(state = initialState, { type, payload }) {
@@ -45,6 +47,12 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         handledUpdates: dataManipulation.onEditUpdate({ updates: state.handledUpdates, ...payload })
+      }
+    case TYPES.SAVE_COMMENTS:
+      return {
+        ...state,
+        comments: payload.comments,
+        commentsPages: payload.pageCounter
       }
     default:
       return state

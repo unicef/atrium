@@ -3,9 +3,10 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import { Divider, Button } from '../../../atoms'
-import { UserInfos } from '../../../molecules'
+import { EmptyResults, UserInfos } from '../../../molecules'
 import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
+import { getCurrentProjectMembers, getCurrentProjectContact } from '../../../../selectors'
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -30,8 +31,39 @@ const MemberRow = ({ member }) => (
 
 const ProjectTeam = () => {
   const classes = useStyles() 
-  const project = useSelector(state => state.projects.selectedProject)
-  const contact = project.contactPerson
+  const team = useSelector(getCurrentProjectMembers)
+  const contact = useSelector(getCurrentProjectContact)
+
+  const handleTeamMembersRenderer = () => {
+    if (team.length > 0) {
+      return (
+        <>
+          <Typography className={classes.title}>Team</Typography>
+          {team.map((member, index) => {
+            if ((index + 1) === team.length) {
+              return (
+                <MemberRow member={member}/>
+              )
+            }
+
+            return (
+              <>
+                <MemberRow member={member} />
+                <Divider />
+              </>
+            )
+          })}
+        </>
+      )
+    }
+
+    return (
+      <EmptyResults
+        height="100%"
+        mainMessage="There is no members added"
+      />
+    )
+  }
 
   return (
     <Box mt="20px">
@@ -47,21 +79,7 @@ const ProjectTeam = () => {
             </Grid>
           </Box>
 
-          <Typography className={classes.title}>Team</Typography>
-          {project.team.map((member, index) => {
-            if ((index + 1) === project.team.length) {
-              return (
-                <MemberRow member={member}/>
-              )
-            }
-
-            return (
-              <>
-                <MemberRow member={member} />
-                <Divider />
-              </>
-            )
-          })}
+          {handleTeamMembersRenderer()}
         </Grid>
       </Grid>
     </Box>

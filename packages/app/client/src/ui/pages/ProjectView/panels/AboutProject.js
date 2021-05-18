@@ -13,9 +13,11 @@ const AdditionalInfoPiece = ({ title, data }) => (
     <Typography variant="body2">
       {title}
     </Typography>
-    <Typography>
-      {data}
-    </Typography>
+   {Boolean(data) &&
+      <Typography>
+        {data}
+      </Typography>
+    }
   </Grid>
 )
 
@@ -30,11 +32,11 @@ const AboutProject = ({ projectData }) => {
     let data = projectData[item.id]
     
     if (item.id === 'numberOfNodes') {
-      data = `${data} Nodes`
+      data = data && `${data} Nodes`
     }
 
     if (item.id === 'launchDateMonth') {
-      data = `${data}, ${projectData.launchDateYear}`
+      data = data && `${data}, ${projectData.launchDateYear}`
     }
     const piece =  <AdditionalInfoPiece key={item.id} title={item.name} data={data} />
 
@@ -47,7 +49,7 @@ const AboutProject = ({ projectData }) => {
 
   const additionalInfoPieces = PROJECT_ADITIONAL_INFO.reduce(handleAditionalInfoParties, { firstPart: [], secondPart: [] })
 
-  // TODO: IMPROVE THE TREE VIEW MENU TO LOOK LIKE A SELECTED ITEM WHEN SCROLL TO SPECIFIC TOPICS POSITION
+  // TODO: IMPROVE THE TREE VIEW MENU ITEM TO BE SELECTED WHEN SCROLL TO SPECIFIC TOPICS POSITION
   return (
     <Box pt={4}>
       <Grid container item xs={12}>

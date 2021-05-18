@@ -48,7 +48,7 @@ export const onToggleLike = (state, project) => {
 
   const updatedProject = { ...project, userLiked: !userLiked }
   
-  const newList = prevList
+  const newList = [...prevList]
   newList[projectIndex] = updatedProject
   const selectedProjectId = state.selectedProject && state.selectedProject.id
 
@@ -78,11 +78,7 @@ export const onToggleLike = (state, project) => {
  * 
  */
 export const handleUpdates = (updates) => {
-
-  if (!Array.isArray(updates) || updates.length === 0) {
-    return undefined
-  }
-
+  
   return updates.reverse().reduce((acc, update) => {
     const parsedDateArray = dateFormatter({ date: update.date, formatOptions: [{month: 'long'}, {year: 'numeric'}, {month: 'numeric'}] })
     const month = parsedDateArray[0]

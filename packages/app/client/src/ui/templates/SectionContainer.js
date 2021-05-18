@@ -23,7 +23,7 @@ const SectionContainer = ({ id, containerProps, padding, mobilePadding, ...props
 
   return (
     <Grid id={id} container item xs={12} justify="center" className={classes.container}>
-      <Grid container item xs={12} md={12} lg={8} {...containerProps} {...props}>
+      <Grid container item xs={12} md={12} lg={8} xl={6} {...containerProps} {...props}>
        {props.children}
       </Grid>
     </Grid>

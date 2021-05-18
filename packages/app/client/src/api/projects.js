@@ -10,6 +10,7 @@ const getUpdateEndpoint = (projectId) => `${projectId}/update`
 const getAddMemberEndpoint = (projectId) => `${projectId}/addMembers`
 const getDeleteMemberEndpoint = (projectId) => `${projectId}/deleteMember`
 const getDeleteUpdateEndpoint = (updateId) => `${updateId}/update`
+const getProjectCommentsEndpoint = (projectId, query) => `${projectId}/comments?${query}`
 
 // ERRORS
 export const ERRORS = {
@@ -40,10 +41,10 @@ export const toggleProjectLike = (projectId) => projectRequest({
  * @param {Comment} comment
  * @returns
  */
-export const addComment = (projectId, content) => projectRequest({
+export const addComment = (projectId, content, mentions) => projectRequest({
   method: 'post',
   endpoint: getCommentEndpoint(projectId),
-  body: { content }
+  body: { content, mentions }
 })
 
 /**
@@ -54,7 +55,7 @@ export const addComment = (projectId, content) => projectRequest({
  * @param {Comment} comment
  * @returns
  */
-export const  editComment = (commentId, content) => projectRequest({
+export const  editComment = ({ commentId, content }) => projectRequest({
   method: 'put',
   endpoint: getCommentEndpoint(commentId),
   body: { content }
@@ -70,6 +71,16 @@ export const  editComment = (commentId, content) => projectRequest({
 export const deleteComment = (commentId) => projectRequest({
   method: 'delete',
   endpoint: getCommentEndpoint(commentId)
+})
+
+/**
+ * Get all comments from a project with pagination and sorting
+ * @param {string} projectId 
+ * @returns 
+ */
+export const getComments = (projectId, query) => projectRequest({
+  method: 'get',
+  endpoint: getProjectCommentsEndpoint(projectId, query)
 })
 
 export const getAttachment = (attachment) => {

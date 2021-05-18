@@ -17,3 +17,5 @@ export { default as SearchBarWithSideMenuButton } from './SearchBarWithSideMenuB
 export { default as HorizontalCardWithMenu } from './HorizontalCardWithMenu'
 export { default as DeleteActionDialog } from './DeleteActionDialog'
 export { default as Comment } from './Comment'
+export { default as MentionsTextArea } from './MentionsTextArea'
+export { default as MentionsForm } from './MentionsForm'

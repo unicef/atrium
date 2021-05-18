@@ -12,6 +12,7 @@ require('dotenv').config()
   console.log('mongo connected')
 
   const email = 'test@unicef.com'
+  const name = 'Jhon Doe'
   const emailHash = md5Hash(email)
   const password = 'password'
   const hashedPassword = await saltAndHashPassword(password)
@@ -19,6 +20,7 @@ require('dotenv').config()
   const encryptedWallet = await encryptDecrypt.encrypt(newWallet)
 
   const email2 = 'test2@unicef.com'
+  const name2 = 'Jimmy Doe'
   const emailHash2 = md5Hash(email2)
   const password2 = 'password'
   const hashedPassword2 = await saltAndHashPassword(password2)
@@ -34,9 +36,9 @@ require('dotenv').config()
 
   const user2 = new User({
     email: email2,
+    name: name2,
     emailVerified: true,
     emailHash: emailHash2,
-    name: 'Test2 Test2',
     wallet: encryptedWallet2.encrypted,
     address: newWallet2.address,
     role: '',
@@ -65,7 +67,7 @@ require('dotenv').config()
     email,
     emailVerified: true,
     emailHash,
-    name: 'Test Test',
+    name: name,
     wallet: encryptedWallet.encrypted,
     address: newWallet.address,
     role: '',

@@ -11,8 +11,13 @@ const resetPasswordEndpoint = 'reset-password'
 const registerUserEndpoint = 'register'
 const loginUserEndpoint = 'login'
 const getSearchUserEndpoint = (params) => {
-  const queryParams = Object.keys(params).map(key => `${key}=${params[key]}`)
-  return `search?${queryParams}`
+  const queryKeys = Object.keys(params)
+  const queryParams = queryKeys.map((key, index) => {
+    const isTheLastParam = (index + 1) === Object.keys(params).length
+
+    return  `${key}=${params[key]}${isTheLastParam ? '' : '&'}`
+  })
+  return `search?${queryParams.join('')}`
 }
 
 // ERRORS
