@@ -1,7 +1,6 @@
 import React from 'react'
 import Box from '@material-ui/core/Box'
 import { Image } from '../../../../atoms'
-import { makeStyles } from '@material-ui/core/styles'
 import { DocumentBg, DocumentSVG } from '../../../../assets'
 
 const DocumentsBackgroundImage = () => {
