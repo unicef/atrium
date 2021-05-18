@@ -52,13 +52,15 @@ const EmptyResults = ({
         </Box>
       }
       
-      <Button
-        color="primary"
-        onClick={handleClick}
-        {...buttonProps}
-      >
-        {buttonLabel}
-      </Button>
+      {Boolean(handleClick) && 
+        <Button
+          color="primary"
+          onClick={handleClick}
+          {...buttonProps}
+        >
+          {buttonLabel}
+        </Button>
+      }
     </Box>
   )
 }
