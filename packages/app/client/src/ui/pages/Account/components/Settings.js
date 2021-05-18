@@ -1,83 +1,67 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MainContainer } from '../../../templates'
-import { SimpleFormWithHeader } from '../../../organisms'
-import { useAuthAsyncActions } from '../../../hooks'
 import { makeStyles } from '@material-ui/core/styles'
-import { email, currentPassword } from '../../../../utils/formFields'
-import { Button, Image } from '../../../atoms'
+import { Button } from '../../../atoms'
+import { useHistory } from 'react-router-dom'
+import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import { DeleteButton } from '../../../../components/projects/overview/assets'
+import { DeleteActionDialog } from '../../../organisms'
+import { deleteUser } from '../../../../api/users'
 
 const useStyles = makeStyles(() => ({
-  buttonWrapper: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    marginTop: '-55px',
-    paddingRight: '10px'
+  title: {
+    fontWeight: 'bold',
+    marginBottom: '7%'
   },
-  viewButton: {
-    width: '141px',
-    height: '51px'
+  changePasswordButton: {
+    width: '184px',
+    marginBottom: '7%'
   },
-  line: {
-    marginTop: '7%',
-    borderBottom: '1px solid #E7E7E7'
-  },
-  deleteSection: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '195px',
-    backgroundColor: 'white'
+  deleteAccountButton: {
+    backgroundColor: 'red',
+    width: '184px'
   }
 }))
 
 function Settings(props) {
-  const fields = [
-    { ...email, initialValue: props.email || '', disabled: true },
-    { ...currentPassword }
-  ]
-  const { checkUserPassword } = useAuthAsyncActions()
-  const { deleteUser } = useAuthAsyncActions()
-
   const classes = useStyles()
-  const submitHandler = async userDetails => {
-    await checkUserPassword({ userId: props.id, userDetails })
+  const history = useHistory()
+  const [open, setOpen] = useState(false)
+
+  const deleteHandler = async userId => {
+    // await deleteUser(userId)
+    window.location.reload()
   }
 
-  const deleteHandler = async () => {
-    await deleteUser(props.id)
-  }
   return (
     <MainContainer size="small" mt="-50px" margin="0">
-      <SimpleFormWithHeader
-        fields={fields}
-        title="Settings"
-        onSubmit={submitHandler}
-        submitLabel={'Change Password'}
-        titleProps={{ align: 'left' }}
-        buttonLayout={{ xs: 4 }}
-      />
-      <div className={classes.buttonWrapper}>
+      <Grid item xs={12}>
+        <Typography variant="h4" className={classes.title}>
+          Security
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
         <Button
-          className={classes.viewButton}
-          variant="outlined"
-          // onClick={() => history.push(`users/${props.id}`)}
+          className={classes.changePasswordButton}
+          color="primary"
+          onClick={() => history.push(`change-password`)}
         >
-          Save changes
+          Change password
         </Button>
-      </div>
-      <div className={classes.line} />
-      <Button onClick={deleteHandler} className={classes.deleteSection}>
-        <Image
-          sameSize
-          borderRadius={0}
-          width="14px"
-          height="14px"
-          src={DeleteButton}
+      </Grid>
+      <Grid item xs={12}>
+        <Button
+          className={classes.deleteAccountButton}
+          color="primary"
+          onClick={() => setOpen(true)}
+        >
+          Delete account
+        </Button>
+        <DeleteActionDialog
+          open={open}
+          onConfirm={() => deleteHandler(props.id)}
         />
-        <Typography variant="body1">Delete my account</Typography>
-      </Button>
+      </Grid>
     </MainContainer>
   )
 }

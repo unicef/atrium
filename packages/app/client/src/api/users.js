@@ -143,5 +143,11 @@ export const getUserComments = query =>
 export const deleteUser = userId =>
   usersRequest({
     method: 'post',
-    endpoint: `${userId}`
+    endpoint: `delete/${userId}`
+  })
+
+export const checkUserPassword = userId =>
+  usersRequest({
+    method: 'post',
+    endpoint: `checkPassword/${userId}`
   })

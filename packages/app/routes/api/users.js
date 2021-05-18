@@ -109,24 +109,22 @@ router.post(
       },
       'Getting filtered users'
     )
-    const users = await User.find(
-      { 
-        $or: [
-          { 
-            name: { 
-              $regex: req.body.prefix, 
-              $options: "gi" 
-            }
-          },
-          { 
-            email: { 
-              $regex: req.body.prefix, 
-              $options: "gi" 
-            }
+    const users = await User.find({
+      $or: [
+        {
+          name: {
+            $regex: req.body.prefix,
+            $options: 'gi'
           }
-        ] 
-      }
-    )
+        },
+        {
+          email: {
+            $regex: req.body.prefix,
+            $options: 'gi'
+          }
+        }
+      ]
+    })
     return res.status(200).json({ users })
   }
 )
@@ -1489,6 +1487,28 @@ router.get(
       }
     } else {
       sendError(res, 400, 'No user id provided')
+    }
+  }
+)
+
+router.post(
+  '/delete/:id',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      getAuthenticatedRequestLogDetails(req, { user: req.params.id }),
+      'Deleting user from database'
+    )
+    if (req.params.id) {
+      try {
+        await User.findByIdAndDelete(req.params.id)
+        log.info('User deleted successfully')
+        res.json({})
+      } catch (err) {
+        sendError(res, 500, 'Error deleting user', err)
+      }
+    } else {
+      sendError(res, 400, 'No such user in database')
     }
   }
 )
