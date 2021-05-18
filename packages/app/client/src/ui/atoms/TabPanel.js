@@ -3,12 +3,11 @@ import Slide from '@material-ui/core/Slide'
 import Box from '@material-ui/core/Box'
 
 const TabPanel = ({ value, index, children, slideSide }) => {
-  //const slideSide = index > value ? 'left' : 'right'
   const shouldRender = value === index
 
   return (
     <Slide direction={slideSide} in={shouldRender} mountOnEnter unmountOnExit>
-      <div style={{ width: '100%'}}>{children}</div>
+      <Box width="100%" minHeight="30vh">{children}</Box>
     </Slide>
   )
 }
