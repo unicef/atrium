@@ -27,54 +27,64 @@ export const ERRORS = {
   404: "Your email wasn't found in our system. Please make sure you've entered it correctly, or, if you haven't signed up, please click the Register button"
 }
 
-//BASE REQUEST
+// BASE REQUEST
 const usersRequest = baseRequest({ errors: ERRORS, baseURL: ROUTE })
 
 // REQUESTS
-export const updateUserDetails = (userDetails) => usersRequest({
-  method: 'patch',
-  body: userDetails
-})
+export const updateUserDetails = (userId, userDetails) =>
+  usersRequest({
+    method: 'post',
+    endpoint: `${userId}`,
+    body: userDetails
+  })
 
-export const changeUserPassword = (password) => usersRequest({
-  method: 'post',
-  endpoint: changeUserPasswordEndpoint,
-  body: { password },
-  overwritingErrors: { 401: 'Invalid token' }
-})
+export const changeUserPassword = password =>
+  usersRequest({
+    method: 'post',
+    endpoint: changeUserPasswordEndpoint,
+    body: { password },
+    overwritingErrors: { 401: 'Invalid token' }
+  })
 
-export const uploadAvatar = (avatar) => usersRequest({
-  method: 'post',
-  endpoint: uploadAvatarEndpoint,
-  body: avatar
-})
+export const uploadAvatar = avatar =>
+  usersRequest({
+    method: 'post',
+    endpoint: uploadAvatarEndpoint,
+    body: avatar
+  })
 
 /**
  * Search for a user with a given set of params
  * @param {SearchParams} params
  */
-export const searchUser = (params) => usersRequest({
-  method: 'get',
-  endpoint: getSearchUserEndpoint(params)
-})
+export const searchUser = params =>
+  usersRequest({
+    method: 'get',
+    endpoint: getSearchUserEndpoint(params)
+  })
 
-export const getUserInformation = (userId) => usersRequest({
-  method: 'get',
-  endpoint: userId
-})
+export const getUserInformation = userId =>
+  usersRequest({
+    method: 'get',
+    endpoint: userId
+  })
 
-export const sendEmailToSignUp = (email) => usersRequest({
-  method: 'post',
-  endpoint: sendEmailToSignUpEndpoint,
-  body: { email },
-  overwritingErrors: { 500: 'Your account is waiting verification. Please check your email' }
-})
+export const sendEmailToSignUp = email =>
+  usersRequest({
+    method: 'post',
+    endpoint: sendEmailToSignUpEndpoint,
+    body: { email },
+    overwritingErrors: {
+      500: 'Your account is waiting verification. Please check your email'
+    }
+  })
 
-export const sendForgotPasswordEmail = (email) => usersRequest({
-  method: 'post',
-  endpoint: sendForgotPasswordEmailEndpoint,
-  body: { email }
-})
+export const sendForgotPasswordEmail = email =>
+  usersRequest({
+    method: 'post',
+    endpoint: sendForgotPasswordEmailEndpoint,
+    body: { email }
+  })
 
 /**
  * Reset password
@@ -83,11 +93,12 @@ export const sendForgotPasswordEmail = (email) => usersRequest({
  * @property {String} data.password
  * @returns {Promise}
  */
-export const resetPassword = (data) => usersRequest({
-  method: 'post',
-  endpoint: resetPasswordEndpoint,
-  body: data
-})
+export const resetPassword = data =>
+  usersRequest({
+    method: 'post',
+    endpoint: resetPasswordEndpoint,
+    body: data
+  })
 
 /**
  * Function to register a user after the email verification
@@ -101,11 +112,12 @@ export const resetPassword = (data) => usersRequest({
  * @property {String} userData.password
  * @returns {Promise}
  */
-export const registerUser = (userData) => usersRequest({
-  method: 'put',
-  endpoint: registerUserEndpoint,
-  body: userData
-})
+export const registerUser = userData =>
+  usersRequest({
+    method: 'put',
+    endpoint: registerUserEndpoint,
+    body: userData
+  })
 
 /**
  * Function to authenticate the user credentials
@@ -114,21 +126,22 @@ export const registerUser = (userData) => usersRequest({
  * @property {String} userData.password
  * @returns {Promise}
  */
-export const loginUser = (userData) => usersRequest({
-  method: 'post',
-  endpoint: loginUserEndpoint,
-  body: userData,
-  overwritingErrors: { 400: 'Your email or password are incorrect' }
-})
+export const loginUser = userData =>
+  usersRequest({
+    method: 'post',
+    endpoint: loginUserEndpoint,
+    body: userData,
+    overwritingErrors: { 400: 'Your email or password are incorrect' }
+  })
 
 export const getUserProjects = query =>
   usersRequest({
     method: 'get',
     endpoint: `projects${query}`
-})
+  })
 
 export const getUserComments = query =>
   usersRequest({
     method: 'get',
     endpoint: `comments${query}`
-})
+  })

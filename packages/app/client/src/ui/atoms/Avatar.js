@@ -15,17 +15,16 @@ const useStyles = makeStyles(() => ({
 const Avatar = ({ growthTimes, className, name, src, ...props }) => {
   const classes = useStyles({ growthTimes })
   const imageSource = src !== undefined ? { src } : {}
-  
   const getUserInitials = () => {
     const splitedName = typeof name === 'string' && name.split(' ')
 
     if (Array.isArray(splitedName) && splitedName.length >= 2) {
       return `${splitedName[0].substr(0, 1).toUpperCase()}${splitedName[1].substr(0, 1).toUpperCase()}`
     }
-    
+
     return null
   }
-  
+
   return (
     <MuiAvatar {...imageSource} className={mergeClassNames(classes.sizing, className)} {...props}>
       {getUserInitials()}

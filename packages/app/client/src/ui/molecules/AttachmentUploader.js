@@ -48,7 +48,7 @@ const AttachmentUploader = ({
     const nextFile = e.target.files[0]
     if (nextFile) {
       if (nextFile.size > MAX_UPLOAD_SIZE) {
-        setError('File exceeds maximum size of 5MB, please use a smaller image')
+        setError('File exceeds maximum size of 10MB, please use a smaller image')
         e.target.value = null
         return
       }

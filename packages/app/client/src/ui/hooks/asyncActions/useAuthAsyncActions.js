@@ -7,14 +7,18 @@ const useAuthAsyncActions = () => {
   const { setCurrentUser } = useUsersActions()
 
   return {
-    login: handledRequest(
-      { 
-        request: UsersApi.loginUser,
-        onSuccess: ({payload}) => setCurrentUser(payload),
-        pageLoading: true,
-        successMessage: 'User authenticated'
-      }
-    )
+    login: handledRequest({
+      request: UsersApi.loginUser,
+      onSuccess: ({ payload }) => setCurrentUser(payload),
+      pageLoading: true,
+      successMessage: 'User authenticated'
+    }),
+    updateUser: handledRequest({
+      request: UsersApi.updateUserDetails,
+      onSuccess: ({ payload }) => setCurrentUser(payload),
+      pageLoading: true,
+      successMessage: 'User updated'
+    })
   }
 }
 
