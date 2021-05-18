@@ -105,9 +105,7 @@ const MentionsTextArea = (props) => {
 
   const onExtractMentions = () => {
     const content = editorState.getCurrentContent()
-    console.log(content, 'content')
     const raw = convertToRaw(content)
-    console.log(raw, 'raw')
     const mentions = Object.entries(raw.entityMap).reduce((acc,[_, entity]) => {
       if (entity.type === 'mention') {
         return [...acc, entity.data.mention]

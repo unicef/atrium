@@ -57,7 +57,6 @@ const createMentionEntities = (text, tags) => {
     return { ...block, entityRanges: ranges }
   })
   rawContent.blocks = blocks
-  console.log(blocks, 'rawContent')
 
   return convertFromRaw(rawContent)
 }
