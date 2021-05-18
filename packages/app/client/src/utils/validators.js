@@ -35,3 +35,8 @@ export const validatePassword = (password) => {
   return { password: 'Password is required' }
 }
 
+export const validateConfirmPassword = (password, confirmPassword) => {
+  if (password !== confirmPassword)
+    return { confirmPassword: 'Passwords do not match' }
+  return {}
+}

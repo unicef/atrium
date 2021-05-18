@@ -32,11 +32,11 @@ export const updateUserDetails = userDetails =>
     body: userDetails
   })
 
-export const changeUserPassword = password =>
+export const changeUserPassword = (currentPassword, password) =>
   usersRequest({
     method: 'post',
     endpoint: changeUserPasswordEndpoint,
-    body: { password },
+    body: { currentPassword, password },
     overwritingErrors: { 401: 'Invalid token' }
   })
 
@@ -144,10 +144,4 @@ export const deleteUser = userId =>
   usersRequest({
     method: 'post',
     endpoint: `delete/${userId}`
-  })
-
-export const checkUserPassword = userId =>
-  usersRequest({
-    method: 'post',
-    endpoint: `checkPassword/${userId}`
   })
