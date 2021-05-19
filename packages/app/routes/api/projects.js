@@ -282,10 +282,15 @@ router.post(
         owner: req.user.id,
         projectOwner: req.body.projectOwner,
         projectOwnerEmail: req.body.projectOwnerEmail,
-        attachment: req.file // Bandaid until I can un-eff the entire attachment thing
-          ? `${req.connection.encrypted ? 'https' : 'http'}://${
-              req.headers.host
-            }${req.baseUrl}/attachment/${req.file.key}`
+        attachment: req.file
+          ? {
+              url: `${req.connection.encrypted ? 'https' : 'http'}://${
+                req.headers.host
+              }${req.baseUrl}/attachment/${req.file.key}`,
+              name: req.file.key,
+              extension: req.file.mimetype,
+              size: req.file.size
+            }
           : null,
         documents: [],
         photos: [],
@@ -401,35 +406,55 @@ router.put(
       tags: req.body.tags ? req.body.tags.split(',') : [],
       attachment:
         req.files && req.files.attachment // How do I relative path?
-          ? `${req.connection.encrypted ? 'https' : 'http'}://${
-              req.headers.host
-            }${req.baseUrl}/attachment/${req.files.attachment[0].key}`
+          ? {
+              url: `${req.connection.encrypted ? 'https' : 'http'}://${
+                req.headers.host
+              }${req.baseUrl}/attachment/${req.files.attachment[0].key}`,
+              name: req.files.attachment[0].key,
+              extension: req.files.attachment[0].mimetype,
+              size: req.files.attachment[0].size
+            }
           : null,
       documents:
         req.files && req.files.documents
           ? [
               ...oldProject.documents,
-              `${req.connection.encrypted ? 'https' : 'http'}://${
-                req.headers.host
-              }${req.baseUrl}/attachment/${req.files.documents[0].key}`
+              {
+                url: `${req.connection.encrypted ? 'https' : 'http'}://${
+                  req.headers.host
+                }${req.baseUrl}/attachment/${req.files.documents[0].key}`,
+                name: req.files.documents[0].key,
+                extension: req.files.documents[0].mimetype,
+                size: req.files.documents[0].size
+              }
             ]
           : [...oldProject.documents],
       videos:
         req.files && req.files.videos
           ? [
               ...oldProject.videos,
-              `${req.connection.encrypted ? 'https' : 'http'}://${
-                req.headers.host
-              }${req.baseUrl}/attachment/${req.files.videos[0].key}`
+              {
+                url: `${req.connection.encrypted ? 'https' : 'http'}://${
+                  req.headers.host
+                }${req.baseUrl}/attachment/${req.files.videos[0].key}`,
+                name: req.files.videos[0].key,
+                extension: req.files.videos[0].mimetype,
+                size: req.files.videos[0].size
+              }
             ]
           : [...oldProject.videos],
       photos:
         req.files && req.files.photos
           ? [
               ...oldProject.photos,
-              `${req.connection.encrypted ? 'https' : 'http'}://${
-                req.headers.host
-              }${req.baseUrl}/attachment/${req.files.photos[0].key}`
+              {
+                url: `${req.connection.encrypted ? 'https' : 'http'}://${
+                  req.headers.host
+                }${req.baseUrl}/attachment/${req.files.photos[0].key}`,
+                name: req.files.photos[0].key,
+                extension: req.files.photos[0].mimetype,
+                size: req.files.photos[0].size
+              }
             ]
           : [...oldProject.photos]
     }
