@@ -18,6 +18,18 @@ const useAuthAsyncActions = () => {
       onSuccess: ({ payload }) => setCurrentUser(payload),
       pageLoading: true,
       successMessage: 'User updated'
+    }),
+    deleteUser: handledRequest({
+      request: UsersApi.deleteUser,
+      onSuccess: ({ payload }) => setCurrentUser(payload),
+      pageLoading: true,
+      successMessage: 'Account deleted'
+    }),
+    changeUserPassword: handledRequest({
+      request: UsersApi.changeUserPassword,
+      onSuccess: ({ payload }) => console.log(payload), //
+      pageLoading: true,
+      successMessage: 'User password changed'
     })
   }
 }

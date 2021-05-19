@@ -1194,31 +1194,18 @@ router.get(
 router.post(
   '/change-password',
   passport.authenticate('jwt', { session: false }),
-  validationMiddleware(userSchemas.changePassword),
+  // validationMiddleware(userSchemas.changePassword),
   async (req, res) => {
     log.info(getAuthenticatedRequestLogDetails(req), 'Change user password')
 
     try {
-      const hashedPassword = await saltAndHashPassword(req.body.password)
-
-      User.findByIdAndUpdate(
-        req.user.id,
-        {
-          password: hashedPassword
-        },
-        {
-          new: true
-        },
-        (dbErr, updatedUser) => {
-          if (dbErr) {
-            log.error(
-              getAuthenticatedRequestLogDetails(req, { err: dbErr }),
-              'Error updating user'
-            )
-            return sendError(res, 500, 'Error updating user')
-          }
-
-          getTokenForUser(updatedUser, (err, token) => {
+      const user = await User.findById(req.user.id)
+      if (await bcrypt.compare(req.body.currentPassword, user.password)) {
+        if (!(await bcrypt.compare(req.body.password, user.password))) {
+          const hashedPassword = await saltAndHashPassword(req.body.password)
+          user.password = hashedPassword
+          await user.save()
+          getTokenForUser(user, (err, token) => {
             if (err) {
               log.error(
                 getAuthenticatedRequestLogDetails(req, { err }),
@@ -1242,8 +1229,12 @@ router.post(
               success: true
             })
           })
+        } else {
+          return sendError(res, 500, 'This password was used in the past')
         }
-      )
+      } else {
+        return sendError(res, 500, 'Current password is not correct')
+      }
     } catch (err) {
       log.error(
         getAuthenticatedRequestLogDetails(req, { err }),
@@ -1328,14 +1319,12 @@ router.get(
     const queryKeys = Object.entries(req.query)
 
     if (queryKeys.length > 0) {
-      const searchQuery = queryKeys.map(
-        ([key, value]) => ({
-          [key]: {
-            $regex: diacriticSensitiveRegex(value),
-            $options: 'gi'
-          }
-        })
-      )
+      const searchQuery = queryKeys.map(([key, value]) => ({
+        [key]: {
+          $regex: diacriticSensitiveRegex(value),
+          $options: 'gi'
+        }
+      }))
       try {
         const users = await User.find(
           {
@@ -1350,8 +1339,7 @@ router.get(
           'Users found with success'
         )
         return res.json({ users })
-
-      } catch(e) {
+      } catch (e) {
         log.error(
           getAuthenticatedRequestLogDetails(req, { err: e }),
           'Searching for users'
@@ -1486,6 +1474,28 @@ router.post(
         })
       }
     )
+  }
+)
+
+router.post(
+  '/delete/:id',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      getAuthenticatedRequestLogDetails(req, { user: req.params.id }),
+      'Deleting user from database'
+    )
+    if (req.params.id) {
+      try {
+        await User.findByIdAndDelete(req.params.id)
+        log.info('User deleted successfully')
+        res.json({})
+      } catch (err) {
+        sendError(res, 500, 'Error deleting user', err)
+      }
+    } else {
+      sendError(res, 400, 'No such user in database')
+    }
   }
 )
 

@@ -44,6 +44,7 @@ import {
   Login,
   ForgotPassword,
   ResetPassword,
+  ChangePassword,
   Learn,
   Account
 } from './ui/pages'
@@ -92,6 +93,11 @@ const App = () => {
                   exact
                   path="/reset-password/:token"
                   component={ResetPassword}
+                />
+                <Route
+                  exact
+                  path="/change-password"
+                  component={ChangePassword}
                 />
                 <PrivateRoute exact path="/learn" component={LearnPage} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
