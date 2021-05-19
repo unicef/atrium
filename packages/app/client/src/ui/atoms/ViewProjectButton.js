@@ -19,7 +19,7 @@ function ViewProjectButton({ id }) {
         className={classes.viewProject}
         color="primary"
         variant="outlined"
-        onClick={() => history.push(`projects/${id}`)}
+        onClick={() => history.push(`projects/view/${id}/0`)}
       >
         View Project
       </Button>
