@@ -85,11 +85,11 @@ function MyComments(props) {
       headerText={`My comments (${comments.length})`}
       sortBy="date"
     >
-      {comments.map((comment, i) => (
+      {comments.map(comment => (
         <CommentBox
           removeComment={removeComment}
           userIsTheOwner={comment.user.id === props.id}
-          key={comment.id + i}
+          key={comment.id}
           author={comment.user.name}
           {...comment}
         />
