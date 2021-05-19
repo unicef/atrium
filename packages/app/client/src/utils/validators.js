@@ -42,6 +42,7 @@ export const validateWebsite = website => {
   }
   return {}
 }
+
 export const validateConfirmPassword = (password, confirmPassword) => {
   if (password !== confirmPassword)
     return { confirmPassword: 'Passwords do not match' }

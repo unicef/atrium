@@ -60,6 +60,7 @@ function Settings(props) {
         <DeleteActionDialog
           open={open}
           onConfirm={() => deleteHandler(props.id)}
+          handleClose={() => setOpen(false)}
         />
       </Grid>
     </MainContainer>

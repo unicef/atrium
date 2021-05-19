@@ -32,7 +32,6 @@ function AvatarUploader({ avatar, setAvatar, editting }) {
   const classes = useStyles()
 
   const inputRef = React.useRef(null)
-
   return (
     <>
       <div className={classes.avatarSection}>
@@ -62,14 +61,16 @@ function AvatarUploader({ avatar, setAvatar, editting }) {
             aria-label="ATTACH FILE"
             title="ATTACH FILE"
           >
-            Change avatar
+            {avatar ? 'Change avatar' : 'Add avatar'}
           </label>
         </Button>
-        {typeof avatar === 'string' ? (
-          <Avatar src={avatar} />
-        ) : (
-          <Typography>{avatar.name}</Typography>
-        )}
+        {avatar ? (
+          typeof avatar === 'string' ? (
+            <Avatar src={avatar} />
+          ) : (
+            <Typography>{avatar.name}</Typography>
+          )
+        ) : null}
       </div>
       <Typography className={classes.clarification} variant="body1">
         Upload a photo of size 50 by 50 less then 10mb

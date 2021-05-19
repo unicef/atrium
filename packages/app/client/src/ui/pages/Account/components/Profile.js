@@ -38,8 +38,8 @@ function Profile(props) {
   const classes = useStyles()
   const history = useHistory()
   const [editting, setEditting] = useState(false)
-  const [websites, setWebsites] = useState(props.websites)
-  const [avatar, setAvatar] = useState(props.avatar)
+  const [websites, setWebsites] = useState(props.websites || [])
+  const [avatar, setAvatar] = useState(props.avatar || null)
 
   const { updateUser } = useAuthAsyncActions()
 
