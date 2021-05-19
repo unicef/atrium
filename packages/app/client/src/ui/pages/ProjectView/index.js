@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom'
 import { useProjectsAsyncActions, useTabsOnUrl } from '../../hooks'
 import { Tabs } from '../../molecules'
 import { AboutProject, ProjectUpdates, ProjectComments, ProjectTeam } from './panels'
-import { getCurrentProject } from '../../../selectors'
+import { getCurrentProject, getProjectCommentsLength } from '../../../selectors'
 import { TabPanel } from '../../atoms'
 import { MainContainer } from '../../templates'
 
@@ -28,13 +28,6 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const handleTabs = (projectData) => ([
-  { label: "About the Project", hash: 'about' },
-  { label: `Team (${projectData.team.length})`, hash: 'team' },
-  { label: `Updates (${projectData.updates.length})`, hash: 'updates' },
-  { label: `Comments (${projectData.comments.length})`, hash:'comments' }
-])
-
 const Panel = ({ index, tabIndex, children }) => {
   const slideSide = tabIndex > index ? 'right' : 'left'
   return (
@@ -50,13 +43,22 @@ const ProjectViewPage = () => {
   const { getProjectById } = useProjectsAsyncActions()
   const params = useParams()
 
+  const commentsLength = useSelector(getProjectCommentsLength)
+
+  const getTabs = () => [
+    { label: "About the Project", hash: 'about' },
+    { label: `Team (${projectData.team.length})`, hash: 'team' },
+    { label: `Updates (${projectData.updates.length})`, hash: 'updates' },
+    { label: `Comments (${commentsLength})`, hash:'comments' }
+  ]
+
   React.useEffect(() => {
     if (projectData === undefined) {
       getProjectById(params.id)
     }
   }, [])
 
-  const tabs = projectData ? handleTabs(projectData) : []
+  const tabs = projectData ? getTabs() : []
 
   const { handleChange, tabIndex } = useTabsOnUrl({ tabs, baseRoute: `/projects/view/${params.id}` })
 
