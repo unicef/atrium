@@ -1,6 +1,5 @@
-import React, {useState} from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { Loader, SearchListWrapper } from '../../Search/components'
+import React, { useState } from 'react'
+import { SearchListWrapper } from '../../Search/components'
 import { useSelector } from 'react-redux'
 import {
   getSearchContext,
@@ -8,24 +7,31 @@ import {
   searchCurrentPage,
   searchSort
 } from '../../../../selectors'
-import {useUserCommentsAsyncActions, useSearchActions, useHandledRequest} from '../../../hooks'
+import {
+  useUserCommentsAsyncActions,
+  useSearchActions,
+  useHandledRequest
+} from '../../../hooks'
 import combineUserItemsQueryStrings from '../../../../utils/combineUserItemsQueryStrings'
-import { Comment, CommentBox, CommentList } from '../../../organisms'
+import { CommentBox } from '../../../organisms'
 import { deleteComment } from '../../../../api/projects'
-
-const useStyles = makeStyles(() => ({
-  greeting: {
-    marginBottom: '2%',
-    fontSize: '34px'
-  }
-}))
+import { EmptyResults } from '../../../molecules'
+import { useHistory } from 'react-router-dom'
+import { makeStyles } from '@material-ui/core/styles'
 
 const MAX_COMMENTS_PER_PAGE = 9
 const SEARCH_CONTEXT = 'COMMENTS'
 
+const useStyles = makeStyles(() => ({
+  button: {
+    marginTop: '5%'
+  }
+}))
+
 function MyComments(props) {
   const classes = useStyles()
   const { setCurrentPageContext, resetSearch } = useSearchActions()
+  const history = useHistory()
 
   const { fetchSearchedUserComments } = useUserCommentsAsyncActions()
   const comments = useSelector(getSearchedUserComments)
@@ -64,26 +70,31 @@ function MyComments(props) {
     successMessage: 'Comment successfully deleted'
   })
 
-  if (!Array.isArray(comments)) return null
+  if (!Array.isArray(comments) || comments.length === 0)
+    return (
+      <EmptyResults
+        mainMessage="You do not have any comments"
+        buttonLabel="Add your first comment"
+        handleClick={() => history.push('projects')}
+        buttonProps={{ className: classes.button }}
+      />
+    )
 
   return (
-    <>
-      <SearchListWrapper
-        headerText={`My comments (${comments.length})`}
-        sortBy="date"
-      >
-        {comments.map((comment, i) => (
-          <CommentBox
-            removeComment={removeComment}
-            userIsTheOwner={comment.user.id === props.id}
-            key={comment.id}
-            author={comment.user.name}
-            {...comment}
-          />
-        ))}
-        <Loader />
-      </SearchListWrapper>
-    </>
+    <SearchListWrapper
+      headerText={`My comments (${comments.length})`}
+      sortBy="date"
+    >
+      {comments.map((comment, i) => (
+        <CommentBox
+          removeComment={removeComment}
+          userIsTheOwner={comment.user.id === props.id}
+          key={comment.id + i}
+          author={comment.user.name}
+          {...comment}
+        />
+      ))}
+    </SearchListWrapper>
   )
 }
 
