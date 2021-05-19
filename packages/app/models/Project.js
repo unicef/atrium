@@ -15,10 +15,10 @@ const ProjectSchema = new Schema({
   linkToDeployedApp: { type: String }, // deployed version of the app (optional)
   comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }], // list of comment ids added to this project
   likes: [{ type: Schema.Types.ObjectId, ref: 'users' }], // list of users who liked this project
-  attachment: { type: String },
-  documents: [{ type: String }],
-  videos: [{ type: String }],
-  photos: [{ type: String }],
+  attachment: { type: Object },
+  documents: [{ type: Object }],
+  videos: [{ type: Object }],
+  photos: [{ type: Object }],
 
   blockchainName: { type: String },
   blockchainType: { type: String },
