@@ -86,7 +86,7 @@ function MyProjects(props) {
           key={project.id}
           onClick={() => {
             setCurrentProject({ project, userId })
-            history.push(`projects/view/${project.id}/0`)
+            history.push(`projects/view/${project.id}/about`)
           }}
         />
       ))}
