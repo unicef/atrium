@@ -73,8 +73,8 @@ function MyComments(props) {
   if (!Array.isArray(comments) || comments.length === 0)
     return (
       <EmptyResults
-        mainMessage="You do not have any comments"
-        buttonLabel="Add your first comment"
+        mainMessage="You don’t have any comments yet"
+        buttonLabel="Add comment"
         handleClick={() => history.push('projects')}
         buttonProps={{ className: classes.button }}
       />

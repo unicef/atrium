@@ -66,8 +66,8 @@ function MyProjects(props) {
   if (!Array.isArray(projects) || projects.length === 0)
     return (
       <EmptyResults
-        mainMessage="You do not have any projects"
-        buttonLabel="Add your first project"
+        mainMessage="You don’t have any projects yet"
+        buttonLabel="Add project"
         handleClick={() => history.push('create-projects')}
         buttonProps={{ className: classes.button }}
       />
