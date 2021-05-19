@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Loader, SearchListWrapper } from '../../Search/components'
 import { useSelector } from 'react-redux'
@@ -8,8 +8,10 @@ import {
   searchCurrentPage,
   searchSort
 } from '../../../../selectors'
-import { useUserCommentsAsyncActions, useSearchActions } from '../../../hooks'
+import {useUserCommentsAsyncActions, useSearchActions, useHandledRequest} from '../../../hooks'
 import combineUserItemsQueryStrings from '../../../../utils/combineUserItemsQueryStrings'
+import { Comment, CommentBox, CommentList } from '../../../organisms'
+import { deleteComment } from '../../../../api/projects'
 
 const useStyles = makeStyles(() => ({
   greeting: {
@@ -27,10 +29,12 @@ function MyComments(props) {
 
   const { fetchSearchedUserComments } = useUserCommentsAsyncActions()
   const comments = useSelector(getSearchedUserComments)
+  const handledRequest = useHandledRequest()
 
   const sort = useSelector(searchSort)
   const page = useSelector(searchCurrentPage)
   const searchContextName = useSelector(getSearchContext)
+  const [trigger, setTrigger] = useState(false)
 
   React.useEffect(() => {
     const query = combineUserItemsQueryStrings({
@@ -49,7 +53,16 @@ function MyComments(props) {
     }
 
     requestComments()
-  }, [sort, page])
+  }, [sort, page, trigger])
+
+  const removeComment = handledRequest({
+    request: deleteComment,
+    showFullPageLoading: true,
+    onSuccess: () => {
+      setTrigger(!trigger)
+    },
+    successMessage: 'Comment successfully deleted'
+  })
 
   if (!Array.isArray(comments)) return null
 
@@ -59,7 +72,15 @@ function MyComments(props) {
         headerText={`My comments (${comments.length})`}
         sortBy="date"
       >
-        <div>List</div>
+        {comments.map((comment, i) => (
+          <CommentBox
+            removeComment={removeComment}
+            userIsTheOwner={comment.user.id === props.id}
+            key={comment.id}
+            author={comment.user.name}
+            {...comment}
+          />
+        ))}
         <Loader />
       </SearchListWrapper>
     </>
