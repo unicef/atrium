@@ -1,20 +1,12 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
-import { BadgeRow } from '../components'
+import { BadgeRow, TabContentTitle } from '../components'
 import { makeStyles} from '@material-ui/core/styles'
 import { useSelector } from 'react-redux'
 import { getProfileBadges } from '../../../../selectors'
 
 const useStyles = makeStyles(() => ({
-  title: {
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    fontSize: '22px',
-    lineHeight: '27px',
-    marginTop: 40,
-    marginBottom: 30
-  },
   subText: {
     fontStyle: 'normal',
     fontWeight: 'normal',
@@ -31,7 +23,7 @@ const ProfileBadges = () => {
   return (
     <Grid container>
       <Grid item xs={12} md={8}>
-        <Typography className={classes.title}>BADGES</Typography>
+        <TabContentTitle>BADGES</TabContentTitle>
         <Typography className={classes.subText}>
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
         </Typography>
