@@ -7,6 +7,7 @@ import { EmptyResults, UserInfos } from '../../../molecules'
 import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { getCurrentProjectMembers, getCurrentProjectContact } from '../../../../selectors'
+import { useHistory } from 'react-router'
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -18,21 +19,25 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const MemberRow = ({ member }) => (
-  <Box mb="20px" mt="15px">
-    <Grid justify="space-between" container item xs={12} >
-      <UserInfos {...member} containerProps={{ xs: 6, item: true }} />
-      <Button variant="outlined">
-        View profile
-      </Button>
-    </Grid>
-  </Box>
-)
+const MemberRow = ({ member }) => {
+  const history = useHistory()
+  return (
+    <Box mb="20px" mt="15px">
+      <Grid justify="space-between" container item xs={12} >
+        <UserInfos {...member} containerProps={{ xs: 6, item: true }} />
+        <Button onClick={() => history.push(`/profile/${member.id}/about`)} variant="outlined">
+          View profile
+        </Button>
+      </Grid>
+    </Box>
+  )
+}
 
 const ProjectTeam = () => {
   const classes = useStyles() 
   const team = useSelector(getCurrentProjectMembers)
   const contact = useSelector(getCurrentProjectContact)
+  const history = useHistory()
 
   const handleTeamMembersRenderer = () => {
     if (team.length > 0) {
@@ -42,15 +47,15 @@ const ProjectTeam = () => {
           {team.map((member, index) => {
             if ((index + 1) === team.length) {
               return (
-                <MemberRow member={member}/>
+                <MemberRow key={member.id} member={member}/>
               )
             }
 
             return (
-              <>
+              <div key={member.id}>
                 <MemberRow member={member} />
                 <Divider />
-              </>
+              </div>
             )
           })}
         </>
@@ -73,7 +78,7 @@ const ProjectTeam = () => {
           <Box mt="15px" mb="50px">
             <Grid container justify="space-between" item xs={12}>
               <UserInfos {...contact} role="Developer" name="Jhon Doe" containerProps={{ xs: 6, item: true }} />
-              <Button variant="outlined">
+              <Button onClick={() => history.push(`/profile/${contact.id}/about`)} variant="outlined">
                 View profile
               </Button>
             </Grid>
