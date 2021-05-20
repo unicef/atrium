@@ -41,7 +41,7 @@ require('dotenv').config()
     emailHash: emailHash2,
     wallet: encryptedWallet2.encrypted,
     address: newWallet2.address,
-    role: '',
+    role: 'Developer',
     company: '',
     acceptsEmail: true,
     password: hashedPassword2
@@ -55,7 +55,7 @@ require('dotenv').config()
     name: 'Victor Zabrovskiy',
     wallet: encryptedWallet3.encrypted,
     address: newWallet3.address,
-    role: '',
+    role: 'Product Manager',
     company: '',
     acceptsEmail: true,
     password: hashedPassword3

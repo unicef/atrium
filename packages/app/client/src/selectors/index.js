@@ -27,10 +27,7 @@ export const currentUserIsTheOwner = createSelector(
 )
 export const getHandledUpdates = state => state.projects.handledUpdates
 export const getProjectComments = state => state.projects.comments
-export const getProjectCommentsLength = createSelector(
-  getProjectComments,
-  (comments) => Array.isArray(comments) ? comments.length : 0
-)
+export const getProjectCommentsLength = state => Array.isArray(state.projects.comments) ? state.projects.comments.length : 0
 export const getProjectCommentsPageCount = state => state.projects.commentsPages
 export const getCurrentProjectMembers = createSelector(
   getCurrentProject,
