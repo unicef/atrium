@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import { getUserId } from '../../selectors'
 import { editComment } from '../../api/projects'
 import { useHandledRequest } from '../hooks'
+import { Link } from 'react-router-dom'
 
 const Comment = ({ 
   handleToggleReplies,
@@ -76,7 +77,9 @@ const Comment = ({
           <Box width="95%" mb={0.5}>
             <UserInfoTooltip user={{ ...user, src }}>
               <span>
-                <Authorship author={user.name} />
+                <Link to={`/profile/${user.id}/about`}>
+                  <Authorship author={user.name} />
+                </Link>
               </span>
             </UserInfoTooltip>
             {showEdit ? 
