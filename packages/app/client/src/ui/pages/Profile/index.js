@@ -8,7 +8,7 @@ import { MainContainer } from '../../templates'
 import { ProfileHeader } from './components'
 import { Tabs } from '../../molecules'
 import { useSelector } from 'react-redux'
-import { ProfileBadges, ProfileProjects } from './panels'
+import { ProfileBadges, ProfileProjects, AboutProfile } from './panels'
 import { TabPanel } from '../../atoms'
 
 const profileTabs = [
@@ -54,8 +54,12 @@ const Profile = () => {
       {profileId &&
         <Grid container justify="center" item xs={12}>
           <Box position="sticky" width="100%" bgcolor="white" top={50} zIndex={99}>
-            <Tabs handleChange={onChangeTabIndex} tabs={tabs} currentIndex={tabIndex} tabsAreaWidth="75%" />
+            <Tabs variant="fullWidth" handleChange={onChangeTabIndex} tabs={tabs} currentIndex={tabIndex} tabsAreaWidth="80%" />
           </Box>
+
+          <TabPanel index={0} value={tabIndex}>
+            <AboutProfile />
+          </TabPanel>
 
           <TabPanel index={2} value={tabIndex}>
             <ProfileProjects />
