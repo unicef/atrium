@@ -52,7 +52,10 @@ UserInfos.defaultProps = {
   name: 'Not defined',
   role: 'Not defined',
   avatarGrowth: 12,
-  showInfos: true
+  showInfos: true,
+  containerProps: {
+    xs: 'auto'
+  }
 }
 
 export default UserInfos
