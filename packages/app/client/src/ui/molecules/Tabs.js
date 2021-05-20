@@ -8,7 +8,7 @@ const useDefaultStyles = makeStyles(theme => ({
   tab: props => ({
     textTransform: 'none',
     width: '100%',
-    maxWidth: props.tabMaxWidth,
+    maxWidth: `${props.tabMaxWidth} !important`,
     backgroundColor: theme.colors.white
   }),
   tabsContainer: {
@@ -24,7 +24,7 @@ const useDefaultStyles = makeStyles(theme => ({
   })
 }))
 
-const Tabs = ({ handleChange, tabs, className, currentIndex, tabsAreaWidth }) => {
+const Tabs = ({ handleChange, tabs, className, currentIndex, tabsAreaWidth, variant }) => {
   const classes = useDefaultStyles({ tabMaxWidth: `${parseInt(100 / tabs.length)}%`, tabsAreaWidth })
   const shouldUseIndexFromProps = currentIndex !== undefined
   const [tabIndex, setTabIndex] = React.useState(shouldUseIndexFromProps ? currentIndex : 0)
@@ -44,7 +44,7 @@ const Tabs = ({ handleChange, tabs, className, currentIndex, tabsAreaWidth }) =>
         value={shouldUseIndexFromProps ? currentIndex : tabIndex}
         variant="fullWidth"
         onChange={onTabChange}
-        variant="scrollable"
+        variant={variant}
         scrollButtons="auto"
         indicatorColor="primary"
         className={classes.tabs}
@@ -59,7 +59,8 @@ Tabs.defaultProps = {
   handleChange: () => {},
   tabs: [],
   className: '',
-  tabsAreaWidth: '100%'
+  tabsAreaWidth: '100%',
+  variant: "scrollable"
 }
 
 export default Tabs
