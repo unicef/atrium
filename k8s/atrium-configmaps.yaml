@@ -11,10 +11,3 @@ metadata:
   name: parity-configmap
 data:
   parity_host: parity-service
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: api-configmap
-data:
-  client_url: https://proco-chain-demo4.unicef.io/
