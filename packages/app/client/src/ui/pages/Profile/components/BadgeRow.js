@@ -53,9 +53,10 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const BadgeRow = ({ index }) => {
+const BadgeRow = ({ index, showContent }) => {
   const classes = useStyles()
-  const { BadgeImage, badgeDescription, badgeTitle } = badgeInformation[index]
+  const dataKey = index + 1
+  const { BadgeImage, badgeDescription, badgeTitle } = badgeInformation[dataKey]
 
   return (
     <Grid container item spacing={4}>
@@ -63,14 +64,22 @@ const BadgeRow = ({ index }) => {
         <BadgeImage />
       </Grid>
 
-      <Grid item xs="auto">
-        <Typography className={classes.title}>{badgeTitle}</Typography>
-        <Typography className={classes.description}>{badgeDescription}</Typography>
-      </Grid>
+      {showContent &&
+        <>
+          <Grid item xs="auto">
+            <Typography className={classes.title}>{badgeTitle}</Typography>
+            <Typography className={classes.description}>{badgeDescription}</Typography>
+          </Grid>
 
-      <Divider className={classes.divider} />
+          <Divider className={classes.divider} />
+        </>
+      }
     </Grid>
   )
+}
+
+BadgeRow.defaultProps = {
+  showContent: true
 }
 
 export default BadgeRow
