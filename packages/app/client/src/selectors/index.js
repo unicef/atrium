@@ -56,3 +56,6 @@ export const getProfileBadges = state => state.profile.badges
 export const getProfileName = state => state.profile.info && state.profile.info.name
 export const getProfileAvatar = state => state.profile.info && state.profile.info.avatar
 export const getProfileId = state => state.profile.info && state.profile.info.id
+export const getProfileProjecs = state => state.profile.projects
+export const getProfileProjectById = (state, id) => state.profile.projects.find(pjt => pjt.id === id)
+export const getProfileProjecsPageCounter = state => state.profile.projectsPageCounter
