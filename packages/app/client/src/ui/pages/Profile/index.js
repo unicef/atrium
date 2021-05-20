@@ -8,7 +8,7 @@ import { MainContainer } from '../../templates'
 import { ProfileHeader } from './components'
 import { Tabs } from '../../molecules'
 import { useSelector } from 'react-redux'
-import { ProfileBadges } from './panels'
+import { ProfileBadges, ProfileProjects } from './panels'
 import { TabPanel } from '../../atoms'
 
 const profileTabs = [
@@ -36,7 +36,15 @@ const Profile = () => {
   const onChangeTabIndex = (newIndex) => {
     const nextTab = tabs[newIndex]
 
-    handleChange(newIndex)
+    if (nextTab !== undefined) {
+      const isPaginatedTab = nextTab.hash === 'projects'
+
+      if (isPaginatedTab) {
+        handleChange(newIndex, { search: 'page=1' })
+      } else {
+        handleChange(newIndex)
+      }
+    }
   }
 
   return (
@@ -46,8 +54,12 @@ const Profile = () => {
       {profileId &&
         <Grid container justify="center" item xs={12}>
           <Box position="sticky" width="100%" bgcolor="white" top={50} zIndex={99}>
-            <Tabs handleChange={onChangeTabIndex} tabs={tabs} currentIndex={tabIndex} />
+            <Tabs handleChange={onChangeTabIndex} tabs={tabs} currentIndex={tabIndex} tabsAreaWidth="75%" />
           </Box>
+
+          <TabPanel index={2} value={tabIndex}>
+            <ProfileProjects />
+          </TabPanel>
 
           <TabPanel index={3} value={tabIndex}>
             <ProfileBadges />

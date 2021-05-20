@@ -19,13 +19,13 @@ const useDefaultStyles = makeStyles(theme => ({
     borderBottom: `1.2px solid ${theme.colors['light-gray']}`,
     zIndex: 99
   },
-  tabs: {
-    width: '100%'
-  }
+  tabs: props => ({
+    width: props.tabsAreaWidth
+  })
 }))
 
-const Tabs = ({ handleChange, tabs, className, currentIndex }) => {
-  const classes = useDefaultStyles({ tabMaxWidth: `${parseInt(100 / tabs.length)}%` })
+const Tabs = ({ handleChange, tabs, className, currentIndex, tabsAreaWidth }) => {
+  const classes = useDefaultStyles({ tabMaxWidth: `${parseInt(100 / tabs.length)}%`, tabsAreaWidth })
   const shouldUseIndexFromProps = currentIndex !== undefined
   const [tabIndex, setTabIndex] = React.useState(shouldUseIndexFromProps ? currentIndex : 0)
   const containerClassName = mergeClassNames(className, classes.tabsContainer)
@@ -58,7 +58,8 @@ const Tabs = ({ handleChange, tabs, className, currentIndex }) => {
 Tabs.defaultProps = {
   handleChange: () => {},
   tabs: [],
-  className: ''
+  className: '',
+  tabsAreaWidth: '100%'
 }
 
 export default Tabs
