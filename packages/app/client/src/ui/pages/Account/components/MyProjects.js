@@ -18,11 +18,11 @@ import {
 import combineUserItemsQueryStrings from '../../../../utils/combineUserItemsQueryStrings'
 import ProjectCard from './ProjectCard'
 import { useHistory } from 'react-router-dom'
+import { EmptyResults } from '../../../molecules'
 
 const useStyles = makeStyles(() => ({
-  greeting: {
-    marginBottom: '2%',
-    fontSize: '34px'
+  button: {
+    marginTop: '5%'
   }
 }))
 
@@ -63,28 +63,35 @@ function MyProjects(props) {
     requestProjects()
   }, [sort, page])
 
-  if (!Array.isArray(projects)) return null
+  if (!Array.isArray(projects) || projects.length === 0)
+    return (
+      <EmptyResults
+        mainMessage="You don’t have any projects yet"
+        buttonLabel="Add project"
+        handleClick={() => history.push('create-projects')}
+        buttonProps={{ className: classes.button }}
+      />
+    )
+
   return (
-    <>
-      <SearchListWrapper
-        headerText={`My projects (${projects.length})`}
-        sortBy="date"
-      >
-        {projects.map(project => (
-          <ProjectCard
-            count={2}
-            disableActions={!isUserAuthenticated}
-            project={project}
-            key={project.id}
-            onClick={() => {
-              setCurrentProject({ project, userId })
-              history.push(`projects/${project.id}`)
-            }}
-          />
-        ))}
-        <Loader />
-      </SearchListWrapper>
-    </>
+    <SearchListWrapper
+      headerText={`My projects (${projects.length})`}
+      sortBy="date"
+    >
+      {projects.map(project => (
+        <ProjectCard
+          count={2}
+          disableActions={!isUserAuthenticated}
+          project={project}
+          key={project.id}
+          onClick={() => {
+            setCurrentProject({ project, userId })
+            history.push(`projects/view/${project.id}/about`)
+          }}
+        />
+      ))}
+      <Loader />
+    </SearchListWrapper>
   )
 }
 
