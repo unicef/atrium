@@ -13,7 +13,6 @@ import ManualInvite from './components/manual-invite'
 import GitHubPage from './components/github/GitHubPage'
 import { Header } from './components/layout/Header'
 import Landing from './components/layout/Landing'
-import LearnPage from './components/learn/Learn'
 import ModalMessage from './components/modal-message/ModalMessage'
 import CreatePollPage from './components/polls/create/CreatePoll'
 import About from './components/about'
@@ -46,7 +45,8 @@ import {
   ResetPassword,
   ChangePassword,
   Learn,
-  Account
+  Account,
+  Profile
 } from './ui/pages'
 import projectsRoutes from './routes/projects'
 
@@ -79,7 +79,6 @@ const App = () => {
               <Header />
               <Toast />
               <Switch>
-                {projectsRoutes()}
                 <Route exact path="/" component={Landing} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
@@ -88,18 +87,19 @@ const App = () => {
                   exact
                   path="/forgot-password"
                   component={ForgotPassword}
-                />
+                  />
                 <Route
                   exact
                   path="/reset-password/:token"
                   component={ResetPassword}
-                />
+                  />
                 <Route
-                  exact
-                  path="/change-password"
-                  component={ChangePassword}
+                exact
+                path="/change-password"
+                component={ChangePassword}
                 />
-                <PrivateRoute exact path="/learn" component={LearnPage} />
+                {projectsRoutes()}
+                <PrivateRoute exact path="/profile/:id/:tab" component={Profile} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute exact path="/github" component={GitHubPage} />
                 <PrivateRoute exact path="/twitter" component={TwitterPage} />
