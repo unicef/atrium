@@ -205,6 +205,11 @@ spec:
                 secretKeyRef:
                   name: atrium-secret
                   key: aws-bucket-name
+            - name: CLIENT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: api-configmap
+                  key: client_url
           image: appliedblockchain/atrium-app:latest
           name: unin-app
           ports:
