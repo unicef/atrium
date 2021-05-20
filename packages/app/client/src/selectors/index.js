@@ -49,3 +49,10 @@ export const getNumberOfPages = state => state.search.numberOfPages
 // USER
 export const getSearchedUserProjects = state => state.user.searchedProjects
 export const getSearchedUserComments = state => state.user.searchedComments
+
+
+// PROFILE
+export const getProfileBadges = state => state.profile.badges
+export const getProfileName = state => state.profile.info && state.profile.info.name
+export const getProfileAvatar = state => state.profile.info && state.profile.info.avatar
+export const getProfileId = state => state.profile.info && state.profile.info.id
