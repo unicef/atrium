@@ -210,14 +210,14 @@ spec:
                 configMapKeyRef:
                   name: api-configmap
                   key: client_url
-          image: appliedblockchain/atrium-app:latest
+          image: appliedblockchain/atrium-app
           name: unin-app
           ports:
             - containerPort: 5000
           workingDir: /node/app
-          imagePullSecrets:
-            - name: appliedblockchain-reg
-          restartPolicy: Always
+      imagePullSecrets:
+        - name: appliedblockchain-reg
+      restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
