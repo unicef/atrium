@@ -10,7 +10,7 @@ import { getProjectCommentsLength, getProjectCommentsPageCount } from '../../../
 const MAX_COMMENTS_PER_PAGE = 4
 
 const ProjectComments = () => {
-  const { getComments } = useProjectsAsyncActions()
+  const { getComments, getProjectById } = useProjectsAsyncActions()
   const { onChangeParam, getString, getEntriesObj } = useQueryParams()
   const { id } = useParams()
   const { sort, page } = getEntriesObj()
@@ -34,6 +34,7 @@ const ProjectComments = () => {
     })
 
     getComments(id, enhacedQuery)
+    getProjectById(id)
   }
 
   return (
