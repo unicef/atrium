@@ -5,7 +5,6 @@ import { Avatar } from '../../../atoms'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelector } from 'react-redux'
 import { getProfileAvatar, getProfileName } from '../../../../selectors'
-import { ProfileBg } from '../../../assets'
 
 const useStyles = makeStyles(theme => ({
   avatarWrapper: {
@@ -35,12 +34,12 @@ const useStyles = makeStyles(theme => ({
   absoluteWrapper: {
     top: '50%',
     left: '50%',
-    transform: 'translate(-50%, 10%)'
+    transform: 'translate(-50%, -50%)'
   }
 }))
 
 const ProfileHeader = () => {
-  const classes = useStyles({ bgUrl: ProfileBg })
+  const classes = useStyles()
   const profileName = useSelector(getProfileName)
   const profileAvatar = useSelector(getProfileAvatar)
 
@@ -51,21 +50,20 @@ const ProfileHeader = () => {
       height="40vh"
       flexDirection="column"
       mb={5}
+      position="relative" 
     >
-      <Box position="relative" display="flex" width="100%" className={classes.background} >
-        <Box
-          display="flex"
-          position="absolute"
-          justifyContent="center"
-          alignItems="center"
-          flexDirection="column"
-          className={classes.absoluteWrapper}
-        >
-          <Box className={classes.avatarWrapper} display="flex" justifyContent="center" alignItems="center">
-            <Avatar growthTimes={30} src={profileAvatar} name={profileName}/>
-          </Box>
-          <Typography className={classes.userName}>{profileName}</Typography>
+     <Box
+        display="flex"
+        position="absolute"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+        className={classes.absoluteWrapper}
+      >
+        <Box className={classes.avatarWrapper} display="flex" justifyContent="center" alignItems="center">
+          <Avatar growthTimes={30} src={profileAvatar} name={profileName}/>
         </Box>
+        <Typography className={classes.userName}>{profileName}</Typography>
       </Box>
     </Box>
   )
