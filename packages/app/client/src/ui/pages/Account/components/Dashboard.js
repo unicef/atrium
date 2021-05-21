@@ -11,7 +11,12 @@ import {
 } from '../../../atoms'
 import { Badge } from '../../../assets'
 import { makeStyles } from '@material-ui/core/styles'
-import { StructuredCard } from '../../../molecules'
+import { EmptyResults, StructuredCard } from '../../../molecules'
+import combineUserItemsQueryStrings from '../../../../utils/combineUserItemsQueryStrings'
+import { useUserCommentsAsyncActions } from '../../../hooks'
+import { useSelector } from 'react-redux'
+import { getSearchedUserComments } from '../../../../selectors'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(() => ({
   buttons: {
@@ -83,6 +88,21 @@ const useStyles = makeStyles(() => ({
 function Dashboard(props) {
   const { handleChange } = props
   const classes = useStyles()
+  const { fetchSearchedUserComments } = useUserCommentsAsyncActions()
+  const comments = useSelector(getSearchedUserComments)
+  const history = useHistory()
+
+  React.useEffect(() => {
+    const query = combineUserItemsQueryStrings({
+      limit: 6,
+      offset: 0,
+      sort: 'asc'
+    })
+    const requestComments = async () => {
+      await fetchSearchedUserComments(query)
+    }
+    requestComments()
+  }, [])
 
   return (
     <>
@@ -157,7 +177,6 @@ function Dashboard(props) {
             <div>
               <div className={classes.project}>
                 <StructuredCard
-                  author={'Victor'}
                   date="4/26/2021 2:28"
                   title={'best title for project'}
                   content={
@@ -190,14 +209,25 @@ function Dashboard(props) {
               </Button>
             </div>
             <div>
-              <StructuredCard
-                author={'Vanya'}
-                date="4/24/2021 2:28"
-                title={
-                  'Have you ever wondered how your entity could apply blockchain?'
-                }
-              />
-              <div className={classes.line} />
+              {!Array.isArray(comments) || comments.length === 0 ? (
+                <EmptyResults
+                  mainMessage="You don’t have any comments yet"
+                  buttonLabel="Add comment"
+                  handleClick={() => history.push('projects')}
+                  buttonProps={{ className: classes.margined }}
+                />
+              ) : (
+                comments.map((comment, i) => (
+                  <>
+                    <StructuredCard
+                      key={comment.id}
+                      date={comment.date}
+                      title={comment.content}
+                    />
+                    {i === comments.length - 1 ? null : (<div className={classes.line} />)}
+                  </>
+                ))
+              )}
             </div>
           </BorderedInfo>
         </Grid>
