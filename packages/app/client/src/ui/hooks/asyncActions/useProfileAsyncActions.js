@@ -8,7 +8,7 @@ import { getProfileId } from '../../../selectors'
  
 const useProfileAsyncActions = () => {
   const handledRequest = useHandledRequest()
-  const { saveUserInformation, saveProfileProjects, likeProfileProject } = useProfileActions()
+  const { saveUserInformation, saveProfileProjects, likeProfileProject, saveProfileActivities } = useProfileActions()
   const isUserAuthenticated = useIsAuthenticated()
   const profileId = useSelector(getProfileId)
   
@@ -43,6 +43,22 @@ const useProfileAsyncActions = () => {
         successMessage: 'Action successfully performed'
       }
     ),
+    getMoreActivities: (offset, setLoading) => {
+      const request = handledRequest(
+        { 
+          request: UsersApi.getUserActivities,
+          onSuccess: (activities) => {
+            saveProfileActivities(activities)
+          },
+          specificLoading: {
+            show: () => setLoading(true),
+            dismiss: () => setLoading(false)
+          }
+        }
+      )
+
+      request(offset)
+    },
   }
 }
 
