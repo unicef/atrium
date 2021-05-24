@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { refreshToken, verifyEmail } from '../../../actions/authActions'
+import { verifyEmail as verifyEmailAndHash } from '../../../actions/authActions'
 import { registerUser, sendEmailToSignUp } from '../../../api/users'
 import {
   getEmailHash,
@@ -103,21 +103,9 @@ function Register({ initialStep = 0, emailFromProps = undefined }) {
   )
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
-})
-
-const mapDispatchToProps = dispatch => ({
-  verifyEmail: ({ emailHash }) => dispatch(verifyEmail({ emailHash })),
-  refreshToken: () => dispatch(refreshToken())
-})
-
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
-
-const HandleRegistration = enhance(props => {
-  const { location, verifyEmail, refreshToken, history } = props
+const HandleRegistration = props => {
+  const { location, history } = props
   const [FinalComponent, setFinalComponent] = useState(<Loader />)
-  // const [componentProps, setComponentProps] = useState(props)
   const { showToast } = useToast()
   const emailHash = getEmailHash(location.search)
   const invitationCode = getEmailInvtCode(location.search)
@@ -127,9 +115,9 @@ const HandleRegistration = enhance(props => {
       try {
         const {
           data: { registrationCompleted, email }
-        } = await verifyEmail({
+        } = await verifyEmailAndHash({
           emailHash: `${emailHash}/${invitationCode}`
-        })
+        })()
         if (registrationCompleted) {
           history.push('/login')
         } else {
@@ -149,6 +137,6 @@ const HandleRegistration = enhance(props => {
     }
   }, [])
   return FinalComponent
-})
+}
 
 export default HandleRegistration
