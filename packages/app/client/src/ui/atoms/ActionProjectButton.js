@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function ActionProjectButton({ id, type, onClick }) {
+function ActionProjectButton({ type, onClick }) {
   const classes = useStyles()
   return (
     <>
