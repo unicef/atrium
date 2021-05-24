@@ -70,12 +70,6 @@ function Register({ initialStep = 0, emailFromProps = undefined }) {
   }
 
   const createAccount = async ({ name, surname, password }) => {
-    console.log({
-      name,
-      surname,
-      email: verifiedEmail,
-      password
-    })
     try {
       await registerUser({
         name,
@@ -136,10 +130,6 @@ const HandleRegistration = enhance(props => {
         } = await verifyEmail({
           emailHash: `${emailHash}/${invitationCode}`
         })
-        console.log(
-          '🚀 ~ file: index.js ~ line 138 ~ handleVerify ~ registrationCompleted',
-          registrationCompleted
-        )
         if (registrationCompleted) {
           history.push('/login')
         } else {
