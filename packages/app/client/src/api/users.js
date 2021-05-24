@@ -10,12 +10,12 @@ const sendForgotPasswordEmailEndpoint = 'email-forgot-password'
 const resetPasswordEndpoint = 'reset-password'
 const registerUserEndpoint = 'register'
 const loginUserEndpoint = 'login'
-const getSearchUserEndpoint = (params) => {
+const getSearchUserEndpoint = params => {
   const queryKeys = Object.keys(params)
   const queryParams = queryKeys.map((key, index) => {
-    const isTheLastParam = (index + 1) === Object.keys(params).length
+    const isTheLastParam = index + 1 === Object.keys(params).length
 
-    return  `${key}=${params[key]}${isTheLastParam ? '' : '&'}`
+    return `${key}=${params[key]}${isTheLastParam ? '' : '&'}`
   })
   return `search?${queryParams.join('')}`
 }
@@ -150,4 +150,16 @@ export const deleteUser = userId =>
   usersRequest({
     method: 'post',
     endpoint: `delete/${userId}`
+  })
+
+export const getUserLatestProject = () =>
+  usersRequest({
+    method: 'get',
+    endpoint: `latestProject`
+  })
+
+export const getUserLikes = () =>
+  usersRequest({
+    method: 'get',
+    endpoint: `likes`
   })

@@ -32,6 +32,8 @@ const { oneHour } = require('../../config/constants')
 const userSchemas = require('../../validation/users')
 // Load models
 const User = require('../../models/User')
+const Project = require('../../models/Project')
+
 const Activity = require('../../models/Activity')
 const {
   ATRIUM_CONSTANTS,
@@ -175,6 +177,74 @@ router.get(
         'Can not get projects from the database'
       )
       return sendError(res, 503, 'Error getting projects from the database')
+    }
+  }
+)
+
+router.get(
+  '/latestProject',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id
+      },
+      'User is getting latest project'
+    )
+
+    try {
+      const project = await Project.find()
+        .sort({ createdAt: -1 })
+        .limit(1)
+        .populate(projectsPopulateParams)
+      return res.status(200).json({ project })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get latest project from the database'
+      )
+      return sendError(
+        res,
+        503,
+        'Error getting latest project from the database'
+      )
+    }
+  }
+)
+
+router.get(
+  '/likes',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id
+      },
+      'User is getting likes'
+    )
+
+    try {
+      const user = await User.findOne({ _id: req.user.id }).populate({
+        path: 'projects',
+        populate: projectsPopulateParams
+      })
+      const { projects } = user
+      const likes = projects.reduce((acc, el) => acc + el.likes.length, 0)
+      return res.status(200).json({ likes })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get likes from the database'
+      )
+      return sendError(res, 503, 'Error getting likes from the database')
     }
   }
 )
