@@ -19,6 +19,7 @@ const getSearchUserEndpoint = (params) => {
   })
   return `search?${queryParams.join('')}`
 }
+const getUserActivitiesEndpoint = (offset) => `activity?offset=${offset}`
 
 // ERRORS
 export const ERRORS = {
@@ -67,6 +68,12 @@ export const getUserInformation = userId =>
   usersRequest({
     method: 'get',
     endpoint: userId
+  })
+
+export const getUserActivities = offset =>
+  usersRequest({
+    method: 'get',
+    endpoint: getUserActivitiesEndpoint(offset)
   })
 
 export const sendEmailToSignUp = email =>
