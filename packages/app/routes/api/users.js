@@ -1150,9 +1150,14 @@ router.get(
     )
 
     try {
+      if (!req.query.offset) throw new Error('Query offset parameter is missing')
+      const skip = parseInt(req.query.offset)
+
       const activityList = await Activity.find({
         user: req.user.id
       })
+        .skip(skip)
+        .limit(7)
         .sort({ createdAt: 'descending' })
         .populate([
           {
@@ -1387,6 +1392,7 @@ router.get(
         const activityList = await Activity.find({
           user: req.params.id
         })
+          .limit(7)
           .sort({ createdAt: 'descending' })
           .populate([
             {
