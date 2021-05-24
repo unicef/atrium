@@ -22,7 +22,6 @@ const useStyles = makeStyles(() => ({
 
 function StructuredCard({ date, title = '', content = '' }) {
   const classes = useStyles()
-    console.log(title)
   const trimmedContent = useTrimmedText({ text: content, max: 80 })
   const trimmedTitle = useTrimmedText({ text: title, max: 150 })
   return (
