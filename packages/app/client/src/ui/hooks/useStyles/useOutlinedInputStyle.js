@@ -2,14 +2,14 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const styles = makeStyles(theme => (
   {
-    inputLabel: {
-      color: 'black',
+    inputLabel: props => ({
+      color: props.labelColor,
       marginBottom: 6,
       fontStyle: 'normal',
       fontWeight: 500,
       fontSize: '16px',
       lineHeight: '15px',
-    },
+    }),
     input: props => (
       {
         color: props.hasError ? theme.palette.error.main : theme.colors[props.borderColorFocus],
@@ -44,11 +44,11 @@ const styles = makeStyles(theme => (
   }
 ))
 
-const useOutlinedInput = ({ borderColor, padding, borderColorFocus, hasError } = {
+const useOutlinedInput = ({ borderColor, padding, borderColorFocus, hasError, labelColor } = {
   borderColor: 'light-gray-two',
   borderColorFocus: 'black-two',
   padding: '17px 23px 19px 18px',
   hasError: false
-}) => styles({ borderColor, padding, borderColorFocus, hasError })
+}) => styles({ borderColor, padding, borderColorFocus, hasError, labelColor })
 
 export default useOutlinedInput
