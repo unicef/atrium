@@ -6,3 +6,12 @@ export const getEmailHash = searchString => {
   }
   return null
 }
+
+export const getEmailInvtCode = searchString => {
+  const searchParams = new URLSearchParams(searchString)
+
+  if (searchParams.has('code')) {
+    return searchParams.get('code')
+  }
+  return null
+}

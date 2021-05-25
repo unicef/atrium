@@ -54,6 +54,13 @@ export const verifyEmail = ({ emailHash }) => dispatch => {
       throw err
     })
 }
+export const verifyEmailAndHash = ({ emailHash }) =>
+  axios
+    .get(`users/email-verify/${emailHash}`)
+    .then(res => res)
+    .catch(err => {
+      throw err
+    })
 
 // Register User
 export const registerUser = (userData, submitStage) => dispatch => {
