@@ -3,11 +3,11 @@ kind: ConfigMap
 metadata:
   name: api-configmap
 data:
-  client_url: https://proco-chain-demo4.unicef.io/
+  client_url: http://localhost/
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: forum-configmap
 data:
-  url: https://proco-chain-demo4.unicef.io/forum
+  url: localhost/forum
