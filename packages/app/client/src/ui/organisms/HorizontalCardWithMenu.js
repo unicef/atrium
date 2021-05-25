@@ -46,4 +46,9 @@ const HorizontalCardWithMenu = (props) => {
   )
 }
 
+HorizontalCardWithMenu.defaultProps = {
+  menuItems: [],
+  userIsTheOwner: false
+}
+
 export default HorizontalCardWithMenu
