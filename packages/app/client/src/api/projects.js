@@ -11,6 +11,9 @@ const getAddMemberEndpoint = (projectId) => `${projectId}/addMembers`
 const getDeleteMemberEndpoint = (projectId) => `${projectId}/deleteMember`
 const getDeleteUpdateEndpoint = (updateId) => `${updateId}/update`
 const getProjectCommentsEndpoint = (projectId, query) => `${projectId}/comments?${query}`
+const downloadFileEndpoint = (filePath) => `/download/${filePath}`
+
+
 
 // ERRORS
 export const ERRORS = {
@@ -75,8 +78,8 @@ export const deleteComment = (commentId) => projectRequest({
 
 /**
  * Get all comments from a project with pagination and sorting
- * @param {string} projectId 
- * @returns 
+ * @param {string} projectId
+ * @returns
  */
 export const getComments = (projectId, query) => projectRequest({
   method: 'get',
@@ -144,3 +147,8 @@ export const deleteMember = (projectId, memberId) => projectRequest({
 export function deleteFile(projectId, filePath, type) {
   return axios.post(`projects/${projectId}/${type}/deleteFile`, { filePath })
 }
+
+export const downloadFile = (filePath) => projectRequest({
+  method: 'get',
+  endpoint: downloadFileEndpoint(filePath)
+})
