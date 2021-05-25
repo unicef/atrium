@@ -1,14 +1,10 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'recompose'
-import { verifyEmail as verifyEmailAndHash } from '../../../actions/authActions'
+import React, { useEffect, useState } from 'react'
+import { verifyEmailAndHash } from '../../../actions/authActions'
 import { registerUser, sendEmailToSignUp } from '../../../api/users'
 import {
   getEmailHash,
   getEmailInvtCode
 } from '../../../components/auth/Registration/libs/get-email-hash'
-import PollPage from '../../../components/auth/Registration/PollPage'
 import {
   email,
   name,
@@ -117,7 +113,7 @@ const HandleRegistration = props => {
           data: { registrationCompleted, email }
         } = await verifyEmailAndHash({
           emailHash: `${emailHash}/${invitationCode}`
-        })()
+        })
         if (registrationCompleted) {
           history.push('/login')
         } else {
