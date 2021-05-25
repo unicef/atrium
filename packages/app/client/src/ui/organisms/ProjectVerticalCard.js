@@ -87,7 +87,7 @@ const ProjectVerticalCard = ({
       maxHeight={509}
       mediaProps={{
         media: 'image',
-        src: props.src,
+        src: props.src.url,
         title: props.imageTitle,
         height: 208,
         alt: props.imageAlt

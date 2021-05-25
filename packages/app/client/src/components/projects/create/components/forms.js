@@ -862,7 +862,7 @@ export const FirstProjectForm = props => {
                               variant="h5"
                               className={classes.documentName}
                             >
-                              {el.substr(el.indexOf('-') + 1)}
+                              {el.name.substr(el.name.indexOf('-') + 1)}
                             </Typography>
                             <Button
                               color="secondary"
@@ -935,7 +935,7 @@ export const FirstProjectForm = props => {
                               variant="h5"
                               className={classes.documentName}
                             >
-                              {el.substr(el.indexOf('-') + 1)}
+                              {el.name.substr(el.name.indexOf('-') + 1)}
                             </Typography>
                             <Button
                               color="secondary"
@@ -1008,7 +1008,7 @@ export const FirstProjectForm = props => {
                               variant="h5"
                               className={classes.documentName}
                             >
-                              {el.substr(el.indexOf('-') + 1)}
+                              {el.name.substr(el.name.indexOf('-') + 1)}
                             </Typography>
                             <Button
                               color="secondary"
