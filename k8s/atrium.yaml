@@ -80,10 +80,11 @@ spec:
               value: "27017"
             - name: PORT
               value: "4567"
-            - name: SESSION_SECRET
-              value: raging-dog-cat
             - name: URL
-              value: localhost
+              valueFrom:
+                configMapKeyRef:
+                  name: forum-configmap
+                  key: url
           image: appliedblockchain/node-bb-atrium
           name: forum
           ports:
@@ -242,7 +243,7 @@ spec:
   selector:
     matchLabels:
       app: remix
-  strategy: 
+  strategy:
     type: Recreate
   template:
     metadata:
@@ -284,7 +285,7 @@ spec:
   selector:
     matchLabels:
       app: reverse-proxy
-  strategy: 
+  strategy:
     type: Recreate
   template:
     metadata:

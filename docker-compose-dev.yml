@@ -1,7 +1,7 @@
 version: "3.6"
 
 services:
-  forum:
+  forum-service:
     image: appliedblockchain/node-bb-atrium
     build:
       context: packages/node-bb
@@ -10,9 +10,9 @@ services:
       - mongo
     environment:
       - ADMIN_USERNAME=admin
-      - ADMIN_PASSWORD=password123
+      - ADMIN_PASSWORD=Password123!
       - ADMIN_EMAIL=test@unicef.com
-      - URL=localhost
+      - URL=localhost/forum
       - PORT=4567
       - SESSION_SECRET=raging-dog-cat
       - DATABASE_HOST=mongo
@@ -22,7 +22,7 @@ services:
     ports:
       - 4567:4567
 
-  remix:
+  remix-service:
     image: appliedblockchain/remix-atrium
     build:
       context: packages/remix
@@ -95,12 +95,12 @@ services:
 
   reverse-proxy:
     restart: always
-    build: 
+    build:
       context: ./packages/reverse-proxy/custom-config
       dockerfile: ./Dockerfile
     ports:
       - "5000:5000"
-    environment: 
+    environment:
       - SECRET_OR_KEY=raging-dog-cat
     depends_on:
       - app-service
