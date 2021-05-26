@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import { Button, TextField, AttachmentUploader } from '../../../../ui'
+import { Button, TextField, AttachmentUploader, Image } from '../../../../ui'
 import MenuItem from '@material-ui/core/MenuItem'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { useHistory } from 'react-router-dom'
@@ -186,17 +186,15 @@ const useStyles = makeStyles(theme => ({
     width: '46px',
     height: '46px',
     padding: 0,
-    margin: '-35% 0 0 -40%',
     minWidth: 0,
-    borderRadius: '50%'
+    borderRadius: '50%',
+    position: 'absolute',
+    top: '50%',
+    right: '50%',
+    zIndex: 3
   },
   addFileButton: {
     margin: '5% 0'
-  },
-  image: {
-    width: '400px',
-    height: '220px',
-    borderRadius: '5px'
   },
   document: {
     padding: '2% 4%',
@@ -238,6 +236,10 @@ const useStyles = makeStyles(theme => ({
     minWidth: 0,
     width: '5px',
     height: '5px'
+  },
+  imageWrapper: {
+    position: 'relative',
+    marginBottom: '4% '
   }
 }))
 
@@ -335,8 +337,9 @@ export const FirstProjectForm = props => {
     if (!values.projectDescription) {
       errors.projectDescription = 'Required'
     }
-    if(values.projectDescription && values.projectDescription.length > 250) {
-      errors.projectDescription = 'Description must be no longer than 250 characters'
+    if (values.projectDescription && values.projectDescription.length > 250) {
+      errors.projectDescription =
+        'Description must be no longer than 250 characters'
     }
     if (!values.blockchainType) {
       errors.blockchainType = 'Required'
@@ -420,7 +423,7 @@ export const FirstProjectForm = props => {
             noValidate
           >
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} className={classes.imageWrapper}>
                 {values.editting ? (
                   <>
                     <InputLabel
@@ -430,10 +433,11 @@ export const FirstProjectForm = props => {
                     >
                       Project photo
                     </InputLabel>
-                    <img
-                      className={classes.image}
+                    <Image
+                      width="400px"
+                      height="220px"
+                      borderRadius="5px"
                       src={oldPicture || ProjectPicture}
-                      alt="LoadProjectImage"
                     />
                     <input
                       ref={imgInputRef}
@@ -858,20 +862,20 @@ export const FirstProjectForm = props => {
                     {oldFiles && oldFiles[0]
                       ? oldFiles.map(el => (
                           <div key={Math.random()} className={classes.document}>
-                            <Typography
+                          <Typography
                               variant="h5"
                               className={classes.documentName}
                             >
                               {el.name.substr(el.name.indexOf('-') + 1)}
                             </Typography>
-                            <Button
+                          <Button
                               color="secondary"
                               className={classes.deleteButton}
                               onClick={e => deleteHandler(el, 'document')}
                             >
                               <img alt="delete icon" src={DeleteButton} />
                             </Button>
-                          </div>
+                        </div>
                         ))
                       : null}
                   </Grid>
@@ -931,20 +935,20 @@ export const FirstProjectForm = props => {
                     {oldPhotos && oldPhotos[0]
                       ? oldPhotos.map(el => (
                           <div key={Math.random()} className={classes.document}>
-                            <Typography
+                          <Typography
                               variant="h5"
                               className={classes.documentName}
                             >
                               {el.name.substr(el.name.indexOf('-') + 1)}
                             </Typography>
-                            <Button
+                          <Button
                               color="secondary"
                               className={classes.deleteButton}
                               onClick={e => deleteHandler(el, 'photo')}
                             >
                               <img alt="delete icon" src={DeleteButton} />
                             </Button>
-                          </div>
+                        </div>
                         ))
                       : null}
                   </Grid>
@@ -1004,20 +1008,20 @@ export const FirstProjectForm = props => {
                     {oldVideos && oldVideos[0]
                       ? oldVideos.map(el => (
                           <div key={Math.random()} className={classes.document}>
-                            <Typography
+                          <Typography
                               variant="h5"
                               className={classes.documentName}
                             >
                               {el.name.substr(el.name.indexOf('-') + 1)}
                             </Typography>
-                            <Button
+                          <Button
                               color="secondary"
                               className={classes.deleteButton}
                               onClick={e => deleteHandler(el, 'video')}
                             >
                               <img alt="delete icon" src={DeleteButton} />
                             </Button>
-                          </div>
+                        </div>
                         ))
                       : null}
                   </Grid>
