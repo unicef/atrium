@@ -11,7 +11,7 @@ const getAddMemberEndpoint = (projectId) => `${projectId}/addMembers`
 const getDeleteMemberEndpoint = (projectId) => `${projectId}/deleteMember`
 const getDeleteUpdateEndpoint = (updateId) => `${updateId}/update`
 const getProjectCommentsEndpoint = (projectId, query) => `${projectId}/comments?${query}`
-const downloadFileEndpoint = (filePath) => `/download/${filePath}`
+const downloadFileEndpoint = (filePath) => `download/${filePath}`
 
 
 

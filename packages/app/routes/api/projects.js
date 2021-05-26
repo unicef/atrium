@@ -698,7 +698,9 @@ router.patch(
 
 router.get('/download/:s3key', (req, res) => {
   res.setHeader('Content-Disposition', 'download')
-  s3Download(req.params.s3key).pipe(res)
+  // s3Download(req.params.s3key).pipe(res)
+    //`${__dirname}/upload-folder/dramaticpenguin.MOV`
+    res.download(`${__dirname}${req.params.s3key}`)
 })
 
 router.get('/attachment/:s3key', async (req, res) => {

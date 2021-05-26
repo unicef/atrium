@@ -8,6 +8,7 @@ import { Grid } from '@material-ui/core'
 import { CardWithMedia } from '../../../../molecules'
 import { useTrimmedText } from '../../../../hooks'
 import DocumentsBackgroundImage from './DocumentsBackgroundImage'
+import {downloadFile} from "../../../../../api/projects";
 
 const useStyles = makeStyles({
   cardContent: {
@@ -40,6 +41,11 @@ const FilesCard = ({ src, media, extension, name, onClick, size }) => {
   const isDocumentType = media === 'document'
   const sizeText = `${(size / 1000000).toFixed(2)} mb`
 
+  const downloadHandler = async src => {
+    const filePath = src.split('attachment/')[1]
+    await downloadFile(filePath)
+  }
+
   return (
     <CardWithMedia
       maxHeight={300}
@@ -53,7 +59,7 @@ const FilesCard = ({ src, media, extension, name, onClick, size }) => {
       onClick={onClick}
       mediaAreaContent={isDocumentType && <DocumentsBackgroundImage />}
       actionAreaContent={
-        <CardContent className={classes.nameContainer}>  
+        <CardContent className={classes.nameContainer}>
           <Grid zeroMinWidth wrap="nowrap" className={classes.nameWrapper} container item xs={12}>
             <Typography className={classes.text} component="p" className={classes.details}>
               {trimmedName}
@@ -68,6 +74,7 @@ const FilesCard = ({ src, media, extension, name, onClick, size }) => {
            {sizeText}
           </Typography>
           <TextButton
+            onClick={() => downloadHandler(src)}
             textContent="Download"
             startIcon={<SystemUpdateAltOutlinedIcon />}
             color="primary"
