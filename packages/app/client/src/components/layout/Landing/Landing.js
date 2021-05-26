@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import makeStyles from '@material-ui/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
 import { JoinAtrium, SectionContainer } from '../../../ui'
@@ -73,7 +74,8 @@ const theseAreBadVariableNamesThereIsNoReasonToSeparateThem = makeStyles(
     },
     descriptionText: {
       margin: '10% 10% 0 10%',
-      fontSize: 18
+      fontSize: 18,
+      textAlign: 'left',
     }
   })
 )
@@ -196,7 +198,8 @@ const useMoreInfoStyles = makeStyles(theme => ({
   },
   descriptionText: {
     textAlign: 'center',
-    margin: '5%',
+    marginTop: 12,
+    marginBottom: 64,
     fontSize: 18
   },
   container: {
@@ -226,29 +229,10 @@ const Landing = props => {
     }
   ]
 
-  const handleRedirectToLogin = () => {
-    props.history.push('/login')
+  const handleNavigation = (path) => {
+    props.history.push(path)
   }
 
-  const handleRedirectToAddProject = () => {
-    props.history.push('/create-projects')
-  }
-
-  const handleRedirectToSignUp = () => {
-    props.history.push('/register')
-  }
-
-  const handleRedirectToViewProjects = () => {
-    props.history.push('/view-projects')
-  }
-
-  const handleRedirectToLearn = () => {
-    props.history.push('/learn')
-  }
-
-  const handleRedirectToForum = () => {
-    props.history.push('/engage')
-  }
   return (
     <>
       {!props.isAuthenticated && (
@@ -263,7 +247,7 @@ const Landing = props => {
             <div className={welcomeStyles.buttons}>
               <Button
                 color="primary"
-                onClick={handleRedirectToSignUp}
+                onClick={() => handleNavigation('/register')}
                 className={welcomeStyles.signupButton}
               >
                 Join us
@@ -271,7 +255,7 @@ const Landing = props => {
               <Button
                 color="secondary"
                 variant="outlined"
-                onClick={handleRedirectToLogin}
+                onClick={() => handleNavigation('/login')}
                 className={welcomeStyles.loginButton}
               >
                 Sign in
@@ -295,7 +279,7 @@ const Landing = props => {
               {props.isAuthenticated ? (
                 <Button
                   color="primary"
-                  onClick={handleRedirectToAddProject}
+                  onClick={() => handleNavigation('/create-projects')}
                   className={welcomeStyles.addProjectButton}
                 >
                   Add project
@@ -304,7 +288,7 @@ const Landing = props => {
                 <>
                   <Button
                     color="primary"
-                    onClick={handleRedirectToSignUp}
+                    onClick={() => handleNavigation('/register')}
                     className={welcomeStyles.signupButton}
                   >
                     Join us
@@ -312,7 +296,7 @@ const Landing = props => {
                   <Button
                     color="secondary"
                     variant="outlined"
-                    onClick={handleRedirectToLogin}
+                    onClick={() => handleNavigation('/login')}
                     className={welcomeStyles.loginButton}
                   >
                     Sign in
@@ -358,7 +342,7 @@ const Landing = props => {
                 <Button
                   color="primary"
                   className={classes.borderButton}
-                  onClick={handleRedirectToLearn}
+                  onClick={() => handleNavigation('/learn')}
                 >
                   Start learning
                 </Button>
@@ -411,7 +395,7 @@ const Landing = props => {
                 <Button
                   color="primary"
                   className={classes.borderButton}
-                  onClick={handleRedirectToViewProjects}
+                  onClick={() => handleNavigation('/projects')}
                 >
                   See projects
                 </Button>
@@ -442,7 +426,7 @@ const Landing = props => {
                 <Button
                   color="primary"
                   className={classes.borderButton}
-                  onClick={handleRedirectToForum}
+                  onClick={() => handleNavigation('/engage')}
                 >
                   See forum
                 </Button>
@@ -556,15 +540,19 @@ const Landing = props => {
             lg={6}
             style={{ justifyContent: 'center' }}
           >
-            <Typography
-              className={moreInfoStyles.descriptionHeader}
-              variant="h2"
-            >
-              Want more information?
-            </Typography>
-            <Typography variant="h4" className={moreInfoStyles.descriptionText}>
-              Here are some of our Frequently Asked Questions
-            </Typography>
+            <Box width="100%">
+              <Typography
+                className={moreInfoStyles.descriptionHeader}
+                variant="h2"
+                align="center"
+              >
+                Want more information?
+              </Typography>
+              <Typography variant="h4" className={moreInfoStyles.descriptionText}>
+                Here are some of our Frequently Asked Questions
+              </Typography>
+            </Box>
+            
             <Grid item container xs={12}>
               {questions.map(question => (
                 <CollapsableQuestion key={question.title} {...question} />
