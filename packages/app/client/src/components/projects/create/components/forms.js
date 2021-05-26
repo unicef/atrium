@@ -516,7 +516,7 @@ export const FirstProjectForm = props => {
                 )}
                 <FormHelperText className={classes.errorMessage}>
                   {!!(touched.attachment && errors.attachment) && !oldPicture
-                    ? !!touched.attachment && errors.attachment
+                    ? touched.attachment && errors.attachment
                     : null}
                 </FormHelperText>
               </Grid>
@@ -532,7 +532,7 @@ export const FirstProjectForm = props => {
                   onBlur={handleBlur}
                   onKeyPress={disableEnterSubmit}
                   error={!!(touched.projectName && errors.projectName)}
-                  errorMessage={!!touched.projectName && errors.projectName}
+                  errorMessage={touched.projectName && errors.projectName}
                   fullWidth
                   autoFocus
                   value={values.projectName}
@@ -554,7 +554,7 @@ export const FirstProjectForm = props => {
                     !!(touched.projectDescription && errors.projectDescription)
                   }
                   errorMessage={
-                    !!touched.projectDescription && errors.projectDescription
+                    touched.projectDescription && errors.projectDescription
                   }
                   multiline={true}
                   rows="4"
@@ -606,7 +606,7 @@ export const FirstProjectForm = props => {
                 </RadioGroup>
                 <FormHelperText className={classes.errorMessage}>
                   {!!(touched.blockchainType && errors.blockchainType)
-                    ? !!touched.blockchainType && errors.blockchainType
+                    ? touched.blockchainType && errors.blockchainType
                     : null}
                 </FormHelperText>
               </Grid>
@@ -621,9 +621,7 @@ export const FirstProjectForm = props => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={!!(touched.blockchainName && errors.blockchainName)}
-                  errorMessage={
-                    !!touched.blockchainName && errors.blockchainName
-                  }
+                  errorMessage={touched.blockchainName && errors.blockchainName}
                   defaultValue={values.blockchainName}
                   variant="outlined"
                 >
@@ -665,9 +663,7 @@ export const FirstProjectForm = props => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={!!(touched.stageOfProject && errors.stageOfProject)}
-                  errorMessage={
-                    !!touched.stageOfProject && errors.stageOfProject
-                  }
+                  errorMessage={touched.stageOfProject && errors.stageOfProject}
                   defaultValue={values.stageOfProject}
                   id="stageOfProject"
                   name="stageOfProject"
@@ -694,7 +690,7 @@ export const FirstProjectForm = props => {
                     !!(touched.innovationCategory && errors.innovationCategory)
                   }
                   errorMessage={
-                    !!touched.innovationCategory && errors.innovationCategory
+                    touched.innovationCategory && errors.innovationCategory
                   }
                   variant="outlined"
                   displayEmpty
@@ -740,7 +736,7 @@ export const FirstProjectForm = props => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={!!(touched.thematicArea && errors.thematicArea)}
-                  errorMessage={!!touched.thematicArea && errors.thematicArea}
+                  errorMessage={touched.thematicArea && errors.thematicArea}
                   defaultValue={values.thematicArea}
                   fullWidth
                   className={classes.selects}
@@ -1051,7 +1047,7 @@ export const FirstProjectForm = props => {
                       onBlur={handleBlur}
                       onKeyPress={disableEnterSubmit}
                       errorMessage={
-                        !!touched.contactPersonFullName &&
+                        touched.contactPersonFullName &&
                         errors.contactPersonEmail
                       }
                       error={
@@ -1076,7 +1072,7 @@ export const FirstProjectForm = props => {
                       onBlur={handleBlur}
                       onKeyPress={disableEnterSubmit}
                       errorMessage={
-                        !!touched.contactPersonFullName &&
+                        touched.contactPersonFullName &&
                         errors.contactPersonFullName
                       }
                       error={
