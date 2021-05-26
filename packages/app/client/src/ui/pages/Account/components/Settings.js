@@ -5,8 +5,17 @@ import { Button } from '../../../atoms'
 import { useHistory } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import { DeleteActionDialog } from '../../../organisms'
+import { DeleteAccountDialog, DeleteActionDialog } from '../../../organisms'
 import { deleteUser } from '../../../../api/users'
+import { useSearchActions, useUserProjectsAsyncActions } from '../../../hooks'
+import { useSelector } from 'react-redux'
+import {
+  getSearchContext,
+  getSearchedUserProjects,
+  searchCurrentPage,
+  searchSort
+} from '../../../../selectors'
+import combineUserItemsQueryStrings from '../../../../utils/combineUserItemsQueryStrings'
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -22,14 +31,49 @@ const useStyles = makeStyles(() => ({
     width: '184px'
   }
 }))
+const SEARCH_CONTEXT = 'PROJECTS'
 
 function Settings(props) {
   const classes = useStyles()
-  const history = useHistory()
   const [open, setOpen] = useState(false)
+  const [openWish, setOpenWish] = useState(false)
+  const [test, setTest] = useState(false)
 
+  const { setCurrentPageContext, resetSearch } = useSearchActions()
+  const history = useHistory()
+
+  const { fetchSearchedUserProjects } = useUserProjectsAsyncActions()
+  const projects = useSelector(getSearchedUserProjects)
+
+  const sort = useSelector(searchSort)
+  const page = useSelector(searchCurrentPage)
+  const searchContextName = useSelector(getSearchContext)
+
+  React.useEffect(() => {
+    const query = combineUserItemsQueryStrings({
+      limit: 1,
+      offset: 0,
+      sort
+    })
+
+    if (searchContextName !== SEARCH_CONTEXT) {
+      resetSearch()
+      setCurrentPageContext(SEARCH_CONTEXT)
+    }
+
+    const requestProjects = async () => {
+      await fetchSearchedUserProjects(query)
+    }
+
+    requestProjects()
+  }, [sort, page])
+
+  React.useEffect(() => {
+    if (!Array.isArray(projects) || projects.length === 0) setTest(true)
+    else setTest(false)
+  }, [projects])
   const deleteHandler = async userId => {
-    // await deleteUser(userId)
+    await deleteUser(userId)
     window.location.reload()
   }
 
@@ -50,16 +94,24 @@ function Settings(props) {
         </Button>
       </Grid>
       <Grid item xs={12}>
+        <DeleteAccountDialog
+          open={openWish}
+          onConfirm={e => props.handleChange(e, 4)}
+          handleClose={() => setOpenWish(false)}
+        />
         <Button
           className={classes.deleteAccountButton}
           color="primary"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            if (test) setOpen(true)
+            else setOpenWish(true)
+          }}
         >
           Delete account
         </Button>
         <DeleteActionDialog
           open={open}
-          onConfirm={() => deleteHandler(props.id)}
+          // onConfirm={() => deleteHandler(props.id)}
           handleClose={() => setOpen(false)}
         />
       </Grid>
