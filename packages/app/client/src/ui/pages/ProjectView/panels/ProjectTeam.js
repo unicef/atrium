@@ -77,7 +77,7 @@ const ProjectTeam = () => {
           <Typography className={classes.title}>Contact person</Typography>
           <Box mt="15px" mb="50px">
             <Grid container justify="space-between" item xs={12}>
-              <UserInfos {...contact} role="Developer" name="Jhon Doe" containerProps={{ xs: 6, item: true }} />
+              <UserInfos {...contact} containerProps={{ xs: 6, item: true }} />
               <Button onClick={() => history.push(`/profile/${contact.id}/about`)} variant="outlined">
                 View profile
               </Button>

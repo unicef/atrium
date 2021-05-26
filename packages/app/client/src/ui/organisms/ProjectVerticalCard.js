@@ -158,7 +158,7 @@ const ProjectVerticalCard = ({
             <ActionProjectButton
               id={props._id}
               type="edit"
-              onClick={() => history.push(`projects/overview/${props._id}`)}
+              onClick={() => history.push(`/projects/overview/${props._id}`)}
             />
             <ActionProjectButton
               id={props._id}
