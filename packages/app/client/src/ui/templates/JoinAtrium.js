@@ -4,9 +4,10 @@ import Hidden from '@material-ui/core/Hidden'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Typography from '@material-ui/core/Typography'
 import SectionContainer from './SectionContainer'
+import Form from '../organisms/Form'
 import { Title, TextField, Button, TextButton } from '../atoms'
 import { makeStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
+import { joinFormFields } from '../utils'
 
 const useStyles = makeStyles(theme => ({
   text: {
@@ -34,18 +35,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: 30,
     marginBottom: 30
   },
-  contactForm: {
-    width: '100%',
-    alignItems: 'center'
-  },
-  contactButton: {
-    margin: '5% 0',
-    color: 'rgb(23, 143, 226)',
-    backgroundColor: 'white'
-  },
-  inputLabel: {
-    color: 'white',
-    margin: '3% 0 1% 0'
+  submit: {
+    padding: 3,
+    '&:disabled': {
+      backgroundColor: 'transparent'
+    }
   }
 }))
 
@@ -65,11 +59,8 @@ const JoinAtrium = ({
   const classes = useStyles()
   const [email, setEmail] = useState(undefined)
   const [openForm, setOpenForm] = useState(false)
-  const [subject, setSubject] = useState('')
-  const [message, setMessage] = useState('')
-  const [fullName, setFullName] = useState('')
-  const submitHandler = e => {
-    e.preventDefault()
+
+  const submitHandler = ({ subject, message, fullName, setSubmitting }) => {
     window.open(
       'mailto:blockchain@uninnovation.network?subject=' +
         subject +
@@ -81,7 +72,9 @@ const JoinAtrium = ({
         fullName
     )
     setOpenForm(false)
+    setSubmitting(false)
   }
+
   return (
     <SectionContainer
       justify="center"
@@ -102,15 +95,9 @@ const JoinAtrium = ({
         md={8}
       >
         <Grid justify="center" item container xs={12} sm={8} md={6}>
-          {isAuthenticated ? (
-            <Title contrast mb={30}>
-              Invite to Atrium
-            </Title>
-          ) : (
-            <Title contrast mb={30}>
-              Join Atrium now
-            </Title>
-          )}
+          <Title contrast mb={30}>
+            {isAuthenticated ? 'Invite to Atrium' : ' Join Atrium now'}
+          </Title>
 
           <TextField
             borderColor="white"
@@ -124,6 +111,7 @@ const JoinAtrium = ({
                   disabled={!email}
                   size="full"
                   labelColor="white"
+                  className={classes.submit}
                   onClick={() => (document.location.href = `mailto:${email}`)}
                 />
               </InputAdornment>
@@ -148,69 +136,12 @@ const JoinAtrium = ({
           </Grid>
 
           {openForm ? (
-            <form
-              onSubmit={e => submitHandler(e)}
-              className={classes.contactForm}
-            >
-              <InputLabel
-                className={classes.inputLabel}
-                shrink
-                htmlFor="subject"
-              >
-                Subject
-              </InputLabel>
-              <TextField
-                id="subject"
-                name="subject"
-                borderColor="white"
-                borderColorFocus="white"
-                fullWidth
-                placeholder="Partnership"
-                onChange={e => setSubject(e.target.value)}
-              />
-              <InputLabel
-                className={classes.inputLabel}
-                shrink
-                htmlFor="message"
-              >
-                Message for Atrium team
-              </InputLabel>
-              <TextField
-                id="message"
-                name="message"
-                borderColor="white"
-                borderColorFocus="white"
-                fullWidth
-                multiline={true}
-                rows={5}
-                placeholder="Hello"
-                onChange={e => setMessage(e.target.value)}
-              />
-              <InputLabel
-                className={classes.inputLabel}
-                shrink
-                htmlFor="fullName"
-              >
-                FullName
-              </InputLabel>
-              <TextField
-                id="fullName"
-                name="fullName"
-                borderColor="white"
-                borderColorFocus="white"
-                fullWidth
-                placeholder="Ivan Ivanov"
-                onChange={e => setFullName(e.target.value)}
-              />
-              <Button
-                className={classes.contactButton}
-                size="full"
-                fullWidth
-                type="submit"
-              >
-                Send
-              </Button>
-            </form>
+            <Form
+              fields={joinFormFields}
+              submit={submitHandler}
+              submitLabel="Send"
+              buttonProps={{ color: 'secondary', labelColor: 'blue-info', size: 'full' }}
+            />
           ) : (
             <Button
               component="a"
