@@ -140,7 +140,7 @@ function Dashboard(props) {
                   </div>
                   <div className={classes.greenLine} />
                   <div className={classes.count}>
-                    {likes ? likes : null}
+                    {likes ? likes : 0}
                   </div>
                 </div>
                 <Button className={classes.buttons} color="primary">
