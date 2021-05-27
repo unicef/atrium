@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import { Button, TextField, AttachmentUploader, Select } from '../../../../ui'
+import { Button, TextField, AttachmentUploader, Select, Image } from '../../../../ui'
 import MenuItem from '@material-ui/core/MenuItem'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { useHistory } from 'react-router-dom'
@@ -187,17 +187,15 @@ const useStyles = makeStyles(theme => ({
     width: '46px',
     height: '46px',
     padding: 0,
-    margin: '-35% 0 0 -40%',
     minWidth: 0,
-    borderRadius: '50%'
+    borderRadius: '50%',
+    position: 'absolute',
+    top: '50%',
+    right: '50%',
+    zIndex: 3
   },
   addFileButton: {
     margin: '5% 0'
-  },
-  image: {
-    width: '400px',
-    height: '220px',
-    borderRadius: '5px'
   },
   document: {
     padding: '2% 4%',
@@ -247,6 +245,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: '13px',
     lineHeight: '140%',
     color: theme.palette.error.main
+  },
+  imageWrapper: {
+    position: 'relative',
+    marginBottom: '4% '
   }
 }))
 
@@ -435,7 +437,7 @@ export const FirstProjectForm = props => {
             noValidate
           >
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} className={classes.imageWrapper}>
                 {values.editting ? (
                   <>
                     <InputLabel
@@ -445,10 +447,11 @@ export const FirstProjectForm = props => {
                     >
                       Project photo
                     </InputLabel>
-                    <img
-                      className={classes.image}
+                    <Image
+                      width="400px"
+                      height="220px"
+                      borderRadius="5px"
                       src={oldPicture || ProjectPicture}
-                      alt="LoadProjectImage"
                     />
                     <input
                       ref={imgInputRef}

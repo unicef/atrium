@@ -30,6 +30,7 @@ const Form = ({ fields, children, ...props }) => {
                 color="primary"
                 fullWidth
                 disabled={formProps.isSubmitting || !formProps.isValid}
+                {...props.buttonProps}
               >
                 {props.submitLabel}
               </Button>
@@ -42,6 +43,7 @@ const Form = ({ fields, children, ...props }) => {
 }
 
 Form.defaultProps = {
+  buttonProps: {},
   buttonLayout: { xs: 12 }
 }
 

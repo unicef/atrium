@@ -197,7 +197,7 @@ router.get(
       const project = await Project.find()
         .sort({ createdAt: -1 })
         .limit(1)
-        .populate(projectsPopulateParams)
+        .populate(projectsPopulateParams)[0]
       return res.status(200).json({ project })
     } catch (error) {
       log.info(
