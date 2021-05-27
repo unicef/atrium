@@ -50,11 +50,6 @@ function Settings(props) {
   const searchContextName = useSelector(getSearchContext)
 
   React.useEffect(() => {
-    if (!Array.isArray(projects) || projects.length === 0) setTest(true)
-    else setTest(false)
-  }, [projects])
-
-  React.useEffect(() => {
     const query = combineUserItemsQueryStrings({
       limit: 1,
       offset: 0,
@@ -77,6 +72,7 @@ function Settings(props) {
     if (!Array.isArray(projects) || projects.length === 0) setTest(true)
     else setTest(false)
   }, [projects])
+
   const deleteHandler = async userId => {
     await deleteUser(userId)
     window.location.reload()
