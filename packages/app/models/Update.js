@@ -8,7 +8,8 @@ const UpdateSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  reported: { type: Boolean }
 })
 
 UpdateSchema.set('toJSON', {

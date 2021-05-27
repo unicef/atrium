@@ -43,7 +43,6 @@ const populateParams = [
   }
 ]
 
-
 router.get(
   '/:commentId',
   passport.authenticate('jwt', { session: false }),
@@ -180,6 +179,45 @@ router.post(
         }
       }
     )
+  }
+)
+
+router.get(
+  '/:commentId/report',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        comment: req.params.commentId
+      },
+      'User is reporting comment'
+    )
+    try {
+      const comment = await Comment.findOneAndUpdate(
+        { _id: req.params.commentId },
+        { reported: true }
+      ).populate(populateParams)
+
+      log.info(
+        {
+          requestId: req.id,
+          comment
+        },
+        'Success reporting comment'
+      )
+      return res.status(200).json({ comment })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get comment from the database'
+      )
+      return sendError(res, 503, 'Error getting comment from the database')
+    }
   }
 )
 
