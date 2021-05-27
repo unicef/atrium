@@ -45,7 +45,8 @@ const ProjectSchema = new Schema({
   section: { type: String },
 
   team: [{ type: Schema.Types.ObjectId, ref: 'users' }],
-  updates: [{ type: Schema.Types.ObjectId, ref: 'updates' }]
+  updates: [{ type: Schema.Types.ObjectId, ref: 'updates' }],
+  reported: { type: Boolean }
 })
 
 ProjectSchema.set('toJSON', {
