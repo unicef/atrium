@@ -548,51 +548,7 @@ router.delete(
         },
         'Project deleted successfully'
       )
-
-      const pathOfOwnerAndRepo = response.linkToRepository.replace(
-        'https://github.com/',
-        ''
-      )
-      const [owner, repo] = pathOfOwnerAndRepo.split('/')
-      // Project is to be kept on GitHub for now
-      try {
-        log.info(
-          {
-            requestId: req.id,
-            user: req.user.id,
-            project: req.params.id
-          },
-          'Deleting project from github'
-        )
-        // await GithubLibrary.deleteRepoFromGitHub(owner, repo)
-
-        log.info(
-          {
-            requestId: req.id,
-            user: req.user.id,
-            project: req.params.id
-          },
-          'Project deleted successfully from github'
-        )
-        return res.json({
-          message: 'Repo is removed from the database and GitHub!'
-        })
-      } catch (err) {
-        log.error(
-          {
-            err,
-            requestId: req.id,
-            user: req.user.id,
-            project: req.params.id
-          },
-          'Error deleting project from github'
-        )
-        return sendError(
-          res,
-          424,
-          'Error removing repo from GitHub. Please try again'
-        )
-      }
+      res.json({ message: 'Project deleted successfully' })
     })
   }
 )
