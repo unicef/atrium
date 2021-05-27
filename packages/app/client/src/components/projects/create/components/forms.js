@@ -8,9 +8,9 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
-import Select from '@material-ui/core/Select'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import { Button, TextField, AttachmentUploader, Image } from '../../../../ui'
+import { Button, TextField, AttachmentUploader, Select, Image } from '../../../../ui'
 import MenuItem from '@material-ui/core/MenuItem'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { useHistory } from 'react-router-dom'
@@ -170,7 +170,8 @@ const useStyles = makeStyles(theme => ({
   },
   inputLabel: {
     color: 'black',
-    marginBottom: 6
+    marginBottom: 6,
+    fontWeight: 500
   },
   radioButton: {
     color: 'grey'
@@ -236,6 +237,14 @@ const useStyles = makeStyles(theme => ({
     minWidth: 0,
     width: '5px',
     height: '5px'
+  },
+  errorMessage: {
+    marginLeft: 0,
+    fontStyle: 'normal',
+    fontWeight: 600,
+    fontSize: '13px',
+    lineHeight: '140%',
+    color: theme.palette.error.main
   },
   imageWrapper: {
     position: 'relative',
@@ -332,29 +341,32 @@ export const FirstProjectForm = props => {
     const errors = {}
 
     if (!values.projectName) {
-      errors.projectName = 'Required'
+      errors.projectName = 'Project name is required'
     }
     if (!values.projectDescription) {
-      errors.projectDescription = 'Required'
+      errors.projectDescription = 'Project description is required'
     }
     if (values.projectDescription && values.projectDescription.length > 250) {
       errors.projectDescription =
         'Description must be no longer than 250 characters'
     }
     if (!values.blockchainType) {
-      errors.blockchainType = 'Required'
+      errors.blockchainType = 'Blockchain type is required'
+    }
+    if (!oldPicture && !values.attachment) {
+      errors.attachment = 'Project photo is required'
     }
     if (!values.blockchainName) {
-      errors.blockchainName = 'Required'
+      errors.blockchainName = 'Blockchain name is required'
     }
     if (!values.stageOfProject) {
-      errors.stageOfProject = 'Required'
+      errors.stageOfProject = 'Stage of project is required'
     }
     if (!values.innovationCategory) {
-      errors.innovationCategory = 'Required'
+      errors.innovationCategory = 'Innovation category is required'
     }
     if (!values.thematicArea) {
-      errors.thematicArea = 'Required'
+      errors.thematicArea = 'Thematic area is required'
     }
     if (
       values.contactPersonEmail &&
@@ -365,10 +377,12 @@ export const FirstProjectForm = props => {
       errors.contactPersonEmail = 'Invalid email address'
     }
     if (!contactPerson && !values.contactPersonEmail) {
-      errors.contactPersonEmail = 'Please also fill out project owner email'
+      errors.contactPersonEmail =
+        'Please also fill out project contact person email'
     }
     if (!contactPerson && !values.contactPersonFullName) {
-      errors.contactPersonFullName = 'Please also fill out project owner name'
+      errors.contactPersonFullName =
+        'Please also fill out project contact person name'
     }
     return errors
   }
@@ -503,43 +517,37 @@ export const FirstProjectForm = props => {
                     />
                   </div>
                 )}
+                <FormHelperText className={classes.errorMessage}>
+                  {!!(touched.attachment && errors.attachment) && !oldPicture
+                    ? touched.attachment && errors.attachment
+                    : null}
+                </FormHelperText>
               </Grid>
               <Grid item xs={12}>
-                <InputLabel
-                  className={classes.inputLabel}
-                  shrink
-                  htmlFor="projectName"
-                >
-                  Project name
-                </InputLabel>
                 <TextField
                   className={classes.formElement}
                   id="projectName"
                   variant="outlined"
                   name="projectName"
+                  htmlFor="projectName"
+                  label="Project name"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   onKeyPress={disableEnterSubmit}
                   error={!!(touched.projectName && errors.projectName)}
-                  errorMessage={!!values.projectName && errors.projectName}
+                  errorMessage={touched.projectName && errors.projectName}
                   fullWidth
                   autoFocus
-                  required
                   value={values.projectName}
                 />
               </Grid>
               <Grid item xs={12}>
-                <InputLabel
-                  className={classes.inputLabel}
-                  shrink
-                  htmlFor="projectDescription"
-                >
-                  Project description
-                </InputLabel>
                 <TextField
                   id="projectDescription"
                   name="projectDescription"
                   variant="outlined"
+                  htmlFor="projectDescription"
+                  label="Project description"
                   onChange={e => {
                     handleChange(e)
                     setCharacters(e.target.value.length)
@@ -549,7 +557,7 @@ export const FirstProjectForm = props => {
                     !!(touched.projectDescription && errors.projectDescription)
                   }
                   errorMessage={
-                    !!values.projectDescription && errors.projectDescription
+                    touched.projectDescription && errors.projectDescription
                   }
                   multiline={true}
                   rows="4"
@@ -585,10 +593,6 @@ export const FirstProjectForm = props => {
                   name="blockchainType"
                   id="blockchainType"
                   onChange={handleChange}
-                  error={!!(touched.blockchainType && errors.blockchainType)}
-                  errorMessage={
-                    !!values.blockchainType && errors.blockchainType
-                  }
                   onBlur={handleBlur}
                   value={values.blockchainType}
                 >
@@ -603,26 +607,24 @@ export const FirstProjectForm = props => {
                     label="Permissioned"
                   />
                 </RadioGroup>
+                <FormHelperText className={classes.errorMessage}>
+                  {!!(touched.blockchainType && errors.blockchainType)
+                    ? touched.blockchainType && errors.blockchainType
+                    : null}
+                </FormHelperText>
               </Grid>
               <Grid item xs={12}>
-                <InputLabel
-                  className={classes.inputLabel}
-                  shrink
-                  htmlFor="blockchainName"
-                >
-                  Blockchain name
-                </InputLabel>
                 <Select
                   className={classes.selects}
                   id="blockchainName"
                   name="blockchainName"
+                  htmlFor="blockchainName"
+                  label="Blockchain name"
                   displayEmpty
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={!!(touched.blockchainName && errors.blockchainName)}
-                  errorMessage={
-                    !!values.blockchainName && errors.blockchainName
-                  }
+                  errorMessage={touched.blockchainName && errors.blockchainName}
                   defaultValue={values.blockchainName}
                   variant="outlined"
                 >
@@ -655,23 +657,16 @@ export const FirstProjectForm = props => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <InputLabel
-                  className={classes.inputLabel}
-                  shrink
-                  htmlFor="stageOfProject"
-                >
-                  Stage of project
-                </InputLabel>
                 <Select
                   className={classes.selects}
+                  htmlFor="stageOfProject"
+                  label="Stage of project"
                   variant="outlined"
                   displayEmpty
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={!!(touched.stageOfProject && errors.stageOfProject)}
-                  errorMessage={
-                    !!values.stageOfProject && errors.stageOfProject
-                  }
+                  errorMessage={touched.stageOfProject && errors.stageOfProject}
                   defaultValue={values.stageOfProject}
                   id="stageOfProject"
                   name="stageOfProject"
@@ -687,14 +682,9 @@ export const FirstProjectForm = props => {
                 </Select>
               </Grid>
               <Grid item xs={12}>
-                <InputLabel
-                  className={classes.inputLabel}
-                  shrink
-                  id="innovationCategory"
-                >
-                  Innovation category
-                </InputLabel>
                 <Select
+                  htmlFor="innovationCategory"
+                  label="Innovation category"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   defaultValue={values.innovationCategory}
@@ -703,7 +693,7 @@ export const FirstProjectForm = props => {
                     !!(touched.innovationCategory && errors.innovationCategory)
                   }
                   errorMessage={
-                    !!values.innovationCategory && errors.innovationCategory
+                    touched.innovationCategory && errors.innovationCategory
                   }
                   variant="outlined"
                   displayEmpty
@@ -740,21 +730,16 @@ export const FirstProjectForm = props => {
                 </Select>
               </Grid>
               <Grid item xs={12}>
-                <InputLabel
-                  className={classes.inputLabel}
-                  shrink
-                  id="thematicArea"
-                >
-                  Thematic area
-                </InputLabel>
                 <Select
                   id="thematicArea"
                   name="thematicArea"
+                  htmlFor="thematicArea"
+                  label="Thematic area"
                   variant="outlined"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={!!(touched.thematicArea && errors.thematicArea)}
-                  errorMessage={!!values.thematicArea && errors.thematicArea}
+                  errorMessage={touched.thematicArea && errors.thematicArea}
                   defaultValue={values.thematicArea}
                   fullWidth
                   className={classes.selects}
@@ -1053,16 +1038,11 @@ export const FirstProjectForm = props => {
               {contactPerson ? null : (
                 <>
                   <Grid item xs={12}>
-                    <InputLabel
-                      className={classes.inputLabel}
-                      shrink
-                      htmlFor="projectOwnerEmail"
-                    >
-                      Contact person's e-mail
-                    </InputLabel>
                     <TextField
                       id="contactPersonEmail"
                       type="email"
+                      htmlFor="projectOwnerEmail"
+                      label="Contact person's e-mail"
                       variant="outlined"
                       name="contactPersonEmail"
                       onChange={handleChange}
@@ -1070,7 +1050,7 @@ export const FirstProjectForm = props => {
                       onBlur={handleBlur}
                       onKeyPress={disableEnterSubmit}
                       errorMessage={
-                        !!values.contactPersonFullName &&
+                        touched.contactPersonFullName &&
                         errors.contactPersonEmail
                       }
                       error={
@@ -1084,23 +1064,18 @@ export const FirstProjectForm = props => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <InputLabel
-                      className={classes.inputLabel}
-                      shrink
-                      htmlFor="contactPersonFullName"
-                    >
-                      Contact person's full name
-                    </InputLabel>
                     <TextField
                       id="contactPersonFullName"
                       name="contactPersonFullName"
+                      htmlFor="contactPersonFullName"
+                      label="Contact person's full name"
                       variant="outlined"
                       placeholder="Ivan Ivanov"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       onKeyPress={disableEnterSubmit}
                       errorMessage={
-                        !!touched.contactPersonFullName &&
+                        touched.contactPersonFullName &&
                         errors.contactPersonFullName
                       }
                       error={
