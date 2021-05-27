@@ -5,7 +5,7 @@ const useStyles = makeStyles(theme => (
     navLink: (props) => {
       const textTransform = props.lowerCase ? {} : { textTransform: 'uppercase' }
       return {
-        fontFamily: 'Red Hat Display Medium, sans-serif',
+        fontFamily: theme.typography.fontFamily,
         position: 'relative',
         fontSize: props.fontSize || 12,
         [theme.breakpoints.down("xs")]: {
