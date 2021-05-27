@@ -5,7 +5,7 @@ import { Button } from '../../../atoms'
 import { useHistory } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import { DeleteAccountDialog, DeleteActionDialog } from '../../../organisms'
+import { ActionDialog } from '../../../organisms'
 import { deleteUser } from '../../../../api/users'
 import { useSearchActions, useUserProjectsAsyncActions } from '../../../hooks'
 import { useSelector } from 'react-redux'
@@ -72,6 +72,7 @@ function Settings(props) {
     if (!Array.isArray(projects) || projects.length === 0) setTest(true)
     else setTest(false)
   }, [projects])
+
   const deleteHandler = async userId => {
     await deleteUser(userId)
     window.location.reload()
@@ -94,8 +95,11 @@ function Settings(props) {
         </Button>
       </Grid>
       <Grid item xs={12}>
-        <DeleteAccountDialog
+        <ActionDialog
           open={openWish}
+          title="You need to transfer ownership of all your projects first."
+          content="By click 'Got it' you will be send to projects page"
+          buttonLabel="Got it"
           onConfirm={e => props.handleChange(e, 4)}
           handleClose={() => setOpenWish(false)}
         />
@@ -109,7 +113,7 @@ function Settings(props) {
         >
           Delete account
         </Button>
-        <DeleteActionDialog
+        <ActionDialog
           open={open}
           // onConfirm={() => deleteHandler(props.id)}
           handleClose={() => setOpen(false)}
