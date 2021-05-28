@@ -285,7 +285,7 @@ router.post(
         attachment: req.file
           ? {
               url: `${req.connection.encrypted ? 'https' : 'http'}://${
-                req.headers.host
+                process.env.CLIENT_URL
               }${req.baseUrl}/attachment/${req.file.key}`,
               name: req.file.key,
               extension: req.file.mimetype,
@@ -408,7 +408,7 @@ router.put(
         req.files && req.files.attachment // How do I relative path?
           ? {
               url: `${req.connection.encrypted ? 'https' : 'http'}://${
-                req.headers.host
+                process.env.CLIENT_URL
               }${req.baseUrl}/attachment/${req.files.attachment[0].key}`,
               name: req.files.attachment[0].key,
               extension: req.files.attachment[0].mimetype,
@@ -421,7 +421,7 @@ router.put(
               ...oldProject.documents,
               {
                 url: `${req.connection.encrypted ? 'https' : 'http'}://${
-                  req.headers.host
+                  process.env.CLIENT_URL
                 }${req.baseUrl}/attachment/${req.files.documents[0].key}`,
                 name: req.files.documents[0].key,
                 extension: req.files.documents[0].mimetype,
@@ -435,7 +435,7 @@ router.put(
               ...oldProject.videos,
               {
                 url: `${req.connection.encrypted ? 'https' : 'http'}://${
-                  req.headers.host
+                  process.env.CLIENT_URL
                 }${req.baseUrl}/attachment/${req.files.videos[0].key}`,
                 name: req.files.videos[0].key,
                 extension: req.files.videos[0].mimetype,
@@ -449,7 +449,7 @@ router.put(
               ...oldProject.photos,
               {
                 url: `${req.connection.encrypted ? 'https' : 'http'}://${
-                  req.headers.host
+                  process.env.CLIENT_URL
                 }${req.baseUrl}/attachment/${req.files.photos[0].key}`,
                 name: req.files.photos[0].key,
                 extension: req.files.photos[0].mimetype,
