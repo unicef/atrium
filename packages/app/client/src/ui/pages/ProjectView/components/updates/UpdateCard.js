@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
 import UpdateEdition from './UpdateEdition'
 import { makeStyles } from '@material-ui/core/styles'
-import { HorizontalCardWithMenu, DeleteActionDialog } from '../../../../organisms'
+import { HorizontalCardWithMenu, ActionDialog } from '../../../../organisms'
 import { CardInfoRow } from '../../../../molecules'
 import { UserLink } from '../../../../organisms'
 import { useSelector } from 'react-redux'
@@ -56,7 +56,7 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
 
   const projectId = useSelector(getCurrentProjectId)
   const userId = useSelector(getUserId)
-  
+
   const userIsTheOwner = owner.id === userId
   const textContent = showTheCompleteText ? text : trimmedText
   const showMoreButtonVisible = !editMode && text.length > TEXT_MAX_LENGTH
@@ -114,10 +114,10 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
           {showMoreButtonVisible && <ShowMoreButton isShowingMore={showTheCompleteText}  handleClick={() => setTextVisibility(show => !show)} />}
         </Grid>
       </HorizontalCardWithMenu>
-      <DeleteActionDialog
+      <ActionDialog
         open={showDeletionModal}
         handleClose={() => setDeletionModalVisibility(false)}
-        onConfirm={async () => { 
+        onConfirm={async () => {
           await deleteUpdate(id)
           setDeletionModalVisibility(false)
           await getProjectById(projectId)

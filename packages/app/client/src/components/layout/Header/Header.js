@@ -12,7 +12,6 @@ import { logoutUser } from '../../../actions/authActions'
 import ProfilePictureHeader from './ProfilePictureHeader'
 import Navbar from './Navbar'
 import DropdownHeaderMenu from './DropdownHeaderMenu'
-import LimitedHeader from './LimitedHeader'
 import { Button } from '../../../ui'
 
 const exclusivePaths = ['/create-projects', '/create-polls']
@@ -92,6 +91,10 @@ const Header = ({ logoutUser, auth, classes, location, ...props }) => {
 
   const handleRedirectToSignUp = () => {
     props.history.push('/register')
+  }
+
+  if (location.pathname === '/') {
+    return null
   }
 
   if (exclusivePaths.includes(location.pathname)) {

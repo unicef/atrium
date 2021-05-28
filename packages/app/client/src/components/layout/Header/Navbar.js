@@ -13,8 +13,8 @@ const styles = theme => ({
 
 const links = [
   { path: '/learn', name: 'Learn', public: true },
-  { path: '/projects', name: 'Projects', public: false },
-  { path: '/engage', name: 'Forum', public: false }
+  { path: '/projects', name: 'Projects', public: true },
+  { path: '/engage', name: 'Forum', public: true }
 ]
 
 const NavBar = ({ classes }) => {

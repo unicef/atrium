@@ -2,7 +2,7 @@ import React from 'react'
 import Box from '@material-ui/core/Box'
 import SubdirectoryArrowRightOutlinedIcon from '@material-ui/icons/SubdirectoryArrowRightOutlined'
 import HorizontalCardWithMenu from './HorizontalCardWithMenu'
-import DeleteActionDialog from './DeleteActionDialog'
+import ActionDialog from './ActionDialog'
 import { TextButton, Authorship } from '../atoms'
 import { TextWithMentions, CardInfoRow, UserInfoTooltip, CommentInput } from '../molecules'
 import { useSelector } from 'react-redux'
@@ -11,7 +11,7 @@ import { editComment } from '../../api/projects'
 import { useHandledRequest } from '../hooks'
 import { Link } from 'react-router-dom'
 
-const Comment = ({ 
+const Comment = ({
   handleToggleReplies,
   src,
   content,
@@ -49,10 +49,10 @@ const Comment = ({
   ]
 
   const handledRequest = useHandledRequest()
- 
+
   const updateComment = async ({ commentId, content }) => {
     const request = handledRequest(
-      { 
+      {
         request: editComment,
         onSuccess: () => {
           setContent(content)
@@ -82,7 +82,7 @@ const Comment = ({
                 </Link>
               </span>
             </UserInfoTooltip>
-            {showEdit ? 
+            {showEdit ?
              <CommentInput
               onCancel={() => setEdit(false)}
               cancelButton
@@ -93,7 +93,7 @@ const Comment = ({
               buttonPlacement="outside"
               submitLabel="Confirm"
               handleSubmit={(content) => updateComment({ content, commentId: id })}
-            /> : 
+            /> :
               <TextWithMentions
                 mentions={mentions}
               >
@@ -131,7 +131,7 @@ const Comment = ({
           }
 
           <Box>
-            {hasChildren && 
+            {hasChildren &&
               <TextButton
                 textContent={`${numberOfReplies} Replies`}
                 startIcon={<SubdirectoryArrowRightOutlinedIcon />}
@@ -142,7 +142,7 @@ const Comment = ({
 
         </Box>
       </HorizontalCardWithMenu>
-      <DeleteActionDialog
+      <ActionDialog
         open={showDeletionModal}
         handleClose={() => setDeletionModalVisibility(false)}
         onConfirm={() => {
