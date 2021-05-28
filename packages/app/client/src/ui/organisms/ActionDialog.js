@@ -16,24 +16,33 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const DeleteActionDialog = ({ onConfirm, open, handleClose }) => {
+const ActionDialog = ({
+  title,
+  content,
+  buttonLabel,
+  onConfirm,
+  open,
+  handleClose
+}) => {
   const classes = useStyles()
 
   return (
-    <Dialog classes={{ paper: classes.paper }} maxWidth="xs" open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+    <Dialog
+      classes={{ paper: classes.paper }}
+      maxWidth="xs"
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title"
+    >
       <DialogTitle id="form-dialog-title">
-        <Typography variant="h4">
-          Are you sure ?
-        </Typography>
+        <Typography variant="h4">{title}</Typography>
       </DialogTitle>
-      <DialogContent >
-        <Typography variant="caption1">
-          This action cannot be undone!
-        </Typography>
+      <DialogContent>
+        <Typography variant="caption1">{content}</Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={onConfirm} color="danger">
-          Delete
+          {buttonLabel}
         </Button>
         <Button onClick={handleClose} color="primary">
           Cancel
@@ -42,5 +51,10 @@ const DeleteActionDialog = ({ onConfirm, open, handleClose }) => {
     </Dialog>
   )
 }
+ActionDialog.defaultProps = {
+  title: 'Are you sure ?',
+  content: 'This action cannot be undone!',
+  buttonLabel: 'Delete'
+}
 
-export default DeleteActionDialog
+export default ActionDialog

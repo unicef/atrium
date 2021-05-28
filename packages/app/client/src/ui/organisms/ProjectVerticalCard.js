@@ -16,7 +16,7 @@ import { CardInfoRow, CardWithMedia } from '../molecules'
 import { mergeClassNames, dateFormatter } from '../utils'
 import { useProjectsAsyncActions, useTrimmedText } from '../hooks'
 import { useHistory } from 'react-router-dom'
-import { DeleteActionDialog } from './index'
+import { ActionDialog } from './index'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -167,7 +167,7 @@ const ProjectVerticalCard = ({
               type="delete"
               onClick={() => setOpen(true)}
             />
-            <DeleteActionDialog
+            <ActionDialog
               open={open}
               onConfirm={() => deleteHandler(props.id)}
               handleClose={() => setOpen(false)}
