@@ -1,5 +1,6 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
 import { SectionContainer } from '../../../templates'
@@ -56,11 +57,11 @@ const AtriumBlockchain = () => {
       </Grid>
 
       <Grid id="directLearning" item xs={12}>
-        <div>
+        <Box mb="25px">
           <Typography variant="h3">
             Directed learning
           </Typography>
-        </div>
+        </Box>
 
         <BorderedTextBoxWithButton hideBorder buttonLabel="View learning paths">
           If you're interested in being guided through tasks that build on basic blockchain concepts, the Directed Learning section allows you to follow different learning paths and earn points at the same time.

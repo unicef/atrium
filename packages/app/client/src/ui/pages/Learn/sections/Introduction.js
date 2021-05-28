@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
   text: {
+    fontFamily: 'Roboto, sans-serif',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '15px',
