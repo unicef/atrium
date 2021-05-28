@@ -4,3 +4,4 @@ metadata:
   name: api-configmap
 data:
   client_url: https://proco-chain-demo4.unicef.io/
+  attachment_url: proco-chain-demo4.unicef.io
