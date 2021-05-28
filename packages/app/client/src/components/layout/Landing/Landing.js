@@ -123,7 +123,7 @@ const useWelcomeSectionStyles = makeStyles(theme => ({
   addProjectButton: {
     width: '105px',
     height: '40px',
-    margin: '10% 0 0 0'
+    marginTop: 0
   },
   welcomeText: {
     textAlign: 'left',
