@@ -400,7 +400,7 @@ router.put(
     if (req.file && req.file.key) {
       retrievedUser.avatar = `${
         req.connection.encrypted ? 'https' : 'http'
-      }://${req.headers.host}${req.baseUrl}/avatar/${req.file.key}`
+      }://${process.env.CLIENT_URL}${req.baseUrl}/avatar/${req.file.key}`
     }
 
     // Issue badge before saving user to handle error before saving data in the database
@@ -1318,7 +1318,7 @@ router.post(
         req.user.id,
         {
           avatar: `${req.connection.encrypted ? 'https' : 'http'}://${
-            req.headers.host
+            process.env.CLIENT_URL
           }${req.baseUrl}/avatar/${req.file.key}`
         },
         {
@@ -1493,7 +1493,7 @@ router.post(
     if (req.file && req.file.key) {
       informationToUpdate.avatar = `${
         req.connection.encrypted ? 'https' : 'http'
-      }://${req.headers.host}${req.baseUrl}/avatar/${req.file.key}`
+      }://${process.env.CLIENT_URL}${req.baseUrl}/avatar/${req.file.key}`
     }
     log.info(
       getAuthenticatedRequestLogDetails(req, { update: informationToUpdate }),
