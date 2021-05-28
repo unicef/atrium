@@ -194,10 +194,15 @@ router.get(
     )
 
     try {
-      const project = await Project.find()
-        .sort({ createdAt: -1 })
-        .limit(1)
-        .populate(projectsPopulateParams)[0]
+      const user = await User.findOne({ _id: req.user.id }).populate({
+        path: 'projects',
+        populate: projectsPopulateParams
+      })
+      let { projects } = user
+      projects = projects.sort((a, b) =>
+        a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+      )
+      const project = projects[0]
       return res.status(200).json({ project })
     } catch (error) {
       log.info(
@@ -1206,7 +1211,8 @@ router.get(
     )
 
     try {
-      if (!req.query.offset) throw new Error('Query offset parameter is missing')
+      if (!req.query.offset)
+        throw new Error('Query offset parameter is missing')
       const skip = parseInt(req.query.offset)
 
       const activityList = await Activity.find({
