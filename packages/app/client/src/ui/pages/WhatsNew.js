@@ -51,14 +51,15 @@ const WhatsNew = () => {
         Test out your contract development skills with Remix now.`}
         boxTitle="Write your first smart contract with Remix"
         actionLabel="Open Remix"
+        onClick={()=> window.location.replace('remix')}
         otherComponent={<SectionIcon><LearnRemixSVG /></SectionIcon>}
         borderedTextFirst
       />
       <SectionWithBorderedText
         id="guideSection"
         bgColor="section-bg"
-        boxDescription={`We have created an easy-to-use, practical guide for the UN and public sector, complete with definitions, 
-        decision-making tools and use cases, helping you to evaluate if blockchain is the correct tool for your next solution.`}
+        boxDescription={`If you're interested in being guided through tasks that build on basic blockchain concepts, 
+        the Directed Learning section allows you to follow different learning paths and earn points at the same time.`}
         boxTitle="Directed Learning"
         actionLabel="View learning paths"
         otherComponent={<SectionIcon><LearnGuideSVG /></SectionIcon>}
