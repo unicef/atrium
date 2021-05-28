@@ -197,9 +197,9 @@ function Dashboard(props) {
                 <>
                   <div className={classes.project}>
                     <StructuredCard
-                      date={latestProject[0].createdAt}
-                      title={latestProject[0].name}
-                      content={latestProject[0].details}
+                      date={latestProject.createdAt}
+                      title={latestProject.name}
+                      content={latestProject.details}
                     />
                   </div>
                   <div className={classes.margined}>
@@ -207,11 +207,11 @@ function Dashboard(props) {
                       type="edit"
                       onClick={() =>
                         history.push(
-                          `projects/overview/${latestProject[0]._id}`
+                          `projects/overview/${latestProject._id}`
                         )
                       }
                     />
-                    <ViewProjectButton id={latestProject[0]._id} />
+                    <ViewProjectButton id={latestProject._id} />
                   </div>
                 </>
               ) : (
