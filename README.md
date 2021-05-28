@@ -152,6 +152,7 @@ To run locally inside docker containers:
     MONGO_URI=mongodb://localhost:27017/app
     SECRET_OR_KEY=raging-dog-cat
     CLIENT_URL=http://localhost:3000
+    ATTACHMENT_URL=localhost:5000
     ETHEREUM_PROVIDER_URL=http://[YOUR_MACHINE_IP]:8545
     SENDGRID_API_KEY=[SEND_GRID_API_KEY]
     AWS_ACCESS_KEY=[AWS_ACCESS_KEY]
