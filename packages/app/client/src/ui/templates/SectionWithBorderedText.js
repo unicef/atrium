@@ -1,6 +1,7 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import SectionContainer from './SectionContainer' 
 import { BorderedTextBoxWithButton } from '../molecules'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -45,11 +46,11 @@ const SectionWithBorderedText = ({
     <SectionContainer id={id} bgColor={bgColor} justify={matches ? 'center' : "space-between" } alignItems="center">
       {isPrimary && wrappedComponent}
       <Grid item container xs={12} sm={10} md={5} lg={5}>
-        <div>
+        <Box mb="28px">
           <Typography className={classes.title} variant="h3">
             {boxTitle}
           </Typography>
-        </div>
+        </Box>
 
         <BorderedTextBoxWithButton hideBorder={hideBorder} onClick={onClick} buttonLabel={actionLabel}>
           {boxDescription}

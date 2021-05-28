@@ -30,6 +30,7 @@ const Learn = () => {
           Test out your contract development skills with Remix now.`}
           boxTitle="Write your first smart contract with Remix"
           actionLabel="Open Remix"
+          onClick={()=> window.location.replace('remix')}
           otherComponent={<SectionIcon iconName="remix" />}
           borderedTextFirst
         />
