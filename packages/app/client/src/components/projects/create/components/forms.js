@@ -334,7 +334,8 @@ export const FirstProjectForm = props => {
     props.handleCreateProject(data, props.editting)
     setSubmitting(false)
   }
-  const [characters, setCharacters] = useState(0)
+  const receivedDescription =  props.formData && props.formData.projectDescription ? props.formData.projectDescription : ''
+  const [characters, setCharacters] = useState(receivedDescription.length)
   const [contactPerson, setContactPerson] = useState(false)
 
   const validateProjectForm = values => {
