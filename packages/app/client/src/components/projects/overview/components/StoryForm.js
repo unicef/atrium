@@ -54,13 +54,25 @@ const useDefaultStyles = makeStyles(theme => ({
 const validateProjectForm = values => {
   const errors = {}
 
+  if (values.story && values.story.length > 250) {
+    errors.story =
+      'Story must be no longer than 250 characters'
+  }
+
+  if (values.challenges && values.challenges.length > 250) {
+    errors.challenges =
+      'Challenges must be no longer than 250 characters'
+  }
+
   return errors
 }
 
 function StoryForm(props) {
   const classes = useDefaultStyles()
-  const [characters, setCharacters] = useState(0)
-  const [challengeCharacters, setChallengeCharacters] = useState(0)
+  const initialValues = props.formData ? { ...props.formData } : {}
+
+  const [characters, setCharacters] = useState(initialValues.story ? initialValues.story.length : 0)
+  const [challengeCharacters, setChallengeCharacters] = useState(initialValues.challenges ? initialValues.challenges.length : 0)
 
   const [story, setStory] = useState(false)
   const [challenges, setChallenges] = useState(false)
@@ -127,6 +139,12 @@ function StoryForm(props) {
                     variant="outlined"
                     rows="10"
                     fullWidth
+                    error={
+                      !!(touched.story && errors.story)
+                    }
+                    errorMessage={
+                      touched.story && errors.story
+                    }
                   />
                   <Typography variant="body1" className={classes.counter}>
                     {characters}/250
@@ -161,6 +179,12 @@ function StoryForm(props) {
                     multiline={true}
                     rows="10"
                     fullWidth
+                    error={
+                      !!(touched.challenges && errors.challenges)
+                    }
+                    errorMessage={
+                      touched.challenges && errors.challenges
+                    }
                   />
                   <Typography variant="body1" className={classes.counter}>
                     {challengeCharacters}/250
