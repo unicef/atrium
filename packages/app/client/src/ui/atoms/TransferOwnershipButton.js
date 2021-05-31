@@ -110,7 +110,7 @@ function TransferOwnershipButton({ id, ...props }) {
                       className={classes.conditionButton}
                       onClick={() => setUserToTransfer(null)}
                     >
-                      Untransfer
+                      Cancel
                     </Button>
                   </div>
                 </PersonInformation>
