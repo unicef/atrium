@@ -75,7 +75,7 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
   ]
 
   return (
-    <Box mb={2}>
+    <Box mb={2} width="100%">
       <HorizontalCardWithMenu
         menuItems={menuItems}
         userIsTheOwner={userIsTheOwner}
