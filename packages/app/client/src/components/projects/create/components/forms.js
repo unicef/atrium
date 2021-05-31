@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import Radio from '@material-ui/core/Radio'
 import Checkbox from '@material-ui/core/Checkbox'
 import RadioGroup from '@material-ui/core/RadioGroup'
@@ -191,7 +192,8 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '50%',
     position: 'absolute',
     top: '50%',
-    right: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     zIndex: 3
   },
   addFileButton: {
@@ -247,7 +249,6 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.error.main
   },
   imageWrapper: {
-    position: 'relative',
     marginBottom: '4% '
   }
 }))
@@ -269,13 +270,13 @@ export const FirstProjectForm = props => {
   const [photo, setPhoto] = useState(null)
   const [video, setVideo] = useState(null)
 
-  const [oldPicture, setOldPicture] = useState(props.formData.attachment)
+  const [oldPicture, setOldPicture] = useState(props.formData.attachment.url)
   const [oldFiles, setOldFiles] = useState(props.formData.documents)
   const [oldPhotos, setOldPhotos] = useState(props.formData.documents)
   const [oldVideos, setOldVideos] = useState(props.formData.documents)
 
   useEffect(() => {
-    setOldPicture(props.formData.attachment)
+    setOldPicture(props.formData.attachment.url)
   }, [props.formData.attachment])
 
   useEffect(() => {
@@ -322,7 +323,7 @@ export const FirstProjectForm = props => {
 
   const history = useHistory()
   const cancelHandler = () => {
-    history.push('/projects')
+    props.editting ? props.goToOverview() : history.push('/projects')
   }
 
   const onFormSubmit = (values, { setSubmitting }) => {
@@ -430,6 +431,9 @@ export const FirstProjectForm = props => {
           handleChange,
           handleBlur,
           setFieldValue,
+          isSubmitting,
+          isValid,
+          dirty,
           ...props
         }) => (
           <form
@@ -448,38 +452,41 @@ export const FirstProjectForm = props => {
                     >
                       Project photo
                     </InputLabel>
-                    <Image
-                      width="400px"
-                      height="220px"
-                      borderRadius="5px"
-                      src={oldPicture || ProjectPicture}
-                    />
-                    <input
-                      ref={imgInputRef}
-                      type="file"
-                      id="attachment"
-                      name="attachment"
-                      className={classes.fileInput}
-                      onChange={e => {
-                        setPicture(e.target.files[0])
-                        handleChange(e)
-                      }}
-                    />
-                    <Button
-                      color="primary"
-                      className={classes.myPostButton}
-                      onClick={e => clickInput(e, 'image')}
-                      disabled={!!picture}
-                    >
-                      <label
-                        htmlFor={'attachment'}
-                        className={classes.fileInputLabel}
-                        aria-label={'ATTACH IMAGE'}
-                        title={'ATTACH IMAGE'}
+                    <Box position="relative" width="100%" height="250px">
+                      <Image
+                        width="100%"
+                        height="250px"
+                        borderRadius="5px"
+                        sameSize
+                        src={oldPicture || ProjectPicture}
+                      />
+                      <input
+                        ref={imgInputRef}
+                        type="file"
+                        id="attachment"
+                        name="attachment"
+                        className={classes.fileInput}
+                        onChange={e => {
+                          setPicture(e.target.files[0])
+                          handleChange(e)
+                        }}
+                      />
+                      <Button
+                        color="primary"
+                        className={classes.myPostButton}
+                        onClick={e => clickInput(e, 'image')}
+                        disabled={!!picture}
                       >
-                        <img src={MyPost} alt="ProjectPicture" />
-                      </label>
-                    </Button>
+                        <label
+                          htmlFor={'attachment'}
+                          className={classes.fileInputLabel}
+                          aria-label={'ATTACH IMAGE'}
+                          title={'ATTACH IMAGE'}
+                        >
+                          <img src={MyPost} alt="ProjectPicture" />
+                        </label>
+                      </Button>
+                    </Box>
                     {picture ? (
                       <div className={classes.chosenFile}>
                         <Typography
@@ -1097,6 +1104,7 @@ export const FirstProjectForm = props => {
                 className={classes.saveButton}
                 color="primary"
                 type="submit"
+                disabled={isSubmitting || !isValid || !dirty}
               >
                 Save
               </Button>
