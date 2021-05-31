@@ -1,3 +1,5 @@
+import TransferOwnershipButton from "./TransferOwnershipButton";
+
 export * from './Button'
 export * from './TextButton'
 export { default as SliderNavButton } from './SliderNavButton'
@@ -33,3 +35,4 @@ export { default as Authorship } from './Authorship'
 export { default as ViewProjectButton } from './ViewProjectButton'
 export { default as ActionProjectButton } from './ActionProjectButton'
 export { default as Select } from './Select'
+export { default as TransferOwnershipButton } from './TransferOwnershipButton'
