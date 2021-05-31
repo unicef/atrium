@@ -17,6 +17,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { useHistory } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { DeleteButton, MyPost, ProjectPicture } from '../../overview/assets'
+import DocumentUpload from './DocumentUpload'
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -270,13 +271,13 @@ export const FirstProjectForm = props => {
   const [photo, setPhoto] = useState(null)
   const [video, setVideo] = useState(null)
 
-  const [oldPicture, setOldPicture] = useState(props.formData.attachment.url)
+  const [oldPicture, setOldPicture] = useState(props.formData.attachmen && props.formData.attachment.url)
   const [oldFiles, setOldFiles] = useState(props.formData.documents)
   const [oldPhotos, setOldPhotos] = useState(props.formData.documents)
   const [oldVideos, setOldVideos] = useState(props.formData.documents)
 
   useEffect(() => {
-    setOldPicture(props.formData.attachment.url)
+    props.formData.attachment && setOldPicture(props.formData.attachment.url)
   }, [props.formData.attachment])
 
   useEffect(() => {
@@ -312,13 +313,6 @@ export const FirstProjectForm = props => {
   const deleteHandler = async (filePath, type) => {
     await props.deleteFileFromProject(props.formData.projectId, filePath, type)
     props.refreshToken()
-    if (type === 'document') {
-      setOldFiles(oldFiles.filter(file => file !== filePath))
-    } else if (type === 'video') {
-      setOldVideos(oldVideos.filter(file => file !== filePath))
-    } else {
-      setOldPhotos(oldPhotos.filter(file => file !== filePath))
-    }
   }
 
   const history = useHistory()
@@ -815,6 +809,7 @@ export const FirstProjectForm = props => {
                       className={classes.fileInput}
                       onChange={e => {
                         setFile(e.target.files[0])
+                        console.log(e.target.value)
                         handleChange(e)
                       }}
                     />
@@ -946,7 +941,17 @@ export const FirstProjectForm = props => {
                       : null}
                   </Grid>
                   <Grid item xs={12}>
-                    <InputLabel
+                    <DocumentUpload
+                      handleChange={handleChange}
+                      htmlFor="videos"
+                      id="videos"
+                      name="videos"
+                      prevFiles={oldVideos}
+                      type="video"
+                      deleteHandler={deleteHandler}
+                      title="Videos"
+                    />
+                    {/* <InputLabel
                       className={classes.inputLabel}
                       shrink
                       htmlFor="videos"
@@ -960,8 +965,10 @@ export const FirstProjectForm = props => {
                       name="videos"
                       className={classes.fileInput}
                       onChange={e => {
-                        setVideo(e.target.files[0])
+                        //console.log(e.target.files[0])
+                        //setFieldValue('videos', JSON.stringify(e.target.value))
                         handleChange(e)
+                        setVideo(e.target.files[0])
                       }}
                     />
                     <Button
@@ -1016,7 +1023,7 @@ export const FirstProjectForm = props => {
                             </Button>
                         </div>
                         ))
-                      : null}
+                      : null} */}
                   </Grid>
                 </>
               ) : null}
