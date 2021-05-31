@@ -75,7 +75,7 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
   ]
 
   return (
-    <Box mb={2} width="100%">
+    <Grid item xs={12}>
       <HorizontalCardWithMenu
         menuItems={menuItems}
         userIsTheOwner={userIsTheOwner}
@@ -123,7 +123,7 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
           await getProjectById(projectId)
         }}
       />
-    </Box>
+    </Grid>
   )
 }
 
