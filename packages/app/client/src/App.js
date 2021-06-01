@@ -50,6 +50,8 @@ import {
   WhatsNew
 } from './ui/pages'
 import projectsRoutes from './routes/projects'
+import AdminRoute from './components/admin-route/AdminRoute'
+import AdminPanel from "./components/admin-panel";
 
 require('./utils/configureRequests')
 
@@ -92,7 +94,7 @@ const App = () => {
                   />
                 <Route
                   exact
-                  path="/reset-password/:token"
+                  path="/reset-password/"
                   component={ResetPassword}
                   />
                 <Route
@@ -137,6 +139,8 @@ const App = () => {
                   path="/create-polls"
                   component={CreatePollPage}
                 />
+                {/* admin routes */}
+                <AdminRoute exact path="/admin" component={AdminPanel} />
                 <Route path="*" component={PageNotFound} />
               </Switch>
               <Footer />
