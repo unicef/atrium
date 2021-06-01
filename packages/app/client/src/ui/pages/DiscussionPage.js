@@ -24,7 +24,7 @@ import {
 
 // Really? What an amazing use case for making its own component
 const filterOptions = Object.values(DISCUSSION_FILTER_ENUM).map(val => ({
-  label: val,
+  label: val.replace('&', ' & '),
   value: val
 }))
 
