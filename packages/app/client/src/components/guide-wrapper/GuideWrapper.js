@@ -25,7 +25,7 @@ const styles = theme => ({
     overflow: 'hidden'
   },
   circle: {
-    position: 'absolute',
+    position: 'fixed',
     backgroundColor: 'transparent',
     border: `2px solid ${theme.colors['shamrock-green']}`,
     borderRadius: '50%',
