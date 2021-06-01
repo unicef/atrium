@@ -194,34 +194,7 @@ router.post(
       },
       'User is reporting comment'
     )
-    if (!req.body.reported) {
-      try {
-        const comment = await Comment.findOneAndUpdate(
-          { _id: req.params.commentId },
-          { reported: false, reportMessage: '' }
-        ).populate(populateParams)
-
-        log.info(
-          {
-            requestId: req.id,
-            comment
-          },
-          'Success unreporting comment'
-        )
-        return res.status(200).json({ comment })
-      } catch (error) {
-        log.info(
-          {
-            requestId: req.id,
-            error: error
-          },
-          'Can not get comment from the database'
-        )
-        return sendError(res, 503, 'Error getting comment from the database')
-      }
-    }
-
-    if (!req.body.reportMessage) {
+    if (req.body.reported === true && !req.body.reportMessage) {
       log.warn(
         {
           requestId: req.id,
@@ -236,7 +209,10 @@ router.post(
     try {
       const comment = await Comment.findOneAndUpdate(
         { _id: req.params.commentId },
-        { reported: true, reportMessage: req.body.reportMessage }
+        {
+          reported: req.body.reported,
+          reportMessage: req.body.reportMessage
+        }
       ).populate(populateParams)
 
       log.info(
