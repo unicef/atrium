@@ -14,7 +14,7 @@ function getAddressEnvs() {
 function run() {
   cd /node/app
   getAddressEnvs
-  BADGE_1_ADDRESS=$BADGE_1_ADDRESS BADGE_2_ADDRESS=$BADGE_2_ADDRESS BADGE_3_ADDRESS=$BADGE_3_ADDRESS BADGE_4_ADDRESS=$BADGE_4_ADDRESS node server.js
+  BADGE_1_ADDRESS=$BADGE_1_ADDRESS BADGE_2_ADDRESS=$BADGE_2_ADDRESS BADGE_3_ADDRESS=$BADGE_3_ADDRESS BADGE_4_ADDRESS=$BADGE_4_ADDRESS npx nodemon server.js
 }
 
 function seed() {
@@ -46,7 +46,7 @@ disco set "cluster-leader" "$HOSTNAME"
 
 if [ -z "$CONTRACT_ADDRESSES" ]; then
   sleep 1 # TODO: tune or remove
-  
+
   LEADER=$(disco get cluster-leader)
   export CONTRACT_ADDRESSES=$(disco get contract-addresses)
 
