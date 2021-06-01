@@ -16,19 +16,8 @@ const useStyles = makeStyles(theme => (
         ...textTransform,
         textDecoration: 'none',
         transition: 'all 0.2s ease',
-        '&::after': {
-          position: 'absolute',
-          content: "''",
-          display: 'block',
-          bottom: 2,
-          height: 2,
-          width: '100%',
-          backgroundColor: 'transparent',
-          transition: '0.2s ease'
-        },
         '&:hover': {
-          color: theme.colors['shamrock-green'],
-          fontWeight: 'bold'
+          color: theme.colors['shamrock-green']
         }
       }
     }
