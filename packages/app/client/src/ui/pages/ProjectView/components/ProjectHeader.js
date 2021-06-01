@@ -1,5 +1,6 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import { Image } from '../../../atoms'
 import { BackArrow } from '../../../molecules'
 import { makeStyles } from '@material-ui/core/styles'
@@ -22,13 +23,15 @@ const ProjectHeader = (props) => {
   return (
     <>
       <BackArrow dest={'/projects'} />
-      <Grid justify="center" style={{ marginBottom: 35, marginTop: 30 }} container item xs={12}>
-        <Image
-          src={props.attachment}
-          alt="project picture"
-          height={400}
-        />
-      </Grid>
+      <Box mb="35px" mt="30px">
+        <Grid justify="center" container item xs={12}>
+          <Image
+            src={props.attachment.url}
+            alt="project picture"
+            height={400}
+          />
+        </Grid>
+      </Box>
       
       <Grid item xs={12} container justify="space-between">
         <Grid item xs={12} md={5}>
