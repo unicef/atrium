@@ -17,7 +17,6 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { useHistory } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { DeleteButton, MyPost, ProjectPicture } from '../../overview/assets'
-import DocumentUpload from './DocumentUpload'
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -313,6 +312,13 @@ export const FirstProjectForm = props => {
   const deleteHandler = async (filePath, type) => {
     await props.deleteFileFromProject(props.formData.projectId, filePath, type)
     props.refreshToken()
+    if (type === 'document') {
+      setOldFiles(oldFiles.filter(file => file !== filePath))
+    } else if (type === 'video') {
+      setOldVideos(oldVideos.filter(file => file !== filePath))
+    } else {
+      setOldPhotos(oldPhotos.filter(file => file !== filePath))
+    }
   }
 
   const history = useHistory()
@@ -941,17 +947,7 @@ export const FirstProjectForm = props => {
                       : null}
                   </Grid>
                   <Grid item xs={12}>
-                    <DocumentUpload
-                      handleChange={handleChange}
-                      htmlFor="videos"
-                      id="videos"
-                      name="videos"
-                      prevFiles={oldVideos}
-                      type="video"
-                      deleteHandler={deleteHandler}
-                      title="Videos"
-                    />
-                    {/* <InputLabel
+                    <InputLabel
                       className={classes.inputLabel}
                       shrink
                       htmlFor="videos"
@@ -965,8 +961,6 @@ export const FirstProjectForm = props => {
                       name="videos"
                       className={classes.fileInput}
                       onChange={e => {
-                        //console.log(e.target.files[0])
-                        //setFieldValue('videos', JSON.stringify(e.target.value))
                         handleChange(e)
                         setVideo(e.target.files[0])
                       }}
@@ -1023,7 +1017,7 @@ export const FirstProjectForm = props => {
                             </Button>
                         </div>
                         ))
-                      : null} */}
+                      : null}
                   </Grid>
                 </>
               ) : null}
@@ -1111,7 +1105,7 @@ export const FirstProjectForm = props => {
                 className={classes.saveButton}
                 color="primary"
                 type="submit"
-                disabled={isSubmitting || !isValid || !dirty}
+                disabled={isSubmitting || !isValid}
               >
                 Save
               </Button>
