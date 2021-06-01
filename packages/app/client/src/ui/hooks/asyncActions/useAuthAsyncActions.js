@@ -1,15 +1,20 @@
 import useHandledRequest from './useHandledRequest'
 import * as UsersApi from '../../../api/users'
 import { useUsersActions } from '../actions'
+import { useHistory } from 'react-router'
 
 const useAuthAsyncActions = () => {
   const handledRequest = useHandledRequest()
   const { setCurrentUser } = useUsersActions()
+  const history = useHistory()
 
   return {
     login: handledRequest({
       request: UsersApi.loginUser,
-      onSuccess: ({ payload }) => setCurrentUser(payload),
+      onSuccess: ({ payload }) => {
+        setCurrentUser(payload)
+        history.replace('/')
+      },
       pageLoading: true,
       successMessage: 'User authenticated'
     }),
