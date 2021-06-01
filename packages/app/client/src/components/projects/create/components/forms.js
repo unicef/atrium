@@ -250,6 +250,9 @@ const useStyles = makeStyles(theme => ({
   },
   imageWrapper: {
     marginBottom: '4% '
+  },
+  editAttachmentMessage: {
+    color: theme.colors['dark-gray']
   }
 }))
 
@@ -450,7 +453,7 @@ export const FirstProjectForm = props => {
                       shrink
                       htmlFor="attachment"
                     >
-                      Project photo <Typography component="span">(maximum size of 10MB)</Typography>
+                      Project photo <Typography className={classes.editAttachmentMessage} component="span">(maximum size of 10MB)</Typography>
                     </InputLabel>
                     <Box position="relative" width="100%" height="250px">
                       <Image
