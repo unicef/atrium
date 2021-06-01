@@ -107,7 +107,8 @@ const useWelcomeSectionStyles = makeStyles(theme => ({
   },
   buttons: {
     display: 'flex',
-    textAlign: 'right'
+    textAlign: 'right',
+    alignItems: 'center'
   },
   loginButton: {
     width: '105px',
@@ -274,7 +275,7 @@ const Landing = props => {
                   {props.isAuthenticated ? (
                     <>
                       <ProfilePictureHeader />
-                      <DropdownHeaderMenu logoutUser={logoutUser} />
+                      <DropdownHeaderMenu logoutUser={props.logoutUser} />
                     </>
                   ) : (
                     <>
