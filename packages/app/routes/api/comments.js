@@ -182,7 +182,7 @@ router.post(
   }
 )
 
-router.get(
+router.post(
   '/:commentId/report',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
@@ -194,10 +194,49 @@ router.get(
       },
       'User is reporting comment'
     )
+    if (!req.body.reported) {
+      try {
+        const comment = await Comment.findOneAndUpdate(
+          { _id: req.params.commentId },
+          { reported: false, reportMessage: '' }
+        ).populate(populateParams)
+
+        log.info(
+          {
+            requestId: req.id,
+            comment
+          },
+          'Success unreporting comment'
+        )
+        return res.status(200).json({ comment })
+      } catch (error) {
+        log.info(
+          {
+            requestId: req.id,
+            error: error
+          },
+          'Can not get comment from the database'
+        )
+        return sendError(res, 503, 'Error getting comment from the database')
+      }
+    }
+
+    if (!req.body.reportMessage) {
+      log.warn(
+        {
+          requestId: req.id,
+          user: req.user.id,
+          comment: req.params.commentId
+        },
+        'Error reporting comment. Report message is mandatory'
+      )
+      return sendError(res, 400, 'Comment report message is mandatory')
+    }
+
     try {
       const comment = await Comment.findOneAndUpdate(
         { _id: req.params.commentId },
-        { reported: true }
+        { reported: true, reportMessage: req.body.reportMessage }
       ).populate(populateParams)
 
       log.info(
