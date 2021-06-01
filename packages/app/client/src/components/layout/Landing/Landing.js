@@ -22,66 +22,67 @@ import {
   SectionIcon
 } from '../../../ui/pages/Learn/components'
 import { MainContainer } from '../../../ui/templates'
+import ProfilePictureHeader from '../Header/ProfilePictureHeader'
+import DropdownHeaderMenu from '../Header/DropdownHeaderMenu'
+import { logoutUser } from '../../../actions/authActions'
 
-const useStyles = makeStyles(
-  () => ({
-    borderButton: {
-      left: 40,
-      position: 'absolute',
-      bottom: 0,
-      transform: 'translate(0, 50%)'
-    },
-    main: {
-      height: '100%',
-      minHeight: '100vh',
-      width: '80%',
-      margin: 'auto'
-    },
-    descriptionHeader: {
-      textAlign: 'left',
-      maxWidth: '408px'
-    },
-    header: {
-      color: '#178FE2',
-      marginBottom: 16
-    },
-    section: {
-      display: 'flex',
-      width: '100%',
-      paddingTop: 0,
-      textAlign: 'left',
-      paddingBottom: 100,
-      justifyContent: 'center'
-    },
-    line: {
-      borderBottom: 'solid 1.2px',
-      marginBottom: 41,
-      width: '100%'
-    },
-    smallLine: {
-      width: '45%',
-      borderBottom: 'solid 1.2px rgba(255, 255, 255, 0.28)'
-    },
-    separator: {
-      display: 'flex',
-      alignItems: 'center'
-    },
-    separatorOr: {
-      color: 'white',
-      margin: '0 5%',
-      textAlign: 'center',
-      fontWeight: 500
-    },
-    descriptionText: {
-      fontSize: 18,
-      textAlign: 'left',
-    },
-    image: {
-      width: '100%',
-      height: '100%'
-    }
-  })
-)
+const useStyles = makeStyles(() => ({
+  borderButton: {
+    left: 40,
+    position: 'absolute',
+    bottom: 0,
+    transform: 'translate(0, 50%)'
+  },
+  main: {
+    height: '100%',
+    minHeight: '100vh',
+    width: '80%',
+    margin: 'auto'
+  },
+  descriptionHeader: {
+    textAlign: 'left',
+    maxWidth: '408px'
+  },
+  header: {
+    color: '#178FE2',
+    marginBottom: 16
+  },
+  section: {
+    display: 'flex',
+    width: '100%',
+    paddingTop: 0,
+    textAlign: 'left',
+    paddingBottom: 100,
+    justifyContent: 'center'
+  },
+  line: {
+    borderBottom: 'solid 1.2px',
+    marginBottom: 41,
+    width: '100%'
+  },
+  smallLine: {
+    width: '45%',
+    borderBottom: 'solid 1.2px rgba(255, 255, 255, 0.28)'
+  },
+  separator: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  separatorOr: {
+    color: 'white',
+    margin: '0 5%',
+    textAlign: 'center',
+    fontWeight: 500
+  },
+  descriptionText: {
+    fontSize: 18,
+    textAlign: 'left'
+  },
+  image: {
+    width: '100%',
+    height: '100%'
+  }
+}))
 
 const useWelcomeSectionStyles = makeStyles(theme => ({
   titleOfHeader: {
@@ -251,7 +252,7 @@ const Landing = props => {
     }
   ]
 
-  const handleNavigation = (path) => {
+  const handleNavigation = path => {
     props.history.push(path)
   }
 
@@ -270,33 +271,50 @@ const Landing = props => {
               position="relative"
               action={
                 <div className={welcomeStyles.buttons}>
-                  <Button
-                    color="primary"
-                    onClick={() => handleNavigation('/register')}
-                    className={welcomeStyles.signupButton}
-                  >
-                    Join us
-                  </Button>
-                  <Button
-                    color="secondary"
-                    variant="outlined"
-                    onClick={() => handleNavigation('/login')}
-                    className={welcomeStyles.loginButton}
-                  >
-                    Sign in
-                  </Button>
+                  {props.isAuthenticated ? (
+                    <>
+                      <ProfilePictureHeader />
+                      <DropdownHeaderMenu logoutUser={logoutUser} />
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        color="primary"
+                        onClick={() => handleNavigation('/register')}
+                        className={welcomeStyles.signupButton}
+                      >
+                        Join us
+                      </Button>
+                      <Button
+                        color="secondary"
+                        variant="outlined"
+                        onClick={() => handleNavigation('/login')}
+                        className={welcomeStyles.loginButton}
+                      >
+                        Sign in
+                      </Button>
+                    </>
+                  )}
                 </div>
               }
             />
           </Grid>
           <Grid item xs={12} sm={12} md={5}>
-            <Typography style={{width: '75%'}} className={welcomeStyles.header} variant="h2">
+            <Typography
+              style={{ width: '75%' }}
+              className={welcomeStyles.header}
+              variant="h2"
+            >
               Start your blockchain journey
             </Typography>
-            <Typography style={{width: '70%'}} variant="body1" className={welcomeStyles.welcomeText}>
-              Welcome to The Atrium, an interagency platform designed to
-              foster and support learning, collaboration, and discussion
-              across the UN community.
+            <Typography
+              style={{ width: '70%' }}
+              variant="body1"
+              className={welcomeStyles.welcomeText}
+            >
+              Welcome to The Atrium, an interagency platform designed to foster
+              and support learning, collaboration, and discussion across the UN
+              community.
             </Typography>
             {props.isAuthenticated ? (
               <Button
@@ -343,7 +361,15 @@ const Landing = props => {
 
         <Grid item container xs={12} className={classes.section}>
           <Grid item container xs={12} md={10} xl={6} justify="space-around">
-            <Grid container item xs={12} sm={12} md={5} alignItems="center" justify="center">
+            <Grid
+              container
+              item
+              xs={12}
+              sm={12}
+              md={5}
+              alignItems="center"
+              justify="center"
+            >
               <Grid item xs="auto">
                 <Typography className={classes.header} variant="subtitle1">
                   LEARNING
@@ -357,7 +383,10 @@ const Landing = props => {
                     whyJoinStyles.description
                   ].join(' ')}
                 >
-                  <Typography variant="body1" className={classes.descriptionText}>
+                  <Typography
+                    variant="body1"
+                    className={classes.descriptionText}
+                  >
                     By using The Atrium, you’ll earn blockchain-based badges!
                     Learn about the difference between blockchain and
                     cryptocurrency, explore the history of the technology and
@@ -375,7 +404,15 @@ const Landing = props => {
               </Grid>
             </Grid>
 
-            <Grid container item xs={12} sm={12} md={5} alignItems="center" justify="center">
+            <Grid
+              container
+              item
+              xs={12}
+              sm={12}
+              md={5}
+              alignItems="center"
+              justify="center"
+            >
               <Box width="100%" maxWidth={615} height="100%" maxHeight={575}>
                 <img
                   alt="AccelerateInnovation"
@@ -394,7 +431,15 @@ const Landing = props => {
           className={[classes.section, exploreStyles.section].join(' ')}
         >
           <Grid item container xs={12} md={10} xl={6} justify="space-around">
-            <Grid container item xs={12} sm={12} md={5} alignItems="center" justify="center">
+            <Grid
+              container
+              item
+              xs={12}
+              sm={12}
+              md={5}
+              alignItems="center"
+              justify="center"
+            >
               <Box width="100%" maxWidth={615} height="100%" maxHeight={456}>
                 <img
                   className={classes.image}
@@ -404,7 +449,15 @@ const Landing = props => {
               </Box>
             </Grid>
 
-            <Grid container item xs={12} sm={12} md={5} alignItems="center" justify="center">
+            <Grid
+              container
+              item
+              xs={12}
+              sm={12}
+              md={5}
+              alignItems="center"
+              justify="center"
+            >
               <Grid item xs="auto">
                 <Typography className={classes.header} variant="subtitle1">
                   EXPLORE
@@ -419,7 +472,10 @@ const Landing = props => {
                     whyJoinStyles.description
                   ].join(' ')}
                 >
-                  <Typography variant="body1" className={classes.descriptionText}>
+                  <Typography
+                    variant="body1"
+                    className={classes.descriptionText}
+                  >
                     Are you curious to learn about different UN use cases? Have
                     you ever wondered how your entity could apply blockchain? In
                     The Atrium, learn what projects and prototypes are being
@@ -441,9 +497,23 @@ const Landing = props => {
           </Grid>
         </Grid>
 
-        <Grid item container xs={12} className={classes.section} style={{ marginTop: 92 }}>
+        <Grid
+          item
+          container
+          xs={12}
+          className={classes.section}
+          style={{ marginTop: 92 }}
+        >
           <Grid item container xs={12} md={10} xl={6} justify="space-around">
-            <Grid container item xs={12} sm={12} md={5} alignItems="center" justify="center">
+            <Grid
+              container
+              item
+              xs={12}
+              sm={12}
+              md={5}
+              alignItems="center"
+              justify="center"
+            >
               <Grid item xs="auto">
                 <Typography className={classes.header} variant="subtitle1">
                   ENGAGE
@@ -457,7 +527,10 @@ const Landing = props => {
                     whyJoinStyles.description
                   ].join(' ')}
                 >
-                  <Typography variant="body1" className={classes.descriptionText}>
+                  <Typography
+                    variant="body1"
+                    className={classes.descriptionText}
+                  >
                     To jumpstart this collaboration, members of The Atrium are
                     encouraged to engage with colleagues across the UN that are
                     also interested in blockchain as well as provide feedback on
@@ -474,15 +547,19 @@ const Landing = props => {
               </Grid>
             </Grid>
 
-            <Grid container item xs={12} sm={12} md={5} alignItems="center" justify="center">
+            <Grid
+              container
+              item
+              xs={12}
+              sm={12}
+              md={5}
+              alignItems="center"
+              justify="center"
+            >
               <Box width="100%" maxWidth={615} height="100%" maxHeight={418}>
-                <img
-                  alt="DecisionMaking"
-                  src={DecisionMaking}
-                />
+                <img alt="DecisionMaking" src={DecisionMaking} />
               </Box>
             </Grid>
-
           </Grid>
         </Grid>
 
@@ -493,8 +570,15 @@ const Landing = props => {
           className={[classes.section, blockchainStyles.section]}
         >
           <Grid item container xs={12} md={10} xl={6} justify="space-around">
-
-            <Grid container alignItems="center" justify="center" item xs={12} sm={12} md={5}>
+            <Grid
+              container
+              alignItems="center"
+              justify="center"
+              item
+              xs={12}
+              sm={12}
+              md={5}
+            >
               <div className={blockchainStyles.wrapper}>
                 <div>
                   <img
@@ -524,14 +608,26 @@ const Landing = props => {
               </div>
             </Grid>
 
-            <Grid container item xs={12} sm={12} md={5} alignItems="center" justify="center">
+            <Grid
+              container
+              item
+              xs={12}
+              sm={12}
+              md={5}
+              alignItems="center"
+              justify="center"
+            >
               <div className={blockchainStyles.description}>
                 <Box padding="51px 60px 50px 40px">
-                  <Typography variant="body1" className={classes.descriptionText}>
-                    We have created an easy-to-use, practical guide for the UN and
-                    public sector, complete with definitions, decision-making
-                    tools and use cases, helping you to evaluate if blockchain is
-                    the the correct tool for your next solution.
+                  <Typography
+                    variant="body1"
+                    className={classes.descriptionText}
+                  >
+                    We have created an easy-to-use, practical guide for the UN
+                    and public sector, complete with definitions,
+                    decision-making tools and use cases, helping you to evaluate
+                    if blockchain is the the correct tool for your next
+                    solution.
                   </Typography>
                 </Box>
                 <div className={classes.line} />
@@ -546,14 +642,17 @@ const Landing = props => {
           </Grid>
         </Grid>
 
-        <Grid
-          item
-          container
-          xs={12}
-          className={whoBuildingStyles.section}
-        >
+        <Grid item container xs={12} className={whoBuildingStyles.section}>
           <Grid item container xs={12} md={10} xl={6} justify="space-around">
-            <Grid container item xs={12} sm={12} md={5} alignItems="center" justify="center">
+            <Grid
+              container
+              item
+              xs={12}
+              sm={12}
+              md={5}
+              alignItems="center"
+              justify="center"
+            >
               <Box maxWidth={480}>
                 <Typography className={classes.descriptionHeader} variant="h3">
                   {!props.isAuthenticated
@@ -564,17 +663,25 @@ const Landing = props => {
                   variant="body1"
                   className={whoBuildingStyles.descriptionText}
                 >
-                  The Atrium has been established as a decentralised collaboration
-                  tool by the United Nations Development Programme (UNDP), UNICEF
-                  and the World Food Programme (WFP). The Atrium has its own
-                  private, permissioned blockchain which any UN entity can use to
-                  prototype. If you’re interested in joining our blockchain and
-                  running a node, reach out!
+                  The Atrium has been established as a decentralised
+                  collaboration tool by the United Nations Development Programme
+                  (UNDP), UNICEF and the World Food Programme (WFP). The Atrium
+                  has its own private, permissioned blockchain which any UN
+                  entity can use to prototype. If you’re interested in joining
+                  our blockchain and running a node, reach out!
                 </Typography>
               </Box>
             </Grid>
 
-            <Grid container item xs={12} sm={12} md={6} alignItems="flex-end" justify="center">
+            <Grid
+              container
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              alignItems="flex-end"
+              justify="center"
+            >
               <Box width="100%" maxWidth={615} height="100%" maxHeight={501}>
                 <img
                   style={{ width: '100%', height: '100%' }}
@@ -611,7 +718,7 @@ const Landing = props => {
               Here are some of our Frequently Asked Questions
             </Typography>
           </Box>
-          
+
           <Grid item container xs={12}>
             {questions.map(question => (
               <CollapsableQuestion key={question.title} {...question} />
@@ -627,4 +734,4 @@ const mapStateToProps = ({ auth }) => ({
   isAuthenticated: auth.isAuthenticated
 })
 
-export default connect(mapStateToProps)(Landing)
+export default connect(mapStateToProps, { logoutUser })(Landing)
