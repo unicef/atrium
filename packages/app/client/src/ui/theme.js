@@ -48,67 +48,72 @@ export const theme = createMuiTheme({
     }
   },
   typography: {
-    fontFamily: ['Red Hat Display', 'Roboto', 'sans-serif'].join(','),
-    h5: {
-      fontSize: 21,
-      textTransform: 'none',
-      '@media (max-width: 600px)': {
-        fontSize: 18
-      }
-    },
-    h4: {
-      fontSize: 32,
-      lineHeight: 1.34,
-      textTransform: 'none',
-      '@media (max-width: 600px)': {
-        fontSize: 26
-      }
-    },
-    h3: {
-      fontWeight: 'bold',
-      fontSize: 28,
-      lineHeight: 1.6,
-      textTransform: 'none'
-    },
-    h2: {
-      fontWeight: 'bold',
-      fontSize: 43,
-      lineHeight: 1.4,
-      textTransform: 'none'
-    },
+    fontFamily: 'Montserrat, Verdana, sans-serif',
     h1: {
       fontSize: 58,
+      fontWeigth: 700,
       lineHeight: 0.93,
       textTransform: 'none',
       '@media (max-width: 600px)': {
         fontSize: 42
       }
     },
-    body2: {
-      fontFamily: ['Roboto', 'sans-serif'].join(','),
-      textTransform: 'none',
-      fontWeight: 500
+    h2: {
+      fontSize: 43,
+      fontWeight: 700,
+      lineHeight: 1.4,
+      textTransform: 'none'
     },
-    body1: {
-      fontFamily: ['Roboto', 'sans-serif'].join(','),
+    h3: {
+      fontSize: 28,
+      fontWeight: 700,
+      lineHeight: 1.6,
+      textTransform: 'none'
+    },
+    h4: {
+      fontSize: 32,
+      fontWeight: 600,
+      lineHeight: 1.34,
       textTransform: 'none',
-      letterSpacing: 'normal'
+      '@media (max-width: 600px)': {
+        fontSize: 26
+      }
+    },
+    h5: {
+      fontSize: 21,
+      fontWeight: 600,
+      textTransform: 'none',
+      '@media (max-width: 600px)': {
+        fontSize: 18
+      }
+    },
+    h6: {
+      fontWeight: 600,
     },
     subtitle1: {
-      fontFamily: ['Roboto', 'sans-serif'].join(','),
       fontSize: 15,
+      fontWeight: 400,
       lineHeight: 1.4,
       fontWeight: 600
     },
     subtitle2: {
-      fontFamily: ['Red Hat Display', 'Roboto', 'sans-serif'].join(','),
       fontSize: 12,
+      fontWeight: 600,
       letterSpacing: 0.8,
       color: colors['black']
     },
+    body1: {
+      fontWeight: 400,
+      textTransform: 'none',
+      letterSpacing: 'normal'
+    },
+    body2: {
+      fontWeight: 600,
+      textTransform: 'none',
+    },
     caption: {
-      fontFamily: ['Roboto', 'sans-serif'].join(','),
       fontSize: 12,
+      fontWeight: 400,
       lineHeight: '24px'
     }
   }

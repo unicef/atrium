@@ -35,10 +35,10 @@ export const onSaveProjects = ({ userId, registeredUser, projects }) => {
   }
 
   if (!registeredUser) {
-    return projects.filter(project => project.freeForAll)
+    return projects.filter(project => project.freeForAll && project.published)
   }
 
-  return projects.map(project => handleProjectSaving({ project, userId }))
+  return projects.filter(project => project.published).map(project => handleProjectSaving({ project, userId }))
 }
 
 export const onToggleLike = (state, project) => {

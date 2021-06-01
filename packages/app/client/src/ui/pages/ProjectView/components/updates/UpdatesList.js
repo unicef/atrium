@@ -32,15 +32,17 @@ const UpdatesList = ({ selectedMonthId, handledUpdates }) => {
   return (
     <Grid container item xs={12}>
       <Box display="flex" flex={1} flexDirection="column" pl={5}>
-        <Grid container item xs={12}>
-          <Typography className={classes.headerText}>{month && month.toLocaleUpperCase()} {year || ''}</Typography>
-          <Box display="flex" flex={1} bgcolor="transparent" alignItems="center" pl={2}>
-            <Box className={classes.line} borderTop={1} borderColor="light-gray-two" width="100%" />
-          </Box>
-        </Grid>
+        <Box display="flex" flex={1} mb="20px">
+          <Grid container item xs={12}>
+            <Typography className={classes.headerText}>{month && month.toLocaleUpperCase()} {year || ''}</Typography>
+            <Box display="flex" flex={1} bgcolor="transparent" alignItems="center" pl={2}>
+              <Box className={classes.line} borderTop={1} borderColor="light-gray-two" width="100%" />
+            </Box>
+          </Grid>
+        </Box>
         
        {currentMonth.data &&
-          <Grid container item xs={12}>
+          <Grid container spacing={1} item xs={12}>
             {currentMonth.data.map((item) => (
               <UpdateCard {...item} year={year} month={month} />
             ))}

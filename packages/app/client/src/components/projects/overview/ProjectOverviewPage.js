@@ -76,7 +76,7 @@ function ProjectOverviewPage(props) {
         )}
       </Panel>
       <Panel value={tabIndex} index={1}>
-        {projectData && <CreateProject {...projectData} editting={true} />}
+        {projectData && <CreateProject goToOverview={() => setTabIndex(0)} {...projectData} editting={true} />}
       </Panel>
       <Panel value={tabIndex} index={2}>
         {projectData && <AdditionalInformation {...projectData} />}

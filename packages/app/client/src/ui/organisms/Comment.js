@@ -22,7 +22,7 @@ const Comment = ({
   toggleReply,
   numberOfReplies,
   id,
-  likesCount,
+  likes,
   removeComment
 }) => {
   // TODO: IMPROVE TO USE MENTIONS
@@ -30,8 +30,19 @@ const Comment = ({
   const [showEdit, setEdit] = React.useState(false)
   const [textContent, setContent] = React.useState(content)
   const currentUserId = useSelector(getUserId)
-
+  const [savedLikes, setLikes] = React.useState(likes)
   const userIsTheOwner = currentUserId === user._id
+
+  const handleLike = () => {
+    setLikes(prevLikes => {
+      const index = prevLikes.findIndex(lk => lk._id === user._id)
+      if (index >= 0) {
+        return prevLikes.filter(lk => lk._id !== user._id)
+      }
+
+      return [...prevLikes, { ...user }]
+    })
+  }
 
   const menuItems = [
     {
@@ -109,7 +120,8 @@ const Comment = ({
                 components={[
                   {
                     type: 'textbutton',
-                    textContent: "Like"
+                    textContent: "Like",
+                    onClick: handleLike
                   },
                   {
                     type: 'textbutton',
@@ -118,7 +130,7 @@ const Comment = ({
                   },
                   {
                     type: 'text',
-                    children: `${likesCount} Likes`
+                    children: `${savedLikes.length} Likes`
                   },
                   {
                     type: 'date',

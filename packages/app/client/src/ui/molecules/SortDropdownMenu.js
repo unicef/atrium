@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     height: 40
   },
   thisIsNotHowYouMakeButtons: {
-    fontFamily: 'Red Hat Display Medium, sans-serif',
+    fontFamily: theme.typography.fontFamily,
     fontSize: 12
   },
   chevron: {

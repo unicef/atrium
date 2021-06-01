@@ -10,7 +10,8 @@ import {
   LikeButton,
   CommentsButton,
   ViewProjectButton,
-  ActionProjectButton
+  ActionProjectButton,
+  TransferOwnershipButton
 } from '../atoms'
 import { CardInfoRow, CardWithMedia } from '../molecules'
 import { mergeClassNames, dateFormatter } from '../utils'
@@ -157,6 +158,7 @@ const ProjectVerticalCard = ({
         {accountPage ? (
           <div className={classes.projectButtons}>
             <ViewProjectButton id={props._id} />
+            <TransferOwnershipButton id={props._id} />
             <ActionProjectButton
               id={props._id}
               type="edit"

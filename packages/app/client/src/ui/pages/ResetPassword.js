@@ -3,16 +3,16 @@ import Grid from '@material-ui/core/Grid'
 import { SimpleFormWithHeader } from '../organisms'
 import { Button, Title } from '../atoms'
 import { password } from '../../utils/formFields'
-import { useToast } from '../hooks'
+import { useQueryParams, useToast } from '../hooks'
 import { validatePassword } from '../../utils/validators'
 import { resetPassword } from '../../api/users'
 import { MainContainer } from '../templates'
 
 const formProps = {
-  title: "Reset password",
+  title: 'Reset password',
   titleProps: {
-    alignMobile: "left",
-    align: "center"
+    alignMobile: 'left',
+    align: 'center'
   },
   validate: ({ password }) => validatePassword(password),
   submitLabel: 'Confirm password',
@@ -21,20 +21,20 @@ const formProps = {
 }
 
 const ResetPassword = ({ history, match }) => {
-  const { params: { token } } = match
+  const { token } = useQueryParams().getEntriesObj()
 
-  if(!token){
+  if (!token) {
     history.push('/')
   }
 
   const [showSuccess, setSuccess] = useState(false)
   const { showToast } = useToast()
-  
+
   const saveNewPassword = async ({ password }) => {
     try {
       await resetPassword({ password, token })
       setSuccess(true)
-    } catch(e) {
+    } catch (e) {
       showToast({ message: e, severity: 'danger' })
       setSuccess(true)
     }
@@ -42,20 +42,27 @@ const ResetPassword = ({ history, match }) => {
 
   return (
     <MainContainer size="small">
-      {showSuccess ?
-        <Grid direction="column" container item xs={12} justify="center" alignItems="center">
-          <Title >
-            New password saved
-          </Title>
-          <Button type="submit" color="primary" onClick={() => history.push('/login')}>
+      {showSuccess ? (
+        <Grid
+          direction="column"
+          container
+          item
+          xs={12}
+          justify="center"
+          alignItems="center"
+        >
+          <Title>New password saved</Title>
+          <Button
+            type="submit"
+            color="primary"
+            onClick={() => history.push('/login')}
+          >
             Log in
           </Button>
-        </Grid> :
-        <SimpleFormWithHeader
-          onSubmit={saveNewPassword}
-          {...formProps}
-        /> 
-      }
+        </Grid>
+      ) : (
+        <SimpleFormWithHeader onSubmit={saveNewPassword} {...formProps} />
+      )}
     </MainContainer>
   )
 }

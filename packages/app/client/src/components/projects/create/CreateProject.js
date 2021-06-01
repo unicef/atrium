@@ -135,6 +135,7 @@ function CreateProject(props) {
         editting={props.editting}
         deleteFileFromProject={props.deleteFileFromProject}
         refreshToken={props.refreshToken}
+        goToOverview={props.goToOverview}
       />
     </Container>
   )
