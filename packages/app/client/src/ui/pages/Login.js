@@ -31,11 +31,6 @@ const formProps = {
 const Login = ({ history }) => {
   const [keepLogged, setKeepLogged] = useState(false)
   const { login } = useAuthAsyncActions()
-
-  const sendLoginRequest = async ({ email, password }) => {
-    await login({ email, password })
-    history.push('/')
-  }
   
   return (
     <MainContainer mt={100} size="regular">
@@ -47,7 +42,7 @@ const Login = ({ history }) => {
       >
         <>
           <SimpleFormWithHeader
-            onSubmit={sendLoginRequest}
+            onSubmit={login}
             {...formProps}
             renderBellowForm={
               <Grid container item xs={12} direction="row" alignItems="center" justify="space-between">
