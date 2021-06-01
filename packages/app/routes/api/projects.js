@@ -539,17 +539,84 @@ router.delete(
           'Project not found. Please check your id and try again'
         )
       }
+      try {
+        const owner = await User.findOne({
+          _id: req.user.id
+        })
+        owner.projects.pop(owner.projects.indexOf(req.params.id))
+        await owner.save()
+        log.info(
+          {
+            requestId: req.id,
+            user: req.user.id,
+            project: req.params.id
+          },
+          'Project deleted successfully'
+        )
+        res.json({ message: 'Project deleted successfully' })
+      } catch (error) {
+        log.error(
+          {
+            error,
+            requestId: req.id,
+            user: req.user.id,
+            project: req.params.id
+          },
+          'Error find project owner'
+        )
+        return sendError(res, 503, 'Error find project owner. Please try again')
+      }
+    })
+  }
+)
 
+router.post(
+  '/:projectId/transferOwnership',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        project: req.params.projectId
+      },
+      'User is transfering project ownership'
+    )
+    try {
+      const project = await Project.findOne({
+        _id: req.params.projectId
+      }).populate(populateParams)
+      const owner = await User.findOne({
+        _id: req.user.id
+      })
+      const newOwner = await User.findOne({
+        _id: req.body.userToTransfer
+      })
+      owner.projects.pop(owner.projects.indexOf(project._id))
+      newOwner.projects.push(project._id)
+      await owner.save()
+      await newOwner.save()
+      project.owner = newOwner
+      project.projectOwner = newOwner.name
+      project.projectOwnerEmail = newOwner.email
+      await project.save()
+      log.info(
+        {
+          requestId: req.id
+        },
+        'Success transfering ownership'
+      )
+      return res.status(200).json({ project })
+    } catch (error) {
       log.info(
         {
           requestId: req.id,
-          user: req.user.id,
-          project: req.params.id
+          error: error
         },
-        'Project deleted successfully'
+        'Can not get project from the database'
       )
-      res.json({ message: 'Project deleted successfully' })
-    })
+      return sendError(res, 503, 'Error getting project from the database')
+    }
   }
 )
 

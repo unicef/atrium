@@ -4,13 +4,14 @@ import axios from 'axios'
 const ROUTE = 'projects'
 
 // ENDPOINTS
-const getToggleLikeEndpoint = (projectId) => `${projectId}/like`
-const getCommentEndpoint = (id) => `${id}/comment`
-const getUpdateEndpoint = (projectId) => `${projectId}/update`
-const getAddMemberEndpoint = (projectId) => `${projectId}/addMembers`
-const getDeleteMemberEndpoint = (projectId) => `${projectId}/deleteMember`
-const getDeleteUpdateEndpoint = (updateId) => `${updateId}/update`
-const getProjectCommentsEndpoint = (projectId, query) => `${projectId}/comments?${query}`
+const getToggleLikeEndpoint = projectId => `${projectId}/like`
+const getCommentEndpoint = id => `${id}/comment`
+const getUpdateEndpoint = projectId => `${projectId}/update`
+const getAddMemberEndpoint = projectId => `${projectId}/addMembers`
+const getDeleteMemberEndpoint = projectId => `${projectId}/deleteMember`
+const getDeleteUpdateEndpoint = updateId => `${updateId}/update`
+const getProjectCommentsEndpoint = (projectId, query) =>
+  `${projectId}/comments?${query}`
 
 // ERRORS
 export const ERRORS = {
@@ -18,7 +19,7 @@ export const ERRORS = {
   403: 'Session expired, login again'
 }
 
-//BASE REQUEST
+// BASE REQUEST
 const projectRequest = baseRequest({ errors: ERRORS, baseURL: ROUTE })
 
 /**
@@ -28,10 +29,11 @@ const projectRequest = baseRequest({ errors: ERRORS, baseURL: ROUTE })
  * @param {string} projectId
  * @returns
  */
-export const toggleProjectLike = (projectId) => projectRequest({
-  method: 'patch',
-  endpoint: getToggleLikeEndpoint(projectId)
-})
+export const toggleProjectLike = projectId =>
+  projectRequest({
+    method: 'patch',
+    endpoint: getToggleLikeEndpoint(projectId)
+  })
 
 /**
  * Add new comment to project
@@ -41,11 +43,12 @@ export const toggleProjectLike = (projectId) => projectRequest({
  * @param {Comment} comment
  * @returns
  */
-export const addComment = (projectId, content, mentions) => projectRequest({
-  method: 'post',
-  endpoint: getCommentEndpoint(projectId),
-  body: { content, mentions }
-})
+export const addComment = (projectId, content, mentions) =>
+  projectRequest({
+    method: 'post',
+    endpoint: getCommentEndpoint(projectId),
+    body: { content, mentions }
+  })
 
 /**
  * Edit a comment
@@ -55,11 +58,12 @@ export const addComment = (projectId, content, mentions) => projectRequest({
  * @param {Comment} comment
  * @returns
  */
-export const  editComment = ({ commentId, content }) => projectRequest({
-  method: 'put',
-  endpoint: getCommentEndpoint(commentId),
-  body: { content }
-})
+export const editComment = ({ commentId, content }) =>
+  projectRequest({
+    method: 'put',
+    endpoint: getCommentEndpoint(commentId),
+    body: { content }
+  })
 
 /**
  * Remove a comment
@@ -68,23 +72,25 @@ export const  editComment = ({ commentId, content }) => projectRequest({
  * @param {string} commentId
  * @returns
  */
-export const deleteComment = (commentId) => projectRequest({
-  method: 'delete',
-  endpoint: getCommentEndpoint(commentId)
-})
+export const deleteComment = commentId =>
+  projectRequest({
+    method: 'delete',
+    endpoint: getCommentEndpoint(commentId)
+  })
 
 /**
  * Get all comments from a project with pagination and sorting
- * @param {string} projectId 
- * @returns 
+ * @param {string} projectId
+ * @returns
  */
-export const getComments = (projectId, query) => projectRequest({
-  method: 'get',
-  endpoint: getProjectCommentsEndpoint(projectId, query)
-})
+export const getComments = (projectId, query) =>
+  projectRequest({
+    method: 'get',
+    endpoint: getProjectCommentsEndpoint(projectId, query)
+  })
 
-export const getAttachment = (attachment) => {
-  if(!attachment) throw new Error('Attachment is required')
+export const getAttachment = attachment => {
+  if (!attachment) throw new Error('Attachment is required')
 
   return projectRequest({
     method: 'get',
@@ -102,45 +108,59 @@ export const getAttachment = (attachment) => {
  * @param {string} projectId
  * @returns
  */
-export const getProject = (projectId) =>  projectRequest({
-  method: 'get',
-  endpoint: projectId
-})
+export const getProject = projectId =>
+  projectRequest({
+    method: 'get',
+    endpoint: projectId
+  })
 
-export const deleteProject = (projectId) =>  projectRequest({
-  method: 'delete',
-  endpoint: projectId
-})
+export const deleteProject = projectId =>
+  projectRequest({
+    method: 'delete',
+    endpoint: projectId
+  })
 
 /**
  * Get all project
  */
-export const getAllProjects = (query) => projectRequest({ method: 'get', endpoint: query })
+export const getAllProjects = query =>
+  projectRequest({ method: 'get', endpoint: query })
 
-export const addUpdate = (projectId, update) => projectRequest({
-  method: 'post',
-  endpoint: getUpdateEndpoint(projectId),
-  body: update
-})
+export const addUpdate = (projectId, update) =>
+  projectRequest({
+    method: 'post',
+    endpoint: getUpdateEndpoint(projectId),
+    body: update
+  })
 
-export const removeUpdate = (updateId) => projectRequest({
-  method: 'delete',
-  endpoint: getDeleteUpdateEndpoint(updateId)
-})
+export const removeUpdate = updateId =>
+  projectRequest({
+    method: 'delete',
+    endpoint: getDeleteUpdateEndpoint(updateId)
+  })
 
-export const addMembers = (projectId, members) => projectRequest({
-  method: 'post',
-  endpoint: getAddMemberEndpoint(projectId),
-  body: { members }
-})
+export const addMembers = (projectId, members) =>
+  projectRequest({
+    method: 'post',
+    endpoint: getAddMemberEndpoint(projectId),
+    body: { members }
+  })
 
-export const deleteMember = (projectId, memberId) => projectRequest({
-  method: 'post',
-  endpoint: getDeleteMemberEndpoint(projectId),
-  body: { memberId }
-})
+export const deleteMember = (projectId, memberId) =>
+  projectRequest({
+    method: 'post',
+    endpoint: getDeleteMemberEndpoint(projectId),
+    body: { memberId }
+  })
 
 // TODO: CHANGE THE FUNCTION BELOW TO USE projectRequest
 export function deleteFile(projectId, filePath, type) {
   return axios.post(`projects/${projectId}/${type}/deleteFile`, { filePath })
 }
+
+export const transferOwnership = (projectId, userToTransfer) =>
+  projectRequest({
+    method: 'post',
+    endpoint: `${projectId}/transferOwnership`,
+    body: { userToTransfer }
+  })

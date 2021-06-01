@@ -200,7 +200,7 @@ router.get(
       })
       let { projects } = user
       projects = projects.sort((a, b) =>
-        a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+        a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
       )
       const project = projects[0]
       return res.status(200).json({ project })
