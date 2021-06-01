@@ -14,14 +14,14 @@ const styles = theme => ({
 const links = [
   { path: '/learn', name: 'Learn', public: true },
   { path: '/projects', name: 'Projects', public: true },
-  { path: '/engage', name: 'Forum', public: true },
+  { path: '/engage', name: 'Forum', public: false },
   { path: '/whatsnew', name: "What's New", public: true }
 ]
 
 const NavBar = ({ classes }) => {
   const navLinkStyle = useNavLinkStyle({ fontSizeMobile: 10 })
   const userIsAuthenticated = useIsAuthenticated()
-  
+
   const filteredRoutes = links.filter(link => {
     if (!link.public) return userIsAuthenticated
     return link.public
