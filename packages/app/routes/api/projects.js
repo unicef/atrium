@@ -1271,15 +1271,15 @@ router.post(
       }
       if (req.params.type === 'video') {
         project.videos = project.videos.filter(
-          file => file !== req.body.filePath
+          file => file.url !== req.body.filePath.url
         )
       } else if (req.params.type === 'photo') {
         project.photos = project.photos.filter(
-          file => file !== req.body.filePath
+          file => file.url !== req.body.filePath.url
         )
       } else {
         project.documents = project.documents.filter(
-          file => file !== req.body.filePath
+          file => file.url !== req.body.filePath.url
         )
       }
 
