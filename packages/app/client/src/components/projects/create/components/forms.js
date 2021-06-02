@@ -818,7 +818,6 @@ export const FirstProjectForm = props => {
                       className={classes.fileInput}
                       onChange={e => {
                         setFile(e.target.files[0])
-                        console.log(e.target.value)
                         handleChange(e)
                       }}
                     />
