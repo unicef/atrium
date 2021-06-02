@@ -33,7 +33,7 @@ const BadgeRow = ({ index, showContent }) => {
         </Grid>
 
         {showContent &&
-          <Grid item xs="auto">
+          <Grid item xs>
             <Typography className={classes.title}>{title}</Typography>
             <Typography className={classes.description}>{description}</Typography>
           </Grid>
