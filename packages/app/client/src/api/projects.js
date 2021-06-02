@@ -164,3 +164,9 @@ export const transferOwnership = (projectId, userToTransfer) =>
     endpoint: `${projectId}/transferOwnership`,
     body: { userToTransfer }
   })
+
+export const downloadFile = filePath =>
+  projectRequest({
+    method: 'get',
+    endpoint: `download/${filePath}`
+})
