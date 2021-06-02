@@ -2,12 +2,13 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import { Button } from '../../../../ui'
 import { DeleteButton } from '../../overview/assets'
+import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   document: {
     padding: '2% 4%',
-    border: '1.6px solid #636767',
+    border: `1.6px solid ${theme.colors['dark-gray']}`,
     borderRadius: '3px',
     margin: '2% 0',
     display: 'flex',
@@ -18,7 +19,8 @@ const useStyles = makeStyles(() => ({
     width: '13px',
     height: '13px',
     minWidth: 0,
-    margin: 0
+    margin: 0,
+    color: theme.colors['dark-gray']
   },
   documentName: {
     fontSize: '13px'
@@ -38,12 +40,12 @@ const AddedFile = ({ size, name, newFile, onDelete, file }) => {
           {handledName}
         </Typography>
       <Button
-          color="secondary"
-          className={classes.deleteButton}
-          onClick={() => onDelete(file)}
-        >
-          <img alt="delete icon" src={DeleteButton} />
-        </Button>
+        color="secondary"
+        className={classes.deleteButton}
+        onClick={() => onDelete(file)}
+      >
+          {newFile ? <CloseOutlinedIcon /> : <img alt="delete icon" src={DeleteButton} />}
+      </Button>
     </div>
   )
 }
