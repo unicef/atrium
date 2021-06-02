@@ -31,7 +31,7 @@ const formProps = {
 const Login = ({ history }) => {
   const [keepLogged, setKeepLogged] = useState(false)
   const { login } = useAuthAsyncActions()
-  
+
   return (
     <MainContainer mt={100} size="regular">
       <MobileReverseGrid
@@ -65,19 +65,6 @@ const Login = ({ history }) => {
               </Grid>
             }
           />
-          
-          <TextWithLinks
-            links={[
-              {
-                to: '/forgot-password',
-                str: 'Forgot password',
-                variant: 'body2'
-              }
-            ]}
-            mt={36}
-          >
-            Forgot password
-          </TextWithLinks>
           <TextWithLinks
             links={[
               {
