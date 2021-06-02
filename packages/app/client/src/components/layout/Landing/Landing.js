@@ -92,9 +92,6 @@ const useWelcomeSectionStyles = makeStyles(theme => ({
     textTransform: 'uppercase',
     lineHeight: '34px'
   },
-  header: {
-    textAlign: 'left'
-  },
   description: {
     textAlign: 'left',
     marginTop: 40,
@@ -301,11 +298,7 @@ const Landing = props => {
             />
           </Grid>
           <Grid item xs={12} sm={12} md={5}>
-            <Typography
-              style={{ width: '75%' }}
-              className={welcomeStyles.header}
-              variant="h2"
-            >
+            <Typography variant="h1">
               Start your blockchain journey
             </Typography>
             <Typography

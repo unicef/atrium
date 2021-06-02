@@ -205,7 +205,7 @@ export default function() {
     <Grid container className={classes.root}>
       <Grid item xs={12} className={classes.header}>
         <div className={classes.contentWrapper}>
-          <Typography component="h1" variant="h1" color="secondary">
+          <Typography component="h1" variant="h1">
             Meet The Atrium
           </Typography>
           <Typography component="h5" className={classes.subtitle}>

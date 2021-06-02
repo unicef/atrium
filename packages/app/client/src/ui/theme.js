@@ -50,13 +50,9 @@ export const theme = createMuiTheme({
   typography: {
     fontFamily: 'Montserrat, Verdana, sans-serif',
     h1: {
-      fontSize: 58,
-      fontWeigth: 700,
-      lineHeight: 0.93,
-      textTransform: 'none',
-      '@media (max-width: 600px)': {
-        fontSize: 42
-      }
+      fontSize: 44,
+      fontWeight: 700,
+      lineHeight: 1.25
     },
     h2: {
       fontSize: 43,
