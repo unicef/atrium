@@ -210,9 +210,10 @@ router.post(
       const comment = await Comment.findOneAndUpdate(
         { _id: req.params.commentId },
         {
-          reported: req.body.reported,
+          reported: !!req.body.reported,
           reportMessage: req.body.reportMessage
-        }
+        },
+        {new: true}
       ).populate(populateParams)
 
       log.info(
