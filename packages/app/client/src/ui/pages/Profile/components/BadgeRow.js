@@ -10,7 +10,7 @@ const useStyles = makeStyles(() => ({
     fontStyle: 'normal',
     fontWeight: 600,
     fontSize: '15px',
-    lineHeight: '18px',
+    lineHeight: '18px'
   },
   description: {
     fontStyle: 'normal',
@@ -27,7 +27,7 @@ const BadgeRow = ({ index, showContent }) => {
 
   return (
     <>
-      <Grid container item spacing={4}>
+      <Grid container item xs={12} spacing={3}>
         <Grid item xs="auto">
           <Image />
         </Grid>
