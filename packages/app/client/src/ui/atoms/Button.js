@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     padding: theme.spacing(2, 3),
     textTransform: 'none',
-    lineHeight: 1.35,
+    lineHeight: 1.2,
     '&:disabled': {
       color: theme.colors['white'],
       backgroundColor: theme.colors['warm-gray']
