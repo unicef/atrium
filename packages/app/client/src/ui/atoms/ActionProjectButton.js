@@ -6,7 +6,8 @@ import { DeleteButton } from '../../components/projects/overview/assets'
 const useStyles = makeStyles(() => ({
   button: {
     width: '107px',
-    height: '42px'
+    height: '42px',
+    marginRight: '5%'
   },
   text: {
     marginLeft: '10%'
