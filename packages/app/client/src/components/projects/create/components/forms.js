@@ -281,7 +281,7 @@ export const FirstProjectForm = props => {
   const [video, setVideo] = useState(null)
 
   const [oldPicture, setOldPicture] = useState(
-    props.formData.attachmen && props.formData.attachment.url
+    props.formData.attachment && props.formData.attachment.url
   )
   const [oldFiles, setOldFiles] = useState(props.formData.documents)
   const [oldPhotos, setOldPhotos] = useState(props.formData.documents)
@@ -637,7 +637,7 @@ export const FirstProjectForm = props => {
                   />
                 </RadioGroup>
                 <FormHelperText className={classes.errorMessage}>
-                  {touched.blockchainType && errors.blockchainType
+                  {!!(touched.blockchainType && errors.blockchainType)
                     ? touched.blockchainType && errors.blockchainType
                     : null}
                 </FormHelperText>
