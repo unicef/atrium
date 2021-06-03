@@ -55,10 +55,13 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between'
   },
   seeAllButton: {
-    width: '85px',
+    width: '86px',
     height: '16px',
     color: '#15B54A',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: 'white'
+    }
   },
   line: {
     borderBottom: '1px solid #E7E7E7'
@@ -218,7 +221,7 @@ function Dashboard(props) {
                 <EmptyResults
                   mainMessage="You don’t have any projects yet"
                   buttonLabel="Add project"
-                  handleClick={() => history.push('projects')}
+                  handleClick={() => history.push('create-projects')}
                   buttonProps={{ className: classes.margined }}
                 />
               )}

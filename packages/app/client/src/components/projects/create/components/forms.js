@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Formik } from 'formik'
+import React, {useEffect, useRef, useState} from 'react'
+import { Formik, Field } from 'formik'
 
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
@@ -11,12 +11,19 @@ import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import { Button, TextField, AttachmentUploader, Select, Image } from '../../../../ui'
+import {
+  Button,
+  TextField,
+  AttachmentUploader,
+  Select,
+  Image
+} from '../../../../ui'
 import MenuItem from '@material-ui/core/MenuItem'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { useHistory } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 import { DeleteButton, MyPost, ProjectPicture } from '../../overview/assets'
+import { FormGroup } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -273,7 +280,9 @@ export const FirstProjectForm = props => {
   const [photo, setPhoto] = useState(null)
   const [video, setVideo] = useState(null)
 
-  const [oldPicture, setOldPicture] = useState(props.formData.attachmen && props.formData.attachment.url)
+  const [oldPicture, setOldPicture] = useState(
+    props.formData.attachment && props.formData.attachment.url
+  )
   const [oldFiles, setOldFiles] = useState(props.formData.documents)
   const [oldPhotos, setOldPhotos] = useState(props.formData.documents)
   const [oldVideos, setOldVideos] = useState(props.formData.documents)
@@ -330,21 +339,19 @@ export const FirstProjectForm = props => {
   }
 
   const onFormSubmit = (values, { setSubmitting }) => {
-    const projectTags =
-      !values.projectTags || values.projectTags.length === 0
-        ? []
-        : values.projectTags.split(',').map(s => s.trim())
-    const data = { ...values, projectTags }
-    props.handleCreateProject(data, props.editting)
+    props.handleCreateProject(values, props.editting)
     setSubmitting(false)
   }
-  const receivedDescription =  props.formData && props.formData.projectDescription ? props.formData.projectDescription : ''
+  const receivedDescription =
+    props.formData && props.formData.projectDescription
+      ? props.formData.projectDescription
+      : ''
   const [characters, setCharacters] = useState(receivedDescription.length)
   const [contactPerson, setContactPerson] = useState(false)
+  const formRef = useRef()
 
-  const validateProjectForm = values => {
+  const validateProjectForm = (values) => {
     const errors = {}
-
     if (!values.projectName) {
       errors.projectName = 'Project name is required'
     }
@@ -392,6 +399,10 @@ export const FirstProjectForm = props => {
     return errors
   }
 
+  useEffect(() => {
+    formRef.current.validateForm()
+  }, [contactPerson])
+
   return (
     <div className={classes.wrapper}>
       <Typography color="secondary" variant="h3">
@@ -424,6 +435,7 @@ export const FirstProjectForm = props => {
           videos: video,
           editting: props.editting
         }}
+        innerRef={formRef}
         enableReinitialize={true}
         validate={validateProjectForm}
         onSubmit={onFormSubmit}
@@ -437,6 +449,7 @@ export const FirstProjectForm = props => {
           isSubmitting,
           isValid,
           dirty,
+          validateForm,
           ...props
         }) => (
           <form
@@ -453,7 +466,13 @@ export const FirstProjectForm = props => {
                       shrink
                       htmlFor="attachment"
                     >
-                      Project photo <Typography className={classes.editAttachmentMessage} component="span">(maximum size of 10MB)</Typography>
+                      Project photo{' '}
+                      <Typography
+                        className={classes.editAttachmentMessage}
+                        component="span"
+                      >
+                        (maximum size of 10MB)
+                      </Typography>
                     </InputLabel>
                     <Box position="relative" width="100%" height="250px">
                       <Image
@@ -548,7 +567,6 @@ export const FirstProjectForm = props => {
                   error={!!(touched.projectName && errors.projectName)}
                   errorMessage={touched.projectName && errors.projectName}
                   fullWidth
-                  autoFocus
                   value={values.projectName}
                 />
               </Grid>
@@ -662,6 +680,8 @@ export const FirstProjectForm = props => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       defaultChecked={values.freeForAll}
+                      error={!!(touched.freeForAll && errors.freeForAll)}
+                      errorMessage={touched.freeForAll && errors.freeForAll}
                     />
                   }
                   label="This project doesn't contain any sensitive data and can be viewed by non-UN users"
@@ -1107,7 +1127,9 @@ export const FirstProjectForm = props => {
                 className={classes.saveButton}
                 color="primary"
                 type="submit"
-                disabled={isSubmitting || !isValid}
+                disabled={
+                  isSubmitting || !(isValid && Object.keys(touched).length > 0)
+                }
               >
                 Save
               </Button>
