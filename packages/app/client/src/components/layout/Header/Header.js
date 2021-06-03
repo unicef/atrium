@@ -114,7 +114,6 @@ const Header = ({ logoutUser, auth, classes, location, ...props }) => {
         <Link component={RouterLink} to="/" className={classes.title}>
           The Atrium
         </Link>
-
         <Navbar />
         {auth.isAuthenticated && <ProfilePictureHeader />}
         {auth.isAuthenticated && <DropdownHeaderMenu logoutUser={logoutUser} />}

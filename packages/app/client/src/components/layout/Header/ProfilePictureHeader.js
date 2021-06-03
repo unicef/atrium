@@ -1,27 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import { withStyles } from '@material-ui/core'
+import { Typography, withStyles } from '@material-ui/core'
 
 const styles = theme => ({
   navLink: {
-    display: 'flex',
-    alignItems: 'center',
-    position: 'relative',
-    lineHeight: 1.5,
-    color: 'black',
     textDecoration: 'none',
+    color: 'black',
+    whiteSpace: 'nowrap',
     '&:hover': {
       backgroundColor: theme.colors['light-green']
     },
-    width: '160px'
+    marginRight: theme.spacing(1.5)
   }
 })
 
 const ProfilePictureHeader = withStyles(styles)(({ user, classes }) => {
   return (
     <NavLink to={'/profile'} className={classes.navLink}>
-      My account
+      <Typography>My account</Typography>
     </NavLink>
   )
 })
