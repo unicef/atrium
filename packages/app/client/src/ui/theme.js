@@ -24,7 +24,7 @@ export const colors = {
   'section-bg': 'rgb(221,251,246)' //#DDFBF6
 }
 
-export const theme = createMuiTheme({
+const MuiTheme = createMuiTheme({
   colors,
   palette: {
     error: {
@@ -109,6 +109,18 @@ export const theme = createMuiTheme({
       fontSize: 12,
       fontWeight: 400,
       lineHeight: '24px'
+    }
+  }
+})
+
+export const theme = createMuiTheme({
+  ...MuiTheme,
+  overrides: {
+    MuiSelect: {
+      root: {
+        fontSize: MuiTheme.typography.body1.fontSize,
+        paddingRight: MuiTheme.spacing(4),
+      }
     }
   }
 })

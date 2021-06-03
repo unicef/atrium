@@ -118,9 +118,6 @@ const useStyles = makeStyles(theme => ({
   selects: {
     borderRadius: '3px',
     width: '100%',
-    fontSize: 12,
-    fontFamily: theme.typography.fontFamily,
-    fontWeight: theme.typography.fontWeightMedium
   },
   dropBoxBorder: {
     padding: '3%',
@@ -163,10 +160,6 @@ const useStyles = makeStyles(theme => ({
     marginRight: '2%'
   },
   chooseSelect: {
-    fontFamily: theme.typography.fontFamily,
-    fontStyle: 'normal',
-    fontWeight: 300,
-    fontSize: 15,
     color: 'grey'
   },
   inputLabel: {
@@ -640,7 +633,7 @@ export const FirstProjectForm = props => {
                   variant="outlined"
                 >
                   <MenuItem value="">
-                    <em className={classes.chooseSelect}>Choose</em>
+                    <Typography className={classes.chooseSelect}>Choose</Typography>
                   </MenuItem>
                   <MenuItem value="bitcoin">Bitcoin</MenuItem>
                   <MenuItem value="ethereum">Ethereum</MenuItem>
@@ -683,7 +676,7 @@ export const FirstProjectForm = props => {
                   name="stageOfProject"
                 >
                   <MenuItem value="">
-                    <em className={classes.chooseSelect}>Choose</em>
+                    <Typography className={classes.chooseSelect}>Choose</Typography>
                   </MenuItem>
                   <MenuItem value="Research">Research</MenuItem>
                   <MenuItem value="Ideation">Ideation</MenuItem>
@@ -712,7 +705,7 @@ export const FirstProjectForm = props => {
                   name="innovationCategory"
                 >
                   <MenuItem value="">
-                    <em className={classes.chooseSelect}>Choose</em>
+                    <Typography className={classes.chooseSelect}>Choose</Typography>
                   </MenuItem>
                   <MenuItem value="Blockchain">Blockchain</MenuItem>
                   <MenuItem value="Financial Inclusion">
@@ -757,7 +750,7 @@ export const FirstProjectForm = props => {
                   displayEmpty
                 >
                   <MenuItem value="">
-                    <em className={classes.chooseSelect}>Choose</em>
+                    <Typography className={classes.chooseSelect}>Choose</Typography>
                   </MenuItem>
                   <MenuItem value="End Poverty">End Poverty</MenuItem>
                   <MenuItem value="Zero Hunger">Zero Hunger</MenuItem>
