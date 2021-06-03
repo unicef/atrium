@@ -10,7 +10,6 @@ const styles = theme => ({
     position: 'relative',
     padding: '17px 8px',
     fontSize: 15,
-    fontFamily: 'Roboto',
     height: 41,
     lineHeight: 1.5,
     color: 'black',

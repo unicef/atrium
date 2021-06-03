@@ -47,7 +47,7 @@ const styles = theme => ({
   },
   titleOfForm: {
     marginBottom: 10,
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     color: theme.colors['dark-forest-green']
   },
   subLabel: {

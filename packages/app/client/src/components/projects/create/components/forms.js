@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
         padding: '6px 0 0',
         color: theme.colors['black'],
         fontSize: 16,
-        fontFamily: 'Roboto,sans-serif'
+        fontFamily: theme.typography.fontFamily,
       }
     },
     width: '100%',
@@ -137,14 +137,14 @@ const useStyles = makeStyles(theme => ({
   },
   firstDropBoxText: {
     marginTop: '2%',
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     fontStyle: 'normal',
     fontWeight: 350,
     fontSize: 18
   },
   secondDropBoxText: {
     marginTop: '2%',
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     fontStyle: 'normal',
     fontWeight: 200,
     fontSize: 13
@@ -163,7 +163,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: '2%'
   },
   chooseSelect: {
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     fontStyle: 'normal',
     fontWeight: 300,
     fontSize: 15,

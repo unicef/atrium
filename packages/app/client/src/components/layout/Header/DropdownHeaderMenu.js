@@ -32,7 +32,7 @@ const styles = theme => ({
     }
   },
   menuItemCustom: {
-    fontFamily: ['Red Hat Display', 'sans-serif'].join(','),
+    fontFamily: theme.typography.fontFamily,
     fontSize: 12,
     fontWeight: 500,
     lineHeight: 3.2,

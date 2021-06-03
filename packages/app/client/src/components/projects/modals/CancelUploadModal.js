@@ -33,7 +33,7 @@ const styles = theme => ({
     width: '100%',
     padding: '14px 15px',
     marginBottom: 40,
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     fontSize: 16,
     border: `1px solid ${theme.colors['warm-gray']}`,
     borderRadius: 5

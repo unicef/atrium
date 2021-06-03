@@ -12,7 +12,7 @@ import { PROJECT_FILTER_ENUM } from '../../unin-constants'
 const styles = theme => ({
   noProjectsText: {
     marginTop: 64,
-    fontFamily: ['Red Hat Display', 'sans-serif'].join(','),
+    fontFamily: theme.typography.fontFamily,
     fontSize: '24px',
     fontWeight: 500,
     letterSpacing: '1.8px'

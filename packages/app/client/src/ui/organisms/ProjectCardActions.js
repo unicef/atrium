@@ -18,7 +18,7 @@ const styles = theme => ({
     }
   },
   actionButton: {
-    fontFamily: ['Red Hat Display', 'sans-serif'].join(','),
+    fontFamily: theme.typography.fontFamily,
     fontSize: 12,
     fontWeight: theme.typography.fontWeightMedium,
     letterSpacing: 0.8,

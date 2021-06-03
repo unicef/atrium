@@ -25,7 +25,7 @@ const styles = theme => ({
   },
   noPolls: {
     marginTop: 20,
-    fontFamily: ['Red Hat Display', 'sans-serif'].join(','),
+    fontFamily: theme.typography.fontFamily,
     fontSize: '24px',
     fontWeight: 500,
     letterSpacing: '1.8px',

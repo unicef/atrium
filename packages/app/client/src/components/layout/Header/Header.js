@@ -24,7 +24,7 @@ const styles = theme => ({
     maxWidth: '100vw',
     left: 0,
     background: 'white',
-    fontFamily: ['Red Hat Display', 'sans-serif'].join(','),
+    fontFamily: theme.typography.fontFamily,
     zIndex: 100,
     boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.13)'
   },
