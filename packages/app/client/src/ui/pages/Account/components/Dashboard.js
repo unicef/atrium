@@ -136,7 +136,7 @@ function Dashboard(props) {
                 <div className={classes.bordered}>
                   <div className={classes.topText}>
                     <LikeButton liked onlyIcon disabled />
-                    <div>Likes</div>
+                    <Typography>Likes</Typography>
                   </div>
                   <div className={classes.greenLine} />
                   <div className={classes.count}>
@@ -158,7 +158,7 @@ function Dashboard(props) {
                         height="22px"
                         src={Badge}
                       />
-                      <span className={classes.margined}>Badges</span>
+                      <Typography className={classes.margined}>Badges</Typography>
                     </div>
                     <div className={classes.greenLine} />
                     <div className={classes.count}>

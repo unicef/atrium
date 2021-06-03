@@ -95,13 +95,11 @@ export const theme = createMuiTheme({
     subtitle2: {
       fontSize: 12,
       fontWeight: 600,
-      letterSpacing: 0.8,
       color: colors['black']
     },
     body1: {
       fontWeight: 400,
       textTransform: 'none',
-      letterSpacing: 'normal'
     },
     body2: {
       fontWeight: 600,
