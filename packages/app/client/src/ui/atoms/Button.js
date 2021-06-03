@@ -36,22 +36,19 @@ const largeBtnTheme = createMuiTheme({
 })
 
 const useStyles = makeStyles(theme => ({
-  root: props => ({
+  root: {
     fontFamily: theme.typography.fontFamily,
-    fontSize: 13,
-    fontWeight: 500,
-    padding: 15,
+    fontSize: 14,
+    fontWeight: 600,
+    padding: theme.spacing(2, 3),
     textTransform: 'none',
-    lineHeight: 1.3,
-    ...composeMargins(props),
-    maxHeight: 51,
+    lineHeight: 1.35,
     '&:disabled': {
       color: theme.colors['white'],
       backgroundColor: theme.colors['warm-gray']
     }
-  }),
+  },
   outlined: {
-    letterSpacing: 1,
     color: theme.colors['shamrock-green'],
     borderWidth: 1.2,
     borderColor: theme.colors['shamrock-green'],
@@ -59,15 +56,13 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'none'
   },
   sizeMini: {
-    padding: '7px 14px',
-    fontSize: 11,
-    letterSpacing: 0.83
+    padding: theme.spacing(1, 2),
+    fontSize: 11
   },
   sizeSmall: {
-    padding: '9px 21px'
+    padding: theme.spacing(1.5, 2.5)
   },
   sizeLarge: {
-    letterSpacing: 1,
     borderRadius: 0
   },
   primary: {
@@ -78,7 +73,6 @@ const useStyles = makeStyles(theme => ({
   secondary: {
   },
   full: props => ({
-    maxHeight: 51,
     color: theme.colors[props.labelColor],
     width: '100%'
   }),

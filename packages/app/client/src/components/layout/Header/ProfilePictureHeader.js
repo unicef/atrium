@@ -8,16 +8,13 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     position: 'relative',
-    padding: '17px 8px',
-    fontSize: 15,
-    height: 41,
     lineHeight: 1.5,
     color: 'black',
     textDecoration: 'none',
     '&:hover': {
       backgroundColor: theme.colors['light-green']
     },
-    width: '106px'
+    width: '160px'
   }
 })
 

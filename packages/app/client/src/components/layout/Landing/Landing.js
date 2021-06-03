@@ -119,11 +119,6 @@ const useWelcomeSectionStyles = makeStyles(theme => ({
     margin: '0 10px 0 0',
     padding: 8
   },
-  addProjectButton: {
-    width: '105px',
-    height: '40px',
-    marginTop: 0
-  },
   welcomeText: {
     textAlign: 'left',
     marginTop: 30,
@@ -183,8 +178,6 @@ const useExploreSectionStyles = makeStyles(theme => ({
 
 const useBlockchainSectionStyles = makeStyles(theme => ({
   viewDocumentButton: {
-    width: '270px',
-    height: '50px',
     margin: '0 10% 10%'
   },
   section: {
@@ -314,7 +307,6 @@ const Landing = props => {
               <Button
                 color="primary"
                 onClick={() => handleNavigation('/create-projects')}
-                className={welcomeStyles.addProjectButton}
               >
                 Add project
               </Button>
