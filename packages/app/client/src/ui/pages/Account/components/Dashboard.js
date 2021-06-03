@@ -1,7 +1,11 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid'
+import { ChevronRight } from '@material-ui/icons'
+import { 
+  Grid,
+  Typography,
+  makeStyles 
+} from '@material-ui/core'
 import BorderedInfo from './BorderedInfo'
-import Typography from '@material-ui/core/Typography'
 import {
   Button,
   Image,
@@ -10,7 +14,6 @@ import {
   ActionProjectButton
 } from '../../../atoms'
 import { Badge } from '../../../assets'
-import { makeStyles } from '@material-ui/core/styles'
 import { EmptyResults, StructuredCard } from '../../../molecules'
 import combineUserItemsQueryStrings from '../../../../utils/combineUserItemsQueryStrings'
 import {
@@ -55,8 +58,6 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between'
   },
   seeAllButton: {
-    width: '85px',
-    height: '16px',
     color: '#15B54A',
     backgroundColor: 'white'
   },
@@ -139,9 +140,9 @@ function Dashboard(props) {
                     <Typography>Likes</Typography>
                   </div>
                   <div className={classes.greenLine} />
-                  <div className={classes.count}>
+                  <Typography className={classes.count}>
                     {likes ? likes : 0}
-                  </div>
+                  </Typography>
                 </div>
                 <Button className={classes.buttons} color="primary">
                   Redeem likes
@@ -161,13 +162,13 @@ function Dashboard(props) {
                       <Typography className={classes.margined}>Badges</Typography>
                     </div>
                     <div className={classes.greenLine} />
-                    <div className={classes.count}>
+                    <Typography className={classes.count}>
                       {props.badges &&
                         Object.keys(props.badges).filter(
                           key => props.badges[key]
                         ).length}
                       /{Object.keys(props.badges).length}
-                    </div>
+                    </Typography>
                   </div>
                 </div>
                 <Button
@@ -188,8 +189,9 @@ function Dashboard(props) {
               <Button
                 className={classes.seeAllButton}
                 onClick={e => handleChange(e, 4)}
+                endIcon={<ChevronRight />}
               >
-                see all >
+                see all
               </Button>
             </div>
             <div>
@@ -234,8 +236,9 @@ function Dashboard(props) {
               <Button
                 className={classes.seeAllButton}
                 onClick={e => handleChange(e, 5)}
+                endIcon={<ChevronRight />}
               >
-                see all >
+                see all
               </Button>
             </div>
             <div>
@@ -270,8 +273,9 @@ function Dashboard(props) {
               <Button
                 className={classes.seeAllButton}
                 onClick={e => handleChange(e, 3)}
+                endIcon={<ChevronRight />}
               >
-                see all >
+                see all
               </Button>
             </div>
             <div>
