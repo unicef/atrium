@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import { LearnGuideSVG, LearnRemixSVG } from '../assets'
 import { SectionWithBorderedText, MainContainer } from '../templates'
 import { makeStyles } from '@material-ui/core/styles'
+import { ActionDialog } from '../organisms'
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -40,6 +41,7 @@ const SectionIcon = ({ children }) => {
 }
 
 const WhatsNew = () => {
+  const [showDialog, setDialogVisibility] = React.useState(false)
 
   return (
     <MainContainer size="full">
@@ -51,7 +53,7 @@ const WhatsNew = () => {
         Test out your contract development skills with Remix now.`}
         boxTitle="Write your first smart contract with Remix"
         actionLabel="Open Remix"
-        onClick={()=> window.location.replace('remix')}
+        onClick={()=> setDialogVisibility(true)}
         otherComponent={<SectionIcon><LearnRemixSVG /></SectionIcon>}
         borderedTextFirst
       />
@@ -63,6 +65,14 @@ const WhatsNew = () => {
         boxTitle="Directed Learning"
         actionLabel="View learning paths"
         otherComponent={<SectionIcon><LearnGuideSVG /></SectionIcon>}
+      />
+      <ActionDialog
+        title="You are leaving Atrium"
+        content="On confirm you will be redirected to Remix"
+        buttonLabel="Confirm"
+        onConfirm={()=> window.location.replace('remix')}
+        open={showDialog}
+        handleClose={() => setDialogVisibility(false)}
       />
     </MainContainer>
   )
