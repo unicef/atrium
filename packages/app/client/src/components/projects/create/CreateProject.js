@@ -5,12 +5,9 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/styles'
 import Container from '@material-ui/core/Container'
 import { FirstProjectForm } from './components'
-import {
-  createProject,
-  deleteFileFromProject,
-  editProject
-} from '../../../actions/projectActions'
+import { updateProject, createProject, deleteFile } from '../../../api/projects'
 import { refreshToken } from '../../../actions/authActions'
+import { useHandledRequest } from '../../../ui/hooks'
 
 const styles = theme => ({
   '@global': {
@@ -58,6 +55,28 @@ function CreateProject(props) {
   }
 
   const { auth, classes } = props
+  const handledRequest = useHandledRequest()
+
+  const onCreate = handledRequest({
+    request: createProject,
+    onSuccess: () => {
+      props.refreshToken()
+      window.location.replace('/projects')
+    },
+    successMessage: 'Project successfully created',
+    showFullPageLoading: true
+  })
+
+  const onUpdate = handledRequest({
+    request: updateProject,
+    onSuccess: () => {
+      props.refreshToken()
+      window.location.reload()
+    },
+    successMessage: 'Project successfully updated',
+    showFullPageLoading: true
+  })
+
   const handleCreateProject = async (data, editting) => {
     const {
       projectName,
@@ -76,7 +95,8 @@ function CreateProject(props) {
       photos
     } = data
     const { projectId } = dynamicFormData
-
+    
+    console.log('KJDHJDHJDH')
     const formData = new FormData()
 
     if (attachment) {
@@ -117,24 +137,27 @@ function CreateProject(props) {
     } else {
       formData.append('address', auth.user.address)
     }
+
     if (editting) {
-      await props.editProject(projectId, formData, () => {
-        window.location.reload()
-      })
+      onUpdate(formData, projectId)
     } else {
-      await props.createProject(formData, () => {
-        window.location.replace('/projects')
-      })
+      onCreate(formData)
     }
-    props.refreshToken()
   }
+
+  const deleteFileFromProject = handledRequest({
+    request: deleteFile,
+    successMessage: 'File successfully removed',
+    showFullPageLoading: true
+  })
+
   return (
     <Container>
       <FirstProjectForm
         formData={dynamicFormData}
         handleCreateProject={handleCreateProject}
         editting={props.editting}
-        deleteFileFromProject={props.deleteFileFromProject}
+        deleteFileFromProject={deleteFileFromProject}
         refreshToken={props.refreshToken}
         goToOverview={props.goToOverview}
       />
@@ -145,10 +168,7 @@ function CreateProject(props) {
 CreateProject.propTypes = {
   auth: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  createProject: PropTypes.func.isRequired,
-  editProject: PropTypes.func.isRequired,
-  refreshToken: PropTypes.func.isRequired,
-  deleteFileFromProject: PropTypes.func.isRequired
+  refreshToken: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -157,10 +177,7 @@ const mapStateToProps = state => ({
 
 export default compose(
   connect(mapStateToProps, {
-    refreshToken,
-    createProject,
-    editProject,
-    deleteFileFromProject
+    refreshToken
   }),
   withStyles(styles)
 )(CreateProject)
