@@ -645,7 +645,7 @@ export const FirstProjectForm = props => {
                       errorMessage={touched.freeForAll && errors.freeForAll}
                     />
                   }
-                  label="This project doesn't contain any sensitive data and can be viewed by non-UN users"
+                  label="Allow this Project to be viewed by non-UN users"
                 />
               </Grid>
               <Grid item xs={12}>
