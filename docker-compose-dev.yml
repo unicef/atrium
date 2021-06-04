@@ -95,12 +95,12 @@ services:
 
   reverse-proxy:
     restart: always
-    build: 
+    build:
       context: ./packages/reverse-proxy/custom-config
       dockerfile: ./Dockerfile
     ports:
       - "5000:5000"
-    environment: 
+    environment:
       - SECRET_OR_KEY=raging-dog-cat
     depends_on:
       - app-service
