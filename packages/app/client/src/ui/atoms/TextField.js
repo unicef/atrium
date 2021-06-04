@@ -39,7 +39,7 @@ function TextField({
         labelWidth={0}
         {...props}
       />
-      <Box position="relative" mb="13px" width="100%">
+      <Box position="relative" mb="13px">
         <Box position="absolute">
           <Fade in={showHelperTextOrError}>
             <FormHelperText className={errorClassName}>{error ? errorMessage : helperText}</FormHelperText>
