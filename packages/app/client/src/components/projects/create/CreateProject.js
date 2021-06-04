@@ -38,7 +38,7 @@ const styles = theme => ({
 })
 
 function CreateProject(props) {
-  const [dynamicFormData, setDynamicFormData] = useState({
+  const dynamicFormData = {
     projectId: props._id,
     projectName: props.name || '',
     projectDescription: props.details || '',
@@ -55,7 +55,7 @@ function CreateProject(props) {
     documents: props.documents || [],
     photos: props.photos || [],
     videos: props.videos || [],
-  })
+  }
 
   const { auth, classes } = props
   const handleCreateProject = async (data, editting) => {
@@ -76,8 +76,9 @@ function CreateProject(props) {
       photos
     } = data
     const { projectId } = dynamicFormData
-    await setDynamicFormData(prev => ({ ...prev, ...data }))
+
     const formData = new FormData()
+
     if (attachment) {
       formData.append('attachment', attachment)
     }

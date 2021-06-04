@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react'
-import { Formik, Field } from 'formik'
+import React, { useState } from 'react'
+import { Formik } from 'formik'
 
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
@@ -22,8 +22,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { useHistory } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
-import { DeleteButton, MyPost, ProjectPicture } from '../../overview/assets'
-import { FormGroup } from '@material-ui/core'
+import { MyPost, ProjectPicture } from '../../overview/assets'
+import DocumentUpload from './DocumentUpload'
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -276,32 +276,11 @@ export const FirstProjectForm = props => {
   const videoInputRef = React.useRef(null)
 
   const [picture, setPicture] = useState(null)
-  const [file, setFile] = useState(null)
-  const [photo, setPhoto] = useState(null)
-  const [video, setVideo] = useState(null)
 
-  const [oldPicture, setOldPicture] = useState(
-    props.formData.attachment && props.formData.attachment.url
-  )
-  const [oldFiles, setOldFiles] = useState(props.formData.documents)
-  const [oldPhotos, setOldPhotos] = useState(props.formData.documents)
-  const [oldVideos, setOldVideos] = useState(props.formData.documents)
-
-  useEffect(() => {
-    props.formData.attachment && setOldPicture(props.formData.attachment.url)
-  }, [props.formData.attachment])
-
-  useEffect(() => {
-    setOldFiles(props.formData.documents)
-  }, [props.formData.documents])
-
-  useEffect(() => {
-    setOldPhotos(props.formData.photos)
-  }, [props.formData.photos])
-
-  useEffect(() => {
-    setOldVideos(props.formData.videos)
-  }, [props.formData.videos])
+  const oldPicture = props.formData.attachment && props.formData.attachment.url
+  const oldFiles = props.formData && props.formData.documents
+  const oldPhotos = props.formData && props.formData.photos
+  const oldVideos = props.formData && props.formData.videos
 
   const clickInput = (e, type) => {
     e.preventDefault()
@@ -322,15 +301,7 @@ export const FirstProjectForm = props => {
   }
 
   const deleteHandler = async (filePath, type) => {
-    await props.deleteFileFromProject(props.formData.projectId, filePath, type)
-    props.refreshToken()
-    if (type === 'document') {
-      setOldFiles(oldFiles.filter(file => file !== filePath))
-    } else if (type === 'video') {
-      setOldVideos(oldVideos.filter(file => file !== filePath))
-    } else {
-      setOldPhotos(oldPhotos.filter(file => file !== filePath))
-    }
+    await props.deleteFileFromProject(props.formData.projectId, filePath.url, type)
   }
 
   const history = useHistory()
@@ -347,8 +318,6 @@ export const FirstProjectForm = props => {
       ? props.formData.projectDescription
       : ''
   const [characters, setCharacters] = useState(receivedDescription.length)
-  const [contactPerson, setContactPerson] = useState(false)
-  const formRef = useRef()
 
   const validateProjectForm = (values) => {
     const errors = {}
@@ -388,20 +357,16 @@ export const FirstProjectForm = props => {
     ) {
       errors.contactPersonEmail = 'Invalid email address'
     }
-    if (!contactPerson && !values.contactPersonEmail) {
+    if (!values.checkedContactPerson && !values.contactPersonEmail) {
       errors.contactPersonEmail =
         'Please also fill out project contact person email'
     }
-    if (!contactPerson && !values.contactPersonFullName) {
+    if (!values.checkedContactPerson && !values.contactPersonFullName) {
       errors.contactPersonFullName =
         'Please also fill out project contact person name'
     }
     return errors
   }
-
-  useEffect(() => {
-    formRef.current.validateForm()
-  }, [contactPerson])
 
   return (
     <div className={classes.wrapper}>
@@ -430,12 +395,8 @@ export const FirstProjectForm = props => {
         initialValues={{
           ...props.formData,
           attachment: picture,
-          documents: file,
-          photos: photo,
-          videos: video,
           editting: props.editting
         }}
-        innerRef={formRef}
         enableReinitialize={true}
         validate={validateProjectForm}
         onSubmit={onFormSubmit}
@@ -821,227 +782,39 @@ export const FirstProjectForm = props => {
                 </Select>
               </Grid>
               {values.editting ? (
-                <>
-                  <Grid item xs={12}>
-                    <InputLabel
-                      className={classes.inputLabel}
-                      shrink
-                      htmlFor="documents"
-                    >
-                      Documents
-                    </InputLabel>
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      id="documents"
-                      name="documents"
-                      className={classes.fileInput}
-                      onChange={e => {
-                        setFile(e.target.files[0])
-                        handleChange(e)
-                      }}
-                    />
-                    <Button
-                      className={classes.addFileButton}
-                      color="primary"
-                      onClick={e => clickInput(e, 'file')}
-                      disabled={!!file}
-                    >
-                      <label
-                        htmlFor={'documents'}
-                        className={classes.fileInputLabel}
-                        aria-label={'ATTACH FILE'}
-                        title={'ATTACH FILE'}
-                      >
-                        + Add document file
-                      </label>
-                    </Button>
-                    {file ? (
-                      <div className={classes.chosenFile}>
-                        <Typography
-                          variant="h5"
-                          className={classes.documentName}
-                        >
-                          {file.name}
-                        </Typography>
-                        <Button
-                          className={classes.eraseButton}
-                          onClick={() => {
-                            setFile(null)
-                            fileInputRef.current.value = null
-                          }}
-                        >
-                          X
-                        </Button>
-                      </div>
-                    ) : null}
-                    {oldFiles && oldFiles[0]
-                      ? oldFiles.map(el => (
-                          <div key={Math.random()} className={classes.document}>
-                          <Typography
-                              variant="h5"
-                              className={classes.documentName}
-                            >
-                              {el.name.substr(el.name.indexOf('-') + 1)}
-                            </Typography>
-                          <Button
-                              color="secondary"
-                              className={classes.deleteButton}
-                              onClick={e => deleteHandler(el, 'document')}
-                            >
-                              <img alt="delete icon" src={DeleteButton} />
-                            </Button>
-                        </div>
-                        ))
-                      : null}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <InputLabel
-                      className={classes.inputLabel}
-                      shrink
-                      htmlFor="photos"
-                    >
-                      Photos
-                    </InputLabel>
-                    <input
-                      ref={photoInputRef}
-                      type="file"
-                      id="photos"
-                      name="photos"
-                      className={classes.fileInput}
-                      onChange={e => {
-                        setPhoto(e.target.files[0])
-                        handleChange(e)
-                      }}
-                    />
-                    <Button
-                      className={classes.addFileButton}
-                      color="primary"
-                      onClick={e => clickInput(e, 'photo')}
-                      disabled={!!photo}
-                    >
-                      <label
-                        htmlFor={'photos'}
-                        className={classes.fileInputLabel}
-                        aria-label={'ATTACH FILE'}
-                        title={'ATTACH FILE'}
-                      >
-                        + Add photo file
-                      </label>
-                    </Button>
-                    {photo ? (
-                      <div className={classes.chosenFile}>
-                        <Typography
-                          variant="h5"
-                          className={classes.documentName}
-                        >
-                          {photo.name}
-                        </Typography>
-                        <Button
-                          className={classes.eraseButton}
-                          onClick={() => {
-                            setPhoto(null)
-                            photoInputRef.current.value = null
-                          }}
-                        >
-                          X
-                        </Button>
-                      </div>
-                    ) : null}
-                    {oldPhotos && oldPhotos[0]
-                      ? oldPhotos.map(el => (
-                          <div key={Math.random()} className={classes.document}>
-                          <Typography
-                              variant="h5"
-                              className={classes.documentName}
-                            >
-                              {el.name.substr(el.name.indexOf('-') + 1)}
-                            </Typography>
-                          <Button
-                              color="secondary"
-                              className={classes.deleteButton}
-                              onClick={e => deleteHandler(el, 'photo')}
-                            >
-                              <img alt="delete icon" src={DeleteButton} />
-                            </Button>
-                        </div>
-                        ))
-                      : null}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <InputLabel
-                      className={classes.inputLabel}
-                      shrink
-                      htmlFor="videos"
-                    >
-                      Videos
-                    </InputLabel>
-                    <input
-                      ref={videoInputRef}
-                      type="file"
-                      id="videos"
-                      name="videos"
-                      className={classes.fileInput}
-                      onChange={e => {
-                        handleChange(e)
-                        setVideo(e.target.files[0])
-                      }}
-                    />
-                    <Button
-                      className={classes.addFileButton}
-                      color="primary"
-                      onClick={e => clickInput(e, 'video')}
-                      disabled={!!video}
-                    >
-                      <label
-                        htmlFor={'videos'}
-                        className={classes.fileInputLabel}
-                        aria-label={'ATTACH FILE'}
-                        title={'ATTACH FILE'}
-                      >
-                        + Add video file
-                      </label>
-                    </Button>
-                    {video ? (
-                      <div className={classes.chosenFile}>
-                        <Typography
-                          variant="h5"
-                          className={classes.documentName}
-                        >
-                          {video.name}
-                        </Typography>
-                        <Button
-                          className={classes.eraseButton}
-                          onClick={() => {
-                            setVideo(null)
-                            photoInputRef.current.value = null
-                          }}
-                        >
-                          X
-                        </Button>
-                      </div>
-                    ) : null}
-                    {oldVideos && oldVideos[0]
-                      ? oldVideos.map(el => (
-                          <div key={Math.random()} className={classes.document}>
-                          <Typography
-                              variant="h5"
-                              className={classes.documentName}
-                            >
-                              {el.name.substr(el.name.indexOf('-') + 1)}
-                            </Typography>
-                          <Button
-                              color="secondary"
-                              className={classes.deleteButton}
-                              onClick={e => deleteHandler(el, 'video')}
-                            >
-                              <img alt="delete icon" src={DeleteButton} />
-                            </Button>
-                        </div>
-                        ))
-                      : null}
-                  </Grid>
-                </>
+                
+                <Grid item xs={12}>
+                  <DocumentUpload
+                    htmlFor="documents"
+                    name="documents"
+                    title="Documents"
+                    handleChange={setFieldValue}
+                    prevValues={oldFiles}
+                    deleteHandler={deleteHandler}
+                    type="document"
+                  />
+                  
+                  <DocumentUpload
+                    htmlFor="photos"
+                    name="photos"
+                    title="Photos"
+                    handleChange={setFieldValue}
+                    prevValues={oldPhotos}
+                    deleteHandler={deleteHandler}
+                    type="photo"
+                  />
+
+                  <DocumentUpload
+                    htmlFor="videos"
+                    name="videos"
+                    title="Videos"
+                    handleChange={setFieldValue}
+                    prevValues={oldVideos}
+                    deleteHandler={deleteHandler}
+                    type="video"
+                  />
+                </Grid>
+                
               ) : null}
               <Grid item xs={12}>
                 <div className={classes.line} />
@@ -1058,7 +831,7 @@ export const FirstProjectForm = props => {
                   control={
                     <Checkbox
                       className={classes.checkBox}
-                      onChange={() => setContactPerson(!contactPerson)}
+                      onChange={handleChange}
                       name="checkedContactPerson"
                       id="checkedContactPerson"
                     />
@@ -1066,7 +839,7 @@ export const FirstProjectForm = props => {
                   label="I'm the contact person for this project"
                 />
               </Grid>
-              {contactPerson ? null : (
+              {values.checkedContactPerson ? null : (
                 <>
                   <Grid item xs={12}>
                     <TextField
@@ -1127,9 +900,7 @@ export const FirstProjectForm = props => {
                 className={classes.saveButton}
                 color="primary"
                 type="submit"
-                disabled={
-                  isSubmitting || !(isValid && Object.keys(touched).length > 0)
-                }
+                disabled={isSubmitting || !isValid || !dirty}
               >
                 Save
               </Button>
