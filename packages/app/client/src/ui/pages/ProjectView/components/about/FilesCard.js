@@ -53,7 +53,7 @@ const FilesCard = ({ src, media, extension, name, onClick, size }) => {
       onClick={onClick}
       mediaAreaContent={isDocumentType && <DocumentsBackgroundImage />}
       actionAreaContent={
-        <CardContent className={classes.nameContainer}>  
+        <CardContent className={classes.nameContainer}>
           <Grid zeroMinWidth wrap="nowrap" className={classes.nameWrapper} container item xs={12}>
             <Typography className={classes.text} component="p" className={classes.details}>
               {trimmedName}
@@ -71,6 +71,7 @@ const FilesCard = ({ src, media, extension, name, onClick, size }) => {
             textContent="Download"
             startIcon={<SystemUpdateAltOutlinedIcon />}
             color="primary"
+            onClick={() => window.location.assign(src.replace('attachment', 'download'))}
           />
         </Grid>
       </CardContent>
