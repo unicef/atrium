@@ -1,16 +1,22 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import { comments, projects, updates } from './mocks'
-import ReportedComments from './ReportedComments';
-import ReportedProjects from "./ReportedProjects";
-import ReportedUpdates from "./ReportedUpdates";
+import ReportedComments from './ReportedComments'
+import ReportedProjects from './ReportedProjects'
+import ReportedUpdates from './ReportedUpdates'
+import { useSelector } from 'react-redux'
+import {
+  getSearchedReportedComments,
+  getSearchedReportedProjects,
+  getSearchedReportedUpdates
+} from '../../selectors'
+import { useReportsAsyncActions } from '../../ui/hooks'
 
 const mock = {
   projects,
   comments,
   updates
 }
-
 
 const useStyles = makeStyles(() => ({
   greeting: {
@@ -27,6 +33,19 @@ const useStyles = makeStyles(() => ({
 }))
 const ContentReport = () => {
   const classes = useStyles()
+
+  const { fetchSearchedReports } = useReportsAsyncActions()
+  const projects = useSelector(getSearchedReportedProjects)
+  const comments = useSelector(getSearchedReportedComments)
+  const updates = useSelector(getSearchedReportedUpdates)
+
+  React.useEffect(() => {
+    const requestReports = async () => {
+      await fetchSearchedReports()
+    }
+    requestReports()
+  }, [])
+
   return (
     <>
       <Typography className={classes.greeting} variant="h3">
