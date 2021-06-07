@@ -39,6 +39,9 @@ const ReportedComments = ({ comments }) => {
             adminArea={true}
             {...comment}
           />
+          <Grid>
+            <span>{comment.reportMessage}</span>
+          </Grid>
           <ReportActionsButtons
             deleteAction={() => {}}
             dismissAction={() => {}}

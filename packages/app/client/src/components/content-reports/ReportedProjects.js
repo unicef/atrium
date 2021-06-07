@@ -1,10 +1,11 @@
 import { Grid, makeStyles } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { ActionProjectButton } from '../../ui'
 import { useProjectsMainActions } from '../../ui/hooks'
 import ProjectCard from '../../ui/pages/ProjectsMain/components/ProjectCard'
 import { ReportActionsButtons } from './ReportActionsButtons'
+import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles(() => ({
   greeting: {
@@ -21,9 +22,9 @@ const useStyles = makeStyles(() => ({
 }))
 const ReportedProjects = ({ projects }) => {
   const classes = useStyles()
-  const { saveSearchedProjects } = useProjectsMainActions()
-  saveSearchedProjects(projects)
+
   const history = useHistory()
+
   return (
     <Grid xs={12} item container justify="flex-start" alignItems="center">
       {projects.length > 0 &&
@@ -35,22 +36,17 @@ const ReportedProjects = ({ projects }) => {
             alignItems="center"
             direction="column"
           >
-            <ProjectCard
-              className={classes.projectCards}
-              projectParent={project}
-              disableActions={true}
-              id={project.id}
-              key={project.id}
-              onClick={() => {
-                history.push(`/projects/view/${project.id}/about`)
-              }}
-              adminGrid={{ xs: 12 }}
-            />
-            <Grid>
-              <span>the report reason</span>
+            <Typography gutterBottom variant="h3" component="h6">
+              {project.name}
+            </Typography>
+            <Grid item container xs={12}>
+              <Typography variant="caption" component="p">
+                {project.details}
+              </Typography>
             </Grid>
-            {/* color */}
-            {/* email on delete also */}
+            <Grid>
+              <span>{project.reportMessage}</span>
+            </Grid>
 
             <ReportActionsButtons
               deleteAction={() => {}}
