@@ -34,20 +34,24 @@ const Account = () => {
   const user = useSelector(getUser)
   const { handleChange, tabIndex } = useTabsOnUrl({ tabs, baseRoute: '/profile' })
 
+  const onHandleTabChange = (e, newIndex) => {
+    e.preventDefault()
+    handleChange(newIndex)
+  }
   return (
     <MainContainer>
       <Grid container xs={12}>
         <VerticalTabs
           tabsList={tabs.map(tab => tab.label)}
-          handleChange={(e, newIndex) => handleChange(newIndex)}
+          handleChange={onHandleTabChange}
           tabIndex={tabIndex}
         />
         <InfoSection>
           {tabIndex === 0 ? (
-            <Dashboard {...user} handleChange={handleChange} />
+            <Dashboard {...user} handleChange={onHandleTabChange} />
           ) : null}
           {tabIndex === 1 ? <Profile {...user} /> : null}
-          {tabIndex === 2 ? <Settings {...user} handleChange={handleChange} /> : null}
+          {tabIndex === 2 ? <Settings {...user} handleChange={onHandleTabChange} /> : null}
           {tabIndex === 3 ? <MyPost {...user} /> : null}
           {tabIndex === 4 ? <MyProjects {...user} /> : null}
           {tabIndex === 5 ? <MyComments {...user} /> : null}
