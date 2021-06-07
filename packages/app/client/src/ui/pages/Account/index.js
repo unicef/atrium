@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   InfoSection,
   Dashboard,
@@ -16,31 +16,30 @@ import Grid from '@material-ui/core/Grid'
 import { useSelector } from 'react-redux'
 import { MainContainer } from '../../templates'
 import { getUser } from '../../../selectors'
+import { useTabsOnUrl } from '../../hooks'
 
-const tabsList = [
-  'Dashboard',
-  'Profile',
-  'Security',
-  'My Post',
-  'My Projects',
-  'My Comments',
-  'Badges',
-  'Bookmarks',
-  'Notifications'
+const tabs = [
+  { label: "Dashboard", hash: 'dashboard' },
+  { label: 'Profile', hash: 'profile' },
+  { label: 'Security', hash: 'security' },
+  { label: 'My Post', hash:'myPost' },
+  { label: 'My Projects', hash:'myProjects' },
+  { label: 'My Comments', hash:'myComments' },
+  { label: 'Badges', hash:'badges' },
+  { label: 'Bookmarks', hash:'bookmarks' },
+  { label: 'Notifications', hash:'notifications' }
 ]
 
 const Account = () => {
-  const [tabIndex, setTabIndex] = useState(0)
   const user = useSelector(getUser)
-  const handleChange = (e, newVal) => {
-    setTabIndex(newVal)
-  }
+  const { handleChange, tabIndex } = useTabsOnUrl({ tabs, baseRoute: '/profile' })
+
   return (
     <MainContainer>
       <Grid container xs={12}>
         <VerticalTabs
-          tabsList={tabsList}
-          handleChange={handleChange}
+          tabsList={tabs.map(tab => tab.label)}
+          handleChange={(e, newIndex) => handleChange(newIndex)}
           tabIndex={tabIndex}
         />
         <InfoSection>

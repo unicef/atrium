@@ -24,7 +24,7 @@ const styles = theme => ({
 
 const ProfilePictureHeader = withStyles(styles)(({ user, classes }) => {
   return (
-    <NavLink to={'/profile'} className={classes.navLink}>
+    <NavLink to={'/profile/dashboard'} className={classes.navLink}>
       My account
     </NavLink>
   )
