@@ -265,7 +265,7 @@ kind: Service
 metadata:
   labels:
     app: remix
-  name: remix
+  name: remix-service
 spec:
   ports:
     - name: "8080"
