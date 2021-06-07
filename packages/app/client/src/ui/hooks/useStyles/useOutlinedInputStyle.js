@@ -9,6 +9,7 @@ const styles = makeStyles(theme => (
       fontWeight: 500,
       fontSize: '16px',
       lineHeight: '15px',
+      fontFamily: theme.typography.fontFamily,
     }),
     input: props => (
       {
@@ -18,15 +19,13 @@ const styles = makeStyles(theme => (
         fontWeight: 'normal',
         fontSize: '15px',
         lineHeight: '180%',
+        fontFamily: theme.typography.fontFamily,
       }
     ),
     root: props => ({
       overflow: 'hidden',
       border: `1.2px solid ${props.hasError ? theme.palette.error.main : theme.colors[props.borderColor]}`
     }),
-    notchedOutline: {
-      border: 'none',
-    },
     focused: props => ({
       border: `1.6px solid ${props.hasError ? theme.palette.error.main : theme.colors[props.borderColorFocus]}`
     }),

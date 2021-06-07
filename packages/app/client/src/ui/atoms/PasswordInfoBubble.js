@@ -39,7 +39,7 @@ const RuleRow = ({ label }) => {
         <CheckIcon fontSize="small" className={classes.content} />
       </Grid>
       <Grid item>
-        <Typography className={classes.content} variant="subtitle2">{label}</Typography>
+        <Typography className={classes.content} variant="caption">{label}</Typography>
       </Grid>
     </Grid>
   )
