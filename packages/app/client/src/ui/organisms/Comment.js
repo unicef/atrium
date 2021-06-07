@@ -2,7 +2,7 @@ import React from 'react'
 import Box from '@material-ui/core/Box'
 import SubdirectoryArrowRightOutlinedIcon from '@material-ui/icons/SubdirectoryArrowRightOutlined'
 import HorizontalCardWithMenu from './HorizontalCardWithMenu'
-import DeleteActionDialog from './DeleteActionDialog'
+import ActionDialog from './ActionDialog'
 import { TextButton, Authorship } from '../atoms'
 import { TextWithMentions, CardInfoRow, UserInfoTooltip, CommentInput } from '../molecules'
 import { useSelector } from 'react-redux'
@@ -11,7 +11,7 @@ import { editComment } from '../../api/projects'
 import { useHandledRequest } from '../hooks'
 import { Link } from 'react-router-dom'
 
-const Comment = ({ 
+const Comment = ({
   handleToggleReplies,
   src,
   content,
@@ -22,7 +22,7 @@ const Comment = ({
   toggleReply,
   numberOfReplies,
   id,
-  likesCount,
+  likes,
   removeComment
 }) => {
   // TODO: IMPROVE TO USE MENTIONS
@@ -30,8 +30,19 @@ const Comment = ({
   const [showEdit, setEdit] = React.useState(false)
   const [textContent, setContent] = React.useState(content)
   const currentUserId = useSelector(getUserId)
-
+  const [savedLikes, setLikes] = React.useState(likes)
   const userIsTheOwner = currentUserId === user._id
+
+  const handleLike = () => {
+    setLikes(prevLikes => {
+      const index = prevLikes.findIndex(lk => lk._id === user._id)
+      if (index >= 0) {
+        return prevLikes.filter(lk => lk._id !== user._id)
+      }
+
+      return [...prevLikes, { ...user }]
+    })
+  }
 
   const menuItems = [
     {
@@ -49,10 +60,10 @@ const Comment = ({
   ]
 
   const handledRequest = useHandledRequest()
- 
+
   const updateComment = async ({ commentId, content }) => {
     const request = handledRequest(
-      { 
+      {
         request: editComment,
         onSuccess: () => {
           setContent(content)
@@ -82,7 +93,7 @@ const Comment = ({
                 </Link>
               </span>
             </UserInfoTooltip>
-            {showEdit ? 
+            {showEdit ?
              <CommentInput
               onCancel={() => setEdit(false)}
               cancelButton
@@ -93,7 +104,7 @@ const Comment = ({
               buttonPlacement="outside"
               submitLabel="Confirm"
               handleSubmit={(content) => updateComment({ content, commentId: id })}
-            /> : 
+            /> :
               <TextWithMentions
                 mentions={mentions}
               >
@@ -109,7 +120,8 @@ const Comment = ({
                 components={[
                   {
                     type: 'textbutton',
-                    textContent: "Like"
+                    textContent: "Like",
+                    onClick: handleLike
                   },
                   {
                     type: 'textbutton',
@@ -118,7 +130,7 @@ const Comment = ({
                   },
                   {
                     type: 'text',
-                    children: `${likesCount} Likes`
+                    children: `${savedLikes.length} Likes`
                   },
                   {
                     type: 'date',
@@ -131,7 +143,7 @@ const Comment = ({
           }
 
           <Box>
-            {hasChildren && 
+            {hasChildren &&
               <TextButton
                 textContent={`${numberOfReplies} Replies`}
                 startIcon={<SubdirectoryArrowRightOutlinedIcon />}
@@ -142,7 +154,7 @@ const Comment = ({
 
         </Box>
       </HorizontalCardWithMenu>
-      <DeleteActionDialog
+      <ActionDialog
         open={showDeletionModal}
         handleClose={() => setDeletionModalVisibility(false)}
         onConfirm={() => {

@@ -22,6 +22,11 @@ const profileReducer = (state = initialState, { type, payload }) => {
       }
     case TYPES.LIKE_PROJECT:
       return dataManipulation.onToggleLike(state, payload)
+    case TYPES.SAVE_ACTIVITIES:
+      return {
+        ...state,
+        activities: [...state.activities, ...payload]
+      }
     default:
       return state
   }

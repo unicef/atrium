@@ -46,7 +46,8 @@ import {
   ChangePassword,
   Learn,
   Account,
-  Profile
+  Profile,
+  WhatsNew
 } from './ui/pages'
 import projectsRoutes from './routes/projects'
 
@@ -83,6 +84,7 @@ const App = () => {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/learn" component={Learn} />
+                <Route exact path='/whatsnew' component={WhatsNew} />
                 <Route
                   exact
                   path="/forgot-password"
@@ -90,7 +92,7 @@ const App = () => {
                   />
                 <Route
                   exact
-                  path="/reset-password/:token"
+                  path="/reset-password/"
                   component={ResetPassword}
                   />
                 <Route

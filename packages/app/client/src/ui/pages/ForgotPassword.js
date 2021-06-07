@@ -37,7 +37,7 @@ const ForgotPassword = () => {
   return (
     <MainContainer size="small">
       {emailSent ?
-        <EmailSent email={verifiedEmail} /> :
+        <EmailSent email={verifiedEmail} action={sendForgotPasswordEmail} /> :
         <SimpleFormWithHeader
           onSubmit={verifyEmail}
           {...formProps}

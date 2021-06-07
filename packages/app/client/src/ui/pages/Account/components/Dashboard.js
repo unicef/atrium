@@ -11,7 +11,19 @@ import {
 } from '../../../atoms'
 import { Badge } from '../../../assets'
 import { makeStyles } from '@material-ui/core/styles'
-import { StructuredCard } from '../../../molecules'
+import { EmptyResults, StructuredCard } from '../../../molecules'
+import combineUserItemsQueryStrings from '../../../../utils/combineUserItemsQueryStrings'
+import {
+  useUserCommentsAsyncActions,
+  useUserProjectsAsyncActions
+} from '../../../hooks'
+import { useSelector } from 'react-redux'
+import {
+  getSearchedUserComments,
+  getSearchedUserLatestProject,
+  getSearchedUserLikes
+} from '../../../../selectors'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(() => ({
   buttons: {
@@ -43,10 +55,13 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between'
   },
   seeAllButton: {
-    width: '85px',
+    width: '86px',
     height: '16px',
     color: '#15B54A',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: 'white'
+    }
   },
   line: {
     borderBottom: '1px solid #E7E7E7'
@@ -83,6 +98,30 @@ const useStyles = makeStyles(() => ({
 function Dashboard(props) {
   const { handleChange } = props
   const classes = useStyles()
+  const { fetchSearchedUserComments } = useUserCommentsAsyncActions()
+  const {
+    fetchSearchedUserLatestProject,
+    fetchSearchedUserLikes
+  } = useUserProjectsAsyncActions()
+  const comments = useSelector(getSearchedUserComments)
+  const latestProject = useSelector(getSearchedUserLatestProject)
+  const likes = useSelector(getSearchedUserLikes)
+
+  const history = useHistory()
+
+  React.useEffect(() => {
+    const query = combineUserItemsQueryStrings({
+      limit: 6,
+      offset: 0,
+      sort: 'asc'
+    })
+    const requestData = async () => {
+      await fetchSearchedUserComments(query)
+      await fetchSearchedUserLatestProject()
+      await fetchSearchedUserLikes()
+    }
+    requestData()
+  }, [])
 
   return (
     <>
@@ -103,7 +142,9 @@ function Dashboard(props) {
                     <div>Likes</div>
                   </div>
                   <div className={classes.greenLine} />
-                  <div className={classes.count}>23</div>
+                  <div className={classes.count}>
+                    {likes ? likes : 0}
+                  </div>
                 </div>
                 <Button className={classes.buttons} color="primary">
                   Redeem likes
@@ -155,24 +196,35 @@ function Dashboard(props) {
               </Button>
             </div>
             <div>
-              <div className={classes.project}>
-                <StructuredCard
-                  author={'Victor'}
-                  date="4/26/2021 2:28"
-                  title={'best title for project'}
-                  content={
-                    'this is the best content for project in the world and its sounds great'
-                  }
+              {latestProject ? (
+                <>
+                  <div className={classes.project}>
+                    <StructuredCard
+                      date={latestProject.createdAt}
+                      title={latestProject.name}
+                      content={latestProject.details}
+                    />
+                  </div>
+                  <div className={classes.margined}>
+                    <ActionProjectButton
+                      type="edit"
+                      onClick={() =>
+                        history.push(
+                          `projects/overview/${latestProject._id}`
+                        )
+                      }
+                    />
+                    <ViewProjectButton id={latestProject._id} />
+                  </div>
+                </>
+              ) : (
+                <EmptyResults
+                  mainMessage="You don’t have any projects yet"
+                  buttonLabel="Add project"
+                  handleClick={() => history.push('create-projects')}
+                  buttonProps={{ className: classes.margined }}
                 />
-              </div>
-              <div className={classes.margined}>
-                <ActionProjectButton
-                  // id={props._id}
-                  type="edit"
-                  // onClick={() => history.push(`projects/overview/${props._id}`)}
-                />
-                <ViewProjectButton />
-              </div>
+              )}
             </div>
           </BorderedInfo>
         </Grid>
@@ -190,14 +242,27 @@ function Dashboard(props) {
               </Button>
             </div>
             <div>
-              <StructuredCard
-                author={'Vanya'}
-                date="4/24/2021 2:28"
-                title={
-                  'Have you ever wondered how your entity could apply blockchain?'
-                }
-              />
-              <div className={classes.line} />
+              {!Array.isArray(comments) || comments.length === 0 ? (
+                <EmptyResults
+                  mainMessage="You don’t have any comments yet"
+                  buttonLabel="Add comment"
+                  handleClick={() => history.push('projects')}
+                  buttonProps={{ className: classes.margined }}
+                />
+              ) : (
+                comments.map((comment, i) => (
+                  <>
+                    <StructuredCard
+                      key={comment.id}
+                      date={comment.date}
+                      title={comment.content}
+                    />
+                    {i === comments.length - 1 ? null : (
+                      <div className={classes.line} />
+                    )}
+                  </>
+                ))
+              )}
             </div>
           </BorderedInfo>
         </Grid>

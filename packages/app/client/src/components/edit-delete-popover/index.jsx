@@ -10,7 +10,7 @@ import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   button: {
-    fontFamily: 'Red Hat Display Medium, sans-serif',
+    fontFamily: theme.typography.fontFamily,
     fontSize: 10,
     lineHeight: '35px',
     textTransform: 'uppercase',

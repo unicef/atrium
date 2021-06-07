@@ -18,6 +18,16 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         searchedComments: dataManipulation.onSaveUserComments(payload)
       }
+    case TYPES.SAVE_USER_LATEST_PROJECT:
+      return {
+        ...state,
+        latestProject: payload.project
+      }
+    case TYPES.SAVE_USER_LIKES:
+      return {
+        ...state,
+        likes: payload.likes
+      }
     default:
       return state
   }

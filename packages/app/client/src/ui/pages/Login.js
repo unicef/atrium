@@ -32,11 +32,6 @@ const Login = ({ history }) => {
   const [keepLogged, setKeepLogged] = useState(false)
   const { login } = useAuthAsyncActions()
 
-  const sendLoginRequest = async ({ email, password }) => {
-    await login({ email, password })
-    history.push('/')
-  }
-  
   return (
     <MainContainer mt={100} size="regular">
       <MobileReverseGrid
@@ -47,7 +42,7 @@ const Login = ({ history }) => {
       >
         <>
           <SimpleFormWithHeader
-            onSubmit={sendLoginRequest}
+            onSubmit={login}
             {...formProps}
             renderBellowForm={
               <Grid container item xs={12} direction="row" alignItems="center" justify="space-between">
@@ -70,19 +65,6 @@ const Login = ({ history }) => {
               </Grid>
             }
           />
-          
-          <TextWithLinks
-            links={[
-              {
-                to: '/forgot-password',
-                str: 'Forgot password',
-                variant: 'body2'
-              }
-            ]}
-            mt={36}
-          >
-            Forgot password
-          </TextWithLinks>
           <TextWithLinks
             links={[
               {

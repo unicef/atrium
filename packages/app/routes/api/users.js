@@ -32,6 +32,8 @@ const { oneHour } = require('../../config/constants')
 const userSchemas = require('../../validation/users')
 // Load models
 const User = require('../../models/User')
+const Project = require('../../models/Project')
+
 const Activity = require('../../models/Activity')
 const {
   ATRIUM_CONSTANTS,
@@ -180,6 +182,79 @@ router.get(
 )
 
 router.get(
+  '/latestProject',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id
+      },
+      'User is getting latest project'
+    )
+
+    try {
+      const user = await User.findOne({ _id: req.user.id }).populate({
+        path: 'projects',
+        populate: projectsPopulateParams
+      })
+      let { projects } = user
+      projects = projects.sort((a, b) =>
+        a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+      )
+      const project = projects[0]
+      return res.status(200).json({ project })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get latest project from the database'
+      )
+      return sendError(
+        res,
+        503,
+        'Error getting latest project from the database'
+      )
+    }
+  }
+)
+
+router.get(
+  '/likes',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id
+      },
+      'User is getting likes'
+    )
+
+    try {
+      const user = await User.findOne({ _id: req.user.id }).populate({
+        path: 'projects',
+        populate: projectsPopulateParams
+      })
+      const { projects } = user
+      const likes = projects.reduce((acc, el) => acc + el.likes.length, 0)
+      return res.status(200).json({ likes })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get likes from the database'
+      )
+      return sendError(res, 503, 'Error getting likes from the database')
+    }
+  }
+)
+
+router.get(
   '/comments',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
@@ -318,123 +393,107 @@ router.put(
     )
 
     const retrievedUser = await User.findOne({ email: req.body.email })
-    if (retrievedUser.emailVerified) {
-      const newWallet = ethers.createWallet()
-      const encryptedWallet = await encryptDecrypt.encrypt(newWallet)
-      retrievedUser.name = req.body.name
-      retrievedUser.surname = req.body.surname
-      retrievedUser.wallet = encryptedWallet.encrypted
-      retrievedUser.address = newWallet.address
-      retrievedUser.acceptsEmail = true
-      retrievedUser.registrationCompleted = true
+    const newWallet = ethers.createWallet()
+    const encryptedWallet = await encryptDecrypt.encrypt(newWallet)
+    retrievedUser.name = req.body.name
+    retrievedUser.surname = req.body.surname
+    retrievedUser.wallet = encryptedWallet.encrypted
+    retrievedUser.address = newWallet.address
+    retrievedUser.acceptsEmail = true
+    retrievedUser.registrationCompleted = true
 
-      if (req.file && req.file.key) {
-        retrievedUser.avatar = `${
-          req.connection.encrypted ? 'https' : 'http'
-        }://${req.headers.host}${req.baseUrl}/avatar/${req.file.key}`
+    if (req.file && req.file.key) {
+      retrievedUser.avatar = `${
+        req.connection.encrypted ? 'https' : 'http'
+      }://${process.env.ATTACHMENT_URL}${req.baseUrl}/avatar/${req.file.key}`
+    }
+
+    // Issue badge before saving user to handle error before saving data in the database
+    try {
+      log.info(
+        {
+          requestId: req.id,
+          user: retrievedUser._id
+        },
+        'Issuing badge for Membership'
+      )
+      const hasBadge = await badges.hasBadge(
+        BADGE_ENUM.MEMBER,
+        retrievedUser.address
+      )
+      if (!hasBadge) {
+        await badges.issueBadge(BADGE_ENUM.MEMBER, retrievedUser.address)
+        await logIssueBadge(retrievedUser.id, BADGE_ENUM.MEMBER).catch(
+          logError => {
+            log.error(
+              {
+                err: logError,
+                requestId: req.id,
+                user: retrievedUser._id
+              },
+              'Error logging badge issue in activity'
+            )
+          }
+        )
       }
+    } catch (err) {
+      log.error(
+        {
+          err,
+          requestId: req.id,
+          user: retrievedUser._id
+        },
+        'Error issuing badge'
+      )
+      return sendError(res, 503, 'Error issuing badge')
+    }
 
-      // Issue badge before saving user to handle error before saving data in the database
-      try {
+    try {
+      const hashedPassword = await saltAndHashPassword(req.body.password)
+      retrievedUser.password = hashedPassword
+
+      const savedUser = await retrievedUser.save()
+
+      getTokenForUser(savedUser, (err, token) => {
+        if (err) {
+          log.error(
+            {
+              err: err,
+              requestId: req.id
+            },
+            'Error generating token'
+          )
+          return sendError(res, 500, 'Error generating token')
+        }
+
         log.info(
           {
             requestId: req.id,
-            user: retrievedUser._id
+            user: savedUser._id,
+            token
           },
-          'Issuing badge for Membership'
+          'Token generated correctly'
         )
-        const hasBadge = await badges.hasBadge(
-          BADGE_ENUM.MEMBER,
-          retrievedUser.address
-        )
-        if (!hasBadge) {
-          await badges.issueBadge(BADGE_ENUM.MEMBER, retrievedUser.address)
-          await logIssueBadge(retrievedUser.id, BADGE_ENUM.MEMBER).catch(
-            logError => {
-              log.error(
-                {
-                  err: logError,
-                  requestId: req.id,
-                  user: retrievedUser._id
-                },
-                'Error logging badge issue in activity'
-              )
-            }
-          )
+        const tokenOnly = token.split(' ')[1]
+        const cookieConfig = {
+          expires: new Date(Date.now() + oneHour * 8000),
+          httpOnly: true,
+          secure: true
         }
-      } catch (err) {
-        log.error(
-          {
-            err,
-            requestId: req.id,
-            user: retrievedUser._id
-          },
-          'Error issuing badge'
-        )
-        return sendError(res, 503, 'Error issuing badge')
-      }
-
-      try {
-        const hashedPassword = await saltAndHashPassword(req.body.password)
-        retrievedUser.password = hashedPassword
-
-        const savedUser = await retrievedUser.save()
-
-        getTokenForUser(savedUser, (err, token) => {
-          if (err) {
-            log.error(
-              {
-                err: err,
-                requestId: req.id
-              },
-              'Error generating token'
-            )
-            return sendError(res, 500, 'Error generating token')
-          }
-
-          log.info(
-            {
-              requestId: req.id,
-              user: savedUser._id,
-              token
-            },
-            'Token generated correctly'
-          )
-          const tokenOnly = token.split(' ')[1]
-          const cookieConfig = {
-            expires: new Date(Date.now() + oneHour * 8000),
-            httpOnly: true,
-            secure: true
-          }
-          res.cookie(authCookieName, tokenOnly, cookieConfig)
-          res.json({
-            success: true
-          })
+        // res.cookie(authCookieName, tokenOnly, cookieConfig)
+        res.json({
+          success: true
         })
-      } catch (err) {
-        log.error(
-          {
-            err,
-            requestId: req.id
-          },
-          'Error saving user in database'
-        )
-        sendError(res, 503, 'Error creating user')
-      }
-    } else {
-      log.info(
+      })
+    } catch (err) {
+      log.error(
         {
+          err,
           requestId: req.id
         },
-        'Mail not verified or pre-registration was not completed'
+        'Error saving user in database'
       )
-      // Email not verified
-      // Or the person is not in the db
-      return sendError(
-        res,
-        412,
-        'Email is not verified or the account does not exist in the database. Please contact an administrator.'
-      )
+      sendError(res, 503, 'Error creating user')
     }
   }
 )
@@ -738,7 +797,7 @@ router.get('/email-verify/:emailHash/:invitationCode', (req, res) => {
         retrievedUser.emailVerified = true
         retrievedUser
           .save()
-          .then(() => {
+          .then(({ registrationCompleted, email }) => {
             // Email is verified... let this user create an account!
             log.info(
               {
@@ -748,6 +807,8 @@ router.get('/email-verify/:emailHash/:invitationCode', (req, res) => {
               'User email verified successfully'
             )
             res.status(200).send({
+              email,
+              registrationCompleted,
               message:
                 'User is now verified - please visit the register page to complete your registration.'
             })
@@ -1150,9 +1211,15 @@ router.get(
     )
 
     try {
+      if (!req.query.offset)
+        throw new Error('Query offset parameter is missing')
+      const skip = parseInt(req.query.offset)
+
       const activityList = await Activity.find({
         user: req.user.id
       })
+        .skip(skip)
+        .limit(7)
         .sort({ createdAt: 'descending' })
         .populate([
           {
@@ -1257,7 +1324,7 @@ router.post(
         req.user.id,
         {
           avatar: `${req.connection.encrypted ? 'https' : 'http'}://${
-            req.headers.host
+            process.env.ATTACHMENT_URL
           }${req.baseUrl}/avatar/${req.file.key}`
         },
         {
@@ -1387,6 +1454,7 @@ router.get(
         const activityList = await Activity.find({
           user: req.params.id
         })
+          .limit(7)
           .sort({ createdAt: 'descending' })
           .populate([
             {
@@ -1431,7 +1499,7 @@ router.post(
     if (req.file && req.file.key) {
       informationToUpdate.avatar = `${
         req.connection.encrypted ? 'https' : 'http'
-      }://${req.headers.host}${req.baseUrl}/avatar/${req.file.key}`
+      }://${process.env.ATTACHMENT_URL}${req.baseUrl}/avatar/${req.file.key}`
     }
     log.info(
       getAuthenticatedRequestLogDetails(req, { update: informationToUpdate }),

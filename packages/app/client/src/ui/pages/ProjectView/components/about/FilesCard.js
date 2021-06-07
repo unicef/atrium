@@ -32,10 +32,13 @@ const useStyles = makeStyles({
   }
 })
 
-const FilesCard = ({ src, media, extension, name, onClick }) => {
+const FilesCard = ({ src, media, extension, name, onClick, size }) => {
   const classes = useStyles()
-  const trimmedName = useTrimmedText({ text: name, max: 70 })
+  const nameWithoutId = name.substr(name.indexOf('-') + 1)
+
+  const trimmedName = useTrimmedText({ text: nameWithoutId, max: 70 })
   const isDocumentType = media === 'document'
+  const sizeText = `${(size / 1000000).toFixed(2)} mb`
 
   return (
     <CardWithMedia
@@ -50,8 +53,8 @@ const FilesCard = ({ src, media, extension, name, onClick }) => {
       onClick={onClick}
       mediaAreaContent={isDocumentType && <DocumentsBackgroundImage />}
       actionAreaContent={
-        <CardContent className={classes.nameContainer}>  
-          <Grid zeroMinWidth wrap="nowrap" className={classes.nameWrapper} container item xs={9}>
+        <CardContent className={classes.nameContainer}>
+          <Grid zeroMinWidth wrap="nowrap" className={classes.nameWrapper} container item xs={12}>
             <Typography className={classes.text} component="p" className={classes.details}>
               {trimmedName}
             </Typography>
@@ -62,12 +65,13 @@ const FilesCard = ({ src, media, extension, name, onClick }) => {
        <CardContent className={classes.cardContent}>
         <Grid container alignItems="center" justify="space-between">
           <Typography className={classes.text} component="p">
-            1.3 mb
+           {sizeText}
           </Typography>
           <TextButton
             textContent="Download"
             startIcon={<SystemUpdateAltOutlinedIcon />}
             color="primary"
+            onClick={() => window.location.assign(src.replace('attachment', 'download'))}
           />
         </Grid>
       </CardContent>

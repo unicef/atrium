@@ -7,9 +7,9 @@ import IconButton from '@material-ui/core/IconButton'
 import { makeStyles } from '@material-ui/core/styles'
 import Dividers from '../atoms/Divider'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   button: {
-    fontFamily: 'Red Hat Display Medium, sans-serif',
+    fontFamily: theme.typography.fontFamily,
     fontSize: 10,
     lineHeight: '35px',
     textTransform: 'uppercase',

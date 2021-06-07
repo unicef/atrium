@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const EmailSent = ({ email }) => {
+const EmailSent = ({ email, action }) => {
   const classes = useStyles()
   const isMobileViewPort = useIsMobileViewPort()
 
@@ -30,15 +30,25 @@ const EmailSent = ({ email }) => {
           titleProps={{ alignMobile: 'left' }}
           subtitle={
             <>
-              An Email has been sent to your email address<a className={classes.email} href={`mailto:${email}`}> {email} </a>
-              Please click on thet link to verify your email address
+              We’ve sent an email to
+              <a className={classes.email} href={`mailto:${email}`}>
+                {' '}
+                {email}{' '}
+              </a>
+              Please click on the link in the email to verify your account.
             </>
           }
         />
       </Grid>
 
-      <Grid item container justify={isMobileViewPort ? 'flex-start' : 'center'} alignItems="center" xs={12}>
-        <Button onClick={() => {}} color="primary">
+      <Grid
+        item
+        container
+        justify={isMobileViewPort ? 'flex-start' : 'center'}
+        alignItems="center"
+        xs={12}
+      >
+        <Button onClick={() => action(email)} color="primary">
           Resend Email
         </Button>
       </Grid>

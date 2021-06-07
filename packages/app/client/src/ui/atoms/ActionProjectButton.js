@@ -6,14 +6,15 @@ import { DeleteButton } from '../../components/projects/overview/assets'
 const useStyles = makeStyles(() => ({
   button: {
     width: '107px',
-    height: '42px'
+    height: '42px',
+    marginRight: '5%'
   },
   text: {
     marginLeft: '10%'
   }
 }))
 
-function ActionProjectButton({ id, type, onClick }) {
+function ActionProjectButton({ type, onClick }) {
   const classes = useStyles()
   return (
     <>

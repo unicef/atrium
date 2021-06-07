@@ -5,7 +5,7 @@ const useStyles = makeStyles(theme => (
     navLink: (props) => {
       const textTransform = props.lowerCase ? {} : { textTransform: 'uppercase' }
       return {
-        fontFamily: 'Red Hat Display Medium, sans-serif',
+        fontFamily: theme.typography.fontFamily,
         position: 'relative',
         fontSize: props.fontSize || 12,
         [theme.breakpoints.down("xs")]: {
@@ -16,19 +16,8 @@ const useStyles = makeStyles(theme => (
         ...textTransform,
         textDecoration: 'none',
         transition: 'all 0.2s ease',
-        '&::after': {
-          position: 'absolute',
-          content: "''",
-          display: 'block',
-          bottom: 2,
-          height: 2,
-          width: '100%',
-          backgroundColor: 'transparent',
-          transition: '0.2s ease'
-        },
         '&:hover': {
-          color: theme.colors['shamrock-green'],
-          fontWeight: 'bold'
+          color: theme.colors['shamrock-green']
         }
       }
     }

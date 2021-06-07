@@ -211,6 +211,11 @@ spec:
                 configMapKeyRef:
                   name: api-configmap
                   key: client_url
+            - name: ATTACHMENT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: api-configmap
+                  key: attachment_url
           image: appliedblockchain/atrium-app
           name: unin-app
           ports:

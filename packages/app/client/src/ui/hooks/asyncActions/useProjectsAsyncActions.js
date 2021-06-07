@@ -35,41 +35,41 @@ const useProjectsAsyncActions = () => {
         dismiss: dismissLoading
       }
     }),
-    toggleLike: handledRequest(
-      { 
-        request: ProjectApi.toggleProjectLike,
-        onSuccess: ({ project }) => {
-          toggleProjectLike(project)
-        },
-        successMessage: 'Action successfully performed'
-      }
-    ),
-    getProjectById: handledRequest(
-      { 
-        request: ProjectApi.getProject,
-        onSuccess: ({ project }) => setCurrentProject({ project: project[0], userId }),
-        showFullPageLoading: true
-      }
-    ),
-    getComments: handledRequest(
-      { 
-        request: ProjectApi.getComments,
-        onSuccess: (res) => saveComments(res),
-        showFullPageLoading: true
-      }
-    ),
+    toggleLike: handledRequest({
+      request: ProjectApi.toggleProjectLike,
+      onSuccess: ({ project }) => {
+        toggleProjectLike(project)
+      },
+      successMessage: 'Action successfully performed'
+    }),
+    getProjectById: handledRequest({
+      request: ProjectApi.getProject,
+      onSuccess: ({ project }) =>
+        setCurrentProject({ project: project[0], userId }),
+      showFullPageLoading: true
+    }),
+    getComments: handledRequest({
+      request: ProjectApi.getComments,
+      onSuccess: res => saveComments(res),
+      showFullPageLoading: true
+    }),
     // TODO: RE-EVALUATE THE PROJECT UPDATE REQUESTS
-    deleteUpdate: handledRequest(
-      { 
-        request: ProjectApi.removeUpdate,
-        showFullPageLoading: true,
-        successMessage: 'Update successfully removed'
-      }
-    ),
+    deleteUpdate: handledRequest({
+      request: ProjectApi.removeUpdate,
+      showFullPageLoading: true,
+      successMessage: 'Update successfully removed'
+    }),
+    transferOwnership: handledRequest({
+      request: ProjectApi.transferOwnership,
+      onSuccess: () => window.location.reload(),
+      showFullPageLoading: true,
+      successMessage: 'Ownership successfully transfered'
+    }),
     deleteProject: handledRequest({
       request: ProjectApi.deleteProject,
       onSuccess: () => window.location.reload(),
-      showFullPageLoading: true
+      showFullPageLoading: true,
+      successMessage: 'Project successfully deleted'
     })
   }
 }

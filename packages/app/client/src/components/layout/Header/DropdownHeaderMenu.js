@@ -82,12 +82,6 @@ const DropdownHeaderMenu = withStyles(styles)(({ logoutUser, classes }) => {
       >
         <MenuItem
           className={`${classes.menuItemCustom} ${classes.borderBottom}`}
-          onClick={() => (document.location.href = '/about')}
-        >
-          ABOUT
-        </MenuItem>
-        <MenuItem
-          className={`${classes.menuItemCustom} ${classes.borderBottom}`}
           onClick={() =>
             (document.location.href = `mailto:${ATRIUM_CONSTANTS.ATRIUM_EMAIL_CONTACT}`)
           }
