@@ -19,9 +19,9 @@ const useStyles = makeStyles(() =>
 const tabs = [
   { label: "Guide", hash: 'guideSection', public: true },
   { label: "Quiz", hash:'quizSection', public: true },
-  { label: "Directed learning", hash: 'directLearning', public: true },
   { label: "Smart contracts", hash: 'smartContracts', public: false },
   { label: "The Atrium blockchain", hash: 'atriumBlockchain', public: true },
+  { label: "Directed learning", hash: 'directLearning', public: true },
   { label: "External resources", hash: 'externalResources', public: true }
 ]
 
