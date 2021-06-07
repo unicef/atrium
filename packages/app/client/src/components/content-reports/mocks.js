@@ -8,44 +8,44 @@ const projects = [
     photos: [],
     team: [],
     updates: [],
-    _id: '60b0dd521da13101e391ab19',
-    name: 'asdfasd',
-    details: 'afdsfsadf',
+    _id: '60ba21b7ad9037005e0d2a5a',
+    name: 'project',
+    details: 'project',
     owner: {
       _id: '60b0c4a65bb6dd00386c9421',
       email: 'un-innovation@unicef.org',
-      name: 'UN-Innovation',
+      name: 'Admin Admin',
       company: '',
-      id: '60b0c4a65bb6dd00386c9421'
+      id: '60ba1f6652f5ee0039032ba6'
     },
     projectOwner: 'UN-Innovation',
     projectOwnerEmail: 'un-innovation@unicef.org',
     attachment: {
       url:
-        'http://http://localhost:3000/api/projects/attachment/1622203726083-Screen Shot 2020-11-18 at 12.57.41 PM.png',
-      name: '1622203726083-Screen Shot 2020-11-18 at 12.57.41 PM.png',
+        'http://localhost:5000/api/projects/attachment/1622811061260-image.jpeg',
+      name: '1622811061260-image.jpeg',
       extension: 'image/png',
-      size: 21779
+      size: 105002
     },
-    blockchainName: 'hyperledger',
+    blockchainName: 'bitcoin',
     blockchainType: 'public',
-    freeForAll: false,
-    published: false,
-    stageOfProject: 'Prototype',
-    innovationCategory: 'Marketplaces',
-    thematicArea: 'Climate action',
-    contactPersonFullName: 'UN-Innovation',
+    freeForAll: true,
+    published: true,
+    stageOfProject: 'Ideation',
+    innovationCategory: 'Food and Water',
+    thematicArea: 'Sustainable Cities and Communities',
+    contactPersonFullName: 'Admin Admin',
     contactPersonEmail: 'un-innovation@unicef.org',
     contactPerson: {
       _id: '60b0c4a65bb6dd00386c9421',
       email: 'un-innovation@unicef.org',
-      name: 'UN-Innovation',
+      name: 'Admin Admin',
       company: '',
-      id: '60b0c4a65bb6dd00386c9421'
+      id: '60ba1f6652f5ee0039032ba6'
     },
     createdAt: '2021-05-28T12:08:50.128Z',
     __v: 0,
-    id: '60b0dd521da13101e391ab19'
+    id: '60ba21b7ad9037005e0d2a5a'
   },
   {
     tags: [],
@@ -56,90 +56,44 @@ const projects = [
     photos: [],
     team: [],
     updates: [],
-    _id: '60b0dabae91c7400a06e032e',
-    name: 'rregbeqrntyjynh',
-    details: 'ghsfhgh',
+    _id: '60ba21d4ad9037005e0d2a5e',
+    name: 'project2',
+    details: 'project2',
     owner: {
       _id: '60b0c4a65bb6dd00386c9421',
       email: 'un-innovation@unicef.org',
-      name: 'UN-Innovation',
+      name: 'Admin Admin',
       company: '',
-      id: '60b0c4a65bb6dd00386c9421'
+      id: '60ba1f6652f5ee0039032ba6'
     },
-    projectOwner: 'UN-Innovation',
+    projectOwner: 'Admin Admin',
     projectOwnerEmail: 'un-innovation@unicef.org',
     attachment: {
-      url: 'http://api-service/api/projects/attachment/1622203063472-robot.png',
-      name: '1622203063472-robot.png',
+      url:
+        'http://localhost:5000/api/projects/attachment/1622811061260-image.jpeg',
+      name: '1622811061260-image.jpeg',
       extension: 'image/png',
-      size: 2423
-    },
-    blockchainName: 'corda',
-    blockchainType: 'public',
-    freeForAll: true,
-    published: false,
-    stageOfProject: 'Ideation',
-    innovationCategory: 'Food and Water',
-    thematicArea: 'Reduced Inequalities',
-    contactPersonFullName: 'UN-Innovation',
-    contactPersonEmail: 'un-innovation@unicef.org',
-    contactPerson: {
-      _id: '60b0c4a65bb6dd00386c9421',
-      email: 'un-innovation@unicef.org',
-      name: 'UN-Innovation',
-      company: '',
-      id: '60b0c4a65bb6dd00386c9421'
-    },
-    createdAt: '2021-05-28T11:57:46.291Z',
-    __v: 0,
-    id: '60b0dabae91c7400a06e032e'
-  },
-  {
-    tags: [],
-    comments: [],
-    likes: [],
-    documents: [],
-    videos: [],
-    photos: [],
-    team: [],
-    updates: [],
-    _id: '60b0d9faa6becd009232a801',
-    name: 'ssdfadsgdasfa',
-    details: 'agfadgadfgfadg',
-    owner: {
-      _id: '60b0c4a65bb6dd00386c9421',
-      email: 'un-innovation@unicef.org',
-      name: 'UN-Innovation',
-      company: '',
-      id: '60b0c4a65bb6dd00386c9421'
-    },
-    projectOwner: 'UN-Innovation',
-    projectOwnerEmail: 'un-innovation@unicef.org',
-    attachment: {
-      url: 'http://api-service/api/projects/attachment/1622202872399-MTBIC.jpg',
-      name: '1622202872399-MTBIC.jpg',
-      extension: 'image/jpeg',
-      size: 54214
+      size: 105002
     },
     blockchainName: 'ethereum',
     blockchainType: 'public',
     freeForAll: true,
-    published: false,
-    stageOfProject: 'Research',
-    innovationCategory: 'Identity',
-    thematicArea: 'Responsible Consumption and Production',
-    contactPersonFullName: 'UN-Innovation',
+    published: true,
+    stageOfProject: 'Ideation',
+    innovationCategory: 'Food and Water',
+    thematicArea: 'Gender Equality',
+    contactPersonFullName: 'Admin Admin',
     contactPersonEmail: 'un-innovation@unicef.org',
     contactPerson: {
       _id: '60b0c4a65bb6dd00386c9421',
       email: 'un-innovation@unicef.org',
-      name: 'UN-Innovation',
+      name: 'Admin Admin',
       company: '',
-      id: '60b0c4a65bb6dd00386c9421'
+      id: '60ba1f6652f5ee0039032ba6'
     },
-    createdAt: '2021-05-28T11:54:34.991Z',
+    createdAt: '2021-05-28T12:08:50.128Z',
     __v: 0,
-    id: '60b0d9faa6becd009232a801'
+    id: '60ba21d4ad9037005e0d2a5e'
   }
 ]
 
@@ -148,46 +102,53 @@ const comments = [
     "mentions": [],
     "replies": [],
     "likes": [],
-    "_id": "60b6597303119d0084e8d592",
-    "content": "weeqewqe",
+    "_id": "60ba21e5ad9037005e0d2a60",
+    "content": "comment",
     "user": {
-      "_id": "60b64f9aca110400385624a7",
+      "_id": "60ba1f6652f5ee0039032ba6",
       "email": "un-innovation@unicef.org",
-      "name": "UN-Innovation",
+      "name": "Admin Admin",
       "company": "",
-      "id": "60b64f9aca110400385624a7"
+      "id": "60ba1f6652f5ee0039032ba6"
     },
-    "date": "2021-06-01T15:59:47.945Z",
-    "__v": 0,
-    "id": "60b6597303119d0084e8d592"
+    "date": "2021-06-04T12:51:49.684+00:00",
+    "__v": 1,
+    "id": "60ba21e5ad9037005e0d2a60"
   },
   {
     "mentions": [],
     "replies": [],
     "likes": [],
-    "_id": "60b6597603119d0084e8d594",
-    "content": "sdsadassad",
+    "_id": "60ba21f4ad9037005e0d2a64",
+    "content": "comment2",
     "user": {
-      "_id": "60b64f9aca110400385624a7",
+      "_id": "60ba1f6652f5ee0039032ba6",
       "email": "un-innovation@unicef.org",
-      "name": "UN-Innovation",
+      "name": "Admin Admin",
       "company": "",
-      "id": "60b64f9aca110400385624a7"
+      "id": "60ba1f6652f5ee0039032ba6"
     },
-    "date": "2021-06-01T15:59:50.262Z",
+    "date": "2021-06-04T12:51:49.684+00:00",
     "__v": 0,
-    "id": "60b6597603119d0084e8d594"
+    "id": "60ba21f4ad9037005e0d2a64"
   }
 ]
 
 const updates = [
   {
-    id: 'id',
-    date: '2021-05-27T11:12:56.525Z',
-    title: 'title',
-    text: 'text'
+    id: '60ba2200ad9037005e0d2a66',
+    date: '2021-06-04T12:52:16.096+00:00',
+    title: 'update',
+    text: 'update',
+    owner: '60ba1f6652f5ee0039032ba6'
   },
-  {}
+  {
+    id: '60ba2200ad9037005e0d2a66',
+    date: '2021-06-04T12:52:24.339+00:00',
+    title: 'update2',
+    text: 'update2',
+    owner: '60ba1f6652f5ee0039032ba6'
+  },
 ]
 
 export { projects, comments, updates }

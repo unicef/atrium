@@ -63,7 +63,8 @@ const getTokenPayload = (user, userBadges) => {
     repliesOnComments: user.repliesOnComments ? user.repliesOnComments : false,
     updatesOnPost: user.updatesOnPost ? user.updatesOnPost : false,
     updatesOnProject: user.updatesOnProject ? user.updatesOnProject : false,
-    updatesOnComments: user.updatesOnComments ? user.updatesOnComments : false
+    updatesOnComments: user.updatesOnComments ? user.updatesOnComments : false,
+    isAdmin: user.isAdmin ? user.isAdmin : false
   }
 }
 

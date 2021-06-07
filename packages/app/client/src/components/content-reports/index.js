@@ -3,6 +3,7 @@ import React from 'react'
 import { comments, projects, updates } from './mocks'
 import ReportedComments from './ReportedComments';
 import ReportedProjects from "./ReportedProjects";
+import ReportedUpdates from "./ReportedUpdates";
 
 const mock = {
   projects,
@@ -41,6 +42,7 @@ const ContentReport = () => {
         <Typography className={classes.section} variant="h4">
           Updates
         </Typography>
+        <ReportedUpdates updates={mock.updates} />
       </Grid>
       <Grid item container xs={12}>
         <Typography className={classes.section} variant="h4">

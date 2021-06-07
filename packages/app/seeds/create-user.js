@@ -34,6 +34,13 @@ require('dotenv').config()
   const newWallet3 = ethers.createWallet()
   const encryptedWallet3 = await encryptDecrypt.encrypt(newWallet3)
 
+  const adminEmail = 'un-innovation@unicef.org'
+  const adminEmailHash = md5Hash(adminEmail)
+  const adminPassword = 'Fg84287234Hc54989kShXKkEdRg'
+  const adminHashedPassword = await saltAndHashPassword(adminPassword)
+  const adminWallet = ethers.createWallet()
+  const adminEncryptedWallet = await encryptDecrypt.encrypt(adminWallet)
+
   const user2 = new User({
     email: email2,
     name: name2,
@@ -61,6 +68,21 @@ require('dotenv').config()
     password: hashedPassword3
   })
   await user3.save()
+
+  const admin = new User({
+    email: adminEmail,
+    emailVerified: true,
+    emailHash: adminEmailHash,
+    name: 'Admin Admin',
+    wallet: adminEncryptedWallet.encrypted,
+    address: adminWallet.address,
+    role: 'Admin',
+    company: '',
+    acceptsEmail: true,
+    password: adminHashedPassword,
+    isAdmin: true
+  })
+  await admin.save()
 
   console.log('seeding user', { email, password })
   const user = new User({
