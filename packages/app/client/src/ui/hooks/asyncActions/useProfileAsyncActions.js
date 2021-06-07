@@ -2,13 +2,21 @@ import * as UsersApi from '../../../api/users'
 import * as ProjectApi from '../../../api/projects'
 import useHandledRequest from './useHandledRequest'
 import useIsAuthenticated from '../useIsAuthenticated'
+import useToast from '../useToast'
 import { useProfileActions } from '../actions'
 import { useSelector } from 'react-redux'
 import { getProfileId } from '../../../selectors'
  
 const useProfileAsyncActions = () => {
   const handledRequest = useHandledRequest()
-  const { saveUserInformation, saveProfileProjects, likeProfileProject, saveProfileActivities } = useProfileActions()
+  const { 
+    saveUserInformation,
+    saveProfileProjects,
+    likeProfileProject,
+    saveProfileActivities,
+    setLoadMoreActivitiesFlag
+  } = useProfileActions()
+  const { showToast } = useToast()
   const isUserAuthenticated = useIsAuthenticated()
   const profileId = useSelector(getProfileId)
   
@@ -48,7 +56,16 @@ const useProfileAsyncActions = () => {
         { 
           request: UsersApi.getUserActivities,
           onSuccess: (activities) => {
-            saveProfileActivities(activities)
+            if (Array.isArray(activities)) {
+              saveProfileActivities(activities)
+
+              if (activities.length === 0) {
+                setLoadMoreActivitiesFlag('DO_NOT_LOAD')
+                showToast({ message: 'There is no more activities', severity: 'info' })
+              } else {
+                setLoadMoreActivitiesFlag('LOAD')
+              }
+            }
           },
           specificLoading: {
             show: () => setLoading(true),
