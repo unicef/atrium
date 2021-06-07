@@ -6,7 +6,7 @@ import { useHandledRequest } from '../../ui/hooks'
 import { ReportActionsButtons } from './ReportActionsButtons'
 
 const ReportedComments = ({ comments }) => {
-  const [commentsState, setCommentsState] = useState(comments)
+  const [commentsState, setCommentsState] = useState(comments || [])
   const handledRequest = useHandledRequest()
 
   const removeItemFromArray = commentId => {

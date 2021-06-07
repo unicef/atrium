@@ -27,9 +27,10 @@ const ReportedProjects = ({ projects }) => {
 
   return (
     <Grid xs={12} item container justify="flex-start" alignItems="center">
-      {projects.length > 0 &&
+      {projects && projects.length > 0 &&
         projects.map(project => (
           <Grid
+            key={project.id}
             item
             style={{ padding: 20 }}
             justify="flex-start"
