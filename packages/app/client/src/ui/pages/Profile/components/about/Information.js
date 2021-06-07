@@ -29,18 +29,15 @@ const infoMap = [
   }
 ]
 
-const biography = `
-  Have you ever wondered how your entity could apply blockchain? In The Atrium, learn what projects and prototypes are being launched within the UN Have you ever wondered how.
-  Have you ever wondered how your entity could apply blockchain? In The Atrium, learn what projects and prototypes are being launched within the UN Have you ever wondered how.
-  Have you ever wondered how your entity could apply blockchain? In The Atrium, learn what projects and prototypes are being launched within the UN Have you ever wondered how.
-`
+const BIO_MAX_LENGTH = 169
 
 const Information = () => {
   const userInfo = useSelector(getProfileUserInfo)
   const badges = useSelector(getProfileBadges)
   const [showBiography, setShowMore] = React.useState(false)
-  const trimmedBiography = useTrimmedText({ text: biography, max: 169 })
-  const biographyText = showBiography ? biography : trimmedBiography
+  const trimmedBiography = useTrimmedText({ text: userInfo.bio, max: BIO_MAX_LENGTH })
+  const biographyText = showBiography ? userInfo.bio : trimmedBiography
+  const isShowMoreButtonVisible = Boolean(biographyText) && biographyText.length > BIO_MAX_LENGTH
 
   return (
     <Grid container item xs={12}>
@@ -48,13 +45,13 @@ const Information = () => {
 
       <Grid spacing={2} container>
         {infoMap.map(item => (
-          <InfoCell title={item.title} key={item.dataKey} content={''} />
+          <InfoCell title={item.title} key={item.dataKey} content={userInfo[item.dataKey]} />
         ))}
       </Grid>
 
       <Box mt="40px">
         <InfoCell xs={12} title={'Biography'} content={biographyText} />
-        <ShowMoreButton isShowingMore={showBiography} handleClick={() => setShowMore(prevVal => !prevVal)} />
+        {isShowMoreButtonVisible && <ShowMoreButton isShowingMore={showBiography} handleClick={() => setShowMore(prevVal => !prevVal)} />}
       </Box>
 
       <Grid container item xs={12}>

@@ -285,7 +285,7 @@ router.post(
         attachment: req.file
           ? {
               url: `${req.connection.encrypted ? 'https' : 'http'}://${
-                req.headers.host
+                process.env.ATTACHMENT_URL
               }${req.baseUrl}/attachment/${req.file.key}`,
               name: req.file.key,
               extension: req.file.mimetype,
@@ -408,7 +408,7 @@ router.put(
         req.files && req.files.attachment // How do I relative path?
           ? {
               url: `${req.connection.encrypted ? 'https' : 'http'}://${
-                req.headers.host
+                process.env.ATTACHMENT_URL
               }${req.baseUrl}/attachment/${req.files.attachment[0].key}`,
               name: req.files.attachment[0].key,
               extension: req.files.attachment[0].mimetype,
@@ -421,7 +421,7 @@ router.put(
               ...oldProject.documents,
               {
                 url: `${req.connection.encrypted ? 'https' : 'http'}://${
-                  req.headers.host
+                  process.env.ATTACHMENT_URL
                 }${req.baseUrl}/attachment/${req.files.documents[0].key}`,
                 name: req.files.documents[0].key,
                 extension: req.files.documents[0].mimetype,
@@ -435,7 +435,7 @@ router.put(
               ...oldProject.videos,
               {
                 url: `${req.connection.encrypted ? 'https' : 'http'}://${
-                  req.headers.host
+                  process.env.ATTACHMENT_URL
                 }${req.baseUrl}/attachment/${req.files.videos[0].key}`,
                 name: req.files.videos[0].key,
                 extension: req.files.videos[0].mimetype,
@@ -449,7 +449,7 @@ router.put(
               ...oldProject.photos,
               {
                 url: `${req.connection.encrypted ? 'https' : 'http'}://${
-                  req.headers.host
+                  process.env.ATTACHMENT_URL
                 }${req.baseUrl}/attachment/${req.files.photos[0].key}`,
                 name: req.files.photos[0].key,
                 extension: req.files.photos[0].mimetype,
@@ -539,61 +539,84 @@ router.delete(
           'Project not found. Please check your id and try again'
         )
       }
+      try {
+        const owner = await User.findOne({
+          _id: req.user.id
+        })
+        owner.projects.pop(owner.projects.indexOf(req.params.id))
+        await owner.save()
+        log.info(
+          {
+            requestId: req.id,
+            user: req.user.id,
+            project: req.params.id
+          },
+          'Project deleted successfully'
+        )
+        res.json({ message: 'Project deleted successfully' })
+      } catch (error) {
+        log.error(
+          {
+            error,
+            requestId: req.id,
+            user: req.user.id,
+            project: req.params.id
+          },
+          'Error find project owner'
+        )
+        return sendError(res, 503, 'Error find project owner. Please try again')
+      }
+    })
+  }
+)
 
+router.post(
+  '/:projectId/transferOwnership',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        project: req.params.projectId
+      },
+      'User is transfering project ownership'
+    )
+    try {
+      const project = await Project.findOne({
+        _id: req.params.projectId
+      }).populate(populateParams)
+      const owner = await User.findOne({
+        _id: req.user.id
+      })
+      const newOwner = await User.findOne({
+        _id: req.body.userToTransfer
+      })
+      owner.projects.pop(owner.projects.indexOf(project._id))
+      newOwner.projects.push(project._id)
+      await owner.save()
+      await newOwner.save()
+      project.owner = newOwner
+      project.projectOwner = newOwner.name
+      project.projectOwnerEmail = newOwner.email
+      await project.save()
+      log.info(
+        {
+          requestId: req.id
+        },
+        'Success transfering ownership'
+      )
+      return res.status(200).json({ project })
+    } catch (error) {
       log.info(
         {
           requestId: req.id,
-          user: req.user.id,
-          project: req.params.id
+          error: error
         },
-        'Project deleted successfully'
+        'Can not get project from the database'
       )
-
-      const pathOfOwnerAndRepo = response.linkToRepository.replace(
-        'https://github.com/',
-        ''
-      )
-      const [owner, repo] = pathOfOwnerAndRepo.split('/')
-      // Project is to be kept on GitHub for now
-      try {
-        log.info(
-          {
-            requestId: req.id,
-            user: req.user.id,
-            project: req.params.id
-          },
-          'Deleting project from github'
-        )
-        // await GithubLibrary.deleteRepoFromGitHub(owner, repo)
-
-        log.info(
-          {
-            requestId: req.id,
-            user: req.user.id,
-            project: req.params.id
-          },
-          'Project deleted successfully from github'
-        )
-        return res.json({
-          message: 'Repo is removed from the database and GitHub!'
-        })
-      } catch (err) {
-        log.error(
-          {
-            err,
-            requestId: req.id,
-            user: req.user.id,
-            project: req.params.id
-          },
-          'Error deleting project from github'
-        )
-        return sendError(
-          res,
-          424,
-          'Error removing repo from GitHub. Please try again'
-        )
-      }
-    })
+      return sendError(res, 503, 'Error getting project from the database')
+    }
   }
 )
 
@@ -1248,15 +1271,15 @@ router.post(
       }
       if (req.params.type === 'video') {
         project.videos = project.videos.filter(
-          file => file !== req.body.filePath
+          file => file.url !== req.body.filePath.url
         )
       } else if (req.params.type === 'photo') {
         project.photos = project.photos.filter(
-          file => file !== req.body.filePath
+          file => file.url !== req.body.filePath.url
         )
       } else {
         project.documents = project.documents.filter(
-          file => file !== req.body.filePath
+          file => file.url !== req.body.filePath.url
         )
       }
 

@@ -74,7 +74,7 @@ const CommentBox = ({
               hasChildren={hasChildren}
               toggleReply={() => showReplyInput(prevVal => !prevVal)}
               numberOfReplies={savedReplies.length}
-              likesCount={likes.length}
+              likes={likes}
             />
             
             <Box className={classes.collapseWrapper}>

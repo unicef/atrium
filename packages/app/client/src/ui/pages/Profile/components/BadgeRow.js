@@ -10,17 +10,13 @@ const useStyles = makeStyles(() => ({
     fontStyle: 'normal',
     fontWeight: 600,
     fontSize: '15px',
-    lineHeight: '18px',
+    lineHeight: '18px'
   },
   description: {
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '13px',
     lineHeight: '170%',
-  },
-  divider: {
-    height: 1,
-    width: '100%'
   }
 }))
 
@@ -30,22 +26,21 @@ const BadgeRow = ({ index, showContent }) => {
   const { Image, description, title } = badgesData[dataKey]
 
   return (
-    <Grid container item spacing={4}>
-      <Grid item xs="auto">
-        <Image />
-      </Grid>
+    <>
+      <Grid container item xs={12} spacing={3}>
+        <Grid item xs="auto">
+          <Image />
+        </Grid>
 
-      {showContent &&
-        <>
-          <Grid item xs="auto">
+        {showContent &&
+          <Grid item xs>
             <Typography className={classes.title}>{title}</Typography>
             <Typography className={classes.description}>{description}</Typography>
           </Grid>
-
-          <Divider className={classes.divider} />
-        </>
-      }
-    </Grid>
+        }
+      </Grid>
+      {showContent && <Divider variant="fullWidth" mb={21} mt={21}/>}
+    </>
   )
 }
 

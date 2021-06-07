@@ -55,10 +55,13 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between'
   },
   seeAllButton: {
-    width: '85px',
+    width: '86px',
     height: '16px',
     color: '#15B54A',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: 'white'
+    }
   },
   line: {
     borderBottom: '1px solid #E7E7E7'
@@ -140,7 +143,7 @@ function Dashboard(props) {
                   </div>
                   <div className={classes.greenLine} />
                   <div className={classes.count}>
-                    {likes ? likes : null}
+                    {likes ? likes : 0}
                   </div>
                 </div>
                 <Button className={classes.buttons} color="primary">
@@ -197,9 +200,9 @@ function Dashboard(props) {
                 <>
                   <div className={classes.project}>
                     <StructuredCard
-                      date={latestProject[0].createdAt}
-                      title={latestProject[0].name}
-                      content={latestProject[0].details}
+                      date={latestProject.createdAt}
+                      title={latestProject.name}
+                      content={latestProject.details}
                     />
                   </div>
                   <div className={classes.margined}>
@@ -207,18 +210,18 @@ function Dashboard(props) {
                       type="edit"
                       onClick={() =>
                         history.push(
-                          `projects/overview/${latestProject[0]._id}`
+                          `projects/overview/${latestProject._id}`
                         )
                       }
                     />
-                    <ViewProjectButton id={latestProject[0]._id} />
+                    <ViewProjectButton id={latestProject._id} />
                   </div>
                 </>
               ) : (
                 <EmptyResults
                   mainMessage="You don’t have any projects yet"
                   buttonLabel="Add project"
-                  handleClick={() => history.push('projects')}
+                  handleClick={() => history.push('create-projects')}
                   buttonProps={{ className: classes.margined }}
                 />
               )}

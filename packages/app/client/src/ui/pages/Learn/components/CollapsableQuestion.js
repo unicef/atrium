@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme =>
     container: props => ({
       border: `1.2px solid ${props.showAnswer ? theme.palette.primary.main : '#BCBEBE'}`,
       borderRadius: 5,
-      marginBottom: 20
+      marginBottom: 20,
+      cursor: 'pointer'
     }),
     answerWrapper: props => ({
       borderTopColor: props.showAnswer ? theme.palette.primary.main : '#BCBEBE',
@@ -36,7 +37,14 @@ const CollapsableQuestion = ({ title, answer }) => {
   const classes = useStyles({ showAnswer })
 
   return (
-    <Grid item alignItems="center" container xs={12} className={classes.container}>
+    <Grid
+      onClick={() => setAsnwerVisibility(!showAnswer)}
+      item
+      alignItems="center"
+      container
+      xs={12}
+      className={classes.container}
+    >
       <IconButton
         disableRipple
         color={showAnswer ? 'primary' : '#BCBEBE'}

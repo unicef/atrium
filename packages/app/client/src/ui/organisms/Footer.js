@@ -23,14 +23,15 @@ const styles = theme => ({
 
 const links = [
   { path: '/about', name: 'About', id: 'About', public: true },
-  { path: '/view-projects', name: 'Projects', id: 'Projects', public: false },
+  { path: '/learn', name: 'Learn', id: 'Learn', public: true  },
   {
     path: `mailto:${ATRIUM_CONSTANTS.ATRIUM_EMAIL_CONTACT}`,
     name: 'Contact Us',
-    id: 'ContactUs'
+    id: 'ContactUs',
+    public: true 
   },
-  { path: '/learn', name: 'Learn', id: 'Learn', public: true  },
-  { path: '/engage', name: 'Forum', id: 'Forum', public: false  },
+  { path: '/projects', name: 'Projects', id: 'Projects', public: true },
+  { path: '/engage', name: 'Forum', id: 'Forum', public: false  }
 ]
 
 const InfoText = ({ children, classes }) => (

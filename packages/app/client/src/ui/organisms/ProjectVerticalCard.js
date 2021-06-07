@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Grid from '@material-ui/core/Grid'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -10,12 +10,14 @@ import {
   LikeButton,
   CommentsButton,
   ViewProjectButton,
-  ActionProjectButton
+  ActionProjectButton,
+  TransferOwnershipButton
 } from '../atoms'
 import { CardInfoRow, CardWithMedia } from '../molecules'
 import { mergeClassNames, dateFormatter } from '../utils'
 import { useProjectsAsyncActions, useTrimmedText } from '../hooks'
 import { useHistory } from 'react-router-dom'
+import { ActionDialog } from './index'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -76,6 +78,7 @@ const ProjectVerticalCard = ({
   const classes = useStyles()
   const trimmedDetails = useTrimmedText({ text: props.details, max: 134 })
   const history = useHistory()
+  const [open, setOpen] = useState(false)
   const deleteHandler = async projectId => {
     await deleteProject(projectId)
   }
@@ -154,16 +157,22 @@ const ProjectVerticalCard = ({
       <CardContent className={classes.footer}>
         {accountPage ? (
           <div className={classes.projectButtons}>
+            <TransferOwnershipButton id={props._id} />
             <ViewProjectButton id={props._id} />
             <ActionProjectButton
               id={props._id}
               type="edit"
-              onClick={() => history.push(`projects/overview/${props._id}`)}
+              onClick={() => history.push(`/projects/overview/${props._id}`)}
             />
             <ActionProjectButton
               id={props._id}
               type="delete"
-              onClick={() => deleteHandler(props._id)}
+              onClick={() => setOpen(true)}
+            />
+            <ActionDialog
+              open={open}
+              onConfirm={() => deleteHandler(props.id)}
+              handleClose={() => setOpen(false)}
             />
           </div>
         ) : (

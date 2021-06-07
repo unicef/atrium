@@ -12,7 +12,6 @@ import { logoutUser } from '../../../actions/authActions'
 import ProfilePictureHeader from './ProfilePictureHeader'
 import Navbar from './Navbar'
 import DropdownHeaderMenu from './DropdownHeaderMenu'
-import LimitedHeader from './LimitedHeader'
 import { Button } from '../../../ui'
 
 const exclusivePaths = ['/create-projects', '/create-polls']
@@ -43,7 +42,7 @@ const styles = theme => ({
       fontSize: '14px',
     },
     flexGrow: 1,
-    
+
     fontWeight: 500,
     letterSpacing: '1.8px',
     color: theme.colors['black-two'],
@@ -94,6 +93,10 @@ const Header = ({ logoutUser, auth, classes, location, ...props }) => {
     props.history.push('/register')
   }
 
+  if (location.pathname === '/') {
+    return null
+  }
+
   if (exclusivePaths.includes(location.pathname)) {
     return null
   }
@@ -113,14 +116,9 @@ const Header = ({ logoutUser, auth, classes, location, ...props }) => {
         </Link>
 
         <Navbar />
-        {auth.isAuthenticated && <ProfilePictureHeader user={auth.user} />}
-        {auth.isAuthenticated &&
-          <DropdownHeaderMenu
-            // classes={classes} try to remove  red warning
-            logoutUser={logoutUser}
-          />
-        }
-        {!auth.isAuthenticated && 
+        {auth.isAuthenticated && <ProfilePictureHeader />}
+        {auth.isAuthenticated && <DropdownHeaderMenu logoutUser={logoutUser} />}
+        {!auth.isAuthenticated &&
           <div className={classes.buttons}>
             <Button
               color="primary"

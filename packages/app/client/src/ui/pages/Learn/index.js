@@ -3,9 +3,11 @@ import { useIsAuthenticated } from '../../hooks'
 import { SectionWithBorderedText, JoinAtrium, MainContainer } from '../../templates'
 import { Introduction, Quiz, AtriumBlockchain, ExternalResources, SectionTabs } from './sections'
 import { SectionIcon } from './components'
+import { ActionDialog } from '../../organisms'
 
 const Learn = () => {
   const userIsAuthenticated = useIsAuthenticated()
+  const [showDialog, setDialogVisibility] = React.useState(false)
 
   return (
     <MainContainer size="full">
@@ -30,6 +32,7 @@ const Learn = () => {
           Test out your contract development skills with Remix now.`}
           boxTitle="Write your first smart contract with Remix"
           actionLabel="Open Remix"
+          onClick={()=> setDialogVisibility(true)}
           otherComponent={<SectionIcon iconName="remix" />}
           borderedTextFirst
         />
@@ -37,6 +40,14 @@ const Learn = () => {
       <AtriumBlockchain />
       <ExternalResources />
       {!userIsAuthenticated && <JoinAtrium LeftImageComponent={<SectionIcon iconName="butterflyLeft" />} RightImageComponent={<SectionIcon iconName="butterflyRight" />} />}
+      <ActionDialog
+        title="You are leaving Atrium"
+        content="On confirm you will be redirected to Remix"
+        buttonLabel="Confirm"
+        onConfirm={()=> window.location.replace('remix')}
+        open={showDialog}
+        handleClose={() => setDialogVisibility(false)}
+      />
     </MainContainer>
   )
 }

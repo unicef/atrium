@@ -10,6 +10,7 @@ import { TextWithLinks } from '../../../molecules'
 const useStyles = makeStyles(theme => 
   ({
     footer: {
+      marginTop: 40,
       [theme.breakpoints.only('sm')]: {
         marginTop: 160
       },

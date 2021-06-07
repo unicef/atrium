@@ -194,10 +194,15 @@ router.get(
     )
 
     try {
-      const project = await Project.find()
-        .sort({ createdAt: -1 })
-        .limit(1)
-        .populate(projectsPopulateParams)
+      const user = await User.findOne({ _id: req.user.id }).populate({
+        path: 'projects',
+        populate: projectsPopulateParams
+      })
+      let { projects } = user
+      projects = projects.sort((a, b) =>
+        a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+      )
+      const project = projects[0]
       return res.status(200).json({ project })
     } catch (error) {
       log.info(
@@ -400,7 +405,7 @@ router.put(
     if (req.file && req.file.key) {
       retrievedUser.avatar = `${
         req.connection.encrypted ? 'https' : 'http'
-      }://${req.headers.host}${req.baseUrl}/avatar/${req.file.key}`
+      }://${process.env.ATTACHMENT_URL}${req.baseUrl}/avatar/${req.file.key}`
     }
 
     // Issue badge before saving user to handle error before saving data in the database
@@ -1206,7 +1211,8 @@ router.get(
     )
 
     try {
-      if (!req.query.offset) throw new Error('Query offset parameter is missing')
+      if (!req.query.offset)
+        throw new Error('Query offset parameter is missing')
       const skip = parseInt(req.query.offset)
 
       const activityList = await Activity.find({
@@ -1318,7 +1324,7 @@ router.post(
         req.user.id,
         {
           avatar: `${req.connection.encrypted ? 'https' : 'http'}://${
-            req.headers.host
+            process.env.ATTACHMENT_URL
           }${req.baseUrl}/avatar/${req.file.key}`
         },
         {
@@ -1493,7 +1499,7 @@ router.post(
     if (req.file && req.file.key) {
       informationToUpdate.avatar = `${
         req.connection.encrypted ? 'https' : 'http'
-      }://${req.headers.host}${req.baseUrl}/avatar/${req.file.key}`
+      }://${process.env.ATTACHMENT_URL}${req.baseUrl}/avatar/${req.file.key}`
     }
     log.info(
       getAuthenticatedRequestLogDetails(req, { update: informationToUpdate }),

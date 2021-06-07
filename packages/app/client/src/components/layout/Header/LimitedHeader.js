@@ -2,9 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import AppBar from '@material-ui/core/AppBar'
+import Box from '@material-ui/core/Box'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/styles'
+import Navbar from './Navbar'
 
 const styles = theme => ({
   root: {
@@ -19,6 +21,7 @@ const styles = theme => ({
     position: 'relative',
     minHeight: 50,
     display: 'flex',
+    padding: '0 !important'
   },
   headerTitle: {
     fontSize: '16px',
@@ -37,7 +40,7 @@ const styles = theme => ({
   }
 })
 
-const position = {
+const positionAbsolute = {
   position: 'absolute',
   right: 0,
   marginRight: 19
@@ -48,7 +51,8 @@ const LimitedHeader = ({
   titleProps,
   action,
   actionInlineStyle,
-  classes
+  classes,
+  position
 }) => {
   const titleDefaultProps = {
     variant: 'h5',
@@ -62,13 +66,16 @@ const LimitedHeader = ({
       square={true}
       elevation={0}
       color="default"
-      position="fixed"
+      position={position}
     >
       <Toolbar className={classes.toolBar}>
-        {React.createElement(Typography, titleDefaultProps, title)}
+        <Typography {...titleDefaultProps}>{title}</Typography>
+        <Box pl="86px">
+          <Navbar />
+        </Box>
         {action
           ? React.cloneElement(action, {
-              style: { ...position, ...actionInlineStyle }
+              style: { ...positionAbsolute, ...actionInlineStyle }
             })
           : null}
       </Toolbar>
@@ -81,6 +88,10 @@ LimitedHeader.propTypes = {
   titleProps: PropTypes.object,
   action: PropTypes.element.isRequired,
   classes: PropTypes.object.isRequired
+}
+
+LimitedHeader.defaultProps = {
+  position: 'fixed'
 }
 
 export default compose(React.memo, withStyles(styles))(LimitedHeader)

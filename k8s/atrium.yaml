@@ -211,6 +211,11 @@ spec:
                 configMapKeyRef:
                   name: api-configmap
                   key: client_url
+            - name: ATTACHMENT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: api-configmap
+                  key: attachment_url
           image: appliedblockchain/atrium-app
           name: unin-app
           ports:
@@ -265,7 +270,7 @@ kind: Service
 metadata:
   labels:
     app: remix
-  name: remix
+  name: remix-service
 spec:
   ports:
     - name: "8080"

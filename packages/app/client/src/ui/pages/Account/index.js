@@ -48,7 +48,7 @@ const Account = () => {
             <Dashboard {...user} handleChange={handleChange} />
           ) : null}
           {tabIndex === 1 ? <Profile {...user} /> : null}
-          {tabIndex === 2 ? <Settings {...user} /> : null}
+          {tabIndex === 2 ? <Settings {...user} handleChange={handleChange} /> : null}
           {tabIndex === 3 ? <MyPost {...user} /> : null}
           {tabIndex === 4 ? <MyProjects {...user} /> : null}
           {tabIndex === 5 ? <MyComments {...user} /> : null}

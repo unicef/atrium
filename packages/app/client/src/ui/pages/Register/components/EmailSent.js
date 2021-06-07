@@ -30,12 +30,12 @@ const EmailSent = ({ email, action }) => {
           titleProps={{ alignMobile: 'left' }}
           subtitle={
             <>
-              An Email has been sent to your email address
+              We’ve sent an email to
               <a className={classes.email} href={`mailto:${email}`}>
                 {' '}
                 {email}{' '}
               </a>
-              Please click on thet link to verify your email address
+              Please click on the link in the email to verify your account.
             </>
           }
         />
