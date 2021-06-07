@@ -210,7 +210,7 @@ function Dashboard(props) {
                       type="edit"
                       onClick={() =>
                         history.push(
-                          `projects/overview/${latestProject._id}`
+                          `/projects/overview/${latestProject._id}`
                         )
                       }
                     />
@@ -221,7 +221,7 @@ function Dashboard(props) {
                 <EmptyResults
                   mainMessage="You don’t have any projects yet"
                   buttonLabel="Add project"
-                  handleClick={() => history.push('create-projects')}
+                  handleClick={() => history.push('/create-projects')}
                   buttonProps={{ className: classes.margined }}
                 />
               )}
@@ -246,7 +246,7 @@ function Dashboard(props) {
                 <EmptyResults
                   mainMessage="You don’t have any comments yet"
                   buttonLabel="Add comment"
-                  handleClick={() => history.push('projects')}
+                  handleClick={() => history.push('/projects')}
                   buttonProps={{ className: classes.margined }}
                 />
               ) : (

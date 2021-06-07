@@ -68,7 +68,7 @@ function MyProjects(props) {
       <EmptyResults
         mainMessage="You don’t have any projects yet"
         buttonLabel="Add project"
-        handleClick={() => history.push('create-projects')}
+        handleClick={() => history.push('/create-projects')}
         buttonProps={{ className: classes.button }}
       />
     )
@@ -86,7 +86,7 @@ function MyProjects(props) {
           key={project.id}
           onClick={() => {
             setCurrentProject({ project, userId })
-            history.push(`projects/view/${project.id}/about`)
+            history.push(`/projects/view/${project.id}/about`)
           }}
         />
       ))}

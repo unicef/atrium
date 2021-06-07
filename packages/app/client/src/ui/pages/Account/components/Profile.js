@@ -133,7 +133,7 @@ function Profile(props) {
         <Button
           className={classes.viewButton}
           variant="outlined"
-          onClick={() => history.push(`users/${props.id}`)}
+          onClick={() => history.push(`/users/${props.id}`)}
         >
           View profile
         </Button>
