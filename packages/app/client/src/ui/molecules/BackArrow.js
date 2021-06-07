@@ -23,21 +23,21 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const BackArrow = ({ dest, history }) => {
+const BackArrow = ({ dest, history, handleClick, destName }) => {
   const classes = useStyles()
 
   return (
-    <div onClick={() => history.push(dest)} className={classes.backArrow}>
+    <div onClick={() => handleClick ? handleClick() : history.push(dest)} className={classes.backArrow}>
       <ArrowBackIosIcon className={classes.icon} />
       <Typography variant="body1" className={classes.contentText}>
-        {'Back to projects'}
+       {destName ? `Back to ${destName}` : 'Back'}
       </Typography>
     </div>
   )
 }
 
 BackArrow.propTypes = {
-  tags: PropTypes.array
+  tags: PropTypes.array,
 }
 
 export default withRouter(BackArrow)

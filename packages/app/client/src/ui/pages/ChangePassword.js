@@ -1,6 +1,8 @@
 import React from 'react'
+import Box from '@material-ui/core/Box'
 import { MainContainer } from '../templates'
 import { SimpleFormWithHeader } from '../organisms'
+import { BackArrow } from '../molecules'
 import {
   password,
   currentPassword,
@@ -42,6 +44,9 @@ function ChangePassword(props) {
   }
   return (
     <MainContainer size="small">
+      <Box mb="20px">
+        <BackArrow handleClick={() => history.goBack()} />
+      </Box>
       <SimpleFormWithHeader
         onSubmit={submitHandler}
         submitLabel="Save password"

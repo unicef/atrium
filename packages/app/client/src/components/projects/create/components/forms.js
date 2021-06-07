@@ -33,10 +33,10 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(5)
   },
   counter: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    marginTop: '-20px',
-    paddingRight: '10px',
+    position: 'absolute',
+    right: 25,
+    bottom: 0,
+    transform: 'translate(0, -50%)',
     color: '#636767',
     fontSize: 13
   },
@@ -532,32 +532,37 @@ export const FirstProjectForm = props => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  id="projectDescription"
-                  name="projectDescription"
-                  variant="outlined"
-                  htmlFor="projectDescription"
-                  label="Project description"
-                  onChange={e => {
-                    handleChange(e)
-                    setCharacters(e.target.value.length)
-                  }}
-                  onBlur={handleBlur}
-                  error={
-                    !!(touched.projectDescription && errors.projectDescription)
-                  }
-                  errorMessage={
-                    touched.projectDescription && errors.projectDescription
-                  }
-                  multiline={true}
-                  rows="4"
-                  fullWidth
-                  required
-                  value={values.projectDescription}
-                />
-                <Typography variant="body1" className={classes.counter}>
-                  {characters}/250
-                </Typography>
+                <Box position="relative" width="100%">
+                  <TextField
+                    id="projectDescription"
+                    name="projectDescription"
+                    variant="outlined"
+                    htmlFor="projectDescription"
+                    label="Project description"
+                    onChange={e => {
+                      handleChange(e)
+                      setCharacters(e.target.value.length)
+                    }}
+                    onBlur={handleBlur}
+                    error={
+                      !!(touched.projectDescription && errors.projectDescription)
+                    }
+                    errorMessage={
+                      touched.projectDescription && errors.projectDescription
+                    }
+                    multiline={true}
+                    rows="4"
+                    fullWidth
+                    required
+                    characterLimit={250}
+                    value={values.projectDescription}
+                  />
+                  <Box className={classes.counter}>
+                    <Typography variant="body2">
+                      {characters} / 250
+                    </Typography>
+                  </Box>
+                </Box>
               </Grid>
               <Grid item xs={12}>
                 <div className={classes.line} />
@@ -645,7 +650,7 @@ export const FirstProjectForm = props => {
                       errorMessage={touched.freeForAll && errors.freeForAll}
                     />
                   }
-                  label="This project doesn't contain any sensitive data and can be viewed by non-UN users"
+                  label="Allow this Project to be viewed by non-UN users"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -900,7 +905,7 @@ export const FirstProjectForm = props => {
                 className={classes.saveButton}
                 color="primary"
                 type="submit"
-                disabled={isSubmitting || !isValid || !dirty}
+                disabled={isSubmitting || !dirty}
               >
                 Save
               </Button>

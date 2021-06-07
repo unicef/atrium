@@ -12,6 +12,7 @@ const getDeleteMemberEndpoint = projectId => `${projectId}/deleteMember`
 const getDeleteUpdateEndpoint = updateId => `${updateId}/update`
 const getProjectCommentsEndpoint = (projectId, query) =>
   `${projectId}/comments?${query}`
+const getDeleteFileEndpoint = (projectId, type) => `${projectId}/${type}/deleteFile`
 
 // ERRORS
 export const ERRORS = {
@@ -153,14 +154,29 @@ export const deleteMember = (projectId, memberId) =>
     body: { memberId }
   })
 
-// TODO: CHANGE THE FUNCTION BELOW TO USE projectRequest
-export function deleteFile(projectId, filePath, type) {
-  return axios.post(`projects/${projectId}/${type}/deleteFile`, { filePath })
-}
+export const deleteFile = (projectId, filePath, type) => 
+  projectRequest({
+    method: 'post',
+    endpoint: getDeleteFileEndpoint(projectId, type),
+    body: { filePath }
+  })
 
 export const transferOwnership = (projectId, userToTransfer) =>
   projectRequest({
     method: 'post',
     endpoint: `${projectId}/transferOwnership`,
     body: { userToTransfer }
+  })
+
+export const createProject = (projectData) => 
+  projectRequest({
+    method: 'post',
+    body: projectData
+  })
+
+export const updateProject = (projectData, projectId) => 
+  projectRequest({
+    method: 'put',
+    endpoint: projectId,
+    body: projectData
   })
