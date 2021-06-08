@@ -24,6 +24,7 @@ const express = require('express'),
   } = require('../../lib/userActivity'),
   { BADGE_ENUM } = require('../../config/unin-constants')
 const mongoose = require('mongoose')
+const { _notifyDeletedContentByAdmin } = require('../../lib/nodemailer')
 const userFieldSelection = 'name email avatar company' // select only name and email from users
 const populateParams = [
   {
@@ -505,7 +506,6 @@ router.delete(
       },
       'Deleting project'
     )
-
     Project.findByIdAndDelete({ _id: req.params.id }, async (err, response) => {
       if (err) {
         log.error(
@@ -553,6 +553,9 @@ router.delete(
           },
           'Project deleted successfully'
         )
+        if (req.user.isAdmin){
+          _notifyDeletedContentByAdmin(owner.email, 'Project', response.name)
+        }
         res.json({ message: 'Project deleted successfully' })
       } catch (error) {
         log.error(
@@ -780,7 +783,12 @@ router.delete(
         {},
         { $pull: { comments: { $in: [mongoose.Types.ObjectId(commentId)] } } }
       )
-      await Comment.findByIdAndDelete({ _id: commentId, user: userId })
+      const comment = await Comment.findByIdAndDelete({ _id: commentId, user: userId })
+      const owner = await User.findById(comment.user)
+
+      if (req.user.isAdmin){
+        _notifyDeletedContentByAdmin(owner.email, 'Comment', comment.content)
+      }
     } catch (e) {
       log.error(logData, 'Error deleting comment')
       return sendError(res, 503, 'Error deleting the comment. Please try again')
@@ -995,7 +1003,12 @@ router.delete(
         {},
         { $pull: { updates: { $in: [mongoose.Types.ObjectId(updateId)] } } }
       )
-      await Update.findByIdAndDelete({ _id: updateId, owner: userId })
+      const update = await Update.findByIdAndDelete({ _id: updateId, owner: userId })
+      const owner = await User.findById(update.user)
+
+      if (req.user.isAdmin){
+        _notifyDeletedContentByAdmin(owner.email, 'Update', update.title)
+      }
     } catch (e) {
       log.error(logData, 'Error deleting update')
       return sendError(res, 503, 'Error deleting the update. Please try again')
@@ -1440,6 +1453,62 @@ router.post(
         'Can not report update from the database'
       )
       return sendError(res, 503, 'Error reporting update from the database')
+    }
+  }
+)
+
+
+router.post(
+  '/:commentId/report',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        comment: req.params.commentId
+      },
+      'User is reporting comment'
+    )
+    if (req.body.reported === true && !req.body.reportMessage) {
+      log.warn(
+        {
+          requestId: req.id,
+          user: req.user.id,
+          comment: req.params.commentId
+        },
+        'Error reporting comment. Report message is mandatory'
+      )
+      return sendError(res, 400, 'Comment report message is mandatory')
+    }
+
+    try {
+      const comment = await Comment.findOneAndUpdate(
+        { _id: req.params.commentId },
+        {
+          reported: !!req.body.reported,
+          reportMessage: req.body.reportMessage
+        },
+        { new: true }
+      ).populate(populateParams)
+
+      log.info(
+        {
+          requestId: req.id,
+          comment
+        },
+        'Success reporting comment'
+      )
+      return res.status(200).json({ comment })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not report comment from the database'
+      )
+      return sendError(res, 503, 'Error getting reporting from the database')
     }
   }
 )

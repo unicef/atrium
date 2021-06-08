@@ -256,13 +256,14 @@ const getReportedComments = async () => {
   const projectsIdWithComment = await Promise.all(
     comments.map(async comment => {
       let project = await Project.find({ comments: comment._id })
+      if (project.length === 0) return null
       return {
-        projectId: project[0]._id,
+        projectId: project[0]?._id,
         ...comment._doc
       }
     })
   )
-  return projectsIdWithComment
+  return projectsIdWithComment.filter(p => p !== null)
 }
 
 const getReportedUpdated = async () => {
@@ -270,13 +271,14 @@ const getReportedUpdated = async () => {
   const projectsIdWithUpdates = await Promise.all(
     updates.map(async update => {
       let project = await Project.find({ updates: update._id })
+      if (project.length === 0) return null
       return {
-        projectId: project[0]._id,
+        projectId: project[0]?._id,
         ...update._doc
       }
     })
   )
-  return projectsIdWithUpdates
+  return projectsIdWithUpdates.filter(p => p !== null)
 }
 
 const getAllReports = [
