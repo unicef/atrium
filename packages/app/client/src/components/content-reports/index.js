@@ -1,9 +1,9 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
-import { comments, projects, updates } from './mocks'
 import ReportedComments from './ReportedComments'
 import ReportedProjects from './ReportedProjects'
 import ReportedUpdates from './ReportedUpdates'
+import { projects, updates, comments } from './mocks'
 import { useSelector } from 'react-redux'
 import {
   getSearchedReportedComments,
@@ -11,12 +11,6 @@ import {
   getSearchedReportedUpdates
 } from '../../selectors'
 import { useReportsAsyncActions } from '../../ui/hooks'
-
-const mock = {
-  projects,
-  comments,
-  updates
-}
 
 const useStyles = makeStyles(() => ({
   greeting: {
@@ -31,13 +25,14 @@ const useStyles = makeStyles(() => ({
     maxWidth: '100%'
   }
 }))
+
 const ContentReport = () => {
   const classes = useStyles()
 
   const { fetchSearchedReports } = useReportsAsyncActions()
-  const projects = useSelector(getSearchedReportedProjects)
-  const comments = useSelector(getSearchedReportedComments)
-  const updates = useSelector(getSearchedReportedUpdates)
+  // const projects = useSelector(getSearchedReportedProjects)
+  // const comments = useSelector(getSearchedReportedComments)
+  // const updates = useSelector(getSearchedReportedUpdates)
 
   React.useEffect(() => {
     const requestReports = async () => {
@@ -55,19 +50,19 @@ const ContentReport = () => {
         <Typography className={classes.section} variant="h4">
           Projects
         </Typography>
-        <ReportedProjects projects={mock.projects} />
+        <ReportedProjects projects={projects} />
       </Grid>
       <Grid item container xs={12}>
         <Typography className={classes.section} variant="h4">
           Updates
         </Typography>
-        <ReportedUpdates updates={mock.updates} />
+        <ReportedUpdates updates={updates} />
       </Grid>
       <Grid item container xs={12}>
         <Typography className={classes.section} variant="h4">
           Comments
         </Typography>
-        <ReportedComments comments={mock.comments} />
+        <ReportedComments comments={comments} />
       </Grid>
     </>
   )

@@ -1,57 +1,75 @@
-import { Grid, makeStyles } from '@material-ui/core'
-import React, { useEffect } from 'react'
-import { useHistory } from 'react-router'
-import { ActionProjectButton } from '../../ui'
-import { useProjectsMainActions } from '../../ui/hooks'
-import ProjectCard from '../../ui/pages/ProjectsMain/components/ProjectCard'
-import { ReportActionsButtons } from './ReportActionsButtons'
+import { Grid } from '@material-ui/core'
+import React from 'react'
 import Typography from '@material-ui/core/Typography'
+import { ActionDialog, CardInfoRow, HorizontalCardWithMenu } from '../../ui'
+import Box from '@material-ui/core/Box'
+import { useProjectsAsyncActions } from '../../ui/hooks'
+import { useHistory } from 'react-router'
 
-const useStyles = makeStyles(() => ({
-  greeting: {
-    marginBottom: '2%',
-    fontSize: '34px'
-  },
-  section: {
-    marginBottom: '2%',
-    fontSize: '24px'
-  },
-  projectCards: {
-    maxWidth: '100%'
-  }
-}))
 const ReportedProjects = ({ projects }) => {
-  const classes = useStyles()
-
+  const { reportProject, deleteProject } = useProjectsAsyncActions()
+  const userIsTheOwner = true
+  const [showDeletionModal, setDeletionModalVisibility] = React.useState(false)
   const history = useHistory()
 
   return (
-    <Grid xs={12} item container justify="flex-start" alignItems="center">
-      {projects && projects.length > 0 &&
+    <Grid container spacing={1} xs={12}>
+      {projects &&
+        projects.length &&
         projects.map(project => (
-          <Grid
-            key={project.id}
-            item
-            style={{ padding: 20 }}
-            justify="flex-start"
-            alignItems="center"
-            direction="column"
-          >
-            <Typography gutterBottom variant="h3" component="h6">
-              {project.name}
-            </Typography>
-            <Grid item container xs={12}>
-              <Typography variant="caption" component="p">
-                {project.details}
+          <Grid item xs={12} key={project.id}>
+            <HorizontalCardWithMenu
+              key={projects.id}
+              menuItems={[
+                {
+                  label: 'Delete',
+                  handleClick: () => {
+                    setDeletionModalVisibility(true)
+                  }
+                },
+                {
+                  label: 'Unreport',
+                  handleClick: () => {
+                    reportProject({ id: project.id, reported: false })
+                  }
+                }
+              ]}
+              userIsTheOwner={userIsTheOwner}
+            >
+              <Typography
+                onClick={() =>
+                  history.push(`projects/view/${project.id}/about`)
+                }
+              >
+                {project.name}
               </Typography>
-            </Grid>
+              <Box display="flex" mb={1}>
+                <CardInfoRow
+                  components={[
+                    {
+                      type: 'authorship',
+                      author: project.owner.name
+                    },
+                    {
+                      type: 'date',
+                      variant: 'absolute',
+                      date: project.createdAt
+                    }
+                  ]}
+                />
+              </Box>
+              <Typography>{project.details}</Typography>
+            </HorizontalCardWithMenu>
             <Grid>
               <span>{project.reportMessage}</span>
             </Grid>
-            <ReportActionsButtons
-              deleteAction={() => {}}
-              dismissAction={() => {}}
-              key={project.id}
+            <ActionDialog
+              open={showDeletionModal}
+              handleClose={() => setDeletionModalVisibility(false)}
+              onConfirm={async () => {
+                await deleteProject(project.id)
+                setDeletionModalVisibility(false)
+              }}
             />
           </Grid>
         ))}

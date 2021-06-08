@@ -1,55 +1,87 @@
 import { Grid } from '@material-ui/core'
-import React, { useState } from 'react'
+import React from 'react'
+import { ActionDialog, CardInfoRow, HorizontalCardWithMenu } from '../../ui'
+import { useProjectsAsyncActions, useHandledRequest } from '../../ui/hooks'
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
+import { useHistory } from 'react-router'
 import { deleteComment } from '../../api/projects'
-import { ActionProjectButton, CommentBox } from '../../ui'
-import { useHandledRequest } from '../../ui/hooks'
-import { ReportActionsButtons } from './ReportActionsButtons'
 
 const ReportedComments = ({ comments }) => {
-  const [commentsState, setCommentsState] = useState(comments || [])
+  const { reportComment } = useProjectsAsyncActions()
+  const userIsTheOwner = true
+  const [showDeletionModal, setDeletionModalVisibility] = React.useState(false)
+  const history = useHistory()
+
   const handledRequest = useHandledRequest()
-
-  const removeItemFromArray = commentId => {
-    console.log(
-      '🚀 ~ file: ReportedComments.js ~ line 11 ~ ReportedComments ~ commentId',
-      commentId
-    )
-    commentsState.pop(commentsState.indexOf(commentId))
-    console.log(
-      '🚀 ~ file: ReportedComments.js ~ line 10 ~ ReportedComments ~ commentsState',
-      commentsState
-    )
-    setCommentsState(commentsState)
-  }
-
   const removeComment = handledRequest({
     request: deleteComment,
     showFullPageLoading: true,
-    onSuccess: removeItemFromArray,
+    onSuccess: () => window.location.reload(),
     successMessage: 'Comment successfully deleted'
   })
+
   return (
-    <>
-      {commentsState.map(comment => (
-        <>
-          <CommentBox
-            removeComment={removeComment}
-            key={comment.id}
-            author={comment.user.name}
-            adminArea={true}
-            {...comment}
-          />
-          <Grid>
-            <span>{comment.reportMessage}</span>
+    <Grid container spacing={1} xs={12}>
+      {comments &&
+        comments.length &&
+        comments.map(comment => (
+          <Grid item xs={12} key={comment.id}>
+            <HorizontalCardWithMenu
+              key={comment.id}
+              menuItems={[
+                {
+                  label: 'Delete',
+                  handleClick: () => {
+                    setDeletionModalVisibility(true)
+                  }
+                },
+                {
+                  label: 'Unreport',
+                  handleClick: () => {
+                    reportComment({ id: comment.id, reported: false })
+                  }
+                }
+              ]}
+              userIsTheOwner={userIsTheOwner}
+            >
+              <Box display="flex" mb={1}>
+                <CardInfoRow
+                  components={[
+                    {
+                      type: 'authorship',
+                      author: comment.user.name
+                    },
+                    {
+                      type: 'date',
+                      variant: 'absolute',
+                      date: comment.date
+                    }
+                  ]}
+                />
+              </Box>
+              <Typography
+                onClick={() =>
+                  history.push(`projects/view/${comment.projectId}/comments`)
+                }
+              >
+                {comment.content}
+              </Typography>
+            </HorizontalCardWithMenu>
+            <Grid>
+              <span>{comment.reportMessage}</span>
+            </Grid>
+            <ActionDialog
+              open={showDeletionModal}
+              handleClose={() => setDeletionModalVisibility(false)}
+              onConfirm={async () => {
+                await removeComment(comment.id)
+                setDeletionModalVisibility(false)
+              }}
+            />
           </Grid>
-          <ReportActionsButtons
-            deleteAction={() => {}}
-            dismissAction={() => {}}
-            key={comment.id}
-          />
-        </>
-      ))}
-    </>
+        ))}
+    </Grid>
   )
 }
 

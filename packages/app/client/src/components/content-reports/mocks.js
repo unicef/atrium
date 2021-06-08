@@ -148,7 +148,7 @@ const updates = [
     title: 'update2',
     text: 'update2',
     owner: '60ba1f6652f5ee0039032ba6'
-  },
+  }
 ]
 
 export { projects, comments, updates }

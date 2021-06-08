@@ -149,22 +149,22 @@ export const editUpdate = ({ id, text, title }) =>
 
 export const reportUpdate = ({ id, reported, reportMessage }) =>
   projectRequest({
-    method: 'put',
-    endpoint: `${id}/reportUpdate`,
+    method: 'post',
+    endpoint: `${id}/update/report`,
     body: { reported, reportMessage }
   })
 
 export const reportComment = ({ id, reported, reportMessage }) =>
   projectRequest({
-    method: 'put',
-    endpoint: `${id}/reportComment`,
+    method: 'post',
+    endpoint: `${id}/comment/report`,
     body: { reported, reportMessage }
   })
 
 export const reportProject = ({ id, reported, reportMessage }) =>
   projectRequest({
-    method: 'put',
-    endpoint: `${id}/reportProject`,
+    method: 'post',
+    endpoint: `${id}/report`,
     body: { reported, reportMessage }
   })
 
