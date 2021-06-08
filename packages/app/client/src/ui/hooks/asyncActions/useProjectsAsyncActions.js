@@ -81,6 +81,12 @@ const useProjectsAsyncActions = () => {
       onSuccess: () => window.location.reload(),
       showFullPageLoading: true,
       successMessage: 'Update successfully reported'
+    }),
+    reportComment: handledRequest({
+      request: ProjectApi.reportComment,
+      onSuccess: () => window.location.reload(),
+      showFullPageLoading: true,
+      successMessage: 'Comment successfully reported'
     })
   }
 }
