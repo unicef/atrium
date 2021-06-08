@@ -153,6 +153,13 @@ export const reportUpdate = ({ id, reported, reportMessage }) =>
     body: { reported, reportMessage }
   })
 
+export const reportComment = ({ id, reported, reportMessage }) =>
+  projectRequest({
+    method: 'put',
+    endpoint: `${id}/reportComment`,
+    body: { reported, reportMessage }
+  })
+
 export const addMembers = (projectId, members) =>
   projectRequest({
     method: 'post',
