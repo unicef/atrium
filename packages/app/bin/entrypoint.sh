@@ -46,7 +46,7 @@ disco set "cluster-leader" "$HOSTNAME"
 
 if [ -z "$CONTRACT_ADDRESSES" ]; then
   sleep 1 # TODO: tune or remove
-  
+
   LEADER=$(disco get cluster-leader)
   export CONTRACT_ADDRESSES=$(disco get contract-addresses)
 

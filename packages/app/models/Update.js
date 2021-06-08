@@ -8,7 +8,9 @@ const UpdateSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  reported: { type: Boolean, default: false },
+  reportMessage: { type: String, default: '' }
 })
 
 UpdateSchema.set('toJSON', {
