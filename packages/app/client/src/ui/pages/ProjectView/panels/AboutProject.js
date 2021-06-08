@@ -146,7 +146,6 @@ const AboutProject = ({ projectData }) => {
                           >
                             Cancel
                           </Button>
-
                           <Button
                             ml={15}
                             color="primary"
