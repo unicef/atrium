@@ -1,6 +1,5 @@
 FROM node
 WORKDIR /app
-RUN npm install
 RUN apt-get update
 RUN apt-get install -y git python openssl curl bash redis-tools jq
 RUN npm install -g web3
