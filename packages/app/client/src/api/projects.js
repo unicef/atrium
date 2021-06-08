@@ -139,6 +139,20 @@ export const removeUpdate = updateId =>
     endpoint: getDeleteUpdateEndpoint(updateId)
   })
 
+export const editUpdate = ({ id, text, title }) =>
+  projectRequest({
+    method: 'put',
+    endpoint: getDeleteUpdateEndpoint(id),
+    body: { text, title }
+  })
+
+export const reportUpdate = ({ id, reported, reportMessage }) =>
+  projectRequest({
+    method: 'put',
+    endpoint: `${id}/reportUpdate`,
+    body: { reported, reportMessage }
+  })
+
 export const addMembers = (projectId, members) =>
   projectRequest({
     method: 'post',

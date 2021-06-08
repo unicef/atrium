@@ -70,6 +70,17 @@ const useProjectsAsyncActions = () => {
       onSuccess: () => window.location.reload(),
       showFullPageLoading: true,
       successMessage: 'Project successfully deleted'
+    }),
+    editUpdateBE: handledRequest({
+      request: ProjectApi.editUpdate,
+      showFullPageLoading: true,
+      successMessage: 'Update successfully edited'
+    }),
+    reportUpdateBE: handledRequest({
+      request: ProjectApi.reportUpdate,
+      onSuccess: () => window.location.reload(),
+      showFullPageLoading: true,
+      successMessage: 'Update successfully reported'
     })
   }
 }

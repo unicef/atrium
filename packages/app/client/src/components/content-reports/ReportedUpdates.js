@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid'
 import { HorizontalCardWithMenu } from '../../ui/organisms'
 import { CardInfoRow } from '../../ui'
 import Box from '@material-ui/core/Box'
+import UpdateCard from "../../ui/pages/ProjectView/components/updates/UpdateCard";
 
 function ReportedUpdates({ updates }) {
   const menuItems = [

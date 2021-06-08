@@ -48,7 +48,6 @@ const ReportedProjects = ({ projects }) => {
             <Grid>
               <span>{project.reportMessage}</span>
             </Grid>
-
             <ReportActionsButtons
               deleteAction={() => {}}
               dismissAction={() => {}}

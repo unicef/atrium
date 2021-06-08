@@ -54,6 +54,11 @@ export default function(state = initialState, { type, payload }) {
         comments: payload.comments,
         commentsPages: payload.pageCounter
       }
+    case TYPES.REPORT_UPDATE:
+      return {
+        ...state,
+        handledUpdates: dataManipulation.onEditUpdate({ updates: state.handledUpdates, ...payload })
+      }
     default:
       return state
   }
