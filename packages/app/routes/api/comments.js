@@ -213,7 +213,7 @@ router.post(
           reported: !!req.body.reported,
           reportMessage: req.body.reportMessage
         },
-        {new: true}
+        { new: true }
       ).populate(populateParams)
 
       log.info(
@@ -230,9 +230,9 @@ router.post(
           requestId: req.id,
           error: error
         },
-        'Can not get comment from the database'
+        'Can not report comment from the database'
       )
-      return sendError(res, 503, 'Error getting comment from the database')
+      return sendError(res, 503, 'Error getting reporting from the database')
     }
   }
 )

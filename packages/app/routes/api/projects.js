@@ -1330,4 +1330,118 @@ router.post(
   }
 )
 
+router.post(
+  '/:projectId/report',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        project: req.params.projectId
+      },
+      'User is reporting project'
+    )
+    if (req.body.reported === true && !req.body.reportMessage) {
+      log.warn(
+        {
+          requestId: req.id,
+          user: req.user.id,
+          project: req.params.projectId
+        },
+        'Error reporting project. Report message is mandatory'
+      )
+      return sendError(res, 400, 'Project report message is mandatory')
+    }
+
+    try {
+      const project = await Project.findOneAndUpdate(
+        { _id: req.params.projectId },
+        {
+          reported: !!req.body.reported,
+          reportMessage: req.body.reportMessage
+        },
+        { new: true }
+      ).populate(populateParams)
+
+      if (project === null) throw('Project not found.')
+
+      log.info(
+        {
+          requestId: req.id,
+          project
+        },
+        'Success reporting project'
+      )
+      return res.status(200).json({ project })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not report project from the database'
+      )
+      return sendError(res, 503, 'Error reporting project from the database')
+    }
+  }
+)
+
+router.post(
+  '/:updateId/update/report',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        update: req.params.updateId
+      },
+      'User is reporting update'
+    )
+    if (req.body.reported === true && !req.body.reportMessage) {
+      log.warn(
+        {
+          requestId: req.id,
+          user: req.user.id,
+          updateId: req.params.updateId
+        },
+        'Error reporting update. Report message is mandatory'
+      )
+      return sendError(res, 400, 'Update report message is mandatory')
+    }
+
+    try {
+      const update = await Update.findOneAndUpdate(
+        { _id: req.params.updateId },
+        {
+          reported: !!req.body.reported,
+          reportMessage: req.body.reportMessage
+        },
+        { new: true }
+      ).populate(populateParams)
+
+      if (update === null) throw('Update not found.')
+
+      log.info(
+        {
+          requestId: req.id,
+          update
+        },
+        'Success reporting update'
+      )
+      return res.status(200).json({ update })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not report update from the database'
+      )
+      return sendError(res, 503, 'Error reporting update from the database')
+    }
+  }
+)
+
 module.exports = router
