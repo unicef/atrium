@@ -7,7 +7,8 @@ const initialState = {
   projects: undefined,
   posts: undefined,
   info: undefined,
-  projectsPageCounter: undefined
+  projectsPageCounter: undefined,
+  loadActivitiesFlag: 'LOAD'
 }
 
 const profileReducer = (state = initialState, { type, payload }) => {
@@ -26,6 +27,11 @@ const profileReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         activities: [...state.activities, ...payload]
+      }
+    case TYPES.SET_LOAD_MORE_FLAG:
+      return {
+        ...state,
+        loadActivitiesFlag: payload
       }
     default:
       return state
