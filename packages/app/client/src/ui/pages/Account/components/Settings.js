@@ -89,7 +89,7 @@ function Settings(props) {
         <Button
           className={classes.changePasswordButton}
           color="primary"
-          onClick={() => history.push(`change-password`)}
+          onClick={() => history.push(`/change-password`)}
         >
           Change password
         </Button>

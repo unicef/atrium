@@ -6,7 +6,8 @@ import { useHistory } from 'react-router-dom'
 const useStyles = makeStyles(() => ({
   viewProject: {
     width: '139px',
-    height: '42px'
+    height: '42px',
+    margin: '0 5%'
   }
 }))
 
@@ -19,7 +20,7 @@ function ViewProjectButton({ id }) {
         className={classes.viewProject}
         color="primary"
         variant="outlined"
-        onClick={() => history.push(`projects/view/${id}/about`)}
+        onClick={() => history.push(`/projects/view/${id}/about`)}
       >
         View Project
       </Button>

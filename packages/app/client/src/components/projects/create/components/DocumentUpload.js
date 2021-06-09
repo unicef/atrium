@@ -7,7 +7,8 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(() => ({
   inputLabel: {
     color: 'black',
-    marginBottom: 6,
+    marginTop: 40,
+    marginBottom: 15,
     fontWeight: 500
   },
   addFileButton: {
@@ -26,20 +27,21 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const DocumentUpload = ({ title, htmlFor, id, name, handleChange, prevFiles, ...props }) => {
+const DocumentUpload = ({ title, htmlFor, id, name, handleChange, prevValues, ...props }) => {
   const classes = useStyles()
   const inputRef = React.useRef(null)
-  const [files, setFiles] = React.useState(prevFiles || [])
+  const [files, setFiles] = React.useState(prevValues)
+  const [newFile, setNewFile] = React.useState(null)
   const [buttonDisabled, setDisabled] = React.useState(false)
-
+  
   const handleClick = (e) => {
     e.preventDefault()
     inputRef.current && inputRef.current.click()
   }
 
-  const onDelete = (filePath) => {
-    props.deleteHandler(filePath, props.type)
-    setFiles(prevValues => prevValues.filter(file => file !== filePath))
+  const onDelete = ({ url }) => {
+    props.deleteHandler(url, props.type)
+    setFiles(prevValues => prevValues.filter(file => file.url !== url))
     setDisabled(false)
   }
 
@@ -78,12 +80,24 @@ const DocumentUpload = ({ title, htmlFor, id, name, handleChange, prevFiles, ...
         name={name}
         className={classes.fileInput}
         onChange={e => {
-          handleChange(e)
-          setFiles(prevValues => [e.target.files[0], ...prevValues])
+          handleChange(name, e.target.files[0])
+          setNewFile(e.target.files[0])
           setDisabled(true)
         }}
       />
-       
+      {
+        Boolean(newFile) &&
+        <AddedFile
+          name={newFile.name}
+          size={newFile.size}
+          onDelete={() => {
+            setDisabled(false)
+            setNewFile(null)
+          }}
+          newFile
+          file={newFile}
+        />
+      }
       {Array.isArray(files) &&
         files.map(file => (
           <AddedFile

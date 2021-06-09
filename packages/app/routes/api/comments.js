@@ -43,7 +43,6 @@ const populateParams = [
   }
 ]
 
-
 router.get(
   '/:commentId',
   passport.authenticate('jwt', { session: false }),
@@ -182,5 +181,6 @@ router.post(
     )
   }
 )
+
 
 module.exports = router

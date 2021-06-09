@@ -27,7 +27,7 @@ export { default as Edit } from './edit.png'
 export { ReactComponent as BadgeOne } from './badgeOne.svg'
 export { ReactComponent as BadgeTwo } from './badgeTwo.svg'
 export { ReactComponent as BadgeThree } from './badgeThree.svg'
-
+export { default as profilePlaceholder } from './profile_picture_placeholder.svg'
 export {
   CopyIcon,
   CancelIcon,

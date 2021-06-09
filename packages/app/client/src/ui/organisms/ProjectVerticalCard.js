@@ -157,8 +157,8 @@ const ProjectVerticalCard = ({
       <CardContent className={classes.footer}>
         {accountPage ? (
           <div className={classes.projectButtons}>
-            <ViewProjectButton id={props._id} />
             <TransferOwnershipButton id={props._id} />
+            <ViewProjectButton id={props._id} />
             <ActionProjectButton
               id={props._id}
               type="edit"

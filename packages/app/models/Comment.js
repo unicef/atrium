@@ -10,7 +10,9 @@ const CommentSchema = new Schema({
     default: Date.now
   },
   replies: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
-  likes: [{ type: Schema.Types.ObjectId, ref: 'users', default: [] }]
+  likes: [{ type: Schema.Types.ObjectId, ref: 'users', default: [] }],
+  reported: { type: Boolean, default: false },
+  reportMessage: { type: String, default: '' }
 })
 
 CommentSchema.set('toJSON', {

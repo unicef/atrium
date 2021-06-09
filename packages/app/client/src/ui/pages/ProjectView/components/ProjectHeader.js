@@ -22,7 +22,7 @@ const ProjectHeader = (props) => {
 
   return (
     <>
-      <BackArrow dest={'/projects'} />
+      <BackArrow dest={'/projects'} destName="projects"/>
       <Box mb="35px" mt="30px">
         <Grid justify="center" container item xs={12}>
           <Image

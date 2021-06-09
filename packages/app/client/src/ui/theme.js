@@ -26,6 +26,26 @@ export const colors = {
 
 const MuiTheme = createMuiTheme({
   colors,
+  overrides: {
+    MuiOutlinedInput: {
+      root: {
+        "& $notchedOutline": {
+          borderWidth: '1.2px',
+          borderColor: colors['light-gray-two']
+        },
+        "&:hover $notchedOutline": {
+          borderColor: colors['black-two']
+        },
+        "&$focused $notchedOutline": {
+          borderColor: colors['black-two'],
+          borderWidth: '1.6px',
+        },
+        "&$error $notchedOutline": {
+          borderColor: colors.error
+        }
+      }
+    }
+  },
   palette: {
     error: {
       main: colors.error

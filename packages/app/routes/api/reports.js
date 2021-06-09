@@ -6,6 +6,10 @@ const Project = require('../../models/Project')
 const Comment = require('../../models/Comment')
 const Activity = require('../../models/Activity')
 const keccak256 = require('keccak256')
+const passport = require('passport')
+const log = require('../../config/log')
+const { sendError } = require('../../lib/requestUtils')
+const Update = require('../../models/Update')
 
 const downloadKeys = {}
 
@@ -215,5 +219,72 @@ async function getActivityData() {
 
   return activityData
 }
+
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        project: req.params.id
+      },
+      'Getting reported content'
+    )
+    try {
+      const allData = await Promise.all(getAllReports)
+      const [projects, comments, updates] = allData
+      return res.status(200).json({ projects, comments, updates })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get reports from the database'
+      )
+      return sendError(res, 503, 'Error getting reports')
+    }
+  }
+)
+
+const getReportedProjects = () => Project.find({ reported: true })
+
+const getReportedComments = async () => {
+  const comments = await Comment.find({ reported: true })
+  const projectsIdWithComment = await Promise.all(
+    comments.map(async comment => {
+      let project = await Project.find({ comments: comment._id })
+      if (project.length === 0) return null
+      return {
+        projectId: project[0]?._id,
+        ...comment._doc
+      }
+    })
+  )
+  return projectsIdWithComment.filter(p => p !== null)
+}
+
+const getReportedUpdated = async () => {
+  const updates = await Update.find({ reported: true })
+  const projectsIdWithUpdates = await Promise.all(
+    updates.map(async update => {
+      let project = await Project.find({ updates: update._id })
+      if (project.length === 0) return null
+      return {
+        projectId: project[0]?._id,
+        ...update._doc
+      }
+    })
+  )
+  return projectsIdWithUpdates.filter(p => p !== null)
+}
+
+const getAllReports = [
+  getReportedProjects(),
+  getReportedComments(),
+  getReportedUpdated()
+]
 
 module.exports = router

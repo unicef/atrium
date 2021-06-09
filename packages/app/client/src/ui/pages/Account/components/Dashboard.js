@@ -59,7 +59,10 @@ const useStyles = makeStyles(() => ({
   },
   seeAllButton: {
     color: '#15B54A',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: 'white'
+    }
   },
   line: {
     borderBottom: '1px solid #E7E7E7'
@@ -209,7 +212,7 @@ function Dashboard(props) {
                       type="edit"
                       onClick={() =>
                         history.push(
-                          `projects/overview/${latestProject._id}`
+                          `/projects/overview/${latestProject._id}`
                         )
                       }
                     />
@@ -220,7 +223,7 @@ function Dashboard(props) {
                 <EmptyResults
                   mainMessage="You don’t have any projects yet"
                   buttonLabel="Add project"
-                  handleClick={() => history.push('projects')}
+                  handleClick={() => history.push('/create-projects')}
                   buttonProps={{ className: classes.margined }}
                 />
               )}
@@ -246,7 +249,7 @@ function Dashboard(props) {
                 <EmptyResults
                   mainMessage="You don’t have any comments yet"
                   buttonLabel="Add comment"
-                  handleClick={() => history.push('projects')}
+                  handleClick={() => history.push('/projects')}
                   buttonProps={{ className: classes.margined }}
                 />
               ) : (

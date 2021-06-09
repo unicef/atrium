@@ -75,7 +75,7 @@ function MyComments(props) {
       <EmptyResults
         mainMessage="You don’t have any comments yet"
         buttonLabel="Add comment"
-        handleClick={() => history.push('projects')}
+        handleClick={() => history.push('/projects')}
         buttonProps={{ className: classes.button }}
       />
     )

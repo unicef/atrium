@@ -63,3 +63,4 @@ export const getProfileProjectById = (state, id) => state.profile.projects.find(
 export const getProfileProjecsPageCounter = state => state.profile.projectsPageCounter
 export const getProfileUserInfo = state => state.profile.info
 export const getProfileUserActivities = state => state.profile.activities
+export const getLoadMoreActivitiesFlag = state => state.profile.loadActivitiesFlag

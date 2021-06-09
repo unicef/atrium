@@ -66,3 +66,32 @@ exports._sendForgotPasswordEmail = async (email, token) => {
     }
   )
 }
+
+exports._notifyDeletedContentByAdmin = async (email, type, content) => {
+  log.info({ email }, 'Sending notification email of a deleted reported content')
+  client.sendEmail(
+    {
+      to: `${email}`,
+      from: 'noreply@atrium.network',
+      subject: `Your ${type} has been deleted from Atrium.`,
+      cc: [
+        'mhydary@unicef.org',
+      ],
+      message: `
+            <div>
+                <p>Hi there!</p>
+                <p>Your ${type} has been reported and an admin reviewed it, according to our guidelines it has been deleted.</p>
+                <p>${type}</p>
+                <blockquote>${content}</blockquote>
+            </div>
+        `
+      // message: 'Sent from SES. Did this go to spam?'
+    },
+    function(err, data, res) {
+      // ...
+      console.log(err)
+      console.log(data)
+      console.log(res)
+    }
+  )
+}

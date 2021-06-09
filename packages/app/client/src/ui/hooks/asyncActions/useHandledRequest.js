@@ -11,7 +11,8 @@ const useHandledRequest = () => {
     onSuccess = () => {},
     showFullPageLoading,
     successMessage,
-    specificLoading = {}
+    specificLoading = {},
+    onError = () => {}
   }) => async (...params) => {
 
     dismissToast()
@@ -27,7 +28,8 @@ const useHandledRequest = () => {
       }) 
 
     } catch(error) {
-      showToast({ message: error.message, severity: 'danger' }) 
+      showToast({ message: error.message, severity: 'danger' })
+      onError(error.message)
     } finally {
       showFullPageLoading && dismissLoading()
       specificLoading.dismiss && specificLoading.dismiss()

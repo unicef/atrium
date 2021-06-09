@@ -14,7 +14,7 @@ const useTabsOnUrl = ({ tabs, baseRoute }) => {
   
   const [tabIndex, setTabIndex] = React.useState(0)
   
-  const handleChange = (newIndex, routeConfig) => {
+  const handleChange = (newIndex, routeConfig = {}) => {
     const nextTab = tabs[newIndex]
     history.push({ pathname: `${baseRoute}/${nextTab.hash}`, ...routeConfig })
   }

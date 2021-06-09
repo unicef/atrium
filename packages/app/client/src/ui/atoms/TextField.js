@@ -1,13 +1,27 @@
 import React from 'react'
+import Box from '@material-ui/core/Box'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import InputLabel from '@material-ui/core/InputLabel'
+import Fade from '@material-ui/core/Fade'
 import { useOutlinedInputStyle } from '../hooks'
 
-function TextField({ error, errorMessage, helperText, htmlFor, label, initialValue, borderColor, borderColorFocus, padding, labelColor, ...props }) {
+function TextField({
+  error,
+  errorMessage,
+  helperText,
+  htmlFor,
+  label,
+  initialValue,
+  borderColor,
+  borderColorFocus,
+  padding,
+  labelColor,
+  ...props 
+}) {
   const classes = useOutlinedInputStyle({ hasError: error, borderColor, borderColorFocus, padding, labelColor })
   const errorClassName = error ? classes.errorMessage : ""
-
+  const showHelperTextOrError = Boolean(error || helperText)
   return (
     <>
       <InputLabel
@@ -18,13 +32,20 @@ function TextField({ error, errorMessage, helperText, htmlFor, label, initialVal
         {label}
       </InputLabel>
       <OutlinedInput
-        variant="outlined"
         error={error}
-        classes={classes}
+        classes={{
+          input: classes.input
+        }}
         labelWidth={0}
         {...props}
       />
-      <FormHelperText className={errorClassName}>{error ? errorMessage : helperText}</FormHelperText>
+      <Box position="relative" mb="13px">
+        <Box position="absolute">
+          <Fade in={showHelperTextOrError}>
+            <FormHelperText className={errorClassName}>{error ? errorMessage : helperText}</FormHelperText>
+          </Fade>
+        </Box>
+      </Box>
     </>
   )
 
