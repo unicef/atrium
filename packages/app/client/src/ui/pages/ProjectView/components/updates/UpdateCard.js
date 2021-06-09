@@ -63,22 +63,25 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
   const textContent = showTheCompleteText ? text : trimmedText
   const showMoreButtonVisible = !editMode && text.length > TEXT_MAX_LENGTH
 
-  const menuItems = [
-    {
-      label: 'Edit',
-      handleClick: () => setEditMode(true)
-    },
-    {
-      label: 'Delete',
-      handleClick: () => {
-        setDeletionModalVisibility(true)
-      }
-    },
-    {
-      label: 'Report',
-      handleClick: () => setReportMode(true)
-    }
-  ]
+  const menuItems = userIsTheOwner
+    ? [
+        {
+          label: 'Edit',
+          handleClick: () => setEditMode(true)
+        },
+        {
+          label: 'Delete',
+          handleClick: () => {
+            setDeletionModalVisibility(true)
+          }
+        }
+      ]
+    : [
+        {
+          label: 'Report',
+          handleClick: () => setReportMode(true)
+        }
+      ]
 
   return (
     <Grid item xs={12}>

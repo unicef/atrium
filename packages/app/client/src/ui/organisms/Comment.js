@@ -51,20 +51,25 @@ const Comment = ({
     })
   }
 
-  const menuItems = [
-    {
-      label: 'Edit',
-      handleClick: () => setEdit(true)
-    },
-    {
-      label: 'Delete',
-      handleClick: () => setDeletionModalVisibility(true)
-    },
-    {
-      label: 'Report',
-      handleClick: () => setReport(true)
-    }
-  ]
+  const menuItems = userIsTheOwner
+    ? [
+        {
+          label: 'Edit',
+          handleClick: () => setEdit(true)
+        },
+        {
+          label: 'Delete',
+          handleClick: () => {
+            setDeletionModalVisibility(true)
+          }
+        }
+      ]
+    : [
+        {
+          label: 'Report',
+          handleClick: () => setReport(true)
+        }
+      ]
 
   const handledRequest = useHandledRequest()
 
