@@ -13,7 +13,7 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         searchedProjects: payload.projects,
         searchedComments: payload.comments,
-        searchedReports: payload.reports
+        searchedUpdates: payload.updates
       }
     default:
       return state

@@ -3,7 +3,6 @@ import React from 'react'
 import ReportedComments from './ReportedComments'
 import ReportedProjects from './ReportedProjects'
 import ReportedUpdates from './ReportedUpdates'
-import { projects, updates, comments } from './mocks'
 import { useSelector } from 'react-redux'
 import {
   getSearchedReportedComments,
@@ -30,9 +29,9 @@ const ContentReport = () => {
   const classes = useStyles()
 
   const { fetchSearchedReports } = useReportsAsyncActions()
-  // const projects = useSelector(getSearchedReportedProjects)
-  // const comments = useSelector(getSearchedReportedComments)
-  // const updates = useSelector(getSearchedReportedUpdates)
+  const projects = useSelector(getSearchedReportedProjects)
+  const comments = useSelector(getSearchedReportedComments)
+  const updates = useSelector(getSearchedReportedUpdates)
 
   React.useEffect(() => {
     const requestReports = async () => {

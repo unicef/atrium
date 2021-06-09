@@ -15,11 +15,11 @@ const ReportedProjects = ({ projects }) => {
   return (
     <Grid container spacing={1} xs={12}>
       {projects &&
-        projects.length &&
+        projects.length > 0 &&
         projects.map(project => (
-          <Grid item xs={12} key={project.id}>
+          <Grid item xs={12} key={project._id}>
             <HorizontalCardWithMenu
-              key={projects.id}
+              key={projects._id}
               menuItems={[
                 {
                   label: 'Delete',
@@ -30,7 +30,7 @@ const ReportedProjects = ({ projects }) => {
                 {
                   label: 'Unreport',
                   handleClick: () => {
-                    reportProject({ id: project.id, reported: false })
+                    reportProject({ id: project._id, reported: false })
                   }
                 }
               ]}
@@ -38,7 +38,7 @@ const ReportedProjects = ({ projects }) => {
             >
               <Typography
                 onClick={() =>
-                  history.push(`projects/view/${project.id}/about`)
+                  history.push(`projects/view/${project._id}/about`)
                 }
               >
                 {project.name}
@@ -67,7 +67,7 @@ const ReportedProjects = ({ projects }) => {
               open={showDeletionModal}
               handleClose={() => setDeletionModalVisibility(false)}
               onConfirm={async () => {
-                await deleteProject(project.id)
+                await deleteProject(project._id)
                 setDeletionModalVisibility(false)
               }}
             />

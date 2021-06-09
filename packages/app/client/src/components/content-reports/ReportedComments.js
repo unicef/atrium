@@ -24,11 +24,11 @@ const ReportedComments = ({ comments }) => {
   return (
     <Grid container spacing={1} xs={12}>
       {comments &&
-        comments.length &&
+        comments.length > 0 &&
         comments.map(comment => (
-          <Grid item xs={12} key={comment.id}>
+          <Grid item xs={12} key={comment._id}>
             <HorizontalCardWithMenu
-              key={comment.id}
+              key={comment._id}
               menuItems={[
                 {
                   label: 'Delete',
@@ -39,7 +39,7 @@ const ReportedComments = ({ comments }) => {
                 {
                   label: 'Unreport',
                   handleClick: () => {
-                    reportComment({ id: comment.id, reported: false })
+                    reportComment({ id: comment._id, reported: false })
                   }
                 }
               ]}
@@ -75,7 +75,7 @@ const ReportedComments = ({ comments }) => {
               open={showDeletionModal}
               handleClose={() => setDeletionModalVisibility(false)}
               onConfirm={async () => {
-                await removeComment(comment.id)
+                await removeComment(comment._id)
                 setDeletionModalVisibility(false)
               }}
             />

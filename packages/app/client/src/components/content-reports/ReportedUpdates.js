@@ -17,11 +17,11 @@ function ReportedUpdates({ updates }) {
   return (
     <Grid container spacing={1} xs={12}>
       {updates &&
-        updates.length &&
+        updates.length > 0 &&
         updates.map(update => (
-          <Grid item xs={12} key={update.id}>
+          <Grid item xs={12} key={update._id}>
             <HorizontalCardWithMenu
-              key={update.id}
+              key={update._id}
               menuItems={[
                 {
                   label: 'Delete',
@@ -32,7 +32,7 @@ function ReportedUpdates({ updates }) {
                 {
                   label: 'Unreport',
                   handleClick: () => {
-                    reportUpdateBE({ id: update.id, reported: false })
+                    reportUpdateBE({ id: update._id, reported: false })
                   }
                 }
               ]}
@@ -69,7 +69,7 @@ function ReportedUpdates({ updates }) {
               open={showDeletionModal}
               handleClose={() => setDeletionModalVisibility(false)}
               onConfirm={async () => {
-                await deleteUpdate(update.id)
+                await deleteUpdate(update._id)
                 setDeletionModalVisibility(false)
               }}
             />

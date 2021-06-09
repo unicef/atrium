@@ -1459,7 +1459,7 @@ router.post(
 
 
 router.post(
-  '/:commentId/report',
+  '/:commentId/comment/report',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     log.info(
