@@ -68,8 +68,8 @@ const ReportedComments = ({ comments }) => {
                 {comment.content}
               </Typography>
             </HorizontalCardWithMenu>
-            <Grid>
-              <span>{comment.reportMessage}</span>
+            <Grid style={{margin: '1% 0'}}>
+              <span>Reason for reporting: {comment.reportMessage}</span>
             </Grid>
             <ActionDialog
               open={showDeletionModal}

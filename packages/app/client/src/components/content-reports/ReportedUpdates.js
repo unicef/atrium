@@ -62,8 +62,8 @@ function ReportedUpdates({ updates }) {
               </Box>
               <Typography>{update.text}</Typography>
             </HorizontalCardWithMenu>
-            <Grid>
-              <span>{update.reportMessage}</span>
+            <Grid style={{margin: '1% 0'}}>
+              <span>Reason for reporting: {update.reportMessage}</span>
             </Grid>
             <ActionDialog
               open={showDeletionModal}

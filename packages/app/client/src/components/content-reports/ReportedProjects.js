@@ -60,8 +60,8 @@ const ReportedProjects = ({ projects }) => {
               </Box>
               <Typography>{project.details}</Typography>
             </HorizontalCardWithMenu>
-            <Grid>
-              <span>{project.reportMessage}</span>
+            <Grid style={{margin: '1% 0'}}>
+              <span>Reason for reporting: {project.reportMessage}</span>
             </Grid>
             <ActionDialog
               open={showDeletionModal}
