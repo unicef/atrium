@@ -14,7 +14,7 @@ const styles = theme => ({
     height: 50,
     background: 'transparent',
     boxShadow: 'none',
-    fontFamily: ['Red Hat Display', 'sans-serif'].join(','),
+    fontFamily: theme.typography.fontFamily,
     backgroundColor: 'white'
   },
   toolBar: {

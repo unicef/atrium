@@ -56,7 +56,7 @@ const useDefaultStyles = makeStyles(theme => ({
     margin: '3% 0 1% 0'
   },
   chooseSelect: {
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     fontStyle: 'normal',
     fontWeight: 300,
     fontSize: 15,

@@ -92,9 +92,6 @@ const useWelcomeSectionStyles = makeStyles(theme => ({
     textTransform: 'uppercase',
     lineHeight: '34px'
   },
-  header: {
-    textAlign: 'left'
-  },
   description: {
     textAlign: 'left',
     marginTop: 40,
@@ -121,11 +118,6 @@ const useWelcomeSectionStyles = makeStyles(theme => ({
     height: '40px',
     margin: '0 10px 0 0',
     padding: 8
-  },
-  addProjectButton: {
-    width: '105px',
-    height: '40px',
-    marginTop: 0
   },
   welcomeText: {
     textAlign: 'left',
@@ -186,8 +178,6 @@ const useExploreSectionStyles = makeStyles(theme => ({
 
 const useBlockchainSectionStyles = makeStyles(theme => ({
   viewDocumentButton: {
-    width: '270px',
-    height: '50px',
     margin: '0 10% 10%'
   },
   section: {
@@ -301,11 +291,7 @@ const Landing = props => {
             />
           </Grid>
           <Grid item xs={12} sm={12} md={5}>
-            <Typography
-              style={{ width: '75%' }}
-              className={welcomeStyles.header}
-              variant="h2"
-            >
+            <Typography variant="h1">
               Start your blockchain journey
             </Typography>
             <Typography
@@ -321,7 +307,6 @@ const Landing = props => {
               <Button
                 color="primary"
                 onClick={() => handleNavigation('/create-projects')}
-                className={welcomeStyles.addProjectButton}
               >
                 Add project
               </Button>

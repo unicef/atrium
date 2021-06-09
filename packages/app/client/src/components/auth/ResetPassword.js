@@ -21,7 +21,7 @@ const styles = theme => ({
   },
   title: {
     fontSize: 21,
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     color: theme.colors['dark-forest-green'],
     marginBottom: 45
   }

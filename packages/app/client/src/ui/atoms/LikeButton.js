@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     return {
       display: 'flex',
       alignItems: 'center',
-      fontFamily: ['Red Hat Display', 'sans-serif'].join(','),
+      fontFamily: theme.typography.fontFamily,
       fontSize: 12,
       fontWeight: theme.typography.fontWeightMedium,
       letterSpacing: 0.8,

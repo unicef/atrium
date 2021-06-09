@@ -11,7 +11,7 @@ import { DiscussionRow } from '../'
 const styles = theme => ({
   noDiscussionsText: {
     marginTop: 64,
-    fontFamily: ['Red Hat Display', 'sans-serif'].join(','),
+    fontFamily: theme.typography.fontFamily,
     fontSize: '24px',
     fontWeight: 500,
     letterSpacing: '1.8px'

@@ -144,7 +144,7 @@ const useResourcesSectionStyles = makeStyles(theme => ({
     position: 'relative',
     display: 'flex',
     justifyContent: 'center',
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     textAlign: 'center',
     width: '100%',
     marginBottom: 260,
