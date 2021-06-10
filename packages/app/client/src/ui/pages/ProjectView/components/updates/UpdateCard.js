@@ -8,7 +8,7 @@ import { HorizontalCardWithMenu, ActionDialog } from '../../../../organisms'
 import { CardInfoRow } from '../../../../molecules'
 import { UserLink } from '../../../../organisms'
 import { useSelector } from 'react-redux'
-import { getUserId, getCurrentProjectId } from '../../../../../selectors'
+import {getUserId, getCurrentProjectId, getCurrentProject} from '../../../../../selectors'
 import { getRelativeTimeToNow } from '../../../../../utils/timeManipulation'
 import { ShowMoreButton } from '../../../../atoms'
 import { useProjectsAsyncActions, useTrimmedText } from '../../../../hooks'
@@ -56,8 +56,11 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
 
   const projectId = useSelector(getCurrentProjectId)
   const userId = useSelector(getUserId)
+  const project = useSelector(getCurrentProject)
 
-  const userIsTheOwner = owner.id === userId
+  const userIsTheOwner =
+    owner.id === userId ||
+    project.team.map(user => user._id === userId).includes(true)
   const textContent = showTheCompleteText ? text : trimmedText
   const showMoreButtonVisible = !editMode && text.length > TEXT_MAX_LENGTH
 
