@@ -65,7 +65,7 @@ function ProjectOverviewPage(props) {
           <Tab className={classes.tab} label="Required information" />
           <Tab className={classes.tab} label="Additional information" />
           <Tab className={classes.tab} label="Story" />
-          <Tab className={classes.tab} label="Teams" />
+          <Tab className={classes.tab} label="Team" />
           <Tab className={classes.tab} label="Updates" />
         </Tabs>
       </div>

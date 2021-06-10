@@ -8,8 +8,8 @@ import { connect } from 'react-redux'
 import { refreshToken } from '../../../../actions/authActions'
 import { editProject } from '../../../../actions/projectActions'
 import CirclePercents from './CirclePercents'
-import {Button} from "../../../../ui";
-import {useHistory} from "react-router-dom";
+import { Button } from '../../../../ui'
+import { useHistory } from 'react-router-dom'
 
 const useDefaultStyles = makeStyles(() => ({
   wrapper: {
@@ -100,6 +100,7 @@ function ProjectOverview(props) {
   const [additionalPercent, setAdditionalPercent] = useState(0)
   const [storyPercent, setStoryPercent] = useState(0)
   const [updateCounter, setUpdateCounter] = useState(0)
+  const [membersCounter, setMembersCounter] = useState(0)
 
   useEffect(() => {
     if (props._id) {
@@ -132,6 +133,7 @@ function ProjectOverview(props) {
       )
       setStoryPercent(Math.floor((story * 100) / storyFields.length))
       setUpdateCounter(props.updates.length)
+      setMembersCounter(props.team.length)
     }
   }, [props._id])
 
@@ -182,7 +184,11 @@ function ProjectOverview(props) {
             </Typography>
           </div>
           <div onClick={e => props.handleChange(e, 4)} className={classes.card}>
-            <CirclePercents value={0} text={0} />
+            <CirclePercents
+              update={true}
+              value={membersCounter === 0 ? 0 : 100}
+              text={membersCounter}
+            />
             <Typography className={classes.cardText} variant="subtitle1">
               Team
             </Typography>
@@ -198,7 +204,13 @@ function ProjectOverview(props) {
             </Typography>
           </div>
         </div>
-        <Button onClick={clickHandler} color="primary" className={classes.publishButton}>Publish</Button>
+        <Button
+          onClick={clickHandler}
+          color="primary"
+          className={classes.publishButton}
+        >
+          Publish
+        </Button>
       </div>
     </div>
   )

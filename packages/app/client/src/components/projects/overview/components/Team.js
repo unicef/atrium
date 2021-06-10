@@ -68,8 +68,10 @@ function Team(props) {
   const clickHandler = () => {
     window.location.reload()
   }
+  const [team, setTeam] = React.useState(props.team)
 
   const deleteHandler = async memberId => {
+    setTeam(team.filter(user => user.id !== memberId))
     await props.deleteMemberFromProject(props._id, memberId)
     props.refreshToken()
   }
@@ -128,13 +130,14 @@ function Team(props) {
             </Button>
             <TeamMembersModal
               projectId={props._id}
-              team={props.team}
+              team={team}
+              setTeam={setTeam}
               open={open}
               setOpen={setOpen}
               onClose={handleClose}
             />
           </div>
-          {props.team.map(member => (
+          {team.map(member => (
             <PersonInformation mode="page" key={Math.random()} user={member}>
               <Button
                 onClick={() => deleteHandler(member._id)}
