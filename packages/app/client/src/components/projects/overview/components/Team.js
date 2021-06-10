@@ -85,7 +85,7 @@ function Team(props) {
   const handleClose = () => {
     setOpen(false)
   }
-  console.log(team)
+
   return (
     <Container>
       <div className={classes.wrapper}>
