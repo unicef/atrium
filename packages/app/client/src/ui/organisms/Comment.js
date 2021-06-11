@@ -10,6 +10,7 @@ import { getUserId } from '../../selectors'
 import { editComment } from '../../api/projects'
 import { useHandledRequest } from '../hooks'
 import { Link } from 'react-router-dom'
+import { useCommentsAsyncActions } from '../hooks'
 
 const Comment = ({
   handleToggleReplies,
@@ -32,16 +33,17 @@ const Comment = ({
   const currentUserId = useSelector(getUserId)
   const [savedLikes, setLikes] = React.useState(likes)
   const userIsTheOwner = currentUserId === user._id
+  const { fetchLikeComment } = useCommentsAsyncActions()
 
-  const handleLike = () => {
+  const handleLike = async () => {
     setLikes(prevLikes => {
       const index = prevLikes.findIndex(lk => lk._id === user._id)
       if (index >= 0) {
         return prevLikes.filter(lk => lk._id !== user._id)
       }
-
       return [...prevLikes, { ...user }]
     })
+    await fetchLikeComment({id})
   }
 
   const menuItems = [

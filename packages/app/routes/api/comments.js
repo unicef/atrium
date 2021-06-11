@@ -182,7 +182,7 @@ router.post(
   }
 )
 
-router.post(
+router.get(
   '/:commentId/like',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
@@ -212,9 +212,10 @@ router.post(
         }
 
         try {
-          req.body.isLiked === true
-            ? comment.likes.push(userId)
-            : comment.likes.splice(comment.likes.indexOf(userId), 1)
+          const index = comment.likes.indexOf(userId)
+          index > -1
+            ? comment.likes.splice(index, 1)
+            : comment.likes.push(userId)
           await comment.save()
           comment.populate(
             populateParams,
