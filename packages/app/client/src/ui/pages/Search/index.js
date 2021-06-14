@@ -1,15 +1,14 @@
 import React from 'react'
-import { SearchWithSideMenu } from '../../templates'
-import { SearchBar, SearchListWrapper, Loader } from './components'
+import { SearchPaginatedList, SearchWithSideMenu } from '../../templates'
+import { SearchBar, Loader } from './components'
 
 const Search = ({ Menu, List, title, searchBarRightSide }) => {
-  // TODO: improve to use the query string in the browser url
   return (
     <SearchWithSideMenu
       sideMenu={<Menu />}
-      list={<List WrapperComponent={SearchListWrapper} />}
+      list={<List WrapperComponent={SearchPaginatedList} />}
       loader={<Loader />}
-      SearchBarComponent={(props) => <SearchBar rightSideComponent={searchBarRightSide} title={title} {...props} />} 
+      SearchBarComponent={(props) => <SearchBar rightSideComponent={searchBarRightSide} title={title} {...props} />}
     />
   )
 }

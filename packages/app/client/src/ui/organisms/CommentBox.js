@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const CommentBox = ({ 
+const CommentBox = ({
   src,
   content,
   mentions,
@@ -59,7 +59,7 @@ const CommentBox = ({
             </Box>
           </Box>
         </Box>
-        
+
         <Box display="flex" flex={1} ml={1.5}>
           <Box display="flex" flexDirection="column" width="100%">
             <Comment
@@ -76,7 +76,7 @@ const CommentBox = ({
               numberOfReplies={savedReplies.length}
               likes={likes}
             />
-            
+
             <Box className={classes.collapseWrapper}>
               <CommentTree
                 parentId={id}

@@ -49,12 +49,11 @@ const ProjectComments = () => {
           withHeader
           headerProps={
             {
-              withPrefix: false,
-              name: `Comments(${commentsLength})`,
-              sortDirection:sort,
-              sortBy: "Popular"
-            }
-          }
+            withPrefix: false,
+            name: `Comments(${commentsLength})`,
+            sortDirection: sort,
+            sortBy: 'Popular'
+          }}
         >
           <CommentsList refreshComments={onRefreshList} />
         </SearchPaginatedList>
