@@ -9,10 +9,10 @@ import { Button } from '../atoms'
 
 const useStyles = makeStyles(() => ({
   paper: {
-    width: '100%',
-    maxWidth: '25%',
-    maxHeight: '25%',
-    height: '100%'
+    width: '500px',
+    maxWidth: '50%',
+    maxHeight: '75%',
+    height: '200px'
   }
 }))
 
