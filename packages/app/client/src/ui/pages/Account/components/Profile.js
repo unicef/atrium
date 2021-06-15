@@ -92,7 +92,7 @@ function Profile(props) {
       ) : null
     }
   ]
-  console.log(editting)
+
   return (
     <MainContainer size="small" mt="-50px" margin="0">
       <SimpleFormWithHeader
