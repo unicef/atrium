@@ -4,9 +4,11 @@ import AddIcon from '@material-ui/icons/Add'
 import { ProjectsList, Filters } from './components'
 import { useHistory } from 'react-router'
 import { Button } from '../../atoms'
+import { useIsAuthenticated } from '../../hooks'
 
 const ProjectsMain = () => {
   const history = useHistory()
+  const userIsAuthenticated = useIsAuthenticated()
 
   return (
     <Search
@@ -14,15 +16,17 @@ const ProjectsMain = () => {
       List={ProjectsList}
       title="Projects"
       searchBarRightSide={
-        <Button
-          color="primary"
-          onClick={() => history.push('/create-projects')}
-          size="small"
-          endIcon={ <AddIcon />}
-          ml={15}
-        >
-          Add projects
-        </Button>
+        userIsAuthenticated ? (
+          <Button
+            color="primary"
+            onClick={() => history.push('/create-projects')}
+            size="small"
+            endIcon={<AddIcon />}
+            ml={15}
+          >
+            Add projects
+          </Button>
+        ) : null
       }
     />
   )

@@ -92,7 +92,7 @@ function Profile(props) {
       ) : null
     }
   ]
-
+  console.log(editting)
   return (
     <MainContainer size="small" mt="-50px" margin="0">
       <SimpleFormWithHeader
@@ -133,7 +133,7 @@ function Profile(props) {
         <Button
           className={classes.viewButton}
           variant="outlined"
-          onClick={() => history.push(`/users/${props.id}`)}
+          onClick={() => history.push(`/profile/${props.id}/about`)}
         >
           View profile
         </Button>
