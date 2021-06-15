@@ -102,14 +102,6 @@ const QuizQuestions = ({ hideQuiz }) => {
         </Button>
 
         <Grid item xs={12}>
-          {/*<TextWithLinks*/}
-          {/*  mt={50}*/}
-          {/*  links={[*/}
-          {/*    { str: 'Practical Guide', to: 'atrium.network/guide' }*/}
-          {/*  ]}*/}
-          {/*>*/}
-          {/*  Not sure how to answer these questions? Refer to the UNIN Practical Guide for more context.*/}
-          {/*</TextWithLinks>*/}
           <Typography style={{display: 'flex'}}>
             Not sure how to answer these questions? Refer to the UNIN
             <Typography
