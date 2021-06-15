@@ -6,8 +6,9 @@ import { Title, Subtitle, Button } from '../../../atoms'
 import { SectionContainer } from '../../../templates'
 import { makeStyles } from '@material-ui/core/styles'
 import { TextWithLinks } from '../../../molecules'
+import Typography from "@material-ui/core/Typography";
 
-const useStyles = makeStyles(theme => 
+const useStyles = makeStyles(theme =>
   ({
     footer: {
       marginTop: 40,
@@ -17,6 +18,14 @@ const useStyles = makeStyles(theme =>
       [theme.breakpoints.down('xs')]: {
         marginTop: 190
       }
+    },
+    guideButton: {
+      margin: '0 5px',
+      color: '#15B54A',
+      '&:hover': {
+        borderBottom: '1px solid #15B54A'
+      },
+      height: '20px'
     }
   })
 )
@@ -64,7 +73,7 @@ const QuizQuestions = ({ hideQuiz }) => {
             Questions
           </Title>
         </div>
-        
+
         <div>
           <Subtitle>
             Yes
@@ -80,7 +89,7 @@ const QuizQuestions = ({ hideQuiz }) => {
               onChange={handleChange(index)}
             />
           ))}
-         
+
         </Grid>
       </Grid>
       <QuizResult checkedQuestions={checkedQuestions} labels={labels} />
@@ -93,12 +102,24 @@ const QuizQuestions = ({ hideQuiz }) => {
         </Button>
 
         <Grid item xs={12}>
-          <TextWithLinks
-            mt={50}
-            links={[ { str: "Practical Guide", to: ""}]}
-          >
-            Not sure how to answer these questions? Refer to the UNIN Practical Guide for more context.
-          </TextWithLinks>
+          {/*<TextWithLinks*/}
+          {/*  mt={50}*/}
+          {/*  links={[*/}
+          {/*    { str: 'Practical Guide', to: 'atrium.network/guide' }*/}
+          {/*  ]}*/}
+          {/*>*/}
+          {/*  Not sure how to answer these questions? Refer to the UNIN Practical Guide for more context.*/}
+          {/*</TextWithLinks>*/}
+          <Typography style={{display: 'flex'}}>
+            Not sure how to answer these questions? Refer to the UNIN
+            <Typography
+              className={classes.guideButton}
+              onClick={() => window.open('https://atrium.network/guide')}
+            >
+              Practical Guide
+            </Typography>
+            for more context.
+          </Typography>
         </Grid>
       </Grid>
   </SectionContainer>

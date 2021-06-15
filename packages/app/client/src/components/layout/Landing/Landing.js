@@ -620,6 +620,7 @@ const Landing = props => {
                 <Button
                   color="primary"
                   className={blockchainStyles.viewDocumentButton}
+                  onClick={() => window.open('https://atrium.network/guide')}
                 >
                   View Document (PDF, 456 KB)
                 </Button>

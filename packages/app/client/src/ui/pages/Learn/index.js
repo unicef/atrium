@@ -20,6 +20,7 @@ const Learn = () => {
         decision-making tools and use cases, helping you to evaluate if blockchain is the correct tool for your next solution.`}
         boxTitle="The Atrium is a UN-wide platform, enabled by blockchain"
         actionLabel="View document (PDF, 456 KB)"
+        onClick={() => window.open('https://atrium.network/guide')}
         otherComponent={<SectionIcon iconName="guide" />}
       />
       <Quiz />
