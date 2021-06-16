@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: '12px',
     fontWeight: 500,
     letterSpacing: '0.8px',
-    fontFamily: 'Red Hat Display',
+    fontFamily: theme.typography.fontFamily,
     transition: theme.transitions.create('width'),
     width: '100%',
     paddingRight: 10,

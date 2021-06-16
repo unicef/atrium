@@ -16,7 +16,7 @@ const styles = theme => ({
   signOutButton: {
     alignSelf: 'start',
     fontWeight: 500,
-    fontFamily: 'Red Hat Display, sans-serif',
+    fontFamily: theme.typography.fontFamily,
     fontSize: 11,
     color: theme.colors['dark-forest-green'],
     letterSpacing: 0.85

@@ -15,12 +15,12 @@ const useStyles = makeStyles(theme => ({
       [theme.breakpoints.down('sm')]: {
         justifyContent: 'center',
         maxHeight: 280,
-        maxWidth: 280,
+        maxWidth: 280
       },
       [theme.breakpoints.only('md')]: {
         justifyContent: 'center',
         maxHeight: 300,
-        maxWidth: 300,
+        maxWidth: 300
       }
     },
     [theme.breakpoints.down('sm')]: {
@@ -42,10 +42,13 @@ const SectionIcon = ({ children }) => {
 
 const WhatsNew = () => {
   const [showDialog, setDialogVisibility] = React.useState(false)
+  const [showBountiesDialog, setBountiesDialogVisibility] = React.useState(
+    false
+  )
 
   return (
     <MainContainer size="full">
-       <SectionWithBorderedText
+      <SectionWithBorderedText
         id="smartContracts"
         bgColor="white"
         boxDescription={`Are you a developer interested in writing digital rules for blockchain? 
@@ -53,8 +56,12 @@ const WhatsNew = () => {
         Test out your contract development skills with Remix now.`}
         boxTitle="Write your first smart contract with Remix"
         actionLabel="Open Remix"
-        onClick={()=> setDialogVisibility(true)}
-        otherComponent={<SectionIcon><LearnRemixSVG /></SectionIcon>}
+        onClick={() => setDialogVisibility(true)}
+        otherComponent={
+          <SectionIcon>
+            <LearnRemixSVG />
+          </SectionIcon>
+        }
         borderedTextFirst
       />
       <SectionWithBorderedText
@@ -64,15 +71,28 @@ const WhatsNew = () => {
         the Directed Learning section allows you to follow different learning paths and earn points at the same time.`}
         boxTitle="Directed Learning"
         actionLabel="View learning paths"
-        otherComponent={<SectionIcon><LearnGuideSVG /></SectionIcon>}
+        onClick={() => setBountiesDialogVisibility(true)}
+        otherComponent={
+          <SectionIcon>
+            <LearnGuideSVG />
+          </SectionIcon>
+        }
       />
       <ActionDialog
         title="You are leaving Atrium"
         content="On confirm you will be redirected to Remix"
         buttonLabel="Confirm"
-        onConfirm={()=> window.location.replace('remix')}
+        onConfirm={() => window.location.replace('remix')}
         open={showDialog}
         handleClose={() => setDialogVisibility(false)}
+      />
+      <ActionDialog
+        title="You are leaving Atrium"
+        content="On confirm you will be redirected to Bounties"
+        buttonLabel="Confirm"
+        onConfirm={() => window.location.replace('bounties')}
+        open={showBountiesDialog}
+        handleClose={() => setBountiesDialogVisibility(false)}
       />
     </MainContainer>
   )

@@ -89,7 +89,7 @@ const useDefaultStyles = makeStyles(theme => ({
 function TeamMembersModal(props) {
   const [users, setUsers] = useState([])
   const classes = useDefaultStyles()
-  const { open, onClose, setOpen, projectId, team } = props
+  const { open, onClose, setOpen, projectId, team, setTeam } = props
   const [addState, setAddState] = useState({})
   const [openEmail, setOpenEmail] = useState(false)
   const [email, setEmail] = useState('')
@@ -125,6 +125,10 @@ function TeamMembersModal(props) {
 
   const submitHandler = async () => {
     const usersToAdd = Object.keys(addState).filter(member => addState[member])
+    const populatedUsers = users.map(user =>
+      usersToAdd.includes(user._id) ? user : null
+    )
+    setTeam([...team, ...populatedUsers])
     await props.addMembersToProject(projectId, usersToAdd)
     props.refreshToken()
     setOpen(false)

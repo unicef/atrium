@@ -102,7 +102,7 @@ const useResourcesSectionStyles = makeStyles(theme => ({
     position: 'relative',
     display: 'flex',
     justifyContent: 'center',
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     textAlign: 'center',
     width: '100%',
     marginBottom: 180,
@@ -173,13 +173,13 @@ const useStyles = makeStyles(theme => ({
     width: 500
   },
   offerTextLeft: {
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     fontSize: 18,
     lineHeight: 1.67,
     width: 502
   },
   offerTextRight: {
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     fontSize: 18,
     lineHeight: 1.67,
     paddingLeft: 80,
@@ -188,7 +188,7 @@ const useStyles = makeStyles(theme => ({
   systemText: {
     marginTop: 20,
     fontSize: 21,
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     lineHeight: 1.43
   },
   systemLink: {
@@ -205,7 +205,7 @@ export default function() {
     <Grid container className={classes.root}>
       <Grid item xs={12} className={classes.header}>
         <div className={classes.contentWrapper}>
-          <Typography component="h1" variant="h1" color="secondary">
+          <Typography component="h1" variant="h1">
             Meet The Atrium
           </Typography>
           <Typography component="h5" className={classes.subtitle}>

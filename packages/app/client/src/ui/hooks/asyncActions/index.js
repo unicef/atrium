@@ -5,3 +5,4 @@ export { default as useUserProjectsAsyncActions } from './useUserProjectsAsyncAc
 export { default as useUserCommentsAsyncActions } from './useUserCommentsAsyncActions'
 export { default as useProfileAsyncActions } from './useProfileAsyncActions'
 export { default as useReportsAsyncActions } from './useReportsAsyncActions'
+export { default as useCommentsAsyncActions } from './useCommentsAsyncActions'

@@ -1457,7 +1457,6 @@ router.post(
   }
 )
 
-
 router.post(
   '/:commentId/comment/report',
   passport.authenticate('jwt', { session: false }),

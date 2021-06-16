@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   link: {
     width: 'max-content',
     fontSize: 12,
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     textDecoration: 'none',
     lineHeight: 2,
     color: theme.colors['black']

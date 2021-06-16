@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
   },
   details: {
     overflowWrap: 'break-word',
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     fontSize: 19,
     lineHeight: 1.42,
     color: theme.colors['black']
@@ -80,14 +80,14 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     letterSpacing: 0.5,
     color: theme.colors['black'],
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     marginBottom: '0.5rem'
   },
   extraDetailText: {
     display: 'flex',
     alignItems: 'center',
     color: theme.colors['shamrock-green'],
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     '&:hover': {
       textDecoration: 'underline',
       cursor: 'pointer'
@@ -97,7 +97,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     color: theme.colors['shamrock-green'],
-    fontFamily: 'Roboto'
+    fontFamily: theme.typography.fontFamily,
   },
   edit: {
     position: 'absolute',

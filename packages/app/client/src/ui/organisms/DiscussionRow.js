@@ -29,7 +29,7 @@ const styles = theme => ({
     color: theme.colors['dark-forest-green'],
     fontSize: 20,
     lineHeight: 1.4,
-    fontFamily: 'Red Hat Display',
+    fontFamily: theme.typography.fontFamily,
     '& a': {
       color: 'inherit',
       textDecoration: 'none'

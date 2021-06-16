@@ -57,6 +57,7 @@ export const getSearchedUserProjects = state => state.user.searchedProjects
 export const getSearchedUserComments = state => state.user.searchedComments
 export const getSearchedUserLikes = state => state.user.likes
 export const getSearchedUserLatestProject = state => state.user.latestProject
+export const getUserBadges = state => state.auth.user.badges
 
 // PROFILE
 export const getProfileBadges = state => state.profile.badges

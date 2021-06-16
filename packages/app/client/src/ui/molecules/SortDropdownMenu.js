@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: 20,
     paddingRight: 20,
     fontSize: 12,
-    fontFamily: 'Red Hat Display',
+    fontFamily: theme.typography.fontFamily,
     fontWeight: 500,
     letterSpacing: '1px',
     textTransform: 'uppercase',

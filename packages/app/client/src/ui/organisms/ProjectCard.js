@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
   details: {
     overflowWrap: 'break-word',
-    fontFamily: 'Roboto',
+    fontFamily: theme.typography.fontFamily,
     fontSize: 19,
     lineHeight: 1.42,
     color: theme.colors['black']

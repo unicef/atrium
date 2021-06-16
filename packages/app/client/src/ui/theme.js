@@ -24,7 +24,7 @@ export const colors = {
   'section-bg': 'rgb(221,251,246)' //#DDFBF6
 }
 
-export const theme = createMuiTheme({
+const MuiTheme = createMuiTheme({
   colors,
   overrides: {
     MuiOutlinedInput: {
@@ -70,13 +70,9 @@ export const theme = createMuiTheme({
   typography: {
     fontFamily: 'Montserrat, Verdana, sans-serif',
     h1: {
-      fontSize: 58,
-      fontWeigth: 700,
-      lineHeight: 0.93,
-      textTransform: 'none',
-      '@media (max-width: 600px)': {
-        fontSize: 42
-      }
+      fontSize: 44,
+      fontWeight: 700,
+      lineHeight: 1.25
     },
     h2: {
       fontSize: 43,
@@ -119,13 +115,11 @@ export const theme = createMuiTheme({
     subtitle2: {
       fontSize: 12,
       fontWeight: 600,
-      letterSpacing: 0.8,
       color: colors['black']
     },
     body1: {
       fontWeight: 400,
       textTransform: 'none',
-      letterSpacing: 'normal'
     },
     body2: {
       fontWeight: 600,
@@ -135,6 +129,18 @@ export const theme = createMuiTheme({
       fontSize: 12,
       fontWeight: 400,
       lineHeight: '24px'
+    }
+  }
+})
+
+export const theme = createMuiTheme({
+  ...MuiTheme,
+  overrides: {
+    MuiSelect: {
+      root: {
+        fontSize: MuiTheme.typography.body1.fontSize,
+        paddingRight: MuiTheme.spacing(4),
+      }
     }
   }
 })

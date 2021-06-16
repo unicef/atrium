@@ -5,9 +5,13 @@ import { Button } from '../../../atoms'
 import { useHistory } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import { ActionDialog } from '../../../organisms'
-import { deleteUser } from '../../../../api/users'
-import { useSearchActions, useUserProjectsAsyncActions } from '../../../hooks'
+import { ActionDialog, SimpleFormWithHeader } from '../../../organisms'
+import { changeUserPassword, deleteUser } from '../../../../api/users'
+import {
+  useSearchActions,
+  useToast,
+  useUserProjectsAsyncActions
+} from '../../../hooks'
 import { useSelector } from 'react-redux'
 import {
   getSearchContext,
@@ -16,19 +20,25 @@ import {
   searchSort
 } from '../../../../selectors'
 import combineUserItemsQueryStrings from '../../../../utils/combineUserItemsQueryStrings'
+import {
+  confirmPassword,
+  currentPassword,
+  password
+} from '../../../../utils/formFields'
+import {
+  validateConfirmPassword,
+  validatePassword
+} from '../../../../utils/validators'
 
 const useStyles = makeStyles(() => ({
   title: {
     fontWeight: 'bold',
     marginBottom: '7%'
   },
-  changePasswordButton: {
-    width: '184px',
-    marginBottom: '7%'
-  },
   deleteAccountButton: {
     backgroundColor: 'red',
-    width: '184px'
+    width: '475px',
+    marginTop: '5%'
   }
 }))
 const SEARCH_CONTEXT = 'PROJECTS'
@@ -78,6 +88,33 @@ function Settings(props) {
     window.location.reload()
   }
 
+  const fields = [
+    currentPassword,
+    {
+      ...password,
+      label: 'New password'
+    },
+    confirmPassword
+  ]
+
+  const validate = ({ password, confirmPassword }) => {
+    return {
+      ...validatePassword(password),
+      ...validateConfirmPassword(password, confirmPassword)
+    }
+  }
+
+  const { showToast } = useToast()
+  const submitHandler = async ({ currentPassword, password }) => {
+    try {
+      await changeUserPassword(currentPassword, password)
+      showToast({ message: 'Password changed', severity: 'success' })
+      history.push('profile')
+    } catch (e) {
+      showToast({ message: e.message, severity: 'danger' })
+    }
+  }
+
   return (
     <MainContainer size="small" mt="-50px" margin="0">
       <Grid item xs={12}>
@@ -86,13 +123,13 @@ function Settings(props) {
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Button
-          className={classes.changePasswordButton}
-          color="primary"
-          onClick={() => history.push(`/change-password`)}
-        >
-          Change password
-        </Button>
+        <SimpleFormWithHeader
+          onSubmit={submitHandler}
+          submitLabel="Save password"
+          title="Change password"
+          fields={fields}
+          validate={validate}
+        />
       </Grid>
       <Grid item xs={12}>
         <ActionDialog
@@ -115,7 +152,7 @@ function Settings(props) {
         </Button>
         <ActionDialog
           open={open}
-          // onConfirm={() => deleteHandler(props.id)}
+          onConfirm={() => deleteHandler(props.id)}
           handleClose={() => setOpen(false)}
         />
       </Grid>

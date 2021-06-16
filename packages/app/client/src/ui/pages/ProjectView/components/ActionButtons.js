@@ -4,7 +4,7 @@ import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined'
 import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined'
 import { ReactComponent as LikeIcon } from '../../../../icons/like.svg'
 import { Button } from '../../../atoms'
-import { currentUserIsTheOwner } from '../../../../selectors'
+import {currentUserIsTheOwner, getUserId} from '../../../../selectors'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { makeStyles } from '@material-ui/core/styles'
@@ -68,8 +68,11 @@ const OtherUsersButtons = ({ projectId }) => {
 }
 
 const ActionButtons = ({ projectData }) => {
-  const userIsTheOwner = useSelector(currentUserIsTheOwner)
-  
+  const userId = useSelector(getUserId)
+  const userIsTheOwner =
+    useSelector(currentUserIsTheOwner) ||
+    projectData.team.map(user => user._id === userId).includes(true)
+
   return userIsTheOwner ? <OwnerButtons projectData={projectData} /> : <OtherUsersButtons projectId={projectData.id} />
 }
 
