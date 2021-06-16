@@ -1,8 +1,5 @@
 import React from 'react'
-
 import Typography from '@material-ui/core/Typography'
-import { useSelector } from 'react-redux'
-import { getUserBadges } from '../../../../selectors'
 import { BadgesList } from '../../../molecules'
 import Grid from '@material-ui/core/Grid'
 import { Button } from '../../../atoms'
@@ -24,8 +21,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function Badges(balance) {
-  const badgesCounter = useSelector(getUserBadges)
+function Badges({balance, badges}) {
   const classes = useStyles()
   const history = useHistory()
 
