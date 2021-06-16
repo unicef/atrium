@@ -36,7 +36,7 @@ require('dotenv').config()
 
   const adminEmail = 'un-innovation@unicef.org'
   const adminEmailHash = md5Hash(adminEmail)
-  const adminPassword = 'none'
+  const adminPassword = process.env.ADMIN_LONG_PASSWORD || 'itwillbealongpassword'
   const adminHashedPassword = await saltAndHashPassword(adminPassword)
   const adminWallet = ethers.createWallet()
   const adminEncryptedWallet = await encryptDecrypt.encrypt(adminWallet)
