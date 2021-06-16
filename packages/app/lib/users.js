@@ -48,7 +48,7 @@ const getTokenPayload = (user, userBadges) => {
     role: user.role,
     githubHandle: user.githubUsername ? user.githubUsername : '',
     twitterHandle: user.twitterHandle ? user.twitterHandle : '',
-    badges: { 1: userBadges[0], 2: userBadges[1], 3: userBadges[2] },
+    // badges: { 1: userBadges[0], 2: userBadges[1], 3: userBadges[2] },
     learnPageFlag: user.learnPageFlag ? user.learnPageFlag : false,
     explorePageFlag: user.explorePageFlag ? user.explorePageFlag : false,
     engagePageFlag: user.engagePageFlag ? user.engagePageFlag : false,
@@ -63,7 +63,9 @@ const getTokenPayload = (user, userBadges) => {
     repliesOnComments: user.repliesOnComments ? user.repliesOnComments : false,
     updatesOnPost: user.updatesOnPost ? user.updatesOnPost : false,
     updatesOnProject: user.updatesOnProject ? user.updatesOnProject : false,
-    updatesOnComments: user.updatesOnComments ? user.updatesOnComments : false
+    updatesOnComments: user.updatesOnComments ? user.updatesOnComments : false,
+    balance: user.balance ? user.balance : 0,
+    badges: user.badges ? user.badges : 0
   }
 }
 

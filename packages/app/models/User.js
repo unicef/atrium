@@ -36,7 +36,10 @@ const UserSchema = new Schema({
   updatesOnProject: { type: Boolean, default: false },
   updatesOnComments: { type: Boolean, default: false },
   // registration validation
-  registrationCompleted: { type: Boolean, default: false }
+  registrationCompleted: { type: Boolean, default: false },
+
+  balance: { type: Number, default: 0 },
+  badges: { type: Number, default: 0 }
 })
 
 UserSchema.set('toJSON', {
