@@ -110,6 +110,27 @@ const handleFilters = queryValues => {
   return filters
 }
 
+const recalcBadges = points => {
+  switch (true) {
+    case points >= 1000:
+      return 7
+    case points >= 500:
+      return 6
+    case points >= 250:
+      return 5
+    case points >= 100:
+      return 4
+    case points >= 50:
+      return 3
+    case points >= 25:
+      return 2
+    case points >= 10:
+      return 1
+    default:
+      return 0
+  }
+}
+
 router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -332,6 +353,11 @@ router.post(
           }
           const user = await User.findOne({ _id: req.user.id })
           user.projects.push(project)
+          if (user.firstProject) {
+            user.balance += 50
+            user.badges = recalcBadges(user.balance)
+            user.firstProject = false
+          }
           await user.save()
           log.info(
             {
@@ -462,7 +488,6 @@ router.put(
     Object.keys(projectData).forEach(
       key => projectData[key] == null && delete projectData[key]
     )
-
     Project.findOneAndUpdate(
       { _id: req.params.id },
       projectData,
@@ -480,6 +505,7 @@ router.put(
           )
           return sendError(res, 503, 'Error updating the project')
         }
+        // /dfdfsdfsd
         log.info(
           {
             requestId: req.id,
@@ -553,7 +579,7 @@ router.delete(
           },
           'Project deleted successfully'
         )
-        if (req.user.isAdmin){
+        if (req.user.isAdmin) {
           _notifyDeletedContentByAdmin(owner.email, 'Project', response.name)
         }
         res.json({ message: 'Project deleted successfully' })
@@ -637,7 +663,7 @@ router.patch(
     )
 
     const userId = req.user.id
-    Project.findOne({ _id: req.params.id }).exec((err, project) => {
+    Project.findOne({ _id: req.params.id }).exec(async (err, project) => {
       if (err) {
         log.info(
           {
@@ -664,12 +690,21 @@ router.patch(
 
       if (!isLiked) {
         likes = [...likes, userId]
+        project.team.map(async member => {
+          const user = await User.findById(member)
+          user.balance += 1
+          user.badges = recalcBadges(user.balance)
+          await user.save()
+        })
+        const user = await User.findById(req.user.id)
+        user.balance += 5
+        user.badges = recalcBadges(user.balance)
+        await user.save()
       }
-
       project.likes = likes
       project
         .save()
-        .then(() => {
+        .then(async () => {
           log.info(
             {
               requestId: req.id,
@@ -783,10 +818,13 @@ router.delete(
         {},
         { $pull: { comments: { $in: [mongoose.Types.ObjectId(commentId)] } } }
       )
-      const comment = await Comment.findByIdAndDelete({ _id: commentId, user: userId })
+      const comment = await Comment.findByIdAndDelete({
+        _id: commentId,
+        user: userId
+      })
       const owner = await User.findById(comment.user)
 
-      if (req.user.isAdmin){
+      if (req.user.isAdmin) {
         _notifyDeletedContentByAdmin(owner.email, 'Comment', comment.content)
       }
     } catch (e) {
@@ -1003,10 +1041,13 @@ router.delete(
         {},
         { $pull: { updates: { $in: [mongoose.Types.ObjectId(updateId)] } } }
       )
-      const update = await Update.findByIdAndDelete({ _id: updateId, owner: userId })
+      const update = await Update.findByIdAndDelete({
+        _id: updateId,
+        owner: userId
+      })
       const owner = await User.findById(update.user)
 
-      if (req.user.isAdmin){
+      if (req.user.isAdmin) {
         _notifyDeletedContentByAdmin(owner.email, 'Update', update.title)
       }
     } catch (e) {
@@ -1136,8 +1177,13 @@ router.post(
         )
         return sendError(res, 503, 'Error adding members project')
       }
-
       project.team = [...project.team, ...req.body.members]
+      req.body.members.map(async member => {
+        const user = await User.findById(member)
+        user.balance += 15
+        user.badges = recalcBadges(user.balance)
+        await user.save()
+      })
       project
         .save()
         .then(() => {
@@ -1377,7 +1423,7 @@ router.post(
         { new: true }
       ).populate(populateParams)
 
-      if (project === null) throw('Project not found.')
+      if (project === null) throw 'Project not found.'
 
       log.info(
         {
@@ -1434,7 +1480,7 @@ router.post(
         { new: true }
       ).populate(populateParams)
 
-      if (update === null) throw('Update not found.')
+      if (update === null) throw 'Update not found.'
 
       log.info(
         {

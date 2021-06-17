@@ -125,9 +125,9 @@ function TeamMembersModal(props) {
 
   const submitHandler = async () => {
     const usersToAdd = Object.keys(addState).filter(member => addState[member])
-    const populatedUsers = users.map(user =>
-      usersToAdd.includes(user._id) ? user : null
-    )
+    const populatedUsers = users
+      .map(user => (usersToAdd.includes(user._id) ? user : null))
+      .filter(el => el !== null)
     setTeam([...team, ...populatedUsers])
     await props.addMembersToProject(projectId, usersToAdd)
     props.refreshToken()

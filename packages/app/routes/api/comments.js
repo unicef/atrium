@@ -43,6 +43,27 @@ const populateParams = [
   }
 ]
 
+const recalcBadges = points => {
+  switch (true) {
+    case points >= 1000:
+      return 7
+    case points >= 500:
+      return 6
+    case points >= 250:
+      return 5
+    case points >= 100:
+      return 4
+    case points >= 50:
+      return 3
+    case points >= 25:
+      return 2
+    case points >= 10:
+      return 1
+    default:
+      return 0
+  }
+}
+
 router.get(
   '/:commentId',
   passport.authenticate('jwt', { session: false }),
@@ -213,9 +234,14 @@ router.get(
 
         try {
           const index = comment.likes.indexOf(userId)
-          index > -1
-            ? comment.likes.splice(index, 1)
-            : comment.likes.push(userId)
+          if (index > -1) comment.likes.splice(index, 1)
+          else {
+            comment.likes.push(userId)
+            const user = await User.findById(comment.user)
+            user.balance += 2
+            user.badges = recalcBadges(user.balance)
+            await user.save()
+          }
           await comment.save()
           comment.populate(
             populateParams,

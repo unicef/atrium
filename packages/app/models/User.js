@@ -39,7 +39,8 @@ const UserSchema = new Schema({
   registrationCompleted: { type: Boolean, default: false },
 
   balance: { type: Number, default: 0 },
-  badges: { type: Number, default: 0 }
+  badges: { type: Number, default: 0 },
+  firstProject: { type: Boolean, default: true }
 })
 
 UserSchema.set('toJSON', {
