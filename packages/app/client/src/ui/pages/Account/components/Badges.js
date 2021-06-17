@@ -30,12 +30,12 @@ function Badges({balance, badges}) {
       <Grid item container spacing={5} className={classes.header}>
         <Typography variant="h3">Badges</Typography>
         <Typography variant="subtitle1" className={classes.points}>
-          Balance {509} points
+          Balance {balance} points
         </Typography>
       </Grid>
       <Grid item container spacing={5}>
         <Typography variant="h5">Badges you've earned</Typography>
-        <BadgesList start={0} end={3} />
+        <BadgesList start={0} end={badges} />
       </Grid>
       <Grid item container spacing={5}>
         <Typography variant="h5">Badges to earn</Typography>
@@ -46,7 +46,7 @@ function Badges({balance, badges}) {
           </Typography>
           <Button onClick={() => history.push('/learn')} color="primary">Earn badges</Button>
         </Grid>
-        <BadgesList start={3} end={7} />
+        <BadgesList start={badges} end={7} />
       </Grid>
     </Grid>
   )

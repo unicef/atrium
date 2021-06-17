@@ -1,9 +1,9 @@
 import React from 'react'
 import { ChevronRight } from '@material-ui/icons'
-import { 
+import {
   Grid,
   Typography,
-  makeStyles 
+  makeStyles
 } from '@material-ui/core'
 import BorderedInfo from './BorderedInfo'
 import {
@@ -166,11 +166,7 @@ function Dashboard(props) {
                     </div>
                     <div className={classes.greenLine} />
                     <Typography className={classes.count}>
-                      {props.badges &&
-                        Object.keys(props.badges).filter(
-                          key => props.badges[key]
-                        ).length}
-                      /{Object.keys(props.badges).length}
+                      {props.badges}/7
                     </Typography>
                   </div>
                 </div>
