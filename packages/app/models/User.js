@@ -37,7 +37,7 @@ const UserSchema = new Schema({
   updatesOnComments: { type: Boolean, default: false },
   // registration validation
   registrationCompleted: { type: Boolean, default: false },
-
+  isAdmin: { type: Boolean, default: false },
   balance: { type: Number, default: 0 },
   badges: { type: Number, default: 0 }
 })

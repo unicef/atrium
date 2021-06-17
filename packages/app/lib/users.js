@@ -64,6 +64,7 @@ const getTokenPayload = (user, userBadges) => {
     updatesOnPost: user.updatesOnPost ? user.updatesOnPost : false,
     updatesOnProject: user.updatesOnProject ? user.updatesOnProject : false,
     updatesOnComments: user.updatesOnComments ? user.updatesOnComments : false,
+    isAdmin: user.isAdmin ? user.isAdmin : false,
     balance: user.balance ? user.balance : 0,
     badges: user.badges ? user.badges : 0
   }

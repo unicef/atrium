@@ -1,36 +1,60 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import Hidden from '@material-ui/core/Hidden'
 import { TreeMenu } from '../../../molecules'
 import { AboutTextSections, FilesSection } from '../components'
-import { ABOUT_PROJECT_SECTIONS, PROJECT_ADITIONAL_INFO } from '../../../../unin-constants'
+import {
+  ABOUT_PROJECT_SECTIONS,
+  PROJECT_ADITIONAL_INFO
+} from '../../../../unin-constants'
 import { smoothVerticalScrolling } from '../../../utils'
+import { Button, TextField } from '../../../atoms'
+import { makeStyles } from '@material-ui/core/styles'
+import { useProjectsAsyncActions } from '../../../hooks'
+
+const useStyles = makeStyles(() => ({
+  reportSection: {
+    textAlign: 'center',
+    marginTop: '5%'
+  },
+  reportButton: {
+    backgroundColor: 'white',
+    color: 'red',
+    '&:hover': {
+      backgroundColor: 'white'
+    }
+  }
+}))
 
 const AdditionalInfoPiece = ({ title, data }) => (
   <Grid item xs={12}>
-    <Typography variant="body2">
-      {title}
-    </Typography>
-   {Boolean(data) &&
-      <Typography>
-        {data}
-      </Typography>
-    }
+    <Typography variant="body2">{title}</Typography>
+    {Boolean(data) && <Typography>{data}</Typography>}
   </Grid>
 )
 
 const AboutProject = ({ projectData }) => {
+  const classes = useStyles()
+
+  const [showReport, setReport] = useState(false)
+  const [reportText, setText] = useState('')
+  const { reportProject } = useProjectsAsyncActions()
+
   const handleSelect = (_, nodeIds) => {
     const target = document.getElementById(nodeIds)
 
-    smoothVerticalScrolling({ element: target, time: 300, otherFixedElementsHeight: 50 })
+    smoothVerticalScrolling({
+      element: target,
+      time: 300,
+      otherFixedElementsHeight: 50
+    })
   }
 
   const handleAditionalInfoParties = (parties, item, index) => {
     let data = projectData[item.id]
-    
+
     if (item.id === 'numberOfNodes') {
       data = data && `${data} Nodes`
     }
@@ -38,7 +62,9 @@ const AboutProject = ({ projectData }) => {
     if (item.id === 'launchDateMonth') {
       data = data && `${data}, ${projectData.launchDateYear}`
     }
-    const piece =  <AdditionalInfoPiece key={item.id} title={item.name} data={data} />
+    const piece = (
+      <AdditionalInfoPiece key={item.id} title={item.name} data={data} />
+    )
 
     if (index > 3) {
       return { ...parties, secondPart: [...parties.secondPart, piece] }
@@ -47,7 +73,10 @@ const AboutProject = ({ projectData }) => {
     return { ...parties, firstPart: [...parties.firstPart, piece] }
   }
 
-  const additionalInfoPieces = PROJECT_ADITIONAL_INFO.reduce(handleAditionalInfoParties, { firstPart: [], secondPart: [] })
+  const additionalInfoPieces = PROJECT_ADITIONAL_INFO.reduce(
+    handleAditionalInfoParties,
+    { firstPart: [], secondPart: [] }
+  )
 
   // TODO: IMPROVE THE TREE VIEW MENU ITEM TO BE SELECTED WHEN SCROLL TO SPECIFIC TOPICS POSITION
   return (
@@ -56,15 +85,22 @@ const AboutProject = ({ projectData }) => {
         <Hidden xsDown>
           <Grid item xs={2}>
             <Box position="sticky" width="100%" bgcolor="white" top={120}>
-              <TreeMenu onNodeSelect={handleSelect} menuItems={ABOUT_PROJECT_SECTIONS} allExpanded />
+              <TreeMenu
+                onNodeSelect={handleSelect}
+                menuItems={ABOUT_PROJECT_SECTIONS}
+                allExpanded
+              />
             </Box>
           </Grid>
         </Hidden>
-        <Grid style={{ marginTop: -10}} item xs={12} sm={10}>
-          {projectData &&
+        <Grid style={{ marginTop: -10 }} item xs={12} sm={10}>
+          {projectData && (
             <Grid item xs={12}>
               <Box px={6}>
-                <AboutTextSections {...ABOUT_PROJECT_SECTIONS[0]} projectData={projectData} />
+                <AboutTextSections
+                  {...ABOUT_PROJECT_SECTIONS[0]}
+                  projectData={projectData}
+                />
 
                 <Box mb={2}>
                   <Typography id="projectAdditionalInfo" variant="h3">
@@ -73,7 +109,7 @@ const AboutProject = ({ projectData }) => {
                 </Box>
 
                 <Grid container>
-                  <Grid spacing={2} container item xs={6}>    
+                  <Grid spacing={2} container item xs={6}>
                     {additionalInfoPieces.firstPart}
                   </Grid>
 
@@ -85,9 +121,63 @@ const AboutProject = ({ projectData }) => {
                 <Box mt={3}>
                   <FilesSection {...projectData} />
                 </Box>
+                <Box className={classes.reportSection}>
+                  {showReport ? (
+                    <>
+                      <Grid item xs={12}>
+                        <Box display="flex" bgcolor="white">
+                          <TextField
+                            multiline
+                            value={reportText}
+                            onChange={event => {
+                              setText(event.target.value)
+                            }}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid container item justify="flex-end" xs={12}>
+                        <Box mt={2}>
+                          <Button
+                            onClick={() => {
+                              setReport(false)
+                              setText('')
+                            }}
+                            variant="outlined"
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            ml={15}
+                            color="primary"
+                            onClick={() => {
+                              reportProject({
+                                id: projectData.id,
+                                reported: true,
+                                reportMessage: reportText
+                              })
+                              setReport(false)
+                              setText('')
+                            }}
+                          >
+                            Report
+                          </Button>
+                        </Box>
+                      </Grid>
+                    </>
+                  ) : (
+                    <Button
+                      className={classes.reportButton}
+                      onClick={() => setReport(true)}
+                    >
+                      <Typography variant="subtitle1">
+                        Report an issue
+                      </Typography>
+                    </Button>
+                  )}
+                </Box>
               </Box>
             </Grid>
-          }
+          )}
         </Grid>
       </Grid>
     </Box>

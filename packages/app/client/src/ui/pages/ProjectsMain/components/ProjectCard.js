@@ -10,7 +10,6 @@ const ProjectCard = ({ id, onClick, disableActions }) => {
   const project = useSelector(state => getSearchedProjectById(state, id))
   const { toggleLike } = useProjectsAsyncActions()
   const history = useHistory()
-
   const onClickComments = () => {
     history.push(`/projects/view/${id}/comments?page=1&sort=asc`)
   }

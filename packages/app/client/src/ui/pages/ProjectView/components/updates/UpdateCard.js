@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
 import UpdateEdition from './UpdateEdition'
+import UpdateReporting from './UpdateReporting'
 import { makeStyles } from '@material-ui/core/styles'
 import { HorizontalCardWithMenu, ActionDialog } from '../../../../organisms'
 import { CardInfoRow } from '../../../../molecules'
@@ -50,6 +51,7 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
   const [editMode, setEditMode] = React.useState(false)
   const [showDeletionModal, setDeletionModalVisibility] = React.useState(false)
   const [showTheCompleteText, setTextVisibility] = React.useState(false)
+  const [reportMode, setReportMode] = React.useState(false)
 
   const { deleteUpdate, getProjectById } = useProjectsAsyncActions()
   const trimmedText = useTrimmedText({ text, max: TEXT_MAX_LENGTH })
@@ -64,18 +66,25 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
   const textContent = showTheCompleteText ? text : trimmedText
   const showMoreButtonVisible = !editMode && text.length > TEXT_MAX_LENGTH
 
-  const menuItems = [
-    {
-      label: 'Edit',
-      handleClick: () => setEditMode(true)
-    },
-    {
-      label: 'Delete',
-      handleClick: () => {
-        setDeletionModalVisibility(true)
-      }
-    }
-  ]
+  const menuItems = userIsTheOwner
+    ? [
+        {
+          label: 'Edit',
+          handleClick: () => setEditMode(true)
+        },
+        {
+          label: 'Delete',
+          handleClick: () => {
+            setDeletionModalVisibility(true)
+          }
+        }
+      ]
+    : [
+        {
+          label: 'Report',
+          handleClick: () => setReportMode(true)
+        }
+      ]
 
   return (
     <Grid item xs={12}>
@@ -83,9 +92,7 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
         menuItems={menuItems}
         userIsTheOwner={userIsTheOwner}
       >
-        <Typography className={classes.title}>
-          {title}
-        </Typography>
+        <Typography className={classes.title}>{title}</Typography>
 
         <Box display="flex" mb={1}>
           <CardInfoRow
@@ -104,17 +111,32 @@ const UpdateCard = ({ owner, text, title, date, year, month, id }) => {
         </Box>
 
         <Box mb={1}>
-          {editMode ?
-            <UpdateEdition dismissEdit={() => setEditMode(false)} text={text} year={year} month={month} id={id} />
-            :
-            <Typography className={classes.text}>
-              {textContent}
-            </Typography>
-          }
+          {editMode ? (
+            <UpdateEdition
+              dismissEdit={() => setEditMode(false)}
+              text={text}
+              year={year}
+              month={month}
+              id={id}
+              title={title}
+            />
+          ) : reportMode ? (
+            <UpdateReporting
+              dismissReport={() => setReportMode(false)}
+              id={id}
+            />
+          ) : (
+            <Typography className={classes.text}>{textContent}</Typography>
+          )}
         </Box>
 
         <Grid container item xs={12} alignItems="center">
-          {showMoreButtonVisible && <ShowMoreButton isShowingMore={showTheCompleteText}  handleClick={() => setTextVisibility(show => !show)} />}
+          {showMoreButtonVisible && (
+            <ShowMoreButton
+              isShowingMore={showTheCompleteText}
+              handleClick={() => setTextVisibility(show => !show)}
+            />
+          )}
         </Grid>
       </HorizontalCardWithMenu>
       <ActionDialog

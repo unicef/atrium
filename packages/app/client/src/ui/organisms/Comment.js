@@ -4,11 +4,16 @@ import SubdirectoryArrowRightOutlinedIcon from '@material-ui/icons/SubdirectoryA
 import HorizontalCardWithMenu from './HorizontalCardWithMenu'
 import ActionDialog from './ActionDialog'
 import { TextButton, Authorship } from '../atoms'
-import { TextWithMentions, CardInfoRow, UserInfoTooltip, CommentInput } from '../molecules'
+import {
+  TextWithMentions,
+  CardInfoRow,
+  UserInfoTooltip,
+  CommentInput
+} from '../molecules'
 import { useSelector } from 'react-redux'
 import { getUserId } from '../../selectors'
 import { editComment } from '../../api/projects'
-import { useHandledRequest } from '../hooks'
+import {useHandledRequest, useProjectsAsyncActions} from '../hooks'
 import { Link } from 'react-router-dom'
 import { useCommentsAsyncActions } from '../hooks'
 
@@ -33,6 +38,8 @@ const Comment = ({
   const currentUserId = useSelector(getUserId)
   const [savedLikes, setLikes] = React.useState(likes)
   const userIsTheOwner = currentUserId === user._id
+  const [showReport, setReport] = React.useState(false)
+  const { reportComment } = useProjectsAsyncActions()
   const { fetchLikeComment } = useCommentsAsyncActions()
 
   const handleLike = async () => {
@@ -46,35 +53,38 @@ const Comment = ({
     await fetchLikeComment({id})
   }
 
-  const menuItems = [
-    {
-      label: 'Edit',
-      handleClick: () => setEdit(true)
-    },
-    {
-      label: 'Delete',
-      handleClick: () => setDeletionModalVisibility(true)
-    },
-    {
-      label: 'Report',
-      handleClick: () => {}
-    }
-  ]
+  const menuItems = userIsTheOwner
+    ? [
+        {
+          label: 'Edit',
+          handleClick: () => setEdit(true)
+        },
+        {
+          label: 'Delete',
+          handleClick: () => {
+            setDeletionModalVisibility(true)
+          }
+        }
+      ]
+    : [
+        {
+          label: 'Report',
+          handleClick: () => setReport(true)
+        }
+      ]
 
   const handledRequest = useHandledRequest()
 
   const updateComment = async ({ commentId, content }) => {
-    const request = handledRequest(
-      {
-        request: editComment,
-        onSuccess: () => {
-          setContent(content)
-          setEdit(false)
-        },
-        successMessage: 'Comment successfully updated',
-        showFullPageLoading: true
-      }
-    )
+    const request = handledRequest({
+      request: editComment,
+      onSuccess: () => {
+        setContent(content)
+        setEdit(false)
+      },
+      successMessage: 'Comment successfully updated',
+      showFullPageLoading: true
+    })
 
     await request({ commentId, content })
   }
@@ -82,7 +92,7 @@ const Comment = ({
   return (
     <>
       <HorizontalCardWithMenu
-        padding={userIsTheOwner ? "5px 30px 10px 10px" : "0 30px 10px 10px"}
+        padding={userIsTheOwner ? '5px 30px 10px 10px' : '0 30px 10px 10px'}
         menuItems={menuItems}
         userIsTheOwner={userIsTheOwner}
       >
@@ -95,39 +105,58 @@ const Comment = ({
                 </Link>
               </span>
             </UserInfoTooltip>
-            {showEdit ?
-             <CommentInput
-              onCancel={() => setEdit(false)}
-              cancelButton
-              buttonPositioning="flex-end"
-              rows={2}
-              content={textContent}
-              showAvatar={false}
-              buttonPlacement="outside"
-              submitLabel="Confirm"
-              handleSubmit={(content) => updateComment({ content, commentId: id })}
-            /> :
-              <TextWithMentions
-                mentions={mentions}
-              >
+            {showEdit ? (
+              <CommentInput
+                onCancel={() => setEdit(false)}
+                cancelButton
+                buttonPositioning="flex-end"
+                rows={2}
+                content={textContent}
+                showAvatar={false}
+                buttonPlacement="outside"
+                submitLabel="Confirm"
+                handleSubmit={content =>
+                  updateComment({ content, commentId: id })
+                }
+              />
+            ) : showReport ? (
+              <CommentInput
+                onCancel={() => setReport(false)}
+                cancelButton
+                buttonPositioning="flex-end"
+                rows={2}
+                showAvatar={false}
+                buttonPlacement="outside"
+                submitLabel="Report"
+                handleSubmit={reportText =>
+                  reportComment({
+                    reported: true,
+                    reportMessage: reportText,
+                    id
+                  })
+                }
+              />
+            ) : (
+              <TextWithMentions mentions={mentions}>
                 {textContent}
-              </TextWithMentions>}
-            </Box>
+              </TextWithMentions>
+            )}
+          </Box>
         </Box>
 
         <Box display="flex" flex={1} flexDirection="column">
-          {!showEdit &&
+          {!showEdit && (
             <Box display="flex" flex={1} alignItems="center">
               <CardInfoRow
                 components={[
                   {
                     type: 'textbutton',
-                    textContent: "Like",
+                    textContent: 'Like',
                     onClick: handleLike
                   },
                   {
                     type: 'textbutton',
-                    textContent: "Reply",
+                    textContent: 'Reply',
                     onClick: toggleReply
                   },
                   {
@@ -142,18 +171,17 @@ const Comment = ({
                 ]}
               />
             </Box>
-          }
+          )}
 
           <Box>
-            {hasChildren &&
+            {hasChildren && (
               <TextButton
                 textContent={`${numberOfReplies} Replies`}
                 startIcon={<SubdirectoryArrowRightOutlinedIcon />}
                 onClick={handleToggleReplies}
               />
-            }
+            )}
           </Box>
-
         </Box>
       </HorizontalCardWithMenu>
       <ActionDialog
@@ -167,6 +195,5 @@ const Comment = ({
     </>
   )
 }
-
 
 export default Comment

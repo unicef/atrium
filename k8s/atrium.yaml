@@ -216,6 +216,11 @@ spec:
                 configMapKeyRef:
                   name: api-configmap
                   key: attachment_url
+            - name: ADMIN_LONG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: atrium-secret
+                  key: admin_long_password
           image: appliedblockchain/atrium-app
           name: unin-app
           ports:

@@ -14,6 +14,7 @@ import { searchReducer } from '../reduxStructures/search'
 import { projectsReducer } from '../reduxStructures/projects'
 import { usersReducer } from '../reduxStructures/users'
 import { profileReducer } from '../reduxStructures/profile'
+import { reportsReducer } from '../reduxStructures/reports'
 
 export default combineReducers({
   auth: authReducer,
@@ -30,5 +31,6 @@ export default combineReducers({
   loader,
   search: searchReducer,
   user: usersReducer,
-  profile: profileReducer
+  profile: profileReducer,
+  reports: reportsReducer
 })

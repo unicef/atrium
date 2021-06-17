@@ -33,13 +33,9 @@ const HorizontalCardWithMenu = (props) => {
   return (
     <Card raised={false} className={classes.card}>
       <ShadedPaper padding={props.padding} elevation={0} bgColor={bgColor} className={classes.cardContent}>
-        {userIsTheOwner ? (
-          <div className={classes.edit}>
-            <ThreeDotsPopover
-              menuItems={props.menuItems}
-            />
-          </div>
-        ) : null}
+        <div className={classes.edit}>
+          <ThreeDotsPopover menuItems={props.menuItems} />
+        </div>
         {props.children}
       </ShadedPaper>
     </Card>
