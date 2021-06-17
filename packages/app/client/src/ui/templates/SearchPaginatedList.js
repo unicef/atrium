@@ -4,7 +4,7 @@ import { Pagination } from '../atoms'
 import { SearchSortingHeader } from '../molecules'
 
 const SearchPaginatedList = ({ children, numberOfPages, onChangeParam, currentpage, headerProps, withHeader }) => (
-  <Grid container item xs={12}>
+  <Grid item xs={12}>
     {withHeader && 
       <SearchSortingHeader
         sortAsc={() => onChangeParam('sort', 'asc')}
