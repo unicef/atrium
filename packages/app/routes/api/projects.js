@@ -505,7 +505,6 @@ router.put(
           )
           return sendError(res, 503, 'Error updating the project')
         }
-        // /dfdfsdfsd
         log.info(
           {
             requestId: req.id,
