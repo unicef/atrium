@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-configmap
+data:
+  client_url: http://localhost/
+  attachment_url: localhost:5000
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: forum-configmap
+data:
+  url: localhost/forum

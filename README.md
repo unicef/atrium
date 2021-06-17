@@ -188,10 +188,21 @@ kubectl apply -f dev-secrets.yaml
 # Apply config map
 kubectl apply -f atrium-configmaps.yaml
 # Apply config map
-kubectl apply -f k8s/ganache-dev.yaml
+kubectl apply -f ganache-dev.yaml
 # Apply deployments and services
 kubectl apply -f atrium.yaml
 ````
+
+### For dev re-deploy
+```
+cd packages/app
+npx npm run build-client
+cd ../../
+docker build -t appliedblockchain/atrium-app .
+docker push appliedblockchain/atrium-app
+rancher kubectl --namespace=applied-blockchain replace --force -f k8s/atrium.yaml
+```
+
 ## Contact
 
 If you have questions or comments about the project, please reach out to blockchain@uninnovation.network.

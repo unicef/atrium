@@ -5,3 +5,10 @@ metadata:
 data:
   client_url: https://proco-chain-demo4.unicef.io/
   attachment_url: proco-chain-demo4.unicef.io
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: forum-configmap
+data:
+  url: https://proco-chain-demo4.unicef.io/forum
