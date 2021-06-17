@@ -27,9 +27,9 @@ const useStyles = makeStyles({
 const SearchSortingHeader = ({ name, sortAsc, sortDesc, sortDirection, sortBy, withPrefix }) => {
   const classes = useStyles()
   const isAscSorting = sortDirection === 'asc'
-  
+
   return (
-    <Grid xs={12} style={{ padding: 30 }} item container justify="space-between" alignItems="center"> 
+    <Grid xs={12} style={{ padding: 30, height: 100 }} item container justify="space-between" alignItems="center">
       <Typography className={classes.title} mb={0}>{name}</Typography>
       <TextButton
         onClick={isAscSorting ? sortDesc : sortAsc}

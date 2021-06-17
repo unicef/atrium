@@ -1,24 +1,25 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Loader, SearchListWrapper } from '../../Search/components'
+import { Loader } from '../../Search/components'
 import { useSelector } from 'react-redux'
 import {
   getSearchContext,
   getSearchedUserProjects,
   getUserId,
-  searchCurrentPage,
-  searchSort
+  getNumberOfPages
 } from '../../../../selectors'
 import {
   useUserProjectsAsyncActions,
   useSearchActions,
   useIsAuthenticated,
-  useProjectViewActions
+  useProjectViewActions,
+  useQueryParams
 } from '../../../hooks'
 import combineUserItemsQueryStrings from '../../../../utils/combineUserItemsQueryStrings'
 import ProjectCard from './ProjectCard'
 import { useHistory } from 'react-router-dom'
 import { EmptyResults } from '../../../molecules'
+import { SearchPaginatedList } from '../../../templates'
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -31,17 +32,18 @@ const SEARCH_CONTEXT = 'PROJECTS'
 
 function MyProjects(props) {
   const classes = useStyles()
-  const { setCurrentPageContext, resetSearch } = useSearchActions()
-  const { setCurrentProject } = useProjectViewActions()
   const history = useHistory()
-  const userId = useSelector(getUserId)
 
+  const { setCurrentPageContext, resetSearch } = useSearchActions()
+  const { onChangeParam, getString, getEntriesObj } = useQueryParams()
   const { fetchSearchedUserProjects } = useUserProjectsAsyncActions()
-  const projects = useSelector(getSearchedUserProjects)
-  const isUserAuthenticated = useIsAuthenticated()
+  const { sort = 'asc', page } = getEntriesObj()
+  const { setCurrentProject } = useProjectViewActions()
 
-  const sort = useSelector(searchSort)
-  const page = useSelector(searchCurrentPage)
+  const userId = useSelector(getUserId)
+  const projects = useSelector(getSearchedUserProjects)
+  const pagesCounter = useSelector(getNumberOfPages)
+  const isUserAuthenticated = useIsAuthenticated()
   const searchContextName = useSelector(getSearchContext)
 
   React.useEffect(() => {
@@ -74,9 +76,18 @@ function MyProjects(props) {
     )
 
   return (
-    <SearchListWrapper
-      headerText={`My projects (${projects.length})`}
-      sortBy="date"
+    <SearchPaginatedList
+      currentpage={page}
+      onChangeParam={onChangeParam}
+      getString={getString}
+      numberOfPages={pagesCounter}
+      withHeader
+      headerProps={{
+        withPrefix: false,
+        name: `My projects (${projects.length})`,
+        sortDirection: sort,
+        sortBy: 'Date'
+      }}
     >
       {projects.map(project => (
         <ProjectCard
@@ -91,7 +102,7 @@ function MyProjects(props) {
         />
       ))}
       <Loader />
-    </SearchListWrapper>
+    </SearchPaginatedList>
   )
 }
 

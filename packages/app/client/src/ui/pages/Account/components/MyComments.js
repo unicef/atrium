@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import { SearchListWrapper } from '../../Search/components'
 import { useSelector } from 'react-redux'
 import {
+  getNumberOfPages,
   getSearchContext,
-  getSearchedUserComments,
-  searchCurrentPage,
-  searchSort
+  getSearchedUserComments
 } from '../../../../selectors'
 import {
   useUserCommentsAsyncActions,
   useSearchActions,
-  useHandledRequest
+  useHandledRequest,
+  useQueryParams
 } from '../../../hooks'
 import combineUserItemsQueryStrings from '../../../../utils/combineUserItemsQueryStrings'
 import { CommentBox } from '../../../organisms'
@@ -18,6 +17,7 @@ import { deleteComment } from '../../../../api/projects'
 import { EmptyResults } from '../../../molecules'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
+import { SearchPaginatedList } from '../../../templates'
 
 const MAX_COMMENTS_PER_PAGE = 9
 const SEARCH_CONTEXT = 'COMMENTS'
@@ -30,16 +30,18 @@ const useStyles = makeStyles(() => ({
 
 function MyComments(props) {
   const classes = useStyles()
-  const { setCurrentPageContext, resetSearch } = useSearchActions()
   const history = useHistory()
 
+  const { setCurrentPageContext, resetSearch } = useSearchActions()
+  const { onChangeParam, getString, getEntriesObj } = useQueryParams()
   const { fetchSearchedUserComments } = useUserCommentsAsyncActions()
-  const comments = useSelector(getSearchedUserComments)
-  const handledRequest = useHandledRequest()
+  const { sort = 'asc', page } = getEntriesObj()
 
-  const sort = useSelector(searchSort)
-  const page = useSelector(searchCurrentPage)
+  const comments = useSelector(getSearchedUserComments)
+  const pagesCounter = useSelector(getNumberOfPages)
   const searchContextName = useSelector(getSearchContext)
+
+  const handledRequest = useHandledRequest()
   const [trigger, setTrigger] = useState(false)
 
   React.useEffect(() => {
@@ -81,9 +83,18 @@ function MyComments(props) {
     )
 
   return (
-    <SearchListWrapper
-      headerText={`My comments (${comments.length})`}
-      sortBy="date"
+    <SearchPaginatedList
+      currentpage={page}
+      onChangeParam={onChangeParam}
+      getString={getString}
+      numberOfPages={pagesCounter}
+      withHeader
+      headerProps={{
+        withPrefix: false,
+        name: `My comments (${comments.length})`,
+        sortDirection: sort,
+        sortBy: 'Date'
+      }}
     >
       {comments.map(comment => (
         <CommentBox
@@ -94,7 +105,7 @@ function MyComments(props) {
           {...comment}
         />
       ))}
-    </SearchListWrapper>
+    </SearchPaginatedList>
   )
 }
 
