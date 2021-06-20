@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
     width: '500px',
     maxWidth: '50%',
     maxHeight: '75%',
-    height: '200px'
+    height: '270px'
   }
 }))
 

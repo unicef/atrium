@@ -2,6 +2,7 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
+import {Image} from "../atoms";
 
 const useStyles = makeStyles(() => ({
   line: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function Badge({ badge, level, last }) {
+function Badge({ badge, level, last, img, title }) {
   const classes = useStyles()
 
   return (
@@ -27,13 +28,12 @@ function Badge({ badge, level, last }) {
       className={[classes.badge, last ? null : classes.line].join(' ')}
     >
       <Grid item xs={1}>
-        {/* <Image />*/}
-        img
+        <Image height="62px" width="62px" src={img} />
       </Grid>
       <Grid item xs={11}>
         <Typography variant="subtitle1">Level {level} Badge</Typography>
         <Typography className={classes.points} variant="body1">
-          {badge} Points
+          {title} ({badge} points)
         </Typography>
       </Grid>
     </Grid>
