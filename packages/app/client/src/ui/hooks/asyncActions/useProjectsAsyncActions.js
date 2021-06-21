@@ -9,6 +9,7 @@ import {
 } from '../actions'
 import { useSelector } from 'react-redux'
 import { getUserId } from '../../../selectors'
+import useProfileAsyncActions from './useProfileAsyncActions'
 
 const useProjectsAsyncActions = () => {
   const handledRequest = useHandledRequest()
@@ -18,6 +19,7 @@ const useProjectsAsyncActions = () => {
   const { setCurrentProject } = useProjectViewActions()
   const { saveComments } = useCommentsActions()
   const isUserAuthenticated = useIsAuthenticated()
+  const { refreshToken } = useProfileAsyncActions()
 
   return {
     fetchSearchedProjects: handledRequest({
@@ -35,10 +37,25 @@ const useProjectsAsyncActions = () => {
         dismiss: dismissLoading
       }
     }),
+    fetchSearchedProjectsUnreg: handledRequest({
+      request: ProjectApi.getAllProjectsUnreg,
+      onSuccess: ({ projects, pageCounter }) => {
+        saveSearchedProjects({
+          projects,
+          registeredUser: isUserAuthenticated
+        })
+        setNumberOfPages(pageCounter)
+      },
+      specificLoading: {
+        show: showLoading,
+        dismiss: dismissLoading
+      }
+    }),
     toggleLike: handledRequest({
       request: ProjectApi.toggleProjectLike,
       onSuccess: ({ project }) => {
         toggleProjectLike(project)
+        refreshToken()
       },
       successMessage: 'Action successfully performed'
     }),

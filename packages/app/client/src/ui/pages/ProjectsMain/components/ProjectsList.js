@@ -28,7 +28,7 @@ const MAX_PROJECTS_PER_PAGE = 9
 const SEARCH_CONTEXT = 'PROJECTS'
 
 const ProjectsList = ({ WrapperComponent }) => {
-  const { fetchSearchedProjects } = useProjectsAsyncActions()
+  const { fetchSearchedProjects, fetchSearchedProjectsUnreg } = useProjectsAsyncActions()
   const { setCurrentPageContext, resetSearch } = useSearchActions()
   const { setCurrentProject } = useProjectViewActions()
   const { clearFilters } = useProjectsMainActions()
@@ -60,7 +60,9 @@ const ProjectsList = ({ WrapperComponent }) => {
     }
 
     const requestProjects = async () => {
-      await fetchSearchedProjects(query)
+      isUserAuthenticated
+        ? await fetchSearchedProjects(query)
+        : await fetchSearchedProjectsUnreg(query)
     }
 
     requestProjects()

@@ -1436,7 +1436,7 @@ router.get(
       try {
         const user = await User.findById(
           req.params.id,
-          'name email avatar company role address'
+          // 'name email avatar company role address'
         ).exec()
 
         log.info(

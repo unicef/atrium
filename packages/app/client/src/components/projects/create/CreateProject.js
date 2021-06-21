@@ -95,8 +95,7 @@ function CreateProject(props) {
       photos
     } = data
     const { projectId } = dynamicFormData
-    
-    console.log('KJDHJDHJDH')
+
     const formData = new FormData()
 
     if (attachment) {

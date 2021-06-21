@@ -199,6 +199,68 @@ router.get(
   }
 )
 
+router.get('/unreg', async (req, res) => {
+  log.info(
+    {
+      requestId: req.id
+    },
+    'User is getting projects'
+  )
+  try {
+    const { name } = req.query
+    const offset = parseInt(req.query.offset)
+    const limit = parseInt(req.query.limit)
+    const sort = req.query.sort === 'asc' ? 1 : -1
+    const filtersQueries = handleFilters(req.query)
+
+    const searchQuery = []
+
+    if (name) {
+      searchQuery.push({
+        $or: [
+          {
+            name: {
+              $regex: name,
+              $options: 'gi'
+            }
+          },
+          {
+            details: {
+              $regex: name,
+              $options: 'gi'
+            }
+          }
+        ]
+      })
+    }
+
+    if (filtersQueries.length > 0) {
+      searchQuery.push({ $and: filtersQueries })
+    }
+
+    const finalQuery = searchQuery.length > 0 ? { $and: searchQuery } : {}
+
+    const projects = await Project.find(finalQuery)
+      .skip(offset)
+      .limit(limit)
+      .sort({ name: sort })
+      .populate(populateParams)
+
+    const pageCounter = Math.ceil(projects.length / limit)
+
+    return res.status(200).json({ projects, pageCounter })
+  } catch (error) {
+    log.info(
+      {
+        requestId: req.id,
+        error: error
+      },
+      'Can not get projects from the database'
+    )
+    return sendError(res, 503, 'Error getting projects from the database')
+  }
+})
+
 router.get(
   '/:id',
   passport.authenticate('jwt', { session: false }),

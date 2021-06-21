@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Search from '../Search'
 import AddIcon from '@material-ui/icons/Add'
 import { ProjectsList, Filters } from './components'
@@ -9,6 +9,10 @@ import { useIsAuthenticated } from '../../hooks'
 const ProjectsMain = () => {
   const history = useHistory()
   const userIsAuthenticated = useIsAuthenticated()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <Search

@@ -6,10 +6,10 @@ import useToast from '../useToast'
 import { useProfileActions } from '../actions'
 import { useSelector } from 'react-redux'
 import { getProfileId } from '../../../selectors'
- 
+
 const useProfileAsyncActions = () => {
   const handledRequest = useHandledRequest()
-  const { 
+  const {
     saveUserInformation,
     saveProfileProjects,
     likeProfileProject,
@@ -19,14 +19,14 @@ const useProfileAsyncActions = () => {
   const { showToast } = useToast()
   const isUserAuthenticated = useIsAuthenticated()
   const profileId = useSelector(getProfileId)
-  
+
   return {
     getUserInfoById: handledRequest({
       request: UsersApi.getUserInformation,
-      onSuccess: (payload) => saveUserInformation(payload),
+      onSuccess: payload => saveUserInformation(payload),
       pageLoading: false
     }),
-    getProjects: (query) => {
+    getProjects: query => {
       const request = handledRequest({
         request: UsersApi.getUserProjects,
         onSuccess: ({ projects, pageCounter }) => {
@@ -42,40 +42,44 @@ const useProfileAsyncActions = () => {
 
       request(query)
     },
-    toggleLike: handledRequest(
-      { 
-        request: ProjectApi.toggleProjectLike,
-        onSuccess: ({ project }) => {
-          likeProfileProject(project)
-        },
-        successMessage: 'Action successfully performed'
-      }
-    ),
+    toggleLike: handledRequest({
+      request: ProjectApi.toggleProjectLike,
+      onSuccess: ({ project }) => {
+        likeProfileProject(project)
+      },
+      successMessage: 'Action successfully performed'
+    }),
     getMoreActivities: (offset, setLoading) => {
-      const request = handledRequest(
-        { 
-          request: UsersApi.getUserActivities,
-          onSuccess: (activities) => {
-            if (Array.isArray(activities)) {
-              saveProfileActivities(activities)
+      const request = handledRequest({
+        request: UsersApi.getUserActivities,
+        onSuccess: activities => {
+          if (Array.isArray(activities)) {
+            saveProfileActivities(activities)
 
-              if (activities.length === 0) {
-                setLoadMoreActivitiesFlag('DO_NOT_LOAD')
-                showToast({ message: 'There is no more activities', severity: 'info' })
-              } else {
-                setLoadMoreActivitiesFlag('LOAD')
-              }
+            if (activities.length === 0) {
+              setLoadMoreActivitiesFlag('DO_NOT_LOAD')
+              showToast({
+                message: 'There is no more activities',
+                severity: 'info'
+              })
+            } else {
+              setLoadMoreActivitiesFlag('LOAD')
             }
-          },
-          specificLoading: {
-            show: () => setLoading(true),
-            dismiss: () => setLoading(false)
           }
+        },
+        specificLoading: {
+          show: () => setLoading(true),
+          dismiss: () => setLoading(false)
         }
-      )
+      })
 
       request(offset)
     },
+    refreshToken: handledRequest({
+      request: UsersApi.refreshToken,
+      onSuccess: payload => saveUserInformation(payload),
+      pageLoading: false
+    })
   }
 }
 
