@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function Badges({balance, badges}) {
+function Badges({ balance, badges }) {
   const classes = useStyles()
   const history = useHistory()
 
@@ -33,9 +33,14 @@ function Badges({balance, badges}) {
           Balance {balance} points
         </Typography>
       </Grid>
+      <Grid item container>
+        <Typography variant="body1">
+          Certain activities on the platform give you points: project creations, becoming a member of a project, likes and comments.
+        </Typography>
+      </Grid>
       <Grid item container spacing={5}>
         <Typography variant="h5">Badges you've earned</Typography>
-        <BadgesList start={0} end={badges} />
+        <BadgesList start={0} end={badges} earned={true} />
       </Grid>
       <Grid item container spacing={5}>
         <Typography variant="h5">Badges to earn</Typography>
@@ -44,9 +49,11 @@ function Badges({balance, badges}) {
             In order to earn badges, complete tasks in the directed learning
             section.
           </Typography>
-          <Button onClick={() => history.push('/learn')} color="primary">Earn badges</Button>
+          <Button onClick={() => history.push('/projects')} color="primary">
+            Earn badges
+          </Button>
         </Grid>
-        <BadgesList start={badges} end={7} />
+        <BadgesList start={badges} end={7} earned={false} />
       </Grid>
     </Grid>
   )

@@ -123,10 +123,10 @@ function Settings(props) {
         </Typography>
       </Grid>
       <Grid item xs={12}>
+        <Typography variant="h5">Change password</Typography>
         <SimpleFormWithHeader
           onSubmit={submitHandler}
-          submitLabel="Save password"
-          title="Change password"
+          submitLabel="save changes"
           fields={fields}
           validate={validate}
         />

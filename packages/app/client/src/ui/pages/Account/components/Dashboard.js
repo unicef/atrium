@@ -23,8 +23,7 @@ import {
 import { useSelector } from 'react-redux'
 import {
   getSearchedUserComments,
-  getSearchedUserLatestProject,
-  getSearchedUserLikes
+  getSearchedUserLatestProject
 } from '../../../../selectors'
 import { useHistory } from 'react-router-dom'
 
@@ -100,13 +99,9 @@ function Dashboard(props) {
   const { handleChange } = props
   const classes = useStyles()
   const { fetchSearchedUserComments } = useUserCommentsAsyncActions()
-  const {
-    fetchSearchedUserLatestProject,
-    fetchSearchedUserLikes
-  } = useUserProjectsAsyncActions()
+  const { fetchSearchedUserLatestProject } = useUserProjectsAsyncActions()
   const comments = useSelector(getSearchedUserComments)
   const latestProject = useSelector(getSearchedUserLatestProject)
-  const likes = useSelector(getSearchedUserLikes)
 
   const history = useHistory()
 
@@ -119,7 +114,6 @@ function Dashboard(props) {
     const requestData = async () => {
       await fetchSearchedUserComments(query)
       await fetchSearchedUserLatestProject()
-      await fetchSearchedUserLikes()
     }
     requestData()
   }, [])
@@ -139,16 +133,19 @@ function Dashboard(props) {
               <div className={classes.centered}>
                 <div className={classes.bordered}>
                   <div className={classes.topText}>
-                    <LikeButton liked onlyIcon disabled />
-                    <Typography>Likes</Typography>
+                    <Typography>Balance</Typography>
                   </div>
                   <div className={classes.greenLine} />
                   <Typography className={classes.count}>
-                    {likes ? likes : 0}
+                    {props.balance ? props.balance : 0}
                   </Typography>
                 </div>
-                <Button className={classes.buttons} color="primary">
-                  Redeem likes
+                <Button
+                  onClick={e => handleChange(e, 6)}
+                  className={classes.buttons}
+                  color="primary"
+                >
+                  Redeem balance
                 </Button>
               </div>
               <div className={classes.centered}>

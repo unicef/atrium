@@ -127,6 +127,9 @@ export const deleteProject = projectId =>
 export const getAllProjects = query =>
   projectRequest({ method: 'get', endpoint: query })
 
+export const getAllProjectsUnreg = query =>
+  projectRequest({ method: 'get', endpoint: `unreg${query}` })
+
 export const addUpdate = (projectId, update) =>
   projectRequest({
     method: 'post',
@@ -182,7 +185,7 @@ export const deleteMember = (projectId, memberId) =>
     body: { memberId }
   })
 
-export const deleteFile = (projectId, filePath, type) => 
+export const deleteFile = (projectId, filePath, type) =>
   projectRequest({
     method: 'post',
     endpoint: getDeleteFileEndpoint(projectId, type),
@@ -196,13 +199,13 @@ export const transferOwnership = (projectId, userToTransfer) =>
     body: { userToTransfer }
   })
 
-export const createProject = (projectData) => 
+export const createProject = (projectData) =>
   projectRequest({
     method: 'post',
     body: projectData
   })
 
-export const updateProject = (projectData, projectId) => 
+export const updateProject = (projectData, projectId) =>
   projectRequest({
     method: 'put',
     endpoint: projectId,
