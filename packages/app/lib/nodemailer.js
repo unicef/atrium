@@ -98,19 +98,20 @@ exports._actionOnYourContent = async (
   type,
   actionType,
   place,
-  person
+  person,
+  content
 ) => {
   log.info({ email }, 'Sending notification email of an action on content')
   client.sendEmail(
     {
       to: `${email}`,
       from: 'noreply@atrium.network',
-      subject: `${type} has been ${actionType} in your ${place}.`,
+      subject: `${type} has been ${actionType} on your ${place}.`,
       cc: ['mhydary@unicef.org'],
       message: `
             <div>
                 <p>Hi there!</p>
-                <p>${person} ${actionType} ${type} on your ${place}</p>
+                <p>${person} ${content}</p>
             </div>
         `
     },
