@@ -42,6 +42,7 @@ const populateParams = [
     select: userFieldSelection
   }
 ]
+const { _actionOnYourContent } = require('../../lib/nodemailer')
 
 const recalcBadges = points => {
   switch (true) {
@@ -183,6 +184,7 @@ router.post(
                 'Reply added successfully'
               )
               await logProjectComment(req.user.id, populatedComment.id)
+              _actionOnYourContent(populatedComment.user.email, 'reply', 'added', 'comment', user.email, 'replied to your comment')
               return res.status(200).json({ comment: populatedComment })
             }
           )
@@ -234,13 +236,15 @@ router.get(
 
         try {
           const index = comment.likes.indexOf(userId)
+          const user = await User.findById(userId)
+
           if (index > -1) comment.likes.splice(index, 1)
           else {
+            const owner = await User.findById(comment.user)
             comment.likes.push(userId)
-            const user = await User.findById(comment.user)
-            user.balance += 2
-            user.badges = recalcBadges(user.balance)
-            await user.save()
+            owner.balance += 2
+            owner.badges = recalcBadges(owner.balance)
+            await owner.save()
           }
           await comment.save()
           comment.populate(
@@ -267,6 +271,7 @@ router.get(
                 'Like added successfully'
               )
               await logProjectComment(req.user.id, populatedComment.id)
+              _actionOnYourContent(populatedComment.user.email, 'like', 'added', 'comment', user.email, 'liked your comment')
               return res.status(200).json({ comment: populatedComment })
             }
           )

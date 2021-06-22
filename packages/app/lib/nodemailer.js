@@ -2,10 +2,10 @@ require('dotenv').config()
 const log = require('../config/log')
 
 // New adds because of AWS SES:
-const ses = require('node-ses');
+const ses = require('node-ses')
 const { AWS_SES_ACCESS_KEY, AWS_SES_SECRET_KEY } = process.env
 const client = ses.createClient({
-  key: AWS_SES_ACCESS_KEY, 
+  key: AWS_SES_ACCESS_KEY,
   secret: AWS_SES_SECRET_KEY
 })
 
@@ -16,9 +16,7 @@ exports._sendWelcomeEmail = async (email, emailHash, invitationCode) => {
       to: `${email}`,
       from: 'noreply@atrium.network',
       subject: 'Welcome to The Atrium platform! Please confirm your email.',
-      cc: [
-        'mhydary@unicef.org',
-      ],
+      cc: ['mhydary@unicef.org'],
       message: `
       <div>
           <p>Hi there! Welcome to The Atrium platform.</p>
@@ -45,9 +43,7 @@ exports._sendForgotPasswordEmail = async (email, token) => {
       to: `${email}`,
       from: 'noreply@atrium.network',
       subject: 'Please reset your password on the Atrium.',
-      cc: [
-        'mhydary@unicef.org',
-      ],
+      cc: ['mhydary@unicef.org'],
       message: `
             <div>
                 <p>Hi there!</p>
@@ -68,15 +64,16 @@ exports._sendForgotPasswordEmail = async (email, token) => {
 }
 
 exports._notifyDeletedContentByAdmin = async (email, type, content) => {
-  log.info({ email }, 'Sending notification email of a deleted reported content')
+  log.info(
+    { email },
+    'Sending notification email of a deleted reported content'
+  )
   client.sendEmail(
     {
       to: `${email}`,
       from: 'noreply@atrium.network',
       subject: `Your ${type} has been deleted from Atrium.`,
-      cc: [
-        'mhydary@unicef.org',
-      ],
+      cc: ['mhydary@unicef.org'],
       message: `
             <div>
                 <p>Hi there!</p>
@@ -86,6 +83,37 @@ exports._notifyDeletedContentByAdmin = async (email, type, content) => {
             </div>
         `
       // message: 'Sent from SES. Did this go to spam?'
+    },
+    function(err, data, res) {
+      // ...
+      console.log(err)
+      console.log(data)
+      console.log(res)
+    }
+  )
+}
+
+exports._actionOnYourContent = async (
+  email,
+  type,
+  actionType,
+  place,
+  person,
+  content
+) => {
+  log.info({ email }, 'Sending notification email of an action on content')
+  client.sendEmail(
+    {
+      to: `${email}`,
+      from: 'noreply@atrium.network',
+      subject: `${type} has been ${actionType} on your ${place}.`,
+      cc: ['mhydary@unicef.org'],
+      message: `
+            <div>
+                <p>Hi there!</p>
+                <p>${person} ${content}</p>
+            </div>
+        `
     },
     function(err, data, res) {
       // ...

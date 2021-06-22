@@ -24,7 +24,10 @@ const express = require('express'),
   } = require('../../lib/userActivity'),
   { BADGE_ENUM } = require('../../config/unin-constants')
 const mongoose = require('mongoose')
-const { _notifyDeletedContentByAdmin } = require('../../lib/nodemailer')
+const {
+  _notifyDeletedContentByAdmin,
+  _actionOnYourContent
+} = require('../../lib/nodemailer')
 const userFieldSelection = 'name email avatar company' // select only name and email from users
 const populateParams = [
   {
@@ -487,6 +490,7 @@ router.put(
         'User is not allowed to update the createdAt field'
       )
     }
+    const user = await User.findById(req.user.id)
 
     const oldProject = await Project.findOne({ _id: req.params.id })
     // Updates can be name, details, owner, tags, deployed app link
@@ -554,7 +558,7 @@ router.put(
       { _id: req.params.id },
       projectData,
       { new: true },
-      (err, project) => {
+      async (err, project) => {
         if (err) {
           log.error(
             {
@@ -574,6 +578,15 @@ router.put(
             project
           },
           'Project updated successfully'
+        )
+        const owner = await User.findById(project.owner)
+        _actionOnYourContent(
+          owner.email,
+          'content',
+          'updated',
+          'project',
+          user.email,
+          'updated your project'
         )
         return res.status(200).json({ project })
       }
@@ -748,6 +761,7 @@ router.patch(
             return !isCurrentUser
           })
         : []
+      const user = await User.findById(req.user.id)
 
       if (!isLiked) {
         likes = [...likes, userId]
@@ -757,7 +771,7 @@ router.patch(
           user.badges = recalcBadges(user.balance)
           await user.save()
         })
-        const user = await User.findById(req.user.id)
+        const user = await User.findById(project.owner)
         user.balance += 5
         user.badges = recalcBadges(user.balance)
         await user.save()
@@ -799,6 +813,14 @@ router.patch(
             if (!isLiked) {
               await logProjectLike(req.user.id, project.id)
             }
+            _actionOnYourContent(
+              project.owner.email,
+              'like',
+              'added',
+              'project',
+              user.email,
+              'liked your project'
+            )
             return res.status(200).json({ project })
           })
         })
@@ -846,6 +868,7 @@ router.put(
 
     const { content } = req.body
 
+    const comment = await Comment.findById(_id)
     log.info(logData, 'Editing comment')
 
     try {
@@ -854,7 +877,16 @@ router.put(
       log.error(logData, 'Error editing comment')
       return sendError(res, 503, 'Error Editing the comment. Please try again')
     }
-
+    const user = await User.findById(userId)
+    const owner = await User.findById(comment.user)
+    _actionOnYourContent(
+      owner.email,
+      '',
+      'editted',
+      'comment',
+      user.email,
+      'edited your comment'
+    )
     log.info(logData, 'Succesfully Editted comment')
     res.send()
   }
@@ -883,7 +915,17 @@ router.delete(
         _id: commentId,
         user: userId
       })
+      const user = await User.findById(userId)
+
       const owner = await User.findById(comment.user)
+      _actionOnYourContent(
+        owner.email,
+        '',
+        'deleted',
+        'comment',
+        user.email,
+        'deleted comment in your project'
+      )
 
       if (req.user.isAdmin) {
         _notifyDeletedContentByAdmin(owner.email, 'Comment', comment.content)
@@ -978,6 +1020,14 @@ router.post(
               'Comment added successfully'
             )
             await logProjectComment(req.user.id, populatedProject.id)
+            _actionOnYourContent(
+              populatedProject.owner.email,
+              'comment',
+              'added',
+              'project',
+              user.email,
+              'commented your project'
+            )
             return res.status(200).json({ project: populatedProject })
           }
         )
@@ -1056,7 +1106,7 @@ router.get(
 )
 
 router.put(
-  '/:_id/update/',
+  '/:_id/update',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const { _id } = req.params
@@ -1077,7 +1127,17 @@ router.put(
       log.error(logData, 'Error editing update')
       return sendError(res, 503, 'Error Editing the update. Please try again')
     }
-
+    const update = await Update.findById(_id)
+    const user = await User.findById(userId)
+    const owner = await User.findById(update.owner)
+    _actionOnYourContent(
+      owner.email,
+      'update',
+      'edited',
+      'project',
+      user.email,
+      'edited update in your project'
+    )
     log.info(logData, 'Succesfully Editted update')
     res.send()
   }
@@ -1103,11 +1163,18 @@ router.delete(
         { $pull: { updates: { $in: [mongoose.Types.ObjectId(updateId)] } } }
       )
       const update = await Update.findByIdAndDelete({
-        _id: updateId,
-        owner: userId
+        _id: updateId
       })
-      const owner = await User.findById(update.user)
-
+      const user = await User.findById(userId)
+      const owner = await User.findById(update.owner)
+      _actionOnYourContent(
+        owner.email,
+        'update',
+        'deleted',
+        'project',
+        user.email,
+        'deleted update from your project'
+      )
       if (req.user.isAdmin) {
         _notifyDeletedContentByAdmin(owner.email, 'Update', update.title)
       }
@@ -1193,6 +1260,15 @@ router.post(
                 update: newUpdate
               },
               'Update added successfully'
+            )
+            const user = await User.findById(userId)
+            _actionOnYourContent(
+              populatedProject.owner.email,
+              'update',
+              'added',
+              'project',
+              user.email,
+              'added update to your project'
             )
             await logProjectUpdate(req.user.id, populatedProject.id)
             return res.status(200).json({ project: populatedProject })
