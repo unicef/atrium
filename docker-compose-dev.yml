@@ -53,8 +53,6 @@ services:
       - ETHEREUM_PROVIDER_URL=http://ganache:8545
       - ATRIUM_WALLET_SECRET=dev
       - TRUFFLE_NETWORK=docker_development
-      - AWS_SES_SECRET_KEY=yKVbyFwAShlx4p7GIqmxJ8xWp6/YkvLWQCfyN9Ah
-      - AWS_SES_ACCESS_KEY=AKIAXB6JOAHEB7POJMVP
     expose:
       - "5000"
     restart: always
