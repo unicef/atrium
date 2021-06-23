@@ -221,6 +221,11 @@ spec:
                 secretKeyRef:
                   name: atrium-secret
                   key: admin_long_password
+            - name: UN_ADMIN_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: atrium-secret
+                  key: un_admin_private_key
           image: appliedblockchain/atrium-app
           name: unin-app
           ports:
