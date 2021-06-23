@@ -17,7 +17,7 @@ function Updates(props) {
 
   return (
     <Container>
-      <UpdatesForm handleCreateProject={handleCreateProject} />
+      <UpdatesForm handleCreateProject={handleCreateProject} projectId={props._id} />
     </Container>
   )
 }

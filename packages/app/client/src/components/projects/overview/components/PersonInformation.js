@@ -1,6 +1,7 @@
 import React from 'react'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
+import {Avatar} from "../../../../ui";
 
 const useDefaultStyles = makeStyles(theme => ({
   personInfo: {
@@ -17,10 +18,7 @@ const useDefaultStyles = makeStyles(theme => ({
     textAlign: 'left'
   },
   avatar: {
-    width: '53px',
-    height: '53px',
-    borderRadius: '50%',
-    marginRight: '2%'
+    marginRight: '5%'
   },
   noBorder: {
     border: 'none'
@@ -30,6 +28,10 @@ const useDefaultStyles = makeStyles(theme => ({
     height: '100px',
     margin: '0 0 3% 0',
     padding: '5%'
+  },
+  wrapper: {
+    display: 'flex',
+    width: '100%'
   }
 }))
 
@@ -46,15 +48,20 @@ function PersonInformation({ children, user, mode }) {
             : classes.personInfo
         }
       >
-        <div style={{ display: 'flex' }}>
-          <img className={classes.avatar} alt="Avatar" src={user.avatar} />
+        <div className={classes.wrapper}>
+          <Avatar
+            growthTimes={10}
+            src={user.avatar}
+            className={classes.avatar}
+            name={user.name}
+          />
           <div>
             <Typography
               color="secondary"
               className={classes.personFullName}
               variant="subtitle1"
             >
-              {user.name /* then + surname*/}
+              {user.name}
             </Typography>
             <Typography color="secondary" variant="body1">
               {user.email}

@@ -22,7 +22,9 @@ const ProjectHeader = (props) => {
 
   return (
     <>
-      <BackArrow dest={'/projects'} destName="projects"/>
+      <Grid item xs={12}>
+        <BackArrow dest={'/projects'} destName="projects" />
+      </Grid>
       <Box mb="35px" mt="30px">
         <Grid justify="center" container item xs={12}>
           <Image
@@ -32,7 +34,7 @@ const ProjectHeader = (props) => {
           />
         </Grid>
       </Box>
-      
+
       <Grid item xs={12} container justify="space-between">
         <Grid item xs={12} md={5}>
           <ProjectHeaderDetails details={props.details} name={props.name} />
@@ -41,7 +43,7 @@ const ProjectHeader = (props) => {
         <Grid spacing={3} item container xs={12} md={3}>
           <ProjectHeaderMiddleSection {...props} />
         </Grid>
-        
+
         <Grid className={classes.actionsWrapper} direction="column" container alignItems="flex-end" item xs={12} md={3}>
           <ActionButtons projectData={props.projectData} />
         </Grid>

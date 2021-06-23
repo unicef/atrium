@@ -44,7 +44,7 @@ const useDefaultStyles = makeStyles(theme => ({
     marginBottom: '3%'
   },
   bottomButtons: {
-    marginTop: '5%'
+    margin: '5% 0'
   },
   saveButton: {
     marginRight: '2%'
@@ -79,10 +79,9 @@ function StoryForm(props) {
   const [benefits, setBenefits] = useState(false)
   const [needs, setNeeds] = useState(false)
   const [section, setSection] = useState(false)
-  const history = useHistory()
 
   const cancelHandler = () => {
-    history.push('/projects')
+    window.location.reload()
   }
 
   const onFormSubmit = (values, { setSubmitting }) => {

@@ -255,7 +255,7 @@ function TeamMembersModal(props) {
                 alt="Email image"
               />
               <Typography variant="body1">
-                Not listed above Invite by email address...
+                Not listed above invite by email address...
               </Typography>
             </div>
           )}
