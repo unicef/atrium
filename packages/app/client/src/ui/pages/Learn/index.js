@@ -1,13 +1,27 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useIsAuthenticated } from '../../hooks'
-import { SectionWithBorderedText, JoinAtrium, MainContainer } from '../../templates'
-import { Introduction, Quiz, AtriumBlockchain, ExternalResources, SectionTabs } from './sections'
+import {
+  SectionWithBorderedText,
+  JoinAtrium,
+  MainContainer
+} from '../../templates'
+import {
+  Introduction,
+  Quiz,
+  AtriumBlockchain,
+  ExternalResources,
+  SectionTabs
+} from './sections'
 import { SectionIcon } from './components'
 import { ActionDialog } from '../../organisms'
 
 const Learn = () => {
   const userIsAuthenticated = useIsAuthenticated()
   const [showDialog, setDialogVisibility] = React.useState(false)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <MainContainer size="full">
