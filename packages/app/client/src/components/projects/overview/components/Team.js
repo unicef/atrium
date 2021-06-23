@@ -9,7 +9,6 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
 import { Button } from '../../../../ui'
-import { useHistory } from 'react-router-dom'
 import TeamMembersModal from '../modals/TeamMembersModal'
 import { DeleteButton } from '../assets'
 import PersonInformation from './PersonInformation'
@@ -51,7 +50,7 @@ const useDefaultStyles = makeStyles(theme => ({
     margin: 0
   },
   bottomButtons: {
-    marginTop: '5%'
+    margin: '5% 0'
   },
   saveButton: {
     marginRight: '2%'
@@ -61,7 +60,6 @@ const useDefaultStyles = makeStyles(theme => ({
 function Team(props) {
   const classes = useDefaultStyles()
 
-  const history = useHistory()
   const cancelHandler = () => {
     window.location.reload()
   }

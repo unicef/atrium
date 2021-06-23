@@ -5,8 +5,6 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import { TextField } from '../../../../ui'
 import { Button } from '../../../../ui'
 import { Formik } from 'formik'
-import InputLabel from '@material-ui/core/InputLabel'
-import { useHistory } from 'react-router-dom'
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -23,12 +21,8 @@ const useDefaultStyles = makeStyles(theme => ({
     paddingRight: '30%',
     fontSize: 18
   },
-  inputLabel: {
-    color: 'black',
-    margin: '3% 0 1% 0'
-  },
   bottomButtons: {
-    marginTop: '5%'
+    margin: '5% 0'
   },
   saveButton: {
     marginRight: '2%'
@@ -37,7 +31,12 @@ const useDefaultStyles = makeStyles(theme => ({
 
 const validateProjectForm = values => {
   const errors = {}
-
+  if (values.title && !values.text) {
+    errors.text = 'Please also fill out text of an update'
+  }
+  if (values.text && !values.title) {
+    errors.title = 'Please also fill out title of an update'
+  }
   return errors
 }
 
@@ -67,9 +66,12 @@ function UpdatesForm(props) {
           handleChange,
           handleBlur,
           setFieldValue,
+          isSubmitting,
+          isValid,
+          dirty,
           ...props
         }) => (
-          <form noValidate onSubmit={props.handleSubmit}>
+          <form onSubmit={props.handleSubmit}>
             <div>
               <Typography
                 className={classes.header}
@@ -85,39 +87,40 @@ function UpdatesForm(props) {
               </Typography>
             </div>
             <div>
-              <InputLabel className={classes.inputLabel} shrink htmlFor="title">
-                Title
-              </InputLabel>
               <TextField
                 variant="outlined"
                 placeholder="Example"
+                htmlFor="title"
+                label="Title"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 fullWidth
-                className={classes.formElement}
+                error={!!(touched.title && errors.title)}
+                errorMessage={touched.title && errors.title}
                 id="title"
                 name="title"
               />
             </div>
             <div>
-              <InputLabel className={classes.inputLabel} shrink htmlFor="text">
-                Text
-              </InputLabel>
               <TextField
                 variant="outlined"
                 multiline={true}
                 rows="15"
                 fullWidth
+                htmlFor="text"
+                label="Text"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={classes.formElement}
                 id="text"
                 name="text"
+                error={!!(touched.text && errors.text)}
+                errorMessage={touched.text && errors.text}
               />
             </div>
             <div className={classes.bottomButtons}>
               <Button
                 className={classes.saveButton}
+                disabled={!isValid || !(values.title && values.text)}
                 color="primary"
                 type="submit"
               >

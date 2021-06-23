@@ -8,7 +8,6 @@ import Select from '@material-ui/core/Select'
 import { Button, TextField } from '../../../../ui'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
-import { useHistory } from 'react-router-dom'
 import { AGENCIES_LIST } from '../../../../unin-constants'
 import { getNames } from 'country-list'
 
@@ -63,7 +62,7 @@ const useDefaultStyles = makeStyles(theme => ({
     color: 'grey'
   },
   bottomButtons: {
-    marginTop: '5%'
+    margin: '5% 0'
   },
   saveButton: {
     marginRight: '2%'
@@ -83,7 +82,6 @@ function AdditionalInformationForm(props) {
     props.handleCreateProject(values)
     setSubmitting(false)
   }
-  const history = useHistory()
 
   const cancelHandler = () => {
     window.location.reload()

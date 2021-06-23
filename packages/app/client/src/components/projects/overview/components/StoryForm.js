@@ -44,7 +44,7 @@ const useDefaultStyles = makeStyles(theme => ({
     marginBottom: '3%'
   },
   bottomButtons: {
-    marginTop: '5%'
+    margin: '5% 0'
   },
   saveButton: {
     marginRight: '2%'

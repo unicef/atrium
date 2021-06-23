@@ -18,7 +18,7 @@ const useDefaultStyles = makeStyles(theme => ({
     textAlign: 'left'
   },
   avatar: {
-    marginRight: '10%'
+    marginRight: '5%'
   },
   noBorder: {
     border: 'none'
