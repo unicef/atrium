@@ -27,6 +27,7 @@ const ProjectsMain = () => {
               ? history.push('/create-projects')
               : history.push('/login')
           }}
+          style={{ marginLeft: '2%' }}
           size="small"
           endIcon={<AddIcon />}
           ml={15}
