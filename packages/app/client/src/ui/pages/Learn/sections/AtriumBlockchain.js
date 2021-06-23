@@ -11,7 +11,8 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(theme => ({
   link: {
     marginTop: 10,
-    [theme.breakpoints.down("sm")]: {
+    fontWeight: 'normal',
+    [theme.breakpoints.down('sm')]: {
       fontSize: 20
     }
   }

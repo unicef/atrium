@@ -158,8 +158,7 @@ const useWhoBuildingSectionStyles = makeStyles(theme => ({
   },
   descriptionText: {
     fontSize: 21,
-    marginTop: '10%',
-    marginBottom: 30
+    margin: '10% 0'
   }
 }))
 
