@@ -20,17 +20,19 @@ const ProjectsMain = () => {
       List={ProjectsList}
       title="Projects"
       searchBarRightSide={
-        userIsAuthenticated ? (
-          <Button
-            color="primary"
-            onClick={() => history.push('/create-projects')}
-            size="small"
-            endIcon={<AddIcon />}
-            ml={15}
-          >
-            Add projects
-          </Button>
-        ) : null
+        <Button
+          color="primary"
+          onClick={() => {
+            userIsAuthenticated
+              ? history.push('/create-projects')
+              : history.push('/login')
+          }}
+          size="small"
+          endIcon={<AddIcon />}
+          ml={15}
+        >
+          Add projects
+        </Button>
       }
     />
   )

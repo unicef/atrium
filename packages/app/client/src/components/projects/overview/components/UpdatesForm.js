@@ -48,10 +48,9 @@ function UpdatesForm(props) {
     props.handleCreateProject(values)
     setSubmitting(false)
   }
-  const history = useHistory()
 
   const cancelHandler = () => {
-    history.push('/projects')
+    window.location.reload()
   }
 
   return (

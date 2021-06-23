@@ -79,10 +79,9 @@ function StoryForm(props) {
   const [benefits, setBenefits] = useState(false)
   const [needs, setNeeds] = useState(false)
   const [section, setSection] = useState(false)
-  const history = useHistory()
 
   const cancelHandler = () => {
-    history.push('/projects')
+    window.location.reload()
   }
 
   const onFormSubmit = (values, { setSubmitting }) => {

@@ -297,9 +297,8 @@ export const FirstProjectForm = props => {
     await props.deleteFileFromProject(props.formData.projectId, filePath.url, type)
   }
 
-  const history = useHistory()
   const cancelHandler = () => {
-    props.editting ? props.goToOverview() : history.push('/projects')
+    props.editting ? props.goToOverview() : window.location.reload()
   }
 
   const onFormSubmit = (values, { setSubmitting }) => {
@@ -780,7 +779,7 @@ export const FirstProjectForm = props => {
                 </Select>
               </Grid>
               {values.editting ? (
-                
+
                 <Grid item xs={12}>
                   <DocumentUpload
                     htmlFor="documents"
@@ -791,7 +790,7 @@ export const FirstProjectForm = props => {
                     deleteHandler={deleteHandler}
                     type="document"
                   />
-                  
+
                   <DocumentUpload
                     htmlFor="photos"
                     name="photos"
@@ -812,7 +811,7 @@ export const FirstProjectForm = props => {
                     type="video"
                   />
                 </Grid>
-                
+
               ) : null}
               <Grid item xs={12}>
                 <div className={classes.line} />

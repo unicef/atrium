@@ -86,7 +86,7 @@ function AdditionalInformationForm(props) {
   const history = useHistory()
 
   const cancelHandler = () => {
-    history.push('/projects')
+    window.location.reload()
   }
 
   const years = []
@@ -151,11 +151,13 @@ function AdditionalInformationForm(props) {
                 <MenuItem value="">
                   <em className={classes.chooseSelect}>Choose</em>
                 </MenuItem>
-                {getNames().map(country => (
-                  <MenuItem key={Math.random()} value={country}>
-                    {country}
-                  </MenuItem>
-                ))}
+                {getNames()
+                  .sort()
+                  .map(country => (
+                    <MenuItem key={Math.random()} value={country}>
+                      {country}
+                    </MenuItem>
+                  ))}
               </Select>
             </div>
             <div>

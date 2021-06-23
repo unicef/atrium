@@ -63,7 +63,7 @@ function Team(props) {
 
   const history = useHistory()
   const cancelHandler = () => {
-    history.push('/projects')
+    window.location.reload()
   }
   const clickHandler = () => {
     window.location.reload()
