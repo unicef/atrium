@@ -60,8 +60,8 @@ function CreateProject(props) {
 
   const onCreate = handledRequest({
     request: createProject,
-    onSuccess: () => {
-      refreshToken()
+    onSuccess: async () => {
+      await refreshToken()
       window.location.replace('/projects')
     },
     successMessage: 'Project successfully created',
