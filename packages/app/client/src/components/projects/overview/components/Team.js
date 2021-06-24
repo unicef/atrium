@@ -94,7 +94,7 @@ function Team(props) {
           <Typography component="h5" className={classes.descriptionText}>
             Tell people why they should be excited about your project. Get
             specific but be clear and be brief.
-            <Link href="#"> need help?</Link>
+            <Link href="#">need help?</Link>
           </Typography>
         </div>
         <div>

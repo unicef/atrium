@@ -5,13 +5,14 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { addMembersToProject } from '../../../../actions/projectActions'
 import { refreshToken } from '../../../../actions/authActions'
-import { Button, SearchBar, TextField } from '../../../../ui'
+import { Button, SearchBar } from '../../../../ui'
 import { compose } from 'recompose'
-import { connect } from 'react-redux'
+import {connect, useSelector} from 'react-redux'
 import { getFilteredUsers as getFilteredUsersActions } from '../../../../actions/authActions'
 import { Email } from '../assets'
 import { OutlinedInput } from '@material-ui/core'
 import PersonInformation from '../components/PersonInformation'
+import { getUserId } from '../../../../selectors'
 
 const useDefaultStyles = makeStyles(theme => ({
   wrapper: {
@@ -96,9 +97,11 @@ function TeamMembersModal(props) {
   const [count, setCount] = useState(0)
   const [error, setError] = useState(false)
   const [userError, setUserError] = useState(false)
+  const userId = useSelector(getUserId)
 
   const filtering = user => {
     let flag = false
+    if (user.id === userId) return true
     for (const member of team) {
       if (user._id === member._id) {
         flag = true
