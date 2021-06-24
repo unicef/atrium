@@ -75,6 +75,7 @@ function Profile(props) {
     {
       ...website,
       disabled: !editting,
+      initialValue: '',
       endAdornment: editting ? (
         <InputAdornment position="end">
           <Button
@@ -110,6 +111,7 @@ function Profile(props) {
         titleProps={{ align: 'left' }}
         buttonLayout={{ xs: 4 }}
         validate={validateProfileForm}
+        accountPage={true}
         renderBellowForm={
           <>
             <Grid item xs={12}>

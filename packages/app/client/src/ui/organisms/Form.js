@@ -29,7 +29,13 @@ const Form = ({ fields, children, ...props }) => {
                 type="submit"
                 color="primary"
                 fullWidth
-                disabled={formProps.isSubmitting || !formProps.isValid || !formProps.dirty}
+                disabled={
+                  props.accountPage
+                    ? formProps.isSubmitting || !formProps.isValid
+                    : formProps.isSubmitting ||
+                      !formProps.isValid ||
+                      !formProps.dirty
+                }
                 {...props.buttonProps}
               >
                 {props.submitLabel}

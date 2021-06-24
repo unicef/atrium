@@ -14,6 +14,7 @@ const SimpleFormWithHeader = (props) => {
       />
 
       <Form
+        accountPage={props.accountPage}
         fields={props.fields}
         validate={props.validate}
         submit={props.onSubmit}
