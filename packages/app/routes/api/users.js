@@ -342,7 +342,6 @@ router.get(
         )
         return sendError(res, 404, 'Email not found')
       }
-
       getTokenForUser(user, (err, token) => {
         if (err) {
           log.error(
@@ -371,9 +370,7 @@ router.get(
           secure: true
         }
         res.cookie(authCookieName, tokenOnly, cookieConfig)
-        res.json({
-          success: true
-        })
+        res.json({ user })
       })
     })
   }

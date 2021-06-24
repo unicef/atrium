@@ -72,12 +72,13 @@ const useProfileAsyncActions = () => {
           dismiss: () => setLoading(false)
         }
       })
-
       request(offset)
     },
     refreshToken: handledRequest({
       request: UsersApi.refreshToken,
-      onSuccess: payload => saveUserInformation(payload),
+      onSuccess: payload => {
+        saveUserInformation(payload)
+      },
       pageLoading: false
     })
   }

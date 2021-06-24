@@ -6,8 +6,8 @@ import { withStyles } from '@material-ui/styles'
 import Container from '@material-ui/core/Container'
 import { FirstProjectForm } from './components'
 import { updateProject, createProject, deleteFile } from '../../../api/projects'
-import { refreshToken } from '../../../actions/authActions'
 import { useHandledRequest } from '../../../ui/hooks'
+import useProfileAsyncActions from '../../../ui/hooks/asyncActions/useProfileAsyncActions'
 
 const styles = theme => ({
   '@global': {
@@ -53,14 +53,15 @@ function CreateProject(props) {
     photos: props.photos || [],
     videos: props.videos || [],
   }
+  const { refreshToken } = useProfileAsyncActions()
 
   const { auth, classes } = props
   const handledRequest = useHandledRequest()
 
   const onCreate = handledRequest({
     request: createProject,
-    onSuccess: () => {
-      props.refreshToken()
+    onSuccess: async () => {
+      await refreshToken()
       window.location.replace('/projects')
     },
     successMessage: 'Project successfully created',
@@ -175,8 +176,6 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-  connect(mapStateToProps, {
-    refreshToken
-  }),
+  connect(mapStateToProps, {}),
   withStyles(styles)
 )(CreateProject)
