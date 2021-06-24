@@ -52,7 +52,7 @@ spec:
         - args:
             - sh
             - -ac
-            - echo "{\"url\":\"$URL\",\"port\":\"$PORT\",\"secret\":\"$SESSION_SECRET\",\"database\":\"mongo\",\"mongo\":{\"host\":\"$DATABASE_HOST\",\"port\":\"$DATABASE_PORT\",\"database\":\"$DATABASE_NAME\"}}" > config.json && node app --setup "{\"admin:username\":\"$ADMIN_USERNAME\",\"admin:password\":\"$ADMIN_PASSWORD\",\"admin:password:confirm\":\"$ADMIN_PASSWORD\",\"admin:email\":\"$ADMIN_EMAIL\"}" --defaultPlugins "[\"nodebb-plugin-session-sharing\", \"nodebb-plugin-mentions\"]" && ./nodebb start
+            - echo "{\"socket.io\":{\"transports\":[\"websocket\",\"polling\"]},\"url\":\"$URL\",\"port\":\"$PORT\",\"secret\":\"$SESSION_SECRET\",\"database\":\"mongo\",\"mongo\":{\"host\":\"$DATABASE_HOST\",\"port\":\"$DATABASE_PORT\",\"database\":\"$DATABASE_NAME\"}}" > config.json && node app --setup "{\"admin:username\":\"$ADMIN_USERNAME\",\"admin:password\":\"$ADMIN_PASSWORD\",\"admin:password:confirm\":\"$ADMIN_PASSWORD\",\"admin:email\":\"$ADMIN_EMAIL\"}" --defaultPlugins "[\"nodebb-plugin-session-sharing\", \"nodebb-plugin-mentions\"]" && ./nodebb --log-level verbose start
           env:
             - name: ADMIN_EMAIL
               valueFrom:
