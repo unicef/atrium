@@ -20,7 +20,7 @@ const useAuthAsyncActions = () => {
     }),
     updateUser: handledRequest({
       request: UsersApi.updateUserDetails,
-      onSuccess: ({ payload }) => setCurrentUser(payload),
+      onSuccess: () => {},
       pageLoading: true,
       successMessage: 'User updated'
     }),
