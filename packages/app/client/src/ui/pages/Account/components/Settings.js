@@ -126,7 +126,7 @@ function Settings(props) {
         <Typography variant="h5">Change password</Typography>
         <SimpleFormWithHeader
           onSubmit={submitHandler}
-          submitLabel="save changes"
+          submitLabel="Save"
           fields={fields}
           validate={validate}
         />

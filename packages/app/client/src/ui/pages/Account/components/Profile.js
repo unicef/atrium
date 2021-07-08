@@ -37,7 +37,6 @@ const useStyles = makeStyles(() => ({
 function Profile(props) {
   const classes = useStyles()
   const history = useHistory()
-  const [editting, setEditting] = useState(false)
   const [websites, setWebsites] = useState(props.websites || [])
   const [avatar, setAvatar] = useState(props.avatar || null)
 
@@ -54,29 +53,25 @@ function Profile(props) {
     formData.append('organization', userDetails.organization)
     formData.append('websites', websites)
     await updateUser(props.id, formData)
-    setEditting(false)
   }
 
   const fields = [
-    { ...name, initialValue: props.name || '', disabled: !editting },
+    { ...name, initialValue: props.name || '' },
     {
       ...bio,
       initialValue: props.bio || '',
       rows: 4,
-      multiline: true,
-      disabled: !editting
+      multiline: true
     },
-    { ...role, initialValue: props.role || '', disabled: !editting },
+    { ...role, initialValue: props.role || '' },
     {
       ...organization,
-      initialValue: props.organization || '',
-      disabled: !editting
+      initialValue: props.organization || ''
     },
     {
       ...website,
-      disabled: !editting,
       initialValue: '',
-      endAdornment: editting ? (
+      endAdornment: (
         <InputAdornment position="end">
           <Button
             className={classes.enterButton}
@@ -90,7 +85,7 @@ function Profile(props) {
             Enter
           </Button>
         </InputAdornment>
-      ) : null
+      )
     }
   ]
 
@@ -99,15 +94,8 @@ function Profile(props) {
       <SimpleFormWithHeader
         fields={fields}
         title="Profile"
-        onSubmit={
-          editting
-            ? submitHandler
-            : (_, formProps) => {
-                setEditting(true)
-                formProps.setSubmitting(false)
-              }
-        }
-        submitLabel={editting ? 'Save changes' : 'Edit'}
+        onSubmit={submitHandler}
+        submitLabel={'Save'}
         titleProps={{ align: 'left' }}
         buttonLayout={{ xs: 4 }}
         validate={validateProfileForm}
@@ -115,18 +103,10 @@ function Profile(props) {
         renderBellowForm={
           <>
             <Grid item xs={12}>
-              <AvatarUploader
-                avatar={avatar}
-                setAvatar={setAvatar}
-                editting={editting}
-              />
+              <AvatarUploader avatar={avatar} setAvatar={setAvatar} />
             </Grid>
             <Grid item xs={12}>
-              <WebsitesList
-                websites={websites}
-                setWebsites={setWebsites}
-                editting={editting}
-              />
+              <WebsitesList websites={websites} setWebsites={setWebsites} />
             </Grid>
           </>
         }

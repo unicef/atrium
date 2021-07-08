@@ -18,6 +18,7 @@ import {
 } from '../pages/Account/assets'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
+import { Image } from '../atoms'
 
 const badges = [
   {
@@ -71,7 +72,7 @@ const badges = [
   }
 ]
 
-function BadgesList({ start, end, earned }) {
+function BadgesList({ start, end, earned, profilePage }) {
   return (
     <>
       {start === end && earned ? (
@@ -85,9 +86,12 @@ function BadgesList({ start, end, earned }) {
           </Typography>
         </Grid>
       ) : (
-        badges
-          .slice(start, end)
-          .map(badge => (
+        badges.slice(start, end).map(badge =>
+          profilePage ? (
+            <Grid item xs={12}>
+              <Image height="62px" width="62px" src={badge.greenImg} />
+            </Grid>
+          ) : (
             <Badge
               badge={badge.value}
               level={badge.level}
@@ -95,7 +99,8 @@ function BadgesList({ start, end, earned }) {
               last={+badge.level === end}
               img={earned ? badge.greenImg : badge.greyImg}
             />
-          ))
+          )
+        )
       )}
     </>
   )
