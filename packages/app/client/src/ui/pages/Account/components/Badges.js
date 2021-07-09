@@ -30,7 +30,7 @@ function Badges({ balance, badges }) {
       <Grid item container spacing={5} className={classes.header}>
         <Typography variant="h3">Badges</Typography>
         <Typography variant="subtitle1" className={classes.points}>
-          Balance {balance} points
+          {balance} points earned
         </Typography>
       </Grid>
       <Grid item container>

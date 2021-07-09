@@ -133,7 +133,7 @@ function Dashboard(props) {
               <div className={classes.centered}>
                 <div className={classes.bordered}>
                   <div className={classes.topText}>
-                    <Typography>Balance</Typography>
+                    <Typography>Points</Typography>
                   </div>
                   <div className={classes.greenLine} />
                   <Typography className={classes.count}>
@@ -141,11 +141,11 @@ function Dashboard(props) {
                   </Typography>
                 </div>
                 <Button
-                  onClick={e => handleChange(e, 6)}
+                  onClick={() => history.push(`/profile/${props.id}/about`)}
                   className={classes.buttons}
                   color="primary"
                 >
-                  Redeem balance
+                  View activity
                 </Button>
               </div>
               <div className={classes.centered}>
@@ -199,17 +199,6 @@ function Dashboard(props) {
                       title={latestProject.name}
                       content={latestProject.details}
                     />
-                  </div>
-                  <div className={classes.margined}>
-                    <ActionProjectButton
-                      type="edit"
-                      onClick={() =>
-                        history.push(
-                          `/projects/overview/${latestProject._id}`
-                        )
-                      }
-                    />
-                    <ViewProjectButton id={latestProject._id} />
                   </div>
                 </>
               ) : (

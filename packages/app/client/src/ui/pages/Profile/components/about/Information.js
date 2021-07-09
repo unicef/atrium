@@ -9,15 +9,12 @@ import { useSelector } from 'react-redux'
 import { getProfileBadges, getProfileUserInfo } from '../../../../../selectors'
 import { ShowMoreButton } from '../../../../atoms'
 import { useTrimmedText } from '../../../../hooks'
+import {BadgesList} from "../../../../molecules";
 
 const infoMap = [
   {
     title: 'Occupation',
     dataKey: 'role'
-  },
-  {
-    title: 'location',
-    dataKey: 'address'
   },
   {
     title: 'organization',
@@ -35,9 +32,13 @@ const Information = () => {
   const userInfo = useSelector(getProfileUserInfo)
   const badges = useSelector(getProfileBadges)
   const [showBiography, setShowMore] = React.useState(false)
-  const trimmedBiography = useTrimmedText({ text: userInfo.bio, max: BIO_MAX_LENGTH })
+  const trimmedBiography = useTrimmedText({
+    text: userInfo.bio,
+    max: BIO_MAX_LENGTH
+  })
   const biographyText = showBiography ? userInfo.bio : trimmedBiography
-  const isShowMoreButtonVisible = Boolean(biographyText) && biographyText.length > BIO_MAX_LENGTH
+  const isShowMoreButtonVisible =
+    Boolean(biographyText) && biographyText.length > BIO_MAX_LENGTH
 
   return (
     <Grid container item xs={12}>
@@ -45,13 +46,22 @@ const Information = () => {
 
       <Grid spacing={2} container>
         {infoMap.map(item => (
-          <InfoCell title={item.title} key={item.dataKey} content={userInfo[item.dataKey]} />
+          <InfoCell
+            title={item.title}
+            key={item.dataKey}
+            content={userInfo[item.dataKey]}
+          />
         ))}
       </Grid>
 
       <Box mt="40px">
         <InfoCell xs={12} title={'Biography'} content={biographyText} />
-        {isShowMoreButtonVisible && <ShowMoreButton isShowingMore={showBiography} handleClick={() => setShowMore(prevVal => !prevVal)} />}
+        {isShowMoreButtonVisible && (
+          <ShowMoreButton
+            isShowingMore={showBiography}
+            handleClick={() => setShowMore(prevVal => !prevVal)}
+          />
+        )}
       </Box>
 
       <Grid container item xs={12}>
@@ -59,13 +69,9 @@ const Information = () => {
           <InfoCellTitle>badges</InfoCellTitle>
         </Grid>
         <Grid container item xs={12} spacing={2}>
-          {badges.map((applied, index) => (
-            applied && (
-              <Grid item xs="auto">
-                <BadgeRow id={`profile_about_badge${index}`} showContent={false} index={index} />
-              </Grid>
-            )
-          ))}
+          <Grid item container spacing={5}>
+            <BadgesList start={0} end={userInfo.badges} earned profilePage />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

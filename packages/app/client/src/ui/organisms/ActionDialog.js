@@ -35,10 +35,10 @@ const ActionDialog = ({
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">
-        <Typography variant="h4">{title}</Typography>
+        <Typography variant="h3">{title}</Typography>
       </DialogTitle>
       <DialogContent>
-        <Typography variant="caption1">{content}</Typography>
+        <Typography variant="body1">{content}</Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={onConfirm} color="danger">

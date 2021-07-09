@@ -12,11 +12,11 @@ import { ProfileBadges, ProfileProjects, AboutProfile } from './panels'
 import { TabPanel } from '../../atoms'
 
 const profileTabs = [
-  { label: "About ", hash: 'about' },
-  { label: "Posts", hash: 'posts' },
-  { label: "Projects", hash: 'projects' },
-  { label: "Badges", hash:'badges' },
-  { label: "Bounties", hash:'bounties' }
+  { label: 'About ', hash: 'about' },
+  { label: 'Posts', hash: 'posts' },
+  { label: 'Projects', hash: 'projects' },
+  { label: 'Badges', hash: 'badges' },
+  { label: 'Bounties', hash: 'bounties' }
 ]
 
 const Profile = () => {
@@ -28,12 +28,14 @@ const Profile = () => {
     getUserInfoById(params.id)
   }, [])
 
-
   const tabs = profileId ? profileTabs : []
 
-  const { handleChange, tabIndex } = useTabsOnUrl({ tabs, baseRoute: `/profile/${params.id}` })
+  const { handleChange, tabIndex } = useTabsOnUrl({
+    tabs,
+    baseRoute: `/profile/${params.id}`
+  })
 
-  const onChangeTabIndex = (newIndex) => {
+  const onChangeTabIndex = newIndex => {
     const nextTab = tabs[newIndex]
 
     if (nextTab !== undefined) {
@@ -49,12 +51,24 @@ const Profile = () => {
 
   return (
     <MainContainer size="regular" margin="50px auto">
-      {profileId &&  <ProfileHeader />}
+      {profileId && <ProfileHeader />}
 
-      {profileId &&
+      {profileId && (
         <Grid container justify="center" item xs={12}>
-          <Box position="sticky" width="100%" bgcolor="white" top={50} zIndex={99}>
-            <Tabs variant="fullWidth" handleChange={onChangeTabIndex} tabs={tabs} currentIndex={tabIndex} tabsAreaWidth="80%" />
+          <Box
+            position="sticky"
+            width="100%"
+            bgcolor="white"
+            top={50}
+            zIndex={99}
+          >
+            <Tabs
+              variant="fullWidth"
+              handleChange={onChangeTabIndex}
+              tabs={tabs}
+              currentIndex={tabIndex}
+              tabsAreaWidth="80%"
+            />
           </Box>
 
           <TabPanel index={0} value={tabIndex}>
@@ -68,9 +82,8 @@ const Profile = () => {
           <TabPanel index={3} value={tabIndex}>
             <ProfileBadges />
           </TabPanel>
-          
         </Grid>
-      }
+      )}
     </MainContainer>
   )
 }
