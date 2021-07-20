@@ -207,11 +207,11 @@ rancher kubectl --namespace=applied-blockchain replace --force -f k8s/atrium.yam
 On the forum go to `/forum/admin/plugins/session-sharing`
 Open the JS console paste the following:
 ```
-$('#cookieName')[0].value = 'jwtToken'
+$('#cookieName')[0].value = 'SESSION_TOKEN'
 $('#cookieDomain')[0].value = 'proco-chain-demo4.unicef.io'
 $('#secret')[0].value = 'raging-dog-cat'
 $('#hostWhitelist')[0].value = 'proco-chain-demo4.unicef.io'
-$('#logoutRedirect')[0].value = 'https://proco-chain-demo4.unicef.io/api/users/logout'
+$('#logoutRedirect')[0].value = 'https://proco-chain-demo4.unicef.io/login'
 $('#loginOverride')[0].value = 'https://proco-chain-demo4.unicef.io/login'
 $('#registerOverride')[0].value = 'https://proco-chain-demo4.unicef.io/register'
 $('#payload\\:username')[0].value = 'email'
