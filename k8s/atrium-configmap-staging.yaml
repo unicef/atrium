@@ -11,4 +11,4 @@ kind: ConfigMap
 metadata:
   name: forum-configmap
 data:
-  url: https://proco-chain-demo4.unicef.io/forum
+  url: proco-chain-demo4.unicef.io/forum
