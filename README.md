@@ -203,6 +203,23 @@ docker push appliedblockchain/atrium-app
 rancher kubectl --namespace=applied-blockchain replace --force -f k8s/atrium.yaml
 ```
 
+### Setting session sharing up on forum locally
+On the forum go to `/forum/admin/plugins/session-sharing`
+Open the JS console paste the following:
+```
+$('#cookieName')[0].value = 'SESSION_TOKEN'
+$('#cookieDomain')[0].value = 'proco-chain-demo4.unicef.io'
+$('#secret')[0].value = 'raging-dog-cat'
+$('#hostWhitelist')[0].value = 'proco-chain-demo4.unicef.io'
+$('#logoutRedirect')[0].value = 'https://proco-chain-demo4.unicef.io/login'
+$('#loginOverride')[0].value = 'https://proco-chain-demo4.unicef.io/login'
+$('#registerOverride')[0].value = 'https://proco-chain-demo4.unicef.io/register'
+$('#payload\\:username')[0].value = 'email'
+$('#payload\\:fullname')[0].value = 'name'
+$('#guestRedirect')[0].value = 'https://proco-chain-demo4.unicef.io/login'
+```
+Hit the save button
+
 ## Contact
 
 If you have questions or comments about the project, please reach out to blockchain@uninnovation.network.
