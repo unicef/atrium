@@ -12,6 +12,7 @@ import { getCurrentProject, getProjectCommentsLength } from '../../../selectors'
 import { TabPanel } from '../../atoms'
 import { MainContainer } from '../../templates'
 
+// REMOVE THIS AFTER API INTEGRATION
 const mockedProject = {
   country: 'Brazil',
   organization: 'UNIEF',
