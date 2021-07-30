@@ -7,10 +7,17 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useProjectsAsyncActions, useTabsOnUrl } from '../../hooks'
 import { Tabs } from '../../molecules'
-import { AboutProject, ProjectUpdates, ProjectComments, ProjectTeam } from './panels'
+import { AboutProject, ProjectComments, ProjectTeam } from './panels'
 import { getCurrentProject, getProjectCommentsLength } from '../../../selectors'
 import { TabPanel } from '../../atoms'
 import { MainContainer } from '../../templates'
+
+const mockedProject = {
+  country: 'Brazil',
+  organization: 'UNIEF',
+  linkToRepository: 'http://www.google.com',
+  websiteLink: 'http://www.google.com',
+}
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -28,15 +35,6 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const Panel = ({ index, tabIndex, children }) => {
-  const slideSide = tabIndex > index ? 'right' : 'left'
-  return (
-    <TabPanel index={index} value={tabIndex} slideSide={slideSide}>
-      {children}
-    </TabPanel>
-  )
-}
-
 const ProjectViewPage = () => {
   const classes = useStyles()
   const projectData = useSelector(getCurrentProject)
@@ -47,9 +45,8 @@ const ProjectViewPage = () => {
 
   const getTabs = () => [
     { label: "About the Project", hash: 'about' },
-    { label: `Team (${projectData.team.length})`, hash: 'team' },
-    { label: `Updates (${projectData.updates.length})`, hash: 'updates' },
-    { label: `Comments (${commentsLength})`, hash:'comments' }
+    { label: `Comments (${commentsLength})`, hash:'comments' },
+    { label: `Team (${projectData.team.length})`, hash: 'team' }
   ]
 
   React.useEffect(() => {
@@ -79,7 +76,7 @@ const ProjectViewPage = () => {
   return (
     <MainContainer size="regular" margin="50px auto">
       <Grid item container xs={12} className={classes.header}>
-        {projectData && <ProjectHeader projectData={projectData} {...projectData} />}
+        {projectData && <ProjectHeader projectData={projectData} {...projectData} {...mockedProject} />}
       </Grid>
 
       {projectData &&
@@ -88,21 +85,19 @@ const ProjectViewPage = () => {
             <Tabs handleChange={onChangeTabIndex} tabs={tabs} currentIndex={tabIndex} />
           </Box>
           
-            <Panel index={0} tabIndex={tabIndex}>
+            <TabPanel index={0} value={tabIndex}>
               <AboutProject projectData={projectData} />
-            </Panel>
+            </TabPanel>
 
-            <Panel index={1} tabIndex={tabIndex}>
-              <ProjectTeam />
-            </Panel>
 
-            <Panel index={2} tabIndex={tabIndex}>
-              <ProjectUpdates updates={projectData.updates} projectId={projectData.id} />
-            </Panel>
-
-            <Panel index={3} tabIndex={tabIndex}>
+            <TabPanel index={1} value={tabIndex}>
               <ProjectComments  />
-            </Panel>
+            </TabPanel>
+
+            <TabPanel index={2} value={tabIndex}>
+              <ProjectTeam />
+            </TabPanel>
+
         </Grid>
       }
     </MainContainer>

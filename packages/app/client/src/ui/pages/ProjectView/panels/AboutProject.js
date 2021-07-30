@@ -2,14 +2,11 @@ import React, { useState } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
-import Hidden from '@material-ui/core/Hidden'
-import { TreeMenu } from '../../../molecules'
 import { AboutTextSections, FilesSection } from '../components'
 import {
   ABOUT_PROJECT_SECTIONS,
   PROJECT_ADITIONAL_INFO
 } from '../../../../unin-constants'
-import { smoothVerticalScrolling } from '../../../utils'
 import { Button, TextField } from '../../../atoms'
 import { makeStyles } from '@material-ui/core/styles'
 import { useProjectsAsyncActions } from '../../../hooks'
@@ -42,15 +39,6 @@ const AboutProject = ({ projectData }) => {
   const [reportText, setText] = useState('')
   const { reportProject } = useProjectsAsyncActions()
 
-  const handleSelect = (_, nodeIds) => {
-    const target = document.getElementById(nodeIds)
-
-    smoothVerticalScrolling({
-      element: target,
-      time: 300,
-      otherFixedElementsHeight: 50
-    })
-  }
 
   const handleAditionalInfoParties = (parties, item, index) => {
     let data = projectData[item.id]
@@ -78,25 +66,14 @@ const AboutProject = ({ projectData }) => {
     { firstPart: [], secondPart: [] }
   )
 
-  // TODO: IMPROVE THE TREE VIEW MENU ITEM TO BE SELECTED WHEN SCROLL TO SPECIFIC TOPICS POSITION
   return (
     <Box pt={4}>
       <Grid container item xs={12}>
-        <Hidden xsDown>
-          <Grid item xs={2}>
-            <Box position="sticky" width="100%" bgcolor="white" top={120}>
-              <TreeMenu
-                onNodeSelect={handleSelect}
-                menuItems={ABOUT_PROJECT_SECTIONS}
-                allExpanded
-              />
-            </Box>
-          </Grid>
-        </Hidden>
+       
         <Grid style={{ marginTop: -10 }} item xs={12} sm={10}>
           {projectData && (
             <Grid item xs={12}>
-              <Box px={6}>
+              <Box>
                 <AboutTextSections
                   {...ABOUT_PROJECT_SECTIONS[0]}
                   projectData={projectData}

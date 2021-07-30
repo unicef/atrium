@@ -36,15 +36,16 @@ const ProjectHeader = (props) => {
       </Box>
 
       <Grid item xs={12} container justify="space-between">
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={10}>
           <ProjectHeaderDetails details={props.details} name={props.name} />
-        </Grid>
-
-        <Grid spacing={3} item container xs={12} md={3}>
           <ProjectHeaderMiddleSection {...props} />
         </Grid>
 
-        <Grid className={classes.actionsWrapper} direction="column" container alignItems="flex-end" item xs={12} md={3}>
+        {/* <Grid spacing={3} item container xs={12} md={3}>
+          <ProjectHeaderMiddleSection {...props} />
+        </Grid> */}
+
+        <Grid className={classes.actionsWrapper} direction="column" container alignItems="flex-end" item xs={12} md={2}>
           <ActionButtons projectData={props.projectData} />
         </Grid>
       </Grid>

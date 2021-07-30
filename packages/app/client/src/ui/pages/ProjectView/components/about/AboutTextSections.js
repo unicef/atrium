@@ -7,7 +7,7 @@ const useAboutStyles = makeStyles(() => ({
   subItemTitle: {
     fontStyle: 'normal',
     fontWeight: 600,
-    fontSize: '20px',
+    fontSize: '22px',
     lineHeight: '24px',
   },
   subItemContent: {
@@ -18,42 +18,33 @@ const useAboutStyles = makeStyles(() => ({
   }
 }))
 
-const AboutSubItem = ({ label, data, id, titleClassName, contentClassName }) => (
-  <>
-    <Typography className={titleClassName} id={id} variant="h5">
-      {label}
-    </Typography>
-
-    <Box my={2}>
-      <Typography className={contentClassName} variant="body1" component="p">
-        {data}
-      </Typography>
-    </Box>
-  </>
-)
-
-export const AboutSection = ({ label, subItems, id, projectData }) => {
+const AboutSubItem = ({ label, data, id }) => {
   const classes = useAboutStyles()
 
   return (
-    <>
-      <Box id={id} mb={2}>
-        <Typography variant="h3">
-          {label}
+    <Box pt="40px" width="100%">
+      <Typography className={classes.subItemTitle} id={id} variant="h5">
+        {label}
+      </Typography>
+
+      <Box my={2}>
+        <Typography className={classes.subItemContent} variant="body1" component="p">
+          {data}
         </Typography>
       </Box>
-      {subItems.map((item) => (
-        <AboutSubItem
-          titleClassName={classes.subItemTitle}
-          contentClassName={classes.subItemContent}
-          id={item.id}
-          label={item.label}
-          data={projectData[item.dataKey]}
-          key={item.id}
-        />
-      ))}
-    </>
+    </Box>
   )
 }
+
+export const AboutSection = ({ subItems, projectData }) => (
+  subItems.map((item) => (
+    <AboutSubItem
+      id={item.id}
+      label={item.label}
+      data={projectData[item.dataKey]}
+      key={item.id}
+    />
+  ))
+)
 
 export default AboutSection
