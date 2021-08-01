@@ -116,17 +116,12 @@ const App = () => {
                 <PrivateRoute
                   exact
                   path="/create-projects"
-                  component={CreateProject}
+                  component={(props) => <ProjectDetails {...props} editting={false} />}
                 />
                 <PrivateRoute
                   exact
                   path="/view-projects"
                   component={ProjectPage}
-                />
-                <PrivateRoute
-                  exact
-                  path="/project-details/:id"
-                  component={ProjectDetails}
                 />
                 <PrivateRoute exact path="/engage" component={DiscussionPage} />
                 <PrivateRoute

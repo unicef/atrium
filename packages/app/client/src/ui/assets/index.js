@@ -28,6 +28,10 @@ export { ReactComponent as BadgeOne } from './badgeOne.svg'
 export { ReactComponent as BadgeTwo } from './badgeTwo.svg'
 export { ReactComponent as BadgeThree } from './badgeThree.svg'
 export { default as profilePlaceholder } from './profile_picture_placeholder.svg'
+export { default as Trash } from './delete.png'
+export { default as ProjectPicture } from './project-picture.png'
+export { default as MyPost } from './mypost.png'
+
 export {
   CopyIcon,
   CancelIcon,
