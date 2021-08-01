@@ -8,6 +8,8 @@
     "test": "lerna run test",
     "dev": "lerna run start --parallel",
     "bootstrap": "lerna bootstrap",
-    "build": "lerna run build"
+    "build": "lerna run build",
+    "start": "docker-compose -f docker-compose-dev.yml up --build",
+    "start:nobuild": "docker-compose -f docker-compose-dev.yml up"
   }
 }

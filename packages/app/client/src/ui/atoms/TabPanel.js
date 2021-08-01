@@ -1,19 +1,15 @@
 import React from 'react'
-import Slide from '@material-ui/core/Slide'
+import Fade from '@material-ui/core/Fade'
 import Box from '@material-ui/core/Box'
 
-const TabPanel = ({ value, index, children, slideSide }) => {
+const TabPanel = ({ value, index, children }) => {
   const shouldRender = value === index
 
   return (
-    <Slide direction={slideSide} in={shouldRender} mountOnEnter unmountOnExit>
+    <Fade in={shouldRender} mountOnEnter unmountOnExit>
       <Box width="100%" minHeight="30vh">{children}</Box>
-    </Slide>
+    </Fade>
   )
-}
-
-TabPanel.defaultProps = {
-  slideSide: 'right'
 }
 
 export default TabPanel
