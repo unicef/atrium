@@ -76,7 +76,7 @@ const Profile = () => {
           </TabPanel>
 
           <TabPanel index={2} value={tabIndex}>
-            <ProfileProjects />
+            <ProfileProjects userId={profileId} />
           </TabPanel>
 
           <TabPanel index={3} value={tabIndex}>

@@ -182,6 +182,57 @@ router.get(
 )
 
 router.get(
+  '/:userId/projects',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id
+      },
+      'Getting user projects'
+    )
+    try {
+      const user = await User.findOne({ _id: req.params.userId }).populate({
+        path: 'projects',
+        populate: projectsPopulateParams
+      })
+      let { projects } = user
+      projects = projects.filter(project => project.published)
+      if (req.query.sort === 'asc') {
+        projects = projects.sort((a, b) =>
+          a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+        )
+      } else {
+        projects = projects.sort((a, b) =>
+          a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+        )
+      }
+      const pageCounter = Math.ceil(projects.length / req.query.limit)
+      projects = projects.splice(req.query.offset, req.query.limit)
+      log.info(
+        {
+          requestId: req.id,
+          projects,
+          pageCounter
+        },
+        'Success getting project list'
+      )
+      return res.status(200).json({ projects, pageCounter })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get projects from the database'
+      )
+      return sendError(res, 503, 'Error getting projects from the database')
+    }
+  }
+)
+
+router.get(
   '/latestProject',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
@@ -1432,7 +1483,7 @@ router.get(
     if (req.params.id) {
       try {
         const user = await User.findById(
-          req.params.id,
+          req.params.id
           // 'name email avatar company role address'
         ).exec()
 

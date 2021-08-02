@@ -8,8 +8,8 @@ import { getProfileProjecsPageCounter } from '../../../../selectors'
 
 const MAX_PROJECTS_PER_PAGE = 9
 
-const ProfileProjects = () => {
-  const { getProjects } = useProfileAsyncActions()
+const ProfileProjects = ({ userId }) => {
+  const { getUserProjects } = useProfileAsyncActions()
   const { onChangeParam, getString, getEntriesObj } = useQueryParams()
   const { page } = getEntriesObj()
   const pageCounter = useSelector(getProfileProjecsPageCounter)
@@ -20,14 +20,13 @@ const ProfileProjects = () => {
       pageLimit: MAX_PROJECTS_PER_PAGE,
       offset: page === 1 ? 0 : (page - 1) * MAX_PROJECTS_PER_PAGE
     })
-    getProjects(`?${enhacedQuery}`)
+    getUserProjects(userId, `?${enhacedQuery}`)
   }, [page])
-
 
   return (
     <Grid container justify="center">
       <Grid container item xs={12}>
-        <TabContentTitle>PROJECTS</TabContentTitle>
+        <TabContentTitle>Projects</TabContentTitle>
         <SearchPaginatedList
           currentpage={page}
           onChangeParam={onChangeParam}

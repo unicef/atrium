@@ -24,7 +24,7 @@ const ProfileBadges = () => {
   return (
     <Grid container>
       <Grid item xs={12} md={8}>
-        <TabContentTitle>BADGES</TabContentTitle>
+        <TabContentTitle>Badges</TabContentTitle>
         <Typography className={classes.subText}>
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever

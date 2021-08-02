@@ -18,7 +18,7 @@ const useUserProjectsAsyncActions = () => {
 
   return {
     fetchSearchedUserProjects: handledRequest({
-      request: UserApi.getUserProjects,
+      request: UserApi.getOwnProjects,
       onSuccess: ({ projects, pageCounter }) => {
         saveSearchedUserProjects({
           projects,

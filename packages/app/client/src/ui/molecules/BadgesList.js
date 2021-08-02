@@ -88,7 +88,7 @@ function BadgesList({ start, end, earned, profilePage }) {
       ) : (
         badges.slice(start, end).map(badge =>
           profilePage ? (
-            <Grid item xs={12}>
+            <Grid item xs={3}>
               <Image height="62px" width="62px" src={badge.greenImg} />
             </Grid>
           ) : (
