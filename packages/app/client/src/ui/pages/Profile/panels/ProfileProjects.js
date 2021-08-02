@@ -27,7 +27,7 @@ const ProfileProjects = () => {
   return (
     <Grid container justify="center">
       <Grid container item xs={12}>
-        <TabContentTitle>PROJECTS</TabContentTitle>
+        <TabContentTitle>Projects</TabContentTitle>
         <SearchPaginatedList
           currentpage={page}
           onChangeParam={onChangeParam}
