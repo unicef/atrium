@@ -148,6 +148,9 @@ router.get(
         populate: projectsPopulateParams
       })
       let { projects } = user
+      projects = projects.filter(project =>
+        project.owner.id == user.id ? true : project.published
+      )
       if (req.query.sort === 'asc') {
         projects = projects.sort((a, b) =>
           a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0

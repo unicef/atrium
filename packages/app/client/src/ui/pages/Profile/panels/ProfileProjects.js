@@ -23,7 +23,6 @@ const ProfileProjects = () => {
     getProjects(`?${enhacedQuery}`)
   }, [page])
 
-
   return (
     <Grid container justify="center">
       <Grid container item xs={12}>
@@ -33,7 +32,7 @@ const ProfileProjects = () => {
           onChangeParam={onChangeParam}
           numberOfPages={pageCounter}
         >
-          <ProfileProjectsList  />
+          <ProfileProjectsList />
         </SearchPaginatedList>
       </Grid>
     </Grid>
