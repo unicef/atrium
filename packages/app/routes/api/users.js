@@ -1583,6 +1583,7 @@ router.post(
             httpOnly: true,
             secure: true
           }
+          res.status(204)
           res.cookie(authCookieName, tokenOnly, cookieConfig)
           res.json({
             success: true
