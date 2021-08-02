@@ -8,7 +8,12 @@ import { MainContainer } from '../../templates'
 import { ProfileHeader } from './components'
 import { Tabs } from '../../molecules'
 import { useSelector } from 'react-redux'
-import { ProfileBadges, ProfileProjects, AboutProfile } from './panels'
+import {
+  ProfileBadges,
+  ProfileProjects,
+  AboutProfile,
+  ProfilePosts
+} from './panels'
 import { TabPanel } from '../../atoms'
 
 const profileTabs = [
@@ -73,6 +78,10 @@ const Profile = () => {
 
           <TabPanel index={0} value={tabIndex}>
             <AboutProfile />
+          </TabPanel>
+
+          <TabPanel index={1} value={tabIndex}>
+            <ProfilePosts />
           </TabPanel>
 
           <TabPanel index={2} value={tabIndex}>

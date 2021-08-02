@@ -12,6 +12,7 @@ import { useProjectsAsyncActions } from '../../../hooks'
 
 const useStyles = makeStyles(theme => ({
   likeButton: {
+    marginBottom: '5%',
     '& > span > span > svg': {
       fill: theme.colors.white
     }
