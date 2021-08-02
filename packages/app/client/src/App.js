@@ -116,7 +116,8 @@ const App = () => {
                 <PrivateRoute
                   exact
                   path="/create-projects"
-                  component={(props) => <ProjectDetails {...props} editting={false} />}
+                  // component={(props) => <ProjectDetails {...props} editting={false} />}
+                  component={CreateProject}
                 />
                 <PrivateRoute
                   exact
