@@ -147,10 +147,16 @@ export const loginUser = userData =>
     overwritingErrors: { 400: 'Your email or password are incorrect' }
   })
 
-export const getUserProjects = query =>
+export const getOwnProjects = query =>
   usersRequest({
     method: 'get',
-    endpoint: `projects${query}`
+    endpoint: `/projects${query}`
+  })
+
+export const getUserProjects = (userId, query) =>
+  usersRequest({
+    method: 'get',
+    endpoint: `${userId}/projects${query}`
   })
 
 export const getUserComments = query =>
