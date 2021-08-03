@@ -26,7 +26,7 @@ const UserSchema = new Schema({
   projects: [{ type: Schema.Types.ObjectId, ref: 'projects', default: [] }],
   comments: [{ type: Schema.Types.ObjectId, ref: 'comments', default: [] }],
   posts: [{ type: Schema.Types.ObjectId, ref: 'discussions', default: [] }],
-  bookmarks: [{ type: Schema.Types.ObjectId, default: [] }],
+  bookmarks: [{ type: Schema.Types.ObjectId, ref: 'projects', default: [] }],
   websites: [{ type: String, default: [] }],
   // notifications
   commentOnPost: { type: Boolean, default: false },

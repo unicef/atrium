@@ -188,3 +188,9 @@ export const addBookmark = projectId =>
     method: 'patch',
     endpoint: `${projectId}/bookmark`
   })
+
+export const getUserBookmarks = query =>
+  usersRequest({
+    method: 'get',
+    endpoint: `bookmarks${query}`
+  })

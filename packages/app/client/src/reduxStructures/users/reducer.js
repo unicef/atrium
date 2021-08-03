@@ -18,6 +18,11 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         searchedComments: dataManipulation.onSaveUserComments(payload)
       }
+    case TYPES.SAVE_USER_BOOKMARKS:
+      return {
+        ...state,
+        searchedBookmarks: dataManipulation.onSaveUserBookmarks(payload)
+      }
     case TYPES.SAVE_USER_LATEST_PROJECT:
       return {
         ...state,

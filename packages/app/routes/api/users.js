@@ -10,8 +10,7 @@ const {
   getTokenForUser,
   getBadgesForUser,
   signToken,
-  verifyToken,
-  getTokenPayload
+  verifyToken
 } = require('../../lib/users')
 const { s3Upload, s3Download } = require('../../middleware')
 const md5Hash = require('../../lib/hash')
@@ -35,11 +34,7 @@ const User = require('../../models/User')
 const Project = require('../../models/Project')
 
 const Activity = require('../../models/Activity')
-const {
-  ATRIUM_CONSTANTS,
-  AGENCIES_LIST,
-  BADGE_ENUM
-} = require('../../config/unin-constants')
+const { AGENCIES_LIST, BADGE_ENUM } = require('../../config/unin-constants')
 
 const allowedDomains = AGENCIES_LIST.map(agency => agency.domain.toLowerCase())
 const authCookieName = 'SESSION_TOKEN'
@@ -351,6 +346,56 @@ router.get(
         'Can not get comments from the database'
       )
       return sendError(res, 503, 'Error getting comments from the database')
+    }
+  }
+)
+
+router.get(
+  '/bookmarks',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id
+      },
+      'User is getting own bookmarks'
+    )
+    try {
+      const user = await User.findOne({ _id: req.user.id }).populate({
+        path: 'bookmarks',
+        populate: projectsPopulateParams
+      })
+      let { bookmarks } = user
+      if (req.query.sort === 'asc') {
+        bookmarks = bookmarks.sort((a, b) =>
+          a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+        )
+      } else {
+        bookmarks = bookmarks.sort((a, b) =>
+          a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+        )
+      }
+      const pageCounter = Math.ceil(bookmarks.length / req.query.limit)
+      bookmarks = bookmarks.splice(req.query.offset, req.query.limit)
+      log.info(
+        {
+          requestId: req.id,
+          bookmarks,
+          pageCounter
+        },
+        'Success getting bookmarks list'
+      )
+      return res.status(200).json({ bookmarks, pageCounter })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get bookmarks from the database'
+      )
+      return sendError(res, 503, 'Error getting bookmarks from the database')
     }
   }
 )
@@ -1670,7 +1715,27 @@ router.patch(
               },
               'Project bookmarked successfully'
             )
-            return res.status(200).json({ user })
+            getTokenForUser(user, (tokenError, token) => {
+              if (tokenError) {
+                log.error(
+                  getAuthenticatedRequestLogDetails(req, { err: tokenError }),
+                  'Error generating token'
+                )
+                return sendError(res, 500, 'Error generating token')
+              }
+
+              const tokenOnly = token.split(' ')[1]
+              const cookieConfig = {
+                expires: new Date(Date.now() + oneHour * 8000),
+                httpOnly: true,
+                secure: true
+              }
+              res.status(204)
+              res.cookie(authCookieName, tokenOnly, cookieConfig)
+              res.json({
+                success: true
+              })
+            })
           })
           .catch(err => {
             log.error(

@@ -10,6 +10,11 @@ export const saveUserComments = payload => ({
   payload
 })
 
+export const saveUserBookmarks = payload => ({
+  type: TYPES.SAVE_USER_BOOKMARKS,
+  payload
+})
+
 export const saveUserLatestProject = payload => ({
   type: TYPES.SAVE_USER_LATEST_PROJECT,
   payload

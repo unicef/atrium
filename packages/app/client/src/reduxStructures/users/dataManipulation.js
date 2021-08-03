@@ -21,3 +21,10 @@ export const onSaveUserComments = ({ userId, registeredUser, comments }) => {
   }
   return comments.map(item => handleItemSaving({ item, userId }))
 }
+
+export const onSaveUserBookmarks = ({ userId, registeredUser, bookmarks }) => {
+  if (!Array.isArray(bookmarks) || !registeredUser) {
+    return []
+  }
+  return bookmarks.map(item => handleItemSaving({ item, userId }))
+}
