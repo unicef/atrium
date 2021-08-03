@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ProjectHeader = (props) => {
+const ProjectHeader = props => {
   const classes = useStyles()
 
   return (
@@ -41,11 +41,15 @@ const ProjectHeader = (props) => {
           <ProjectHeaderMiddleSection {...props} />
         </Grid>
 
-        {/* <Grid spacing={3} item container xs={12} md={3}>
-          <ProjectHeaderMiddleSection {...props} />
-        </Grid> */}
-
-        <Grid className={classes.actionsWrapper} direction="column" container alignItems="flex-end" item xs={12} md={2}>
+        <Grid
+          className={classes.actionsWrapper}
+          direction="column"
+          container
+          alignItems="flex-end"
+          item
+          xs={12}
+          md={2}
+        >
           <ActionButtons projectData={props.projectData} />
         </Grid>
       </Grid>

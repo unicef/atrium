@@ -1616,4 +1616,77 @@ router.post(
   }
 )
 
+router.patch(
+  '/:projectId/bookmark',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        project: req.params.projectId
+      },
+      'User is bookmarking project'
+    )
+    Project.findOne({ _id: req.params.projectId }).exec(
+      async (err, project) => {
+        if (err) {
+          log.info(
+            {
+              err,
+              requestId: req.id,
+              user: req.user.id,
+              project: req.params.projectId
+            },
+            'Error finding project'
+          )
+          return sendError(res, 503, 'Error bookmarking project')
+        }
+        const user = await User.findById(req.user.id)
+
+        let isBookmarked = false
+        let bookmarks = user.bookmarks
+          ? user.bookmarks.filter(l => {
+              const isCurrentProject = l.equals(project.id)
+              if (isCurrentProject) {
+                isBookmarked = true
+              }
+              return !isCurrentProject
+            })
+          : []
+
+        if (!isBookmarked) {
+          bookmarks = [...bookmarks, project.id]
+        }
+        user.bookmarks = bookmarks
+        user
+          .save()
+          .then(async () => {
+            log.info(
+              {
+                requestId: req.id,
+                user: req.user.id,
+                project: req.params.projectId
+              },
+              'Project bookmarked successfully'
+            )
+            return res.status(200).json({ user })
+          })
+          .catch(err => {
+            log.error(
+              {
+                err,
+                requestId: req.id,
+                user: req.user.id,
+                project: req.params.projectId
+              },
+              'Error saving user'
+            )
+            return sendError(res, 503, 'Error bookmarking project')
+          })
+      }
+    )
+  }
+)
+
 module.exports = router

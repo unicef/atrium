@@ -182,3 +182,9 @@ export const getUserLikes = () =>
     method: 'get',
     endpoint: `likes`
   })
+
+export const addBookmark = projectId =>
+  usersRequest({
+    method: 'patch',
+    endpoint: `${projectId}/bookmark`
+  })
