@@ -37,7 +37,7 @@ const saltAndHashPassword = async password => {
  * @param {User} user
  * @param {Array<Boolean>} userBadges
  */
-const getTokenPayload = (user, userBadges) => {
+const getTokenPayload = (user) => {
   return {
     id: user.id,
     name: user.name,
@@ -48,7 +48,6 @@ const getTokenPayload = (user, userBadges) => {
     role: user.role,
     githubHandle: user.githubUsername ? user.githubUsername : '',
     twitterHandle: user.twitterHandle ? user.twitterHandle : '',
-    // badges: { 1: userBadges[0], 2: userBadges[1], 3: userBadges[2] },
     learnPageFlag: user.learnPageFlag ? user.learnPageFlag : false,
     explorePageFlag: user.explorePageFlag ? user.explorePageFlag : false,
     engagePageFlag: user.engagePageFlag ? user.engagePageFlag : false,

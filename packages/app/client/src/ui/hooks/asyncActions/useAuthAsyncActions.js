@@ -35,6 +35,12 @@ const useAuthAsyncActions = () => {
       onSuccess: ({ payload }) => console.log(payload), //
       pageLoading: true,
       successMessage: 'User password changed'
+    }),
+    addBookmark: handledRequest({
+      request: UsersApi.addBookmark,
+      onSuccess: () => {},
+      pageLoading: true,
+      successMessage: 'Project added to bookmarks'
     })
   }
 }

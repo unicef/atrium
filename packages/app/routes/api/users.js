@@ -1628,7 +1628,6 @@ router.patch(
       },
       'User is bookmarking project'
     )
-    const userId = req.user.id
     Project.findOne({ _id: req.params.projectId }).exec(
       async (err, project) => {
         if (err) {
