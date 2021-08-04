@@ -1,17 +1,10 @@
 import React from 'react'
 import { ChevronRight } from '@material-ui/icons'
-import {
-  Grid,
-  Typography,
-  makeStyles
-} from '@material-ui/core'
+import { Grid, Typography, makeStyles } from '@material-ui/core'
 import BorderedInfo from './BorderedInfo'
 import {
   Button,
   Image,
-  LikeButton,
-  ViewProjectButton,
-  ActionProjectButton
 } from '../../../atoms'
 import { Badge } from '../../../assets'
 import { EmptyResults, StructuredCard } from '../../../molecules'

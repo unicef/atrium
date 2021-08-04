@@ -51,7 +51,7 @@ import {
 } from './ui/pages'
 import projectsRoutes from './routes/projects'
 import AdminRoute from './components/admin-route/AdminRoute'
-import AdminPanel from "./components/admin-panel";
+import AdminPanel from './components/admin-panel'
 
 require('./utils/configureRequests')
 
@@ -86,24 +86,28 @@ const App = () => {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/learn" component={Learn} />
-                <Route exact path='/whatsnew' component={WhatsNew} />
+                <Route exact path="/whatsnew" component={WhatsNew} />
                 <Route
                   exact
                   path="/forgot-password"
                   component={ForgotPassword}
-                  />
+                />
                 <Route
                   exact
                   path="/reset-password/"
                   component={ResetPassword}
-                  />
+                />
                 <Route
-                exact
-                path="/change-password"
-                component={ChangePassword}
+                  exact
+                  path="/change-password"
+                  component={ChangePassword}
                 />
                 {projectsRoutes()}
-                <PrivateRoute exact path="/profile/:id/:tab" component={Profile} />
+                <PrivateRoute
+                  exact
+                  path="/profile/:id/:tab"
+                  component={Profile}
+                />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute exact path="/github" component={GitHubPage} />
                 <PrivateRoute exact path="/twitter" component={TwitterPage} />

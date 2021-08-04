@@ -55,6 +55,7 @@ export const getNumberOfPages = state => state.search.numberOfPages
 // USER
 export const getSearchedUserProjects = state => state.user.searchedProjects
 export const getSearchedUserComments = state => state.user.searchedComments
+export const getSearchedUserBookmarks = state => state.user.searchedBookmarks
 export const getSearchedUserLikes = state => state.user.likes
 export const getSearchedUserLatestProject = state => state.user.latestProject
 export const getUserBadges = state => state.auth.user.badges
