@@ -177,7 +177,7 @@ function Dashboard(props) {
               <Typography variant="subtitle1">MY LATEST PROJECT</Typography>
               <Button
                 className={classes.seeAllButton}
-                onClick={e => handleChange(e, 4)}
+                onClick={e => handleChange(e, 3)}
                 endIcon={<ChevronRight />}
               >
                 see all
@@ -213,7 +213,7 @@ function Dashboard(props) {
               <Typography variant="subtitle1">MY COMMENTS</Typography>
               <Button
                 className={classes.seeAllButton}
-                onClick={e => handleChange(e, 5)}
+                onClick={e => handleChange(e, 4)}
                 endIcon={<ChevronRight />}
               >
                 see all
@@ -250,23 +250,13 @@ function Dashboard(props) {
               <Typography variant="subtitle1">MY POSTS</Typography>
               <Button
                 className={classes.seeAllButton}
-                onClick={e => handleChange(e, 3)}
+                onClick={e => handleChange(e, 8)}
                 endIcon={<ChevronRight />}
               >
                 see all
               </Button>
             </div>
-            <div>
-              <StructuredCard
-                author="Vanya"
-                date="2/22/2021 2:28"
-                title="Lets code together"
-                content="Lorem Ipsum is simply dummy text of the printing and industry.
-                  Lorem Ipsum has been the industry's standard dummy text ever
-                  since the 1500s"
-              />
-              <div className={classes.line} />
-            </div>
+            <div></div>
           </BorderedInfo>
         </Grid>
       </Grid>
