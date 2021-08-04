@@ -16,6 +16,7 @@ import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { SearchPaginatedList } from '../../../templates'
 import { Loader } from '../../Search/components'
+import {BookmarkCard} from "../../../organisms";
 
 const MAX_BOOKMARKS_PER_PAGE = 6
 const SEARCH_CONTEXT = 'BOOKMARKS'
@@ -81,8 +82,12 @@ function Bookmarks(props) {
         sortBy: 'Date'
       }}
     >
-      {bookmarks.map(project => (
-        <div>{project.name}</div>
+      {bookmarks.map((bookmark, i) => (
+        <BookmarkCard
+          key={bookmark.id}
+          end={i === bookmarks.length - 1}
+          bookmark={bookmark}
+        />
       ))}
       <Loader />
     </SearchPaginatedList>
