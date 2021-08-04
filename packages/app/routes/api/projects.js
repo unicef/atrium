@@ -4,10 +4,9 @@ const express = require('express'),
   Comment = require('../../models/Comment'),
   User = require('../../models/User'),
   Update = require('../../models/Update'),
+  Activity = require('../../models/Activity'),
   { createNewComment } = require('../../lib/comments'),
   { createNewUpdate } = require('../../lib/updates'),
-  GithubLibrary = require('../../lib/github'),
-  BadgesLibrary = require('../../lib/badges'),
   passport = require('passport'),
   log = require('../../config/log'),
   {
@@ -19,10 +18,8 @@ const express = require('express'),
     logProjectCreation,
     logProjectComment,
     logProjectUpdate,
-    logProjectLike,
-    logIssueBadge
-  } = require('../../lib/userActivity'),
-  { BADGE_ENUM } = require('../../config/unin-constants')
+    logProjectLike
+  } = require('../../lib/userActivity')
 const mongoose = require('mongoose')
 const {
   _notifyDeletedContentByAdmin,
@@ -320,7 +317,6 @@ router.post(
     )
 
     Project.findOne({ name: req.body.name }).then(async project => {
-      const address = req.body.address
       if (project) {
         log.warn(
           {
@@ -406,21 +402,21 @@ router.post(
       return newProject
         .save()
         .then(async project => {
-          if (address) {
-            const hasBadge = await BadgesLibrary.hasBadge(
-              BADGE_ENUM.CONTRIBUTOR,
-              address
-            )
-            if (!hasBadge) {
-              await BadgesLibrary.issueBadge(BADGE_ENUM.CONTRIBUTOR, address)
-              await logIssueBadge(req.user.id, BADGE_ENUM.CONTRIBUTOR)
-            }
-          }
           const user = await User.findOne({ _id: req.user.id })
           user.projects.push(project)
           if (user.firstProject) {
             user.balance += 50
+            const oldBadges = user.badges
             user.badges = recalcBadges(user.balance)
+            if (oldBadges < user.badges) {
+              const activity = new Activity({
+                createdAt: project.createdAt,
+                user: user.id,
+                badgeIssued: user.badges,
+                typeOfActivity: 'ISSUE_BADGE'
+              })
+              await activity.save()
+            }
             user.firstProject = false
           }
           await user.save()
@@ -768,12 +764,32 @@ router.patch(
         project.team.map(async member => {
           const user = await User.findById(member)
           user.balance += 1
+          const oldBadges = user.badges
           user.badges = recalcBadges(user.balance)
+          if (oldBadges < user.badges) {
+            const activity = new Activity({
+              createdAt: project.createdAt,
+              user: user.id,
+              badgeIssued: user.badges,
+              typeOfActivity: 'ISSUE_BADGE'
+            })
+            await activity.save()
+          }
           await user.save()
         })
         const user = await User.findById(project.owner)
         user.balance += 5
+        const oldBadges = user.badges
         user.badges = recalcBadges(user.balance)
+        if (oldBadges < user.badges) {
+          const activity = new Activity({
+            createdAt: project.createdAt,
+            user: user.id,
+            badgeIssued: user.badges,
+            typeOfActivity: 'ISSUE_BADGE'
+          })
+          await activity.save()
+        }
         await user.save()
       }
       project.likes = likes
@@ -1318,7 +1334,17 @@ router.post(
       req.body.members.map(async member => {
         const user = await User.findById(member)
         user.balance += 15
+        const oldBadges = user.badges
         user.badges = recalcBadges(user.balance)
+        if (oldBadges < user.badges) {
+          const activity = new Activity({
+            createdAt: project.createdAt,
+            user: user.id,
+            badgeIssued: user.badges,
+            typeOfActivity: 'ISSUE_BADGE'
+          })
+          await activity.save()
+        }
         await user.save()
       })
       project

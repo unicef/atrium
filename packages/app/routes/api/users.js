@@ -1309,8 +1309,7 @@ router.get(
       const skip = parseInt(req.query.offset)
 
       const activityList = await Activity.find({
-        user: req.user.id,
-        typeOfActivity: { $ne: 'ISSUE_BADGE' }
+        user: req.user.id
       })
         .skip(skip)
         .limit(7)
@@ -1546,8 +1545,7 @@ router.get(
         )
 
         const activityList = await Activity.find({
-          user: req.params.id,
-          typeOfActivity: { $ne: 'ISSUE_BADGE' }
+          user: req.params.id
         })
           .limit(7)
           .sort({ createdAt: 'descending' })
