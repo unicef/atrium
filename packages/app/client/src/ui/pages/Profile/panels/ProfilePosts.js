@@ -16,7 +16,7 @@ const ProfilePosts = () => {
             .split(' ')[0]
             .toLowerCase()}/posts`}
         >
-          This link will send you to {userInfo.name} posts on NodeBB forum
+          This link will send you to {userInfo.name} posts on forum
         </Link>
       </Grid>
     </Grid>
