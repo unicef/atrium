@@ -22,7 +22,7 @@ function MyPost({ name }) {
       </Grid>
       <Grid item xs={12}>
         <Link href={`/forum/user/${name.split(' ')[0].toLowerCase()}/posts`}>
-          This link will send you to your posts on NodeBB forum
+          This link will send you to your posts on forum
         </Link>
       </Grid>
     </MainContainer>

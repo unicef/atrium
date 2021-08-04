@@ -14,7 +14,7 @@ const styles = theme => ({
 const links = [
   { path: '/learn', name: 'Learn', public: true },
   { path: '/projects', name: 'Projects', public: true },
-  { path: '/engage', name: 'Forum', public: false },
+  { path: '/forum', name: 'Forum', public: false },
   { path: '/whatsnew', name: "What's New", public: true }
 ]
 
