@@ -378,7 +378,6 @@ router.post(
         documents: [],
         photos: [],
         videos: [],
-
         blockchainName: req.body.blockchainName,
         blockchainType: req.body.blockchainType,
         freeForAll: req.body.freeForAll,
@@ -409,13 +408,15 @@ router.post(
             const oldBadges = user.badges
             user.badges = recalcBadges(user.balance)
             if (oldBadges < user.badges) {
-              const activity = new Activity({
-                createdAt: project.createdAt,
-                user: user.id,
-                badgeIssued: user.badges,
-                typeOfActivity: 'ISSUE_BADGE'
-              })
-              await activity.save()
+              for (let i = oldBadges + 1; i <= user.badges; i++) {
+                const activity = new Activity({
+                  createdAt: project.createdAt,
+                  user: user.id,
+                  badgeIssued: i,
+                  typeOfActivity: 'ISSUE_BADGE'
+                })
+                await activity.save()
+              }
             }
             user.firstProject = false
           }
