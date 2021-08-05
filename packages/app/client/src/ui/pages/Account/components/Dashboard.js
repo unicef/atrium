@@ -161,7 +161,7 @@ function Dashboard(props) {
                   </div>
                 </div>
                 <Button
-                  onClick={e => handleChange(e, 6)}
+                  onClick={e => handleChange(e, 5)}
                   className={classes.buttons}
                   color="primary"
                 >
