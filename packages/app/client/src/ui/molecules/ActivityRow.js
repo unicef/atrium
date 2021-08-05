@@ -3,7 +3,7 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime'
 import { withStyles } from '@material-ui/styles'
 import { DateTime } from 'luxon'
 import React from 'react'
-import { ACTIVITY_ENUM, BADGE_ENUM } from '../../unin-constants'
+import { ACTIVITY_ENUM } from '../../unin-constants'
 import { getRelativeTime } from '../../utils/timeManipulation'
 
 const styles = theme => ({
@@ -74,30 +74,15 @@ const TimeMarker = withStyles(timeStyles)(({ classes, createdAt }) => {
 
 function ActivityRow({ classes, activity, sameUser }) {
   let content
-  let badgeName
 
   switch (activity.typeOfActivity) {
     case ACTIVITY_ENUM.JOIN_ATRIUM:
       content = <ActivityText mainContent={`${sameUser ? 'You joined' : 'Joined'} The Atrium`} />
       break
     case ACTIVITY_ENUM.ISSUE_BADGE:
-      switch (activity.badgeIssued) {
-        case BADGE_ENUM.MEMBER:
-          badgeName = 'MEMBER'
-          break
-        case BADGE_ENUM.CONTRIBUTOR:
-          badgeName = 'CONTRIBUTOR'
-          break
-        case BADGE_ENUM.INFLUENCER:
-          badgeName = 'INFLUENCER'
-          break
-        default:
-          badgeName = ''
-      }
       content = (
         <ActivityText
-          mainContent={`${sameUser ? 'You were' : 'Was'} issued a badge: `}
-          accentedDetail={badgeName}
+          mainContent={`${sameUser ? 'You were' : 'Was'} issued a badge: ${activity.badgeIssued}`}
         />
       )
       break

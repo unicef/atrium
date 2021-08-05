@@ -2,7 +2,7 @@ import { ACTIVITY_ENUM } from '../../../../../unin-constants'
 import { badgesData } from '../../../../utils'
 
 const handleActivityContent = (type, data) => {
-  
+
   switch(type) {
     case ACTIVITY_ENUM.JOIN_ATRIUM:
       return {
@@ -52,8 +52,8 @@ const handleActivityContent = (type, data) => {
       }
     case ACTIVITY_ENUM.ISSUE_BADGE:
       return {
-        text: 'received',
-        name: data.badgeIssued && badgesData[data.badgeIssued].title
+        text: 'earned',
+        name: `Badge ${data.badgeIssued}`
       }
     case ACTIVITY_ENUM.CREATE_DISCUSSION:
       return {
