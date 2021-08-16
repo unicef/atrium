@@ -70,13 +70,6 @@ const useDefaultStyles = makeStyles(theme => ({
 function Team(props) {
   const classes = useDefaultStyles()
 
-  const cancelHandler = () => {
-    window.location.reload()
-  }
-  const clickHandler = () => {
-    window.location.reload()
-  }
-  
   const [team, setTeam] = React.useState(props.team)
 
   const deleteHandler = async memberId => {
