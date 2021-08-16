@@ -10,6 +10,8 @@ import { Button, Image } from '../../../atoms'
 import { AttachmentUploader } from '../../../molecules'
 import { ProjectPicture, MyPost } from '../../../assets'
 import { makeStyles } from '@material-ui/core/styles'
+import { useImageUpload } from '../../../hooks'
+import { MAX_UPLOAD_SIZE } from '../../../../unin-constants'
 
 const useStyles = makeStyles((theme) => ({
   inputLabel: {
@@ -66,25 +68,36 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: '140%',
     color: theme.palette.error.main
   },
+  myPostButton: {
+    width: '46px',
+    height: '46px',
+    padding: 0,
+    minWidth: 0,
+    borderRadius: '50%',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    zIndex: 3
+  }
 }))
 
 const UploadBanner = ({
-  editting,
+  editing,
   oldPicture,
-  picture,
-  setPicture,
   handleChange,
   touched,
   errors,
   attachment,
-  setFieldValue
+  setFieldValue,
+  setFieldError
 }) => {
   const imgInputRef = useRef(null)
   const classes = useStyles()
-
+  const { filePreview, handleUploading, clearPreview } = useImageUpload({ setAttachment: (att) => setFieldValue('attachment', att), onSizeExceded: () => setFieldError('attachment', 'File exceeds maximum size of 10MB, please use a smaller image') , maxUploadSize: MAX_UPLOAD_SIZE })
   return (
     <Grid item xs={12}>
-      {editting ? (
+      {editing ? (
         <>
           <InputLabel
             className={classes.inputLabel}
@@ -113,9 +126,9 @@ const UploadBanner = ({
               id="attachment"
               name="attachment"
               className={classes.fileInput}
-              onChange={e => {
-                setPicture(e.target.files[0])
+              onChange={(e) => {
                 handleChange(e)
+                handleUploading(e)
               }}
             />
             <Button
@@ -125,7 +138,7 @@ const UploadBanner = ({
                 e.preventDefault()
                 imgInputRef.current.click()
               }}
-              disabled={!!picture}
+              disabled={Boolean(filePreview?.name)}
             >
               <label
                 htmlFor={'attachment'}
@@ -137,12 +150,13 @@ const UploadBanner = ({
               </label>
             </Button>
           </Box>
-          {picture ? (
+          {filePreview?.name ? (
             <UploadedBanner
-              name={picture.name}
+              name={filePreview.name}
               handleClick={
                 () => {
-                  setPicture(null)
+                  clearPreview(null)
+                  setFieldValue('attachment', null)
                   imgInputRef.current.value = null
                 }
               }
@@ -168,8 +182,8 @@ const UploadBanner = ({
         </div>
       )}
       <FormHelperText className={classes.errorMessage}>
-        {!!(touched.attachment && errors.attachment) && !oldPicture
-          ? touched.attachment && errors.attachment
+        {!!(touched && errors) && !oldPicture
+          ? touched && errors
           : null}
       </FormHelperText>
     </Grid>

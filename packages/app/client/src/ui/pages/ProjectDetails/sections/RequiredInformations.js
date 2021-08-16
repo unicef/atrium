@@ -1,34 +1,35 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
-import { RequiredInfoHeader, UploadBanner } from '../components'
+import { RequiredInfoHeader, UploadBanner, FIELDS, SECTIONS_NAME } from '../components'
+import { InputList } from '../../../molecules'
+import { Divider } from '../../../atoms'
+import fields from './fields'
 
 const RequiredInformations = ({
-  editting,
-  attachment,
+  editing,
   setPicture,
   data,
   picture,
-  errors,
-  handleChange,
-  touched,
-  setFieldValue
+  formProps
 }) => {
   const oldPicture = data && data.url
 
   return (
-    <Grid item container xs={12}>
-      <RequiredInfoHeader editting={editting} />
+    <Grid item container xs={12} spacing={2}>
+      <RequiredInfoHeader editing={editing} />
       <UploadBanner
-        editting={editting}
+        editing={editing}
         oldPicture={oldPicture}
         picture={picture}
         setPicture={setPicture}
-        handleChange={handleChange}
-        touched={touched}
-        errors={errors}
-        attachment={attachment}
-        setFieldValue={setFieldValue}
+        handleChange={formProps.handleChange}
+        touched={formProps.touched.attachment}
+        errors={formProps.errors.attachment}
+        attachment={formProps.values.attachment}
+        setFieldValue={formProps.setFieldValue}
       />
+      <InputList fields={FIELDS[SECTIONS_NAME.REQUIRED_INFORMATIONS]} formProps={formProps} />
+      <Divider mt="25px" mb="28px" />
     </Grid>
   )
 }

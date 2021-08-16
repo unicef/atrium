@@ -31,6 +31,7 @@ export { default as profilePlaceholder } from './profile_picture_placeholder.svg
 export { default as Trash } from './delete.png'
 export { default as ProjectPicture } from './project-picture.png'
 export { default as MyPost } from './mypost.png'
+export { default as Email } from './email.png'
 
 export {
   CopyIcon,

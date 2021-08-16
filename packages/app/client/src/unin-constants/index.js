@@ -10,5 +10,6 @@ module.exports = {
   MAX_UPLOAD_SIZE: 10485760,
   PROJECTS_SEARCH_FILTERS: require('./projectsSearchFilters'),
   ABOUT_PROJECT_SECTIONS: require('./aboutProjectSections'),
-  PROJECT_ADITIONAL_INFO: require('./projectAditionalInfos')
+  PROJECT_ADITIONAL_INFO: require('./projectAditionalInfos'),
+  PROJECT_DETAILS_SELECT_OPTIONS: require('./projectDetailsSelectOptions')
 };

@@ -7,11 +7,12 @@ const useStyles = makeStyles({
     background: '#E7E7E7',//theme.colors['warm-gray'],
     marginTop: props.mt,
     marginBottom: props.mb,
+    width: props.width
   })
 })
 
-const Dividers = ({ mt, mb, ...props }) => {
-  const classes = useStyles({ mt, mb })
+const Dividers = ({ mt, mb, width,...props }) => {
+  const classes = useStyles({ mt, mb, width })
 
   return (
     <Divider className={classes.divider} {...props} />
@@ -20,7 +21,8 @@ const Dividers = ({ mt, mb, ...props }) => {
 
 Dividers.defaultProps = {
   mt: 0,
-  mb: 0
+  mb: 0,
+  width: '100%'
 }
 
 export default Dividers

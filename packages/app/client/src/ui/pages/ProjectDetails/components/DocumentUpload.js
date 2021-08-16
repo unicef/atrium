@@ -40,7 +40,7 @@ const DocumentUpload = ({ title, htmlFor, id, name, handleChange, prevValues, ..
   }
 
   const onDelete = ({ url }) => {
-    props.deleteHandler(url, props.type)
+    props.deleteHandler(props.projectId, url, props.type)
     setFiles(prevValues => prevValues.filter(file => file.url !== url))
     setDisabled(false)
   }

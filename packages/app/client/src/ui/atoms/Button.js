@@ -88,6 +88,7 @@ export const Button = ({
   size,
   className,
   disabled,
+  zeroMinWidth,
   ...props
 }) => {
   const classes = useStyles(props)
@@ -99,7 +100,7 @@ export const Button = ({
     [classes.outlined]: props.variant === 'outlined',
     [classes.primary]: props.color === 'primary',
     [classes.secondary]: props.color === 'secondary',
-    [classes.zeroMinWidth]: props.zeroMinWidth
+    [classes.zeroMinWidth]: zeroMinWidth
   })
 
   return (

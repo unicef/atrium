@@ -6,6 +6,7 @@ import { setError } from '../../actions/errorActions'
 import { withStyles, Grid } from '@material-ui/core'
 import { Button, AttachmentControl } from '../'
 import { MAX_UPLOAD_SIZE } from '../../unin-constants'
+import { useImageUpload } from '../hooks'
 
 const styles = theme => ({
   attachmentButton: {
@@ -38,31 +39,15 @@ const AttachmentUploader = ({
   setError
 }) => {
   const inputRef = React.useRef()
-  const [filePreview, setFilePreview] = React.useState()
   const clickInput = e => {
     e.preventDefault()
     inputRef.current.click()
   }
 
-  const handleChange = e => {
-    const nextFile = e.target.files[0]
-    if (nextFile) {
-      if (nextFile.size > MAX_UPLOAD_SIZE) {
-        setError('File exceeds maximum size of 10MB, please use a smaller image')
-        e.target.value = null
-        return
-      }
-      setFilePreview(URL.createObjectURL(nextFile))
-      setAttachment(nextFile)
-    }
-  }
-
-  React.useEffect(() => {
-    return () => {
-      if (filePreview) {
-        URL.revokeObjectURL(filePreview)
-      }
-    }
+  const { handleUploading, filePreview } = useImageUpload({
+    setAttachment,
+    maxUploadSize: MAX_UPLOAD_SIZE,
+    onSizeExceded: () => setError('File exceeds maximum size of 10MB, please use a smaller image')
   })
 
   return (
@@ -72,12 +57,12 @@ const AttachmentUploader = ({
         type="file"
         id="attachment-input"
         className={classes.input}
-        onChange={handleChange}
+        onChange={handleUploading}
       />
       <div className={classes.attachmentContainer}>
         {attachment ? (
           <AttachmentControl
-            src={filePreview}
+            src={filePreview.src}
             fileName={attachment.name}
             removeFile={() => setAttachment(null)}
           />
