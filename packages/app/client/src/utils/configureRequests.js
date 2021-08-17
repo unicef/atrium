@@ -2,8 +2,11 @@ import axios from 'axios'
 import setAuthToken from '../utils/setAuthToken'
 import jwt_decode from 'jwt-decode'
 import store from '../store'
-import { setCurrentUser, logoutUser } from '../actions/authActions'
-
+import {
+  setCurrentUser,
+  logoutUser,
+  getUserInformation,
+} from '../actions/authActions'
 
 export const getBaseURL = () => {
   if (process.env.NODE_ENV === 'development') {
@@ -16,14 +19,18 @@ axios.defaults.headers.common = { 'X-Requested-With': 'XMLHttpRequest' }
 axios.defaults.baseURL = getBaseURL()
 
 axios.interceptors.response.use(
-  function(response) {
+  async function (response) {
+    const { status } = response
     const { url } = response.config
     const { payload } = response.data
     if (url.includes('users') && payload?.id && payload?.iat)
       store.dispatch(setCurrentUser(payload))
+      
+    if (status === 204) await getUserInformation()
+
     return response
   },
-  function(error) {
+  function (error) {
     const status = error && error.response && error.response.status
     if (status === 401) {
       store.dispatch(logoutUser())

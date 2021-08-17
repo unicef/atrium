@@ -23,12 +23,12 @@ const tabs = [
   { label: 'Dashboard', hash: 'dashboard' },
   { label: 'Profile', hash: 'profile' },
   { label: 'Security', hash: 'security' },
-  { label: 'My Post', hash: 'myPost' },
   { label: 'My Projects', hash: 'myProjects' },
   { label: 'My Comments', hash: 'myComments' },
   { label: 'Badges', hash: 'badges' },
   { label: 'Bookmarks', hash: 'bookmarks' },
-  { label: 'Notifications', hash: 'notifications' }
+  { label: 'Notifications', hash: 'notifications' },
+  { label: 'My Posts', hash: 'myPost' }
 ]
 
 const Account = () => {
@@ -65,12 +65,12 @@ const Account = () => {
           {tabIndex === 2 ? (
             <Settings {...user} handleChange={onHandleTabChange} />
           ) : null}
-          {tabIndex === 3 ? <MyPost {...user} /> : null}
-          {tabIndex === 4 ? <MyProjects {...user} /> : null}
-          {tabIndex === 5 ? <MyComments {...user} /> : null}
-          {tabIndex === 6 ? <Badges {...user} /> : null}
-          {tabIndex === 7 ? <Bookmarks {...user} /> : null}
-          {tabIndex === 8 ? <Notifications {...user} /> : null}
+          {tabIndex === 3 ? <MyProjects {...user} /> : null}
+          {tabIndex === 4 ? <MyComments {...user} /> : null}
+          {tabIndex === 5 ? <Badges {...user} /> : null}
+          {tabIndex === 6 ? <Bookmarks {...user} /> : null}
+          {tabIndex === 7 ? <Notifications {...user} /> : null}
+          {tabIndex === 8 ? <MyPost {...user} /> : null}
         </InfoSection>
       </Grid>
     </MainContainer>

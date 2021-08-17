@@ -14,7 +14,7 @@ const styles = theme => ({
 const links = [
   { path: '/learn', name: 'Learn', public: true },
   { path: '/projects', name: 'Projects', public: true },
-  { path: '/engage', name: 'Forum', public: false },
+  { path: '/forum/', name: 'Forum', public: false },
   { path: '/whatsnew', name: "What's New", public: true }
 ]
 
@@ -30,17 +30,16 @@ const NavBar = ({ classes }) => {
   return (
     <Nav
       links={filteredRoutes}
-      renderLink={
-        (obj) => (
-          <NavLink
-            to={obj.path}
-            className={navLinkStyle}
-            activeClassName={classes.activeNavLink}
-          >
-            {obj.name}
-          </NavLink>
-        )
-      }
+      renderLink={obj => (
+        <NavLink
+          onClick={obj.name === 'Forum' ? ()=>window.location.replace('/forum/') :()=>{}}
+          to={obj.path}
+          className={navLinkStyle}
+          activeClassName={classes.activeNavLink}
+        >
+          {obj.name}
+        </NavLink>
+      )}
     />
   )
 }

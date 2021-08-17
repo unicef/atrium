@@ -80,7 +80,7 @@ const styles = theme => ({
     color: theme.colors['black-two'],
     letterSpacing: 1.8,
     textTransform: 'uppercase'
-  },
+  }
 })
 
 const Header = ({ logoutUser, auth, classes, location, ...props }) => {
@@ -117,7 +117,7 @@ const Header = ({ logoutUser, auth, classes, location, ...props }) => {
         <Navbar />
         {auth.isAuthenticated && <ProfilePictureHeader />}
         {auth.isAuthenticated && <DropdownHeaderMenu logoutUser={logoutUser} />}
-        {!auth.isAuthenticated &&
+        {!auth.isAuthenticated && (
           <div className={classes.buttons}>
             <Button
               color="primary"
@@ -135,7 +135,7 @@ const Header = ({ logoutUser, auth, classes, location, ...props }) => {
               Sign in
             </Button>
           </div>
-        }
+        )}
       </Toolbar>
     </AppBar>
   )

@@ -20,7 +20,7 @@ const useAuthAsyncActions = () => {
     }),
     updateUser: handledRequest({
       request: UsersApi.updateUserDetails,
-      onSuccess: ({ payload }) => setCurrentUser(payload),
+      onSuccess: () => {},
       pageLoading: true,
       successMessage: 'User updated'
     }),
@@ -35,6 +35,12 @@ const useAuthAsyncActions = () => {
       onSuccess: ({ payload }) => console.log(payload), //
       pageLoading: true,
       successMessage: 'User password changed'
+    }),
+    addBookmark: handledRequest({
+      request: UsersApi.addBookmark,
+      onSuccess: () => {},
+      pageLoading: true,
+      successMessage: 'Project added to bookmarks'
     })
   }
 }

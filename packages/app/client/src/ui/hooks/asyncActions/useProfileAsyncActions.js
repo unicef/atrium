@@ -26,7 +26,7 @@ const useProfileAsyncActions = () => {
       onSuccess: payload => saveUserInformation(payload),
       pageLoading: false
     }),
-    getProjects: query => {
+    getUserProjects: (userId, query) => {
       const request = handledRequest({
         request: UsersApi.getUserProjects,
         onSuccess: ({ projects, pageCounter }) => {
@@ -39,7 +39,21 @@ const useProfileAsyncActions = () => {
         },
         pageLoading: true
       })
-
+      request(userId, query)
+    },
+    getOwnProjects: query => {
+      const request = handledRequest({
+        request: UsersApi.getOwnProjects,
+        onSuccess: ({ projects, pageCounter }) => {
+          saveProfileProjects({
+            projects,
+            pageCounter,
+            registeredUser: isUserAuthenticated,
+            profileId
+          })
+        },
+        pageLoading: true
+      })
       request(query)
     },
     toggleLike: handledRequest({

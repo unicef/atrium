@@ -25,17 +25,24 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const HorizontalCardWithMenu = (props) => {
+const HorizontalCardWithMenu = props => {
   const { userIsTheOwner } = props
   const classes = useStyles({ userIsTheOwner })
   const bgColor = userIsTheOwner ? 'light-green' : 'white'
 
   return (
     <Card raised={false} className={classes.card}>
-      <ShadedPaper padding={props.padding} elevation={0} bgColor={bgColor} className={classes.cardContent}>
-        <div className={classes.edit}>
-          <ThreeDotsPopover menuItems={props.menuItems} />
-        </div>
+      <ShadedPaper
+        padding={props.padding}
+        elevation={0}
+        bgColor={bgColor}
+        className={classes.cardContent}
+      >
+        {props.noDots ? null : (
+          <div className={classes.edit}>
+            <ThreeDotsPopover menuItems={props.menuItems} />
+          </div>
+        )}
         {props.children}
       </ShadedPaper>
     </Card>

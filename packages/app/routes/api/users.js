@@ -10,8 +10,7 @@ const {
   getTokenForUser,
   getBadgesForUser,
   signToken,
-  verifyToken,
-  getTokenPayload
+  verifyToken
 } = require('../../lib/users')
 const { s3Upload, s3Download } = require('../../middleware')
 const md5Hash = require('../../lib/hash')
@@ -35,11 +34,7 @@ const User = require('../../models/User')
 const Project = require('../../models/Project')
 
 const Activity = require('../../models/Activity')
-const {
-  ATRIUM_CONSTANTS,
-  AGENCIES_LIST,
-  BADGE_ENUM
-} = require('../../config/unin-constants')
+const { AGENCIES_LIST, BADGE_ENUM } = require('../../config/unin-constants')
 
 const allowedDomains = AGENCIES_LIST.map(agency => agency.domain.toLowerCase())
 const authCookieName = 'SESSION_TOKEN'
@@ -148,6 +143,57 @@ router.get(
         populate: projectsPopulateParams
       })
       let { projects } = user
+      if (req.query.sort === 'asc') {
+        projects = projects.sort((a, b) =>
+          a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+        )
+      } else {
+        projects = projects.sort((a, b) =>
+          a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+        )
+      }
+      const pageCounter = Math.ceil(projects.length / req.query.limit)
+      projects = projects.splice(req.query.offset, req.query.limit)
+      log.info(
+        {
+          requestId: req.id,
+          projects,
+          pageCounter
+        },
+        'Success getting project list'
+      )
+      return res.status(200).json({ projects, pageCounter })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get projects from the database'
+      )
+      return sendError(res, 503, 'Error getting projects from the database')
+    }
+  }
+)
+
+router.get(
+  '/:userId/projects',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id
+      },
+      'Getting user projects'
+    )
+    try {
+      const user = await User.findOne({ _id: req.params.userId }).populate({
+        path: 'projects',
+        populate: projectsPopulateParams
+      })
+      let { projects } = user
+      projects = projects.filter(project => project.published)
       if (req.query.sort === 'asc') {
         projects = projects.sort((a, b) =>
           a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
@@ -300,6 +346,56 @@ router.get(
         'Can not get comments from the database'
       )
       return sendError(res, 503, 'Error getting comments from the database')
+    }
+  }
+)
+
+router.get(
+  '/bookmarks',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id
+      },
+      'User is getting own bookmarks'
+    )
+    try {
+      const user = await User.findOne({ _id: req.user.id }).populate({
+        path: 'bookmarks',
+        populate: projectsPopulateParams
+      })
+      let { bookmarks } = user
+      if (req.query.sort === 'asc') {
+        bookmarks = bookmarks.sort((a, b) =>
+          a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+        )
+      } else {
+        bookmarks = bookmarks.sort((a, b) =>
+          a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+        )
+      }
+      const pageCounter = Math.ceil(bookmarks.length / req.query.limit)
+      bookmarks = bookmarks.splice(req.query.offset, req.query.limit)
+      log.info(
+        {
+          requestId: req.id,
+          bookmarks,
+          pageCounter
+        },
+        'Success getting bookmarks list'
+      )
+      return res.status(200).json({ bookmarks, pageCounter })
+    } catch (error) {
+      log.info(
+        {
+          requestId: req.id,
+          error: error
+        },
+        'Can not get bookmarks from the database'
+      )
+      return sendError(res, 503, 'Error getting bookmarks from the database')
     }
   }
 )
@@ -1432,7 +1528,7 @@ router.get(
     if (req.params.id) {
       try {
         const user = await User.findById(
-          req.params.id,
+          req.params.id
           // 'name email avatar company role address'
         ).exec()
 
@@ -1532,6 +1628,7 @@ router.post(
             httpOnly: true,
             secure: true
           }
+          res.status(204)
           res.cookie(authCookieName, tokenOnly, cookieConfig)
           res.json({
             success: true
@@ -1561,6 +1658,99 @@ router.post(
     } else {
       sendError(res, 400, 'No such user in database')
     }
+  }
+)
+
+router.patch(
+  '/:projectId/bookmark',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    log.info(
+      {
+        requestId: req.id,
+        user: req.user.id,
+        project: req.params.projectId
+      },
+      'User is bookmarking project'
+    )
+    Project.findOne({ _id: req.params.projectId }).exec(
+      async (err, project) => {
+        if (err) {
+          log.info(
+            {
+              err,
+              requestId: req.id,
+              user: req.user.id,
+              project: req.params.projectId
+            },
+            'Error finding project'
+          )
+          return sendError(res, 503, 'Error bookmarking project')
+        }
+        const user = await User.findById(req.user.id)
+
+        let isBookmarked = false
+        let bookmarks = user.bookmarks
+          ? user.bookmarks.filter(l => {
+              const isCurrentProject = l.equals(project.id)
+              if (isCurrentProject) {
+                isBookmarked = true
+              }
+              return !isCurrentProject
+            })
+          : []
+
+        if (!isBookmarked) {
+          bookmarks = [...bookmarks, project.id]
+        }
+        user.bookmarks = bookmarks
+        user
+          .save()
+          .then(async () => {
+            log.info(
+              {
+                requestId: req.id,
+                user: req.user.id,
+                project: req.params.projectId
+              },
+              'Project bookmarked successfully'
+            )
+            getTokenForUser(user, (tokenError, token) => {
+              if (tokenError) {
+                log.error(
+                  getAuthenticatedRequestLogDetails(req, { err: tokenError }),
+                  'Error generating token'
+                )
+                return sendError(res, 500, 'Error generating token')
+              }
+
+              const tokenOnly = token.split(' ')[1]
+              const cookieConfig = {
+                expires: new Date(Date.now() + oneHour * 8000),
+                httpOnly: true,
+                secure: true
+              }
+              res.status(204)
+              res.cookie(authCookieName, tokenOnly, cookieConfig)
+              res.json({
+                success: true
+              })
+            })
+          })
+          .catch(err => {
+            log.error(
+              {
+                err,
+                requestId: req.id,
+                user: req.user.id,
+                project: req.params.projectId
+              },
+              'Error saving user'
+            )
+            return sendError(res, 503, 'Error bookmarking project')
+          })
+      }
+    )
   }
 )
 

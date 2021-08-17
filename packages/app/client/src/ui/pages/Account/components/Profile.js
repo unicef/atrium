@@ -29,8 +29,8 @@ const useStyles = makeStyles(() => ({
     paddingRight: '10px'
   },
   viewButton: {
-    width: '141px',
-    height: '51px'
+    width: '147px',
+    height: '48px'
   }
 }))
 

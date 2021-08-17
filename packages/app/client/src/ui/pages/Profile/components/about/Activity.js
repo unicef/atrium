@@ -17,7 +17,7 @@ const Activity = ({ typeOfActivity, createdAt, ...props }) => {
   return (
     <Grid container item xs={12}>
       <Box display="flex" flexDirection="column" width="100%">
-        <HorizontalCardWithMenu padding="0">
+        <HorizontalCardWithMenu padding="0" noDots={true}>
           <Grid container alignItems="center">
             <Box mr={1}>
               <Avatar growthTimes={5.5} {...userInfo} />

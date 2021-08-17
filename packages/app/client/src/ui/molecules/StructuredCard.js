@@ -26,6 +26,12 @@ function StructuredCard({ date, title = '', content = '' }) {
   const trimmedTitle = useTrimmedText({ text: title, max: 150 })
   return (
     <div style={{ margin: '3% 3% 3% 5%' }}>
+      <Typography className={classes.title} variant="subtitle1">
+        {trimmedTitle}
+      </Typography>
+      <Typography className={classes.content} variant="body1">
+        {trimmedContent}
+      </Typography>
       <CardInfoRow
         components={[
           {
@@ -35,12 +41,6 @@ function StructuredCard({ date, title = '', content = '' }) {
           }
         ]}
       />
-      <Typography className={classes.title} variant="subtitle1">
-        {trimmedTitle}
-      </Typography>
-      <Typography className={classes.content} variant="body1">
-        {trimmedContent}
-      </Typography>
     </div>
   )
 }

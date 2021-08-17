@@ -2,7 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import makeStyles from '@material-ui/core/styles/makeStyles'
-import ProjectHeader from "./components/ProjectHeader";
+import ProjectHeader from './components/ProjectHeader'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useProjectsAsyncActions, useTabsOnUrl } from '../../hooks'
@@ -11,14 +11,6 @@ import { AboutProject, ProjectComments, ProjectTeam } from './panels'
 import { getCurrentProject, getProjectCommentsLength } from '../../../selectors'
 import { TabPanel } from '../../atoms'
 import { MainContainer } from '../../templates'
-
-// REMOVE THIS AFTER API INTEGRATION
-const mockedProject = {
-  country: 'Brazil',
-  organization: 'UNIEF',
-  linkToRepository: 'http://www.google.com',
-  websiteLink: 'http://www.google.com',
-}
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -45,8 +37,8 @@ const ProjectViewPage = () => {
   const commentsLength = useSelector(getProjectCommentsLength)
 
   const getTabs = () => [
-    { label: "About the Project", hash: 'about' },
-    { label: `Comments (${commentsLength})`, hash:'comments' },
+    { label: 'About the Project', hash: 'about' },
+    { label: `Comments (${commentsLength})`, hash: 'comments' },
     { label: `Team (${projectData.team.length})`, hash: 'team' }
   ]
 
@@ -58,9 +50,12 @@ const ProjectViewPage = () => {
 
   const tabs = projectData ? getTabs() : []
 
-  const { handleChange, tabIndex } = useTabsOnUrl({ tabs, baseRoute: `/projects/view/${params.id}` })
+  const { handleChange, tabIndex } = useTabsOnUrl({
+    tabs,
+    baseRoute: `/projects/view/${params.id}`
+  })
 
-  const onChangeTabIndex = (newIndex) => {
+  const onChangeTabIndex = newIndex => {
     const nextTab = tabs[newIndex]
 
     if (nextTab !== undefined) {
@@ -77,30 +72,40 @@ const ProjectViewPage = () => {
   return (
     <MainContainer size="regular" margin="50px auto">
       <Grid item container xs={12} className={classes.header}>
-        {projectData && <ProjectHeader projectData={projectData} {...projectData} {...mockedProject} />}
+        {projectData && (
+          <ProjectHeader projectData={projectData} {...projectData} />
+        )}
       </Grid>
 
-      {projectData &&
+      {projectData && (
         <Grid container justify="center" item xs={12}>
-          <Box position="sticky" width="100%" bgcolor="white" top={50} zIndex={99}>
-            <Tabs handleChange={onChangeTabIndex} tabs={tabs} currentIndex={tabIndex} />
+          <Box
+            position="sticky"
+            width="100%"
+            bgcolor="white"
+            top={50}
+            zIndex={99}
+          >
+            <Tabs
+              handleChange={onChangeTabIndex}
+              tabs={tabs}
+              currentIndex={tabIndex}
+            />
           </Box>
-          
-            <TabPanel index={0} value={tabIndex}>
-              <AboutProject projectData={projectData} />
-            </TabPanel>
 
+          <TabPanel index={0} value={tabIndex}>
+            <AboutProject projectData={projectData} />
+          </TabPanel>
 
-            <TabPanel index={1} value={tabIndex}>
-              <ProjectComments  />
-            </TabPanel>
+          <TabPanel index={1} value={tabIndex}>
+            <ProjectComments />
+          </TabPanel>
 
-            <TabPanel index={2} value={tabIndex}>
-              <ProjectTeam />
-            </TabPanel>
-
+          <TabPanel index={2} value={tabIndex}>
+            <ProjectTeam />
+          </TabPanel>
         </Grid>
-      }
+      )}
     </MainContainer>
   )
 }

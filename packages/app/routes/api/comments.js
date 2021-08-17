@@ -184,7 +184,14 @@ router.post(
                 'Reply added successfully'
               )
               await logProjectComment(req.user.id, populatedComment.id)
-              _actionOnYourContent(populatedComment.user.email, 'reply', 'added', 'comment', user.email, 'replied to your comment')
+              _actionOnYourContent(
+                populatedComment.user.email,
+                'reply',
+                'added',
+                'comment',
+                user.email,
+                'replied to your comment'
+              )
               return res.status(200).json({ comment: populatedComment })
             }
           )
@@ -243,7 +250,17 @@ router.get(
             const owner = await User.findById(comment.user)
             comment.likes.push(userId)
             owner.balance += 2
+            const oldBadges = owner.badges
             owner.badges = recalcBadges(owner.balance)
+            if (oldBadges < owner.badges) {
+              const activity = new Activity({
+                createdAt: comment.data,
+                user: owner.id,
+                badgeIssued: owner.badges,
+                typeOfActivity: 'ISSUE_BADGE'
+              })
+              await activity.save()
+            }
             await owner.save()
           }
           await comment.save()
@@ -271,7 +288,14 @@ router.get(
                 'Like added successfully'
               )
               await logProjectComment(req.user.id, populatedComment.id)
-              _actionOnYourContent(populatedComment.user.email, 'like', 'added', 'comment', user.email, 'liked your comment')
+              _actionOnYourContent(
+                populatedComment.user.email,
+                'like',
+                'added',
+                'comment',
+                user.email,
+                'liked your comment'
+              )
               return res.status(200).json({ comment: populatedComment })
             }
           )
