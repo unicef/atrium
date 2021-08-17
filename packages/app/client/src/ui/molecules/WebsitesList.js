@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import { Button, Image } from '../atoms'
-import { DeleteButton } from '../../components/projects/overview/assets'
+import { Trash } from '../assets'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
@@ -43,7 +43,7 @@ function WebsitesList({ websites, editting, setWebsites }) {
                 borderRadius={0}
                 width="14px"
                 height="14px"
-                src={DeleteButton}
+                src={Trash}
               />
             </Button>
           ) : null}

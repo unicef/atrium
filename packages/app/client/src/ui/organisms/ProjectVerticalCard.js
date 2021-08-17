@@ -10,10 +10,10 @@ import {
   LikeButton,
   CommentsButton,
   ViewProjectButton,
-  ActionProjectButton,
-  TransferOwnershipButton
+  ActionProjectButton
 } from '../atoms'
 import { CardInfoRow, CardWithMedia } from '../molecules'
+import TransferOwnership from './TransferOwnership'
 import { mergeClassNames, dateFormatter } from '../utils'
 import { useProjectsAsyncActions, useTrimmedText } from '../hooks'
 import { useHistory } from 'react-router-dom'
@@ -157,7 +157,7 @@ const ProjectVerticalCard = ({
       <CardContent className={classes.footer}>
         {accountPage ? (
           <div className={classes.projectButtons}>
-            <TransferOwnershipButton id={props._id} />
+            <TransferOwnership id={props._id} />
             <ViewProjectButton id={props._id} />
             <ActionProjectButton
               id={props._id}

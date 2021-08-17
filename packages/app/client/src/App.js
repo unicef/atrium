@@ -19,8 +19,6 @@ import About from './components/about'
 // Poll pages
 import PrivateRoute from './components/private-route/PrivateRoute'
 // Project pages
-import CreateProject from './components/projects/create/CreateProject'
-import ProjectPage from './components/projects/ProjectPage'
 import Stats from './components/stats/Stats'
 import Technical from './components/technical/Technical'
 import TwitterPage from './components/twitter/TwitterPage'
@@ -121,12 +119,6 @@ const App = () => {
                   exact
                   path="/create-projects"
                   component={(props) => <ProjectDetails {...props} editing={false} />}
-                  //component={CreateProject}
-                />
-                <PrivateRoute
-                  exact
-                  path="/view-projects"
-                  component={ProjectPage}
                 />
                 <PrivateRoute exact path="/engage" component={DiscussionPage} />
                 <PrivateRoute

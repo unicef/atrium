@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { Button } from './Button'
-import { makeStyles } from '@material-ui/core/styles'
-import CommonModal from './CommonModal'
 import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles'
+import { Button, CommonModal } from '../atoms'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { getFilteredUsers as getFilteredUsersActions } from '../../actions/authActions'
 import { useProjectsAsyncActions } from '../hooks'
-import { SearchBar } from '../../ui'
-import PersonInformation from '../../components/projects/overview/components/PersonInformation'
+import { UserInformationRow, SearchBar } from '../molecules'
 
 const useStyles = makeStyles(() => ({
   transferOwnership: {
@@ -50,7 +48,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function TransferOwnershipButton({ id, ...props }) {
+function TransferOwnership({ id, ...props }) {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [users, setUsers] = useState([])
@@ -99,7 +97,7 @@ function TransferOwnershipButton({ id, ...props }) {
           <div className={classes.usersList}>
             {!userError ? (
               userToTransfer ? (
-                <PersonInformation
+                <UserInformationRow
                   mode={'lastInModal'}
                   key={Math.random()}
                   user={userToTransfer}
@@ -113,10 +111,10 @@ function TransferOwnershipButton({ id, ...props }) {
                       Cancel
                     </Button>
                   </div>
-                </PersonInformation>
+                </UserInformationRow>
               ) : (
                 users.map((member, i) => (
-                  <PersonInformation
+                  <UserInformationRow
                     mode={i === users.length - 1 ? 'lastInModal' : 'modal'}
                     key={Math.random()}
                     user={member}
@@ -130,7 +128,7 @@ function TransferOwnershipButton({ id, ...props }) {
                         Transfer
                       </Button>
                     </div>
-                  </PersonInformation>
+                  </UserInformationRow>
                 ))
               )
             ) : (
@@ -156,4 +154,4 @@ export default compose(
   connect(null, {
     getFilteredUsers: getFilteredUsersActions
   })
-)(TransferOwnershipButton)
+)(TransferOwnership)
