@@ -1,5 +1,5 @@
 import SECTIONS_NAME, { SECTIONS_ID } from '../sectionsName'
-import debounce from 'lodash/debounce'
+import throttle from 'lodash/throttle'
 
 export const IDS = {
   [SECTIONS_NAME.PROJECT]: 'projectNav',
@@ -46,7 +46,7 @@ const unmark = () => {
 const OFFSET_Y = 200
 const THROTTLING_TIME = 300
 
-const onScroll = debounce(() => {
+const onScroll = throttle(() => {
   const scrollPosition = window.scrollY
   for(let [index, value] of data.entries()) {
     const position = document.getElementById(value.sectionId).offsetTop - OFFSET_Y
