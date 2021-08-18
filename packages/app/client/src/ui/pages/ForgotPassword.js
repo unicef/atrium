@@ -16,7 +16,7 @@ const formProps = {
   validate: ({ email }) => validateEmail(email),
   submitLabel: 'Reset password',
   fields: [email],
-  buttonLayout: { xs: 8, sm: 8 }
+  buttonLayout: { xs: 12 }
 }
 
 const ForgotPassword = () => {
@@ -30,10 +30,10 @@ const ForgotPassword = () => {
       saveEmail(email)
       showEmailWasSent(true)
     } catch(e) {
-      showToast({ message: e, severity: 'danger' }) 
+      showToast({ message: e, severity: 'danger' })
     }
   }
-  
+
   return (
     <MainContainer size="small">
       {emailSent ?
@@ -41,7 +41,7 @@ const ForgotPassword = () => {
         <SimpleFormWithHeader
           onSubmit={verifyEmail}
           {...formProps}
-        /> 
+        />
       }
     </MainContainer>
   )

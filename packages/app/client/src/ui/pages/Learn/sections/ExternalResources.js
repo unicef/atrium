@@ -52,7 +52,7 @@ const existingResources = {
     {
       title: 'The history of Ethereum',
       description: '',
-      href: 'https://thehistoryofethereum.com/',
+      href: 'https://ethereum.org/en/history/',
       likes: [],
       category: 'ETHEREUM'
     }

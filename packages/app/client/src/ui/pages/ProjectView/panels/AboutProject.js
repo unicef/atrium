@@ -69,7 +69,7 @@ const AboutProject = ({ projectData }) => {
   return (
     <Box pt={4}>
       <Grid container item xs={12}>
-       
+
         <Grid style={{ marginTop: -10 }} item xs={12} sm={10}>
           {projectData && (
             <Grid item xs={12}>
@@ -81,7 +81,7 @@ const AboutProject = ({ projectData }) => {
 
                 <Box mb={2}>
                   <Typography id="projectAdditionalInfo" variant="h3">
-                    Aditional Info
+                    Additional Info
                   </Typography>
                 </Box>
 

@@ -13,6 +13,9 @@ const useStyles = makeStyles({
     '@media (max-width: 1024px)': {
       marginBottom: (props) => props.isFocused ? 140 : 0
     }
+  },
+  endButton: {
+    marginRight: '-5px'
   }
 })
 
@@ -38,6 +41,7 @@ const PasswordField = ({ showCriteria, ...props }) => {
         endAdornment={
           <InputAdornment position="end">
             <IconButton
+              className={classes.endButton}
               aria-label="toggle password visibility"
               onClick={() => setPasswordVisibility(!showPassword)}
               onMouseDown={handleMouseDownPassword}

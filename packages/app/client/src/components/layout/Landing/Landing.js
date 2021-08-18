@@ -524,7 +524,7 @@ const Landing = props => {
                   <Button
                     color="primary"
                     className={classes.borderButton}
-                    onClick={() => handleNavigation('/engage')}
+                    onClick={() => handleNavigation('/forum')}
                   >
                     See forum
                   </Button>
