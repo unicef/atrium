@@ -19,10 +19,6 @@ const Learn = () => {
   const userIsAuthenticated = useIsAuthenticated()
   const [showDialog, setDialogVisibility] = React.useState(false)
 
-  // useEffect(() => {
-  //   window.scrollTo(0, 0)
-  // }, [])
-
   return (
     <MainContainer size="full">
       <Introduction />
