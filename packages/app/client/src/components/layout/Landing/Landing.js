@@ -381,7 +381,7 @@ const Landing = props => {
                   <Button
                     color="primary"
                     className={classes.borderButton}
-                    onClick={() => handleNavigation('/learn')}
+                    onClick={() => handleNavigation('/learn/guideSection')}
                   >
                     Start learning
                   </Button>

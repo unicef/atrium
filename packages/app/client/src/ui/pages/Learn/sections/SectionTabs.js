@@ -5,7 +5,7 @@ import { SectionContainer } from '../../../templates'
 import { makeStyles } from '@material-ui/core/styles'
 import { useIsAuthenticated, useTabsOnUrl } from '../../../hooks'
 import { smoothVerticalScrolling } from '../../../utils'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -27,6 +27,8 @@ const tabs = [
 const SectionTabs = () => {
   const classes = useStyles()
   const userIsAuthenticated = useIsAuthenticated()
+  const { tab } = useParams()
+
   const filteredTabs = tabs.filter(tab => {
     if (!tab.public) return userIsAuthenticated
     return tab.public
@@ -41,15 +43,21 @@ const SectionTabs = () => {
     const nextTab = filteredTabs[newIndex]
 
     if (nextTab !== undefined) {
+      handleChange(newIndex)
+    }
+  }
+
+  useEffect(() => {
+    const nextTab = filteredTabs[tabIndex]
+    if (nextTab !== undefined && nextTab.hash === tab) {
       const target = document.getElementById(nextTab.hash)
       smoothVerticalScrolling({
         element: target,
         time: 300,
         otherFixedElementsHeight: 130
       })
-      handleChange(newIndex)
     }
-  }
+  }, [tabIndex])
 
   return (
     <div className={classes.container}>
