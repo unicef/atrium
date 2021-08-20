@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
@@ -246,6 +246,7 @@ const Landing = props => {
     props.history.push(path)
   }
 
+  useEffect(() => window.scrollTo(0, 0),[])
   return (
     <MainContainer mt={0} size="full">
       <Grid container xs={12} justify="center">
