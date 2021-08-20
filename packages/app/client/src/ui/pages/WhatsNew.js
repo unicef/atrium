@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import { LearnGuideSVG, LearnRemixSVG } from '../assets'
 import { SectionWithBorderedText, MainContainer } from '../templates'
@@ -45,6 +45,9 @@ const WhatsNew = () => {
   const [showBountiesDialog, setBountiesDialogVisibility] = React.useState(
     false
   )
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <MainContainer size="full">
