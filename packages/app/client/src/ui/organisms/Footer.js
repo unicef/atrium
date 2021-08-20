@@ -22,22 +22,22 @@ const styles = theme => ({
 })
 
 const links = [
-  { path: '/about', name: 'About', id: 'About', public: true },
-  { path: '/learn', name: 'Learn', id: 'Learn', public: true  },
+  { path: '/', name: 'About', id: 'About', public: true },
+  { path: '/learn/guideSection', name: 'Learn', id: 'Learn', public: true },
   {
     path: `mailto:${ATRIUM_CONSTANTS.ATRIUM_EMAIL_CONTACT}`,
     name: 'Contact Us',
     id: 'ContactUs',
-    public: true 
+    public: true
   },
   { path: '/projects', name: 'Projects', id: 'Projects', public: true },
-  { path: '/engage', name: 'Forum', id: 'Forum', public: false  }
+  { path: '/forum', name: 'Forum', id: 'Forum', public: false }
 ]
 
 const InfoText = ({ children, classes }) => (
   <Grid item container xs={12} sm={6}>
     <Typography className={classes.text}>
-     {children} 
+     {children}
     </Typography>
   </Grid>
 )
@@ -78,17 +78,17 @@ const Footer = ({ classes }) => {
                 </a>
               )
             }
-          
+
           />
         </Grid>
         <Grid spacing={4} item container justify="space-evenly" xs={12} sm={12} md={6}>
           <StyledInfoText>
-            The Atrium has been established as a decentralized collaboration tool by the 
-            United Nations Development Programme (UNDP), UNICEF, the World Food Programme (WFP) and the UN Innovation Network (UNIN). 
+            The Atrium has been established as a decentralized collaboration tool by the
+            United Nations Development Programme (UNDP), UNICEF, the World Food Programme (WFP) and the UN Innovation Network (UNIN).
           </StyledInfoText>
           <StyledInfoText>
-            We are looking for other organizations that would be interested in setting up their own node, 
-            therefore, participating by increasing the resilience of the system. If interested, please contact blockchain@uninnovation.network. 
+            We are looking for other organizations that would be interested in setting up their own node,
+            therefore, participating by increasing the resilience of the system. If interested, please contact blockchain@uninnovation.network.
           </StyledInfoText>
         </Grid>
         <StyledInfoText>
@@ -96,7 +96,7 @@ const Footer = ({ classes }) => {
         </StyledInfoText>
       </Grid>
     </footer>
-  ) 
+  )
 }
 
 export default withStyles(styles)(Footer)

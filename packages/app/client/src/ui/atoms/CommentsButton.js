@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     padding: 5,
     fill: props.disabled ? theme.palette.text.disabled : theme.palette.text.primary
-  })
+  }),
+  commentIcon: { marginLeft: '4px' }
 }))
 
 const CommentsButton = ({ onClick, numberOfComments, ...props }) => {
@@ -24,7 +25,7 @@ const CommentsButton = ({ onClick, numberOfComments, ...props }) => {
     <TextButton
       variant="text"
       className={classes.root}
-      startIcon={<CommentIcon />}
+      startIcon={<CommentIcon className={classes.commentIcon} />}
       size="mini"
       onClick={onClick}
       textContent={numberOfComments}
