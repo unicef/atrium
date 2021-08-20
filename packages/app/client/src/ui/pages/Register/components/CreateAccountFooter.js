@@ -64,7 +64,7 @@ const CreateAccountFooter = () => {
       <Grid item xs={12}>
         <Divider mt={31} mb={27} />
       </Grid>
-      
+
       <Grid item xs={12} sm={6} className={classes.message}>
         <Typography align="center">
           If you work outside of the UN, you can still
@@ -80,7 +80,7 @@ const CreateAccountFooter = () => {
 
         <ColumnWithLink
           text=" Find out more about Atrium"
-          to="/learn"
+          to="/learn/atriumBlockchain"
           Icon={TalkBubble}
         />
 
@@ -88,7 +88,7 @@ const CreateAccountFooter = () => {
 
         <ColumnWithLink
           text="Learn about blockchain"
-          to="/learn"
+          to="/learn/externalResources"
           Icon={ButterflySVG}
         />
       </Grid>

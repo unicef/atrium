@@ -68,8 +68,7 @@ const AboutProject = ({ projectData }) => {
 
   return (
     <Box pt={4}>
-      <Grid container item xs={12}>
-
+      <Grid container item xs={12} justify="center">
         <Grid style={{ marginTop: -10 }} item xs={12} sm={10}>
           {projectData && (
             <Grid item xs={12}>

@@ -22,8 +22,8 @@ const styles = theme => ({
 })
 
 const links = [
-  { path: '/about', name: 'About', id: 'About', public: true },
-  { path: '/learn', name: 'Learn', id: 'Learn', public: true },
+  { path: '/', name: 'About', id: 'About', public: true },
+  { path: '/learn/guideSection', name: 'Learn', id: 'Learn', public: true },
   {
     path: `mailto:${ATRIUM_CONSTANTS.ATRIUM_EMAIL_CONTACT}`,
     name: 'Contact Us',
