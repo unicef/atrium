@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Image } from './index'
-import { Edit } from '../assets'
+import { Edit, Trash } from '../assets'
 import { makeStyles } from '@material-ui/core/styles'
-import { DeleteButton } from '../../components/projects/overview/assets'
+
 const useStyles = makeStyles(() => ({
   button: {
     width: '107px',
@@ -29,7 +29,7 @@ function ActionProjectButton({ type, onClick }) {
           borderRadius={0}
           width="14px"
           height="14px"
-          src={type === 'edit' ? Edit : DeleteButton}
+          src={type === 'edit' ? Edit : Trash}
         />
         <span className={classes.text}>
           {type === 'edit' ? 'Edit' : 'Delete'}

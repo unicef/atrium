@@ -1,0 +1,14 @@
+import SECTIONS_NAME from './sectionsName'
+import FIELDS from './fields'
+
+export const MANDATORY_FIELDS = [
+  ...FIELDS[SECTIONS_NAME.REQUIRED_INFORMATIONS],
+  ...FIELDS[SECTIONS_NAME.PROJECT],
+  ...FIELDS[SECTIONS_NAME.CONTACT_PERSON]
+].map(field => field.name)
+
+export const OPTIONAL_FIELDS = [
+  ...FIELDS[SECTIONS_NAME.EXTRA_INFORMATION],
+  ...FIELDS[SECTIONS_NAME.LINKS],
+  ...FIELDS[SECTIONS_NAME.DOCUMENTS]
+].map(field => field.name)

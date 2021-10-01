@@ -1,8 +1,7 @@
 import React from 'react'
 import PrivateRoute from './PrivateRoute'
-import ProjectOverviewPage from '../components/projects/overview/ProjectOverviewPage'
 import { Route } from 'react-router-dom'
-import { ProjectsMain, ProjectView } from '../ui/pages'
+import { ProjectsMain, ProjectView, ProjectDetails } from '../ui/pages'
 
 const projectsRoutes = () => (
   <Route path="/projects">
@@ -11,7 +10,7 @@ const projectsRoutes = () => (
     <PrivateRoute
       exact
       path="/projects/overview/:id"
-      component={ProjectOverviewPage}
+      component={(props) => <ProjectDetails {...props} editing={true} />}
     />
 
     <PrivateRoute

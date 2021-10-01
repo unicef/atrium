@@ -22,6 +22,7 @@ function TextField({
   const classes = useOutlinedInputStyle({ hasError: error, borderColor, borderColorFocus, padding, labelColor })
   const errorClassName = error ? classes.errorMessage : ""
   const showHelperTextOrError = Boolean(error || helperText)
+
   return (
     <>
       <InputLabel
