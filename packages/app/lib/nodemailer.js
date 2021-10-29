@@ -16,7 +16,6 @@ exports._sendWelcomeEmail = async (email, emailHash, invitationCode) => {
       to: `${email}`,
       from: 'noreply@atrium.network',
       subject: 'Welcome to The Atrium platform! Please confirm your email.',
-      cc: ['mhydary@unicef.org'],
       message: `
       <div>
           <p>Hi there! Welcome to The Atrium platform.</p>
@@ -43,7 +42,6 @@ exports._sendForgotPasswordEmail = async (email, token) => {
       to: `${email}`,
       from: 'noreply@atrium.network',
       subject: 'Please reset your password on the Atrium.',
-      cc: ['mhydary@unicef.org'],
       message: `
             <div>
                 <p>Hi there!</p>
@@ -73,7 +71,6 @@ exports._notifyDeletedContentByAdmin = async (email, type, content) => {
       to: `${email}`,
       from: 'noreply@atrium.network',
       subject: `Your ${type} has been deleted from Atrium.`,
-      cc: ['mhydary@unicef.org'],
       message: `
             <div>
                 <p>Hi there!</p>
@@ -107,7 +104,6 @@ exports._actionOnYourContent = async (
       to: `${email}`,
       from: 'noreply@atrium.network',
       subject: `${type} has been ${actionType} on your ${place}.`,
-      cc: ['mhydary@unicef.org'],
       message: `
             <div>
                 <p>Hi there!</p>
