@@ -28,7 +28,7 @@ function Notifications(props) {
   const classes = useStyles()
 
   const { updateUser } = useAuthAsyncActions()
-  console.log(props)
+
   const [commentPost, setCommentPost] = useState(props.commentOnPost)
   const [updatePost, setUpdatePost] = useState(props.updatesOnPost)
   const [commentProject, setCommentProject] = useState(props.commentOnProject)
