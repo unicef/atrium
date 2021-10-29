@@ -28,13 +28,14 @@ function Notifications(props) {
   const classes = useStyles()
 
   const { updateUser } = useAuthAsyncActions()
-
+  console.log(props)
   const [commentPost, setCommentPost] = useState(props.commentOnPost)
   const [updatePost, setUpdatePost] = useState(props.updatesOnPost)
   const [commentProject, setCommentProject] = useState(props.commentOnProject)
   const [updateProject, setUpdateProject] = useState(props.updatesOnProject)
   const [replyComment, setReplyComment] = useState(props.repliesOnComments)
   const [updateComment, setUpdateComment] = useState(props.updatesOnComments)
+
   const [all, setAll] = useState(
     commentPost &&
       updatePost &&
@@ -43,13 +44,30 @@ function Notifications(props) {
       replyComment &&
       updateComment
   )
+
   useEffect(() => {
-    setCommentPost(all)
-    setCommentProject(all)
-    setReplyComment(all)
-    setUpdateComment(all)
-    setUpdateProject(all)
-    setUpdatePost(all)
+    if (all) {
+      setCommentPost(all)
+      setCommentProject(all)
+      setReplyComment(all)
+      setUpdateComment(all)
+      setUpdateProject(all)
+      setUpdatePost(all)
+    } else if (
+      commentPost &&
+      updatePost &&
+      commentProject &&
+      updateProject &&
+      replyComment &&
+      updateComment
+    ) {
+      setCommentPost(all)
+      setCommentProject(all)
+      setReplyComment(all)
+      setUpdateComment(all)
+      setUpdateProject(all)
+      setUpdatePost(all)
+    }
   }, [all])
 
   useEffect(() => {
@@ -65,11 +83,11 @@ function Notifications(props) {
     const submitHandler = async () => {
       const formData = new FormData()
       formData.append('commentOnPost', commentPost)
-      formData.append('updateOnPost', updatePost)
+      formData.append('updatesOnPost', updatePost)
       formData.append('commentOnProject', commentProject)
-      formData.append('updateOnProject', updateProject)
-      formData.append('replyOnComment', replyComment)
-      formData.append('updateOnComment', updateComment)
+      formData.append('updatesOnProject', updateProject)
+      formData.append('repliesOnComments', replyComment)
+      formData.append('updatesOnComments', updateComment)
 
       await updateUser(props.id, formData)
     }
