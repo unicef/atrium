@@ -577,14 +577,16 @@ router.put(
           'Project updated successfully'
         )
         const owner = await User.findById(project.owner)
-        _actionOnYourContent(
-          owner.email,
-          'content',
-          'updated',
-          'project',
-          user.email,
-          'updated your project'
-        )
+        if (owner.updatesOnProject) {
+          await _actionOnYourContent(
+            owner.email,
+            'Content',
+            'updated',
+            'project',
+            user.email,
+            'updated your project'
+          )
+        }
         return res.status(200).json({ project })
       }
     )
@@ -830,14 +832,16 @@ router.patch(
             if (!isLiked) {
               await logProjectLike(req.user.id, project.id)
             }
-            _actionOnYourContent(
-              project.owner.email,
-              'like',
-              'added',
-              'project',
-              user.email,
-              'liked your project'
-            )
+            if (project.owner.updatesOnProject) {
+              await _actionOnYourContent(
+                project.owner.email,
+                'Like',
+                'added',
+                'project',
+                user.email,
+                'liked your project'
+              )
+            }
             return res.status(200).json({ project })
           })
         })
@@ -896,14 +900,16 @@ router.put(
     }
     const user = await User.findById(userId)
     const owner = await User.findById(comment.user)
-    _actionOnYourContent(
-      owner.email,
-      '',
-      'editted',
-      'comment',
-      user.email,
-      'edited your comment'
-    )
+    if (owner.commentOnProject) {
+      await _actionOnYourContent(
+        owner.email,
+        '',
+        'editted',
+        'comment',
+        user.email,
+        'edited your comment'
+      )
+    }
     log.info(logData, 'Succesfully Editted comment')
     res.send()
   }
@@ -935,14 +941,16 @@ router.delete(
       const user = await User.findById(userId)
 
       const owner = await User.findById(comment.user)
-      _actionOnYourContent(
-        owner.email,
-        '',
-        'deleted',
-        'comment',
-        user.email,
-        'deleted comment in your project'
-      )
+      if (owner.updatesOnProject) {
+        await _actionOnYourContent(
+          owner.email,
+          '',
+          'deleted',
+          'comment',
+          user.email,
+          'deleted comment on your project'
+        )
+      }
 
       if (req.user.isAdmin) {
         _notifyDeletedContentByAdmin(owner.email, 'Comment', comment.content)
@@ -1037,14 +1045,16 @@ router.post(
               'Comment added successfully'
             )
             await logProjectComment(req.user.id, populatedProject.id)
-            _actionOnYourContent(
-              populatedProject.owner.email,
-              'comment',
-              'added',
-              'project',
-              user.email,
-              'commented your project'
-            )
+            if (populatedProject.owner.updatesOnProject) {
+              await _actionOnYourContent(
+                populatedProject.owner.email,
+                'Comment',
+                'added',
+                'project',
+                user.email,
+                'commented your project'
+              )
+            }
             return res.status(200).json({ project: populatedProject })
           }
         )
@@ -1147,14 +1157,16 @@ router.put(
     const update = await Update.findById(_id)
     const user = await User.findById(userId)
     const owner = await User.findById(update.owner)
-    _actionOnYourContent(
-      owner.email,
-      'update',
-      'edited',
-      'project',
-      user.email,
-      'edited update in your project'
-    )
+    if (owner.updatesOnProject) {
+      await _actionOnYourContent(
+        owner.email,
+        'Update',
+        'edited',
+        'project',
+        user.email,
+        'edited update in your project'
+      )
+    }
     log.info(logData, 'Succesfully Editted update')
     res.send()
   }
@@ -1184,14 +1196,16 @@ router.delete(
       })
       const user = await User.findById(userId)
       const owner = await User.findById(update.owner)
-      _actionOnYourContent(
-        owner.email,
-        'update',
-        'deleted',
-        'project',
-        user.email,
-        'deleted update from your project'
-      )
+      if (owner.updatesOnProject) {
+        await _actionOnYourContent(
+          owner.email,
+          'Update',
+          'deleted',
+          'project',
+          user.email,
+          'deleted update from your project'
+        )
+      }
       if (req.user.isAdmin) {
         _notifyDeletedContentByAdmin(owner.email, 'Update', update.title)
       }
@@ -1279,14 +1293,16 @@ router.post(
               'Update added successfully'
             )
             const user = await User.findById(userId)
-            _actionOnYourContent(
-              populatedProject.owner.email,
-              'update',
-              'added',
-              'project',
-              user.email,
-              'added update to your project'
-            )
+            if (populatedProject.owner.updatesOnProject) {
+              await _actionOnYourContent(
+                populatedProject.owner.email,
+                'Update',
+                'added',
+                'project',
+                user.email,
+                'added update to your project'
+              )
+            }
             await logProjectUpdate(req.user.id, populatedProject.id)
             return res.status(200).json({ project: populatedProject })
           }

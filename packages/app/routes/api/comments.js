@@ -184,14 +184,16 @@ router.post(
                 'Reply added successfully'
               )
               await logProjectComment(req.user.id, populatedComment.id)
-              _actionOnYourContent(
-                populatedComment.user.email,
-                'reply',
-                'added',
-                'comment',
-                user.email,
-                'replied to your comment'
-              )
+              if (populatedComment.user.repliesOnComments) {
+                await _actionOnYourContent(
+                  populatedComment.user.email,
+                  'Reply',
+                  'added',
+                  'comment',
+                  user.email,
+                  'replied to your comment'
+                )
+              }
               return res.status(200).json({ comment: populatedComment })
             }
           )
@@ -288,14 +290,16 @@ router.get(
                 'Like added successfully'
               )
               await logProjectComment(req.user.id, populatedComment.id)
-              _actionOnYourContent(
-                populatedComment.user.email,
-                'like',
-                'added',
-                'comment',
-                user.email,
-                'liked your comment'
-              )
+              if (populatedComment.user.updatesOnComments) {
+                await _actionOnYourContent(
+                  populatedComment.user.email,
+                  'Like',
+                  'added',
+                  'comment',
+                  user.email,
+                  'liked your comment'
+                )
+              }
               return res.status(200).json({ comment: populatedComment })
             }
           )
