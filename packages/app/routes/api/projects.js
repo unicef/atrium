@@ -832,9 +832,10 @@ router.patch(
             if (!isLiked) {
               await logProjectLike(req.user.id, project.id)
             }
-            if (project.owner.updatesOnProject) {
+            const owner = await User.findById(project.owner)
+            if (owner.updatesOnProject) {
               await _actionOnYourContent(
-                project.owner.email,
+                owner.email,
                 'Like',
                 'added',
                 'project',
@@ -1045,9 +1046,10 @@ router.post(
               'Comment added successfully'
             )
             await logProjectComment(req.user.id, populatedProject.id)
-            if (populatedProject.owner.updatesOnProject) {
+            const owner = await User.findById(populatedProject.owner)
+            if (owner.updatesOnProject) {
               await _actionOnYourContent(
-                populatedProject.owner.email,
+                owner.email,
                 'Comment',
                 'added',
                 'project',
@@ -1293,9 +1295,10 @@ router.post(
               'Update added successfully'
             )
             const user = await User.findById(userId)
-            if (populatedProject.owner.updatesOnProject) {
+            const owner = await User.findById(populatedProject.owner)
+            if (owner.updatesOnProject) {
               await _actionOnYourContent(
-                populatedProject.owner.email,
+                owner.email,
                 'Update',
                 'added',
                 'project',

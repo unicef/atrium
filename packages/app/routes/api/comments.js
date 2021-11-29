@@ -184,9 +184,10 @@ router.post(
                 'Reply added successfully'
               )
               await logProjectComment(req.user.id, populatedComment.id)
-              if (populatedComment.user.repliesOnComments) {
+              const owner = await User.findById(populatedComment.user)
+              if (owner.repliesOnComments) {
                 await _actionOnYourContent(
-                  populatedComment.user.email,
+                  owner.email,
                   'Reply',
                   'added',
                   'comment',
@@ -290,9 +291,10 @@ router.get(
                 'Like added successfully'
               )
               await logProjectComment(req.user.id, populatedComment.id)
-              if (populatedComment.user.updatesOnComments) {
+              const owner = await User.findById(populatedComment.user)
+              if (owner.updatesOnComments) {
                 await _actionOnYourContent(
-                  populatedComment.user.email,
+                  owner.email,
                   'Like',
                   'added',
                   'comment',
